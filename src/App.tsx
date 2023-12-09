@@ -1,5 +1,9 @@
+import NavBar from "./components/NavBar/NavBar"
+
 function App(): JSX.Element {
-  return <h1 className="bg-red-700 text-center">Hola</h1>
+  return (
+    <NavBar />
+  )
 }
 
 export default App
