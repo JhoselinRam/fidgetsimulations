@@ -1,5 +1,5 @@
-import NavLinks from "./resourses/NavLinks/NavLinks"
-import NavLogo from "./resourses/NavLogo/NavLogo"
+import NavLinks from "./resources/NavLinks/NavLinks"
+import NavLogo from "./resources/NavLogo/NavLogo"
 
 function NavBar(): JSX.Element {
   return (
