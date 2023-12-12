@@ -43,6 +43,9 @@ export default {
           '900': '#19428f',
           '950': '#142957'
         },
+      },
+      boxShadow: {
+        'visible': "0px 4px 5px 0px rgba(0,0,0,0.4)"
       }
     }
   },

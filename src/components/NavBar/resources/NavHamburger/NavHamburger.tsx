@@ -1,8 +1,11 @@
+import { useContext } from "react"
 import Button from "../../../Button/Button"
 import HamburgerIcon from "../../../Icons/HamburgerIcon/HamburgerIcon"
-import type { NavHamburgerProps } from "./NavHamburger_types"
+import { navBarContext } from "../../hooks/useNavbar/useNavbar"
 
-function NavHamburger({ setIsCollapsed }: NavHamburgerProps): JSX.Element {
+function NavHamburger(): JSX.Element {
+  const {setIsCollapsed} = useContext(navBarContext)
+  
   function handleClick(): void {
     setIsCollapsed((state) => !state)
   }

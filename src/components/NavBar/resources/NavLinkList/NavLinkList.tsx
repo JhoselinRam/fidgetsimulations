@@ -1,6 +1,10 @@
+import { useContext } from "react"
 import type { NavLinkListProps } from "./NavLinkList_types"
+import { navBarContext } from "../../hooks/useNavbar/useNavbar"
 
-function NavLinkList({ children, isCollapsed }: NavLinkListProps): JSX.Element {
+function NavLinkList({ children }: NavLinkListProps): JSX.Element {
+  const {isCollapsed} = useContext(navBarContext)
+
   return (
     <ul
       className={`flex flex-col gap-5 absolute top-full left-0 w-screen pr-0 bg-tuatara-950
