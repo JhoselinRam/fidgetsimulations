@@ -1,29 +1,36 @@
-import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import type { UseNavbar } from "./useNavbar_types";
+import { createContext, useCallback, useEffect, useRef, useState } from "react"
+import type { UseNavbar } from "./useNavbar_types"
 
 /**
  * Custom hook to handle the link list collapse state
- * 
+ *
  * @param {string} query - Media Query, e.g. "(min-width: 768px)"
  * @returns {Array} An array with the collapsed state and the dispatch function
  */
-export function useNavbar(query: string): UseNavbar{
+export function useNavbar(query: string): UseNavbar {
   // Navbar state
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [isQueryMeet, setIsQueryMeet] = useState(true)
   const mediaQuery = useRef(window.matchMedia(query))
-  
-  const handleChange = useCallback((e: MediaQueryListEvent)=>{
-    setIsQueryMeet(e.matches) 
-  }, [setIsQueryMeet]) 
 
-  useEffect(()=>{
+  const handleChange = useCallback(
+    (e: MediaQueryListEvent) => {
+      setIsQueryMeet(e.matches)
+    },
+    [setIsQueryMeet]
+  )
+
+  useEffect(() => {
     mediaQuery.current.addEventListener("change", handleChange)
   }, [handleChange])
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsCollapsed(!isQueryMeet)
   }, [isQueryMeet])
+
+  useEffect(() => {
+    setIsQueryMeet(mediaQuery.current.matches)
+  }, [])
 
   return {
     isCollapsed,
@@ -35,5 +42,5 @@ export function useNavbar(query: string): UseNavbar{
 export const navBarContext = createContext<UseNavbar>({
   isCollapsed: true,
   isQueryMeet: true,
-  setIsCollapsed: ()=>false
+  setIsCollapsed: () => false
 })

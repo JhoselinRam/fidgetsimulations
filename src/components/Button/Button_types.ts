@@ -7,5 +7,5 @@ export interface ButtonProps extends RACButtonProps {
 export type ButtonType = "accent" | "regular" | "transparent"
 
 export type StyledTypes = {
-  [k in ButtonType ] : string
+  [k in ButtonType]: string
 }
