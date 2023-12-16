@@ -7,7 +7,6 @@ function NavLinks(): JSX.Element {
     <nav className="flex justify-center">
       <NavLinkList>
         <NavLink>Examples</NavLink>
-        <NavLink>Balls</NavLink>
         <NavLink>Load</NavLink>
         <NavLink>Save</NavLink>
       </NavLinkList>
