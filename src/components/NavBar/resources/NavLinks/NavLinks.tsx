@@ -4,13 +4,13 @@ import NavLinkList from "../NavLinkList/NavLinkList"
 
 function NavLinks(): JSX.Element {
   return (
-    <nav className="flex justify-center">
+    <nav className="flex self-stretch">
+      <NavHamburger />
       <NavLinkList>
         <NavLink>Examples</NavLink>
         <NavLink>Load</NavLink>
         <NavLink>Save</NavLink>
       </NavLinkList>
-      <NavHamburger />
     </nav>
   )
 }

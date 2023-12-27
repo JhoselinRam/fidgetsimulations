@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react"
-import type { UseNavbar } from "./useNavbar_types"
+import type { UseMenuToggle } from "./useMenuToggle_types"
 
 /**
  * Custom hook to handle the link list collapse state
@@ -7,7 +7,7 @@ import type { UseNavbar } from "./useNavbar_types"
  * @param {string} query - Media Query, e.g. "(min-width: 768px)"
  * @returns {Array} An array with the collapsed state and the dispatch function
  */
-export function useNavbar(query: string): UseNavbar {
+export function useMenuToggle(query: string): UseMenuToggle {
   // Navbar state
   const [isCollapsed, setIsCollapsed] = useState(true)
   const [isQueryMeet, setIsQueryMeet] = useState(true)
@@ -39,7 +39,7 @@ export function useNavbar(query: string): UseNavbar {
   }
 }
 
-export const navBarContext = createContext<UseNavbar>({
+export const MenuToggleContext = createContext<UseMenuToggle>({
   isCollapsed: true,
   isQueryMeet: true,
   setIsCollapsed: () => false

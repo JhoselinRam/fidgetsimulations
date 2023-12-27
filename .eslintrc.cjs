@@ -15,7 +15,8 @@ module.exports = {
     "dist",
     ".eslintrc.cjs",
     "vite-env.d.ts",
-    "postcss.config.js"
+    "postcss.config.js",
+    "env.d.ts"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {

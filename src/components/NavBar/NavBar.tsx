@@ -1,17 +1,20 @@
 import { useEffect } from "react"
-import { navBarContext, useNavbar } from "./hooks/useNavbar/useNavbar"
+import {
+  MenuToggleContext,
+  useMenuToggle
+} from "../../hooks/useMenuToggle/useMenuToggle"
 import NavLinks from "./resources/NavLinks/NavLinks"
 import NavLogo from "./resources/NavLogo/NavLogo"
 
 function NavBar(): JSX.Element {
-  const state = useNavbar("(min-width: 768px)")
+  const state = useMenuToggle(import.meta.env.VITE_MENU_TOGGLE_QUERY)
 
   useEffect(() => {
     console.log(state.isQueryMeet)
   }, [state.isQueryMeet])
 
   return (
-    <navBarContext.Provider value={state}>
+    <MenuToggleContext.Provider value={state}>
       <header
         className={`w-100 bg-tuatara-950 text-gin-fizz-50 flex flex-row justify-between items-center relative 
       ${
@@ -23,7 +26,7 @@ function NavBar(): JSX.Element {
         <NavLogo />
         <NavLinks />
       </header>
-    </navBarContext.Provider>
+    </MenuToggleContext.Provider>
   )
 }
 
