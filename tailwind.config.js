@@ -52,6 +52,9 @@ export default {
       },
       boxShadow: {
         visible: "0px 4px 5px 0px rgba(0,0,0,0.4)"
+      },
+      maxWidth: {
+        menu: "14rem"
       }
     }
   },

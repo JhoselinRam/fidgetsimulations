@@ -5,7 +5,9 @@ function App(): JSX.Element {
   return (
     <>
       <NavBar />
-      <ToolBar />
+      <main className="w-full grow relative">
+        <ToolBar />
+      </main>
     </>
   )
 }
