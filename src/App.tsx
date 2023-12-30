@@ -1,3 +1,4 @@
+import MainArea from "./components/MainArea/MainArea"
 import NavBar from "./components/NavBar/NavBar"
 import ToolBar from "./components/ToolBar/ToolBar"
 
@@ -7,6 +8,7 @@ function App(): JSX.Element {
       <NavBar />
       <main className="w-full grow relative">
         <ToolBar />
+        <MainArea />
       </main>
     </>
   )

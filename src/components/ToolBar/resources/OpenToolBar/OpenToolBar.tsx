@@ -12,12 +12,13 @@ function OpenToolBar(): JSX.Element {
 
   return (
     <Button
-      className="w-10 !px-0 absolute top-1 right-1"
+      className="w-16 !rounded-2xl !p-2 absolute top-3 right-3 bg-gin-fizz-50 shadow-neomorph-button-up
+      data-[pressed]:shadow-neomorph-button-down"
       buttonType="transparent"
       aria-label="closeToolBar"
       onPress={handleClick}
     >
-      <GearIcon />
+      <GearIcon color="#3d3d3d" />
     </Button>
   )
 }

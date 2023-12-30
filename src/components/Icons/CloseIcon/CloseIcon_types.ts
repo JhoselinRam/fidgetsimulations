@@ -1,3 +1,3 @@
 export interface CloseIconProps {
-  color?: string
+  className?: string
 }
