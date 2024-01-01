@@ -15,7 +15,7 @@ function NavBar(): JSX.Element {
     <navBarContext.Provider value={state}>
       <header
         id="navBarHeader"
-        className={`w-100 bg-tuatara-950 text-gin-fizz-50 grow-0 shrink-0 flex flex-row justify-between items-center relative 
+        className={`w-100 bg-tuatara-950 text-zinc-300 grow-0 shrink-0 flex flex-row justify-between items-center relative 
       ${
         !state.isCollapsed && !state.isQueryMeet
           ? "shadow-none"

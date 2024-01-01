@@ -1,3 +1,4 @@
 export interface GearIconProps {
-  color?: string
+  className?: string
+  style?: React.CSSProperties
 }

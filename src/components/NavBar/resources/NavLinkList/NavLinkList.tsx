@@ -19,7 +19,9 @@ function NavLinkList({ children }: NavLinkListProps): JSX.Element {
 		md:static md:flex-row md:items-center md:w-auto md:pr-5 md:scale-y-100 md:pl-0 md:gap-5
     xl:absolute xl:top-0 xl:bottom-0 xl:left-1/2 xl:-translate-x-1/2
     transition-transform origin-top ${
-      isCollapsed ? "scale-y-0 child:opacity-0" : "scale-y-100 child:text-100"
+      isCollapsed
+        ? "scale-y-0 child:opacity-0 hidden"
+        : "scale-y-100 child:text-100 block"
     } 
     ${!isCollapsed && !isQueryMeet ? "shadow-visible" : "shadow-none"}`}
       ref={getUlElement}

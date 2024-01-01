@@ -11,14 +11,16 @@ function NavHamburger(): JSX.Element {
   }
 
   return (
-    <Button
-      className="w-10 flex justify-center !px-0 mr-2 md:hidden"
-      buttonType="transparent"
-      aria-label="menu"
-      onPress={handleClick}
-    >
-      <HamburgerIcon color="#fffae1" />
-    </Button>
+    <div className="grid place-items-center">
+      <Button
+        className="w-10 flex justify-center !px-0 mr-2 md:hidden"
+        buttonType="transparent"
+        aria-label="menu"
+        onPress={handleClick}
+      >
+        <HamburgerIcon color="#d4d4d8" />
+      </Button>
+    </div>
   )
 }
 

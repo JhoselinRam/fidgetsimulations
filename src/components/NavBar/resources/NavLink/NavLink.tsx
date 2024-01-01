@@ -7,7 +7,8 @@ function NavLink({ children }: NavLinkProps): JSX.Element {
       <Button
         className="group !pl-3 !py-2 !rounded-none w-full text-start data-[focus-visible]:!outline-none 
         data-[hovered]:bg-tuatara-900 data-[focus-visible]:bg-tuatara-900 
-        md:data-[hovered]:bg-tuatara-950 md:data-[focus-visible]:bg-tuatara-950 md:!px-0 md:!py-0"
+        md:data-[hovered]:bg-tuatara-950 md:data-[focus-visible]:bg-tuatara-950 md:!px-0 md:!py-0
+        !text-zinc-300"
         buttonType="transparent"
       >
         <p

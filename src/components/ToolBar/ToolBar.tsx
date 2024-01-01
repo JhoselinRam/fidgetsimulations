@@ -4,7 +4,7 @@ import OpenToolBar from "./resources/OpenToolBar/OpenToolBar"
 import { toolBarContext } from "./context"
 
 function ToolBar(): JSX.Element {
-  const state = useMenuToggle(import.meta.env.VITE_MENU_TOGGLE_QUERY)
+  const state = useMenuToggle(import.meta.env.VITE_TOOL_TOGGLE_QUERY)
 
   function getAsideElement(e: HTMLElement): void {
     if (e == null) return

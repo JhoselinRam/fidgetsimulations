@@ -52,10 +52,10 @@ export default {
       },
       boxShadow: {
         visible: "0px 4px 5px 0px rgba(0,0,0,0.4)",
-        "neomorph-button-up":
-          "inset -3px -3px 10px #e3dfc8, inset 3px 3px 10px #fffffa",
-        "neomorph-button-down":
-          "inset 3px 3px 10px #e3dfc8, inset -3px -3px 10px #fffffa"
+        "tool-up":
+          "inset -5px -5px 9px rgba(2, 132, 199, 0.5), inset 5px 5px 9px rgba(207, 250, 254, 0.5), 1px 2px 5px 0px rgba(0,0,0,0.4)",
+        "tool-down":
+          "inset 5px 5px 9px rgba(2, 132, 199, 0.5), inset -5px -5px 9px rgba(207, 250, 254, 0.5)"
       },
       maxWidth: {
         menu: "14rem"
