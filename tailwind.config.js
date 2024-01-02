@@ -59,6 +59,9 @@ export default {
       },
       maxWidth: {
         menu: "14rem"
+      },
+      backgroundImage: {
+        grid: "url('/src/assets/bg-grid.png')"
       }
     }
   },

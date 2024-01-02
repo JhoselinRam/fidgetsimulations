@@ -6,7 +6,7 @@ function App(): JSX.Element {
   return (
     <>
       <NavBar />
-      <main className="w-full grow relative">
+      <main className="w-full grow relative overflow-scroll">
         <ToolBar />
         <MainArea />
       </main>

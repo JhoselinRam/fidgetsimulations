@@ -15,7 +15,7 @@ function OpenToolBar(): JSX.Element {
   return (
     <Button
       className={`xs:block w-16 !rounded-2xl !p-2 absolute top-3 right-3 
-     !bg-sky-300/80 shadow-tool-up data-[hovered]:!bg-sky-300 data-[pressed]:shadow-tool-down
+     !bg-sky-200 shadow-tool-up data-[hovered]:!bg-sky-300 data-[pressed]:shadow-tool-down
       data-[disabled]:shadow-tool-down ${isCollapsed ? "block" : "hidden"} ${
         isQueryMeet ? "opacity-0" : "opacity-100"
       } data-[focus-visible]:outline-accent-blue-300/70 data-[focus-visible]:outline-offset-2 
