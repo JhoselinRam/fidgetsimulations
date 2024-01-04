@@ -7,7 +7,7 @@ function App(): JSX.Element {
   return (
     <>
       <NavBar />
-      <main className="w-full grow relative overflow-scroll">
+      <main className="w-full grow relative overflow-hidden">
         <MainArea>
           <SimulationWindow />
         </MainArea>
