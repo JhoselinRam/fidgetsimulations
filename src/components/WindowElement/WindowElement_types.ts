@@ -1,10 +1,12 @@
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react"
 import type {
-  WindowMoveHandler,
-  WindowMoveProps,
   WindowResizeHandler,
   WindowResizeProps
-} from "../../hooks/useWindowMovement/useWindowMovement_types"
+} from "../../hooks/useWindowMovement/resources/useWindowResize/useWindowResize_types"
+import type {
+  WindowMoveHandler,
+  WindowMoveProps
+} from "../../hooks/useWindowMovement/resources/useWindowMove/useWindowMove_types"
 
 export interface WindowElementProps {
   children: ReactNode

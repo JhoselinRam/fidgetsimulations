@@ -5,6 +5,7 @@ import type {
 } from "./WindowElement_types"
 import useWindowMovement from "../../hooks/useWindowMovement/useWindowMovement"
 import ResizeKnobs from "./resources/ResizeKnobs/ResizeKnobs"
+import MoveLayer from "./resources/MoveLayer/MoveLayer"
 
 const WindowElement = forwardRef<WindowElementRef, WindowElementProps>(
   ({ children, mainAreaElement }, ref): JSX.Element => {
@@ -16,7 +17,8 @@ const WindowElement = forwardRef<WindowElementRef, WindowElementProps>(
       onWindowMove,
       onWindowResize,
       windowMove,
-      setMovementEnable
+      setMovementEnable,
+      moveLayerCallback
     } = useWindowMovement(windowElement, mainAreaElement)
 
     useImperativeHandle(ref, () => {
@@ -40,7 +42,10 @@ const WindowElement = forwardRef<WindowElementRef, WindowElementProps>(
       >
         {children}
         {movementEnable && (
-          <ResizeKnobs knobResizeCallback={knobResizeCallback} />
+          <>
+            <ResizeKnobs knobResizeCallback={knobResizeCallback} />
+            <MoveLayer moveLayerCallback={moveLayerCallback} />
+          </>
         )}
       </div>
     )

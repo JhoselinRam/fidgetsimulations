@@ -21,8 +21,8 @@ const SimulationWindow = memo((): JSX.Element => {
     windowHandlers.current = handlers
     handlers.onWindowResize((_, { width, height }) => {
       if (graph.current == null) return
-
-      graph.current.containerSize({ width, height })
+      console.dir(graph.current)
+      graph.current.containerSize({ width, height }).draw()
     })
   }
 
