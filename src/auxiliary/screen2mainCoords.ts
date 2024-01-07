@@ -1,5 +1,5 @@
 import { type RefObject } from "react"
-import type { WindowCoords } from "../../useWindowMovement_types"
+import type { WindowCoords } from "../hooks/useWindowMovement/resources/useWindowMove/useWindowMove_types"
 
 export function screen2mainCoords(
   { x, y }: WindowCoords,

@@ -6,7 +6,7 @@ function MainArea({ children }: MainAreaProps): JSX.Element {
   const mainAreaElement = useRef<HTMLDivElement>(null)
   return (
     <div
-      className="w-full h-full bg-gin-fizz-50 bg-repeat bg-grid overflow-scroll relative"
+      className="w-full h-full bg-gin-fizz-50 bg-repeat bg-grid overflow-scroll relative bg-local"
       ref={mainAreaElement}
     >
       <mainAreaContext.Provider value={mainAreaElement}>
