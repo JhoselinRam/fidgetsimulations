@@ -1,5 +1,6 @@
-import type { KnobResizeCallback } from "../../../../hooks/useWindowMovement/useWindowMovement_types"
+import type { PointerEvent } from "react"
+import type { ResizeKnobPosition } from "../../WindowElement_types"
 
 export interface ResizeKnobsProps {
-  knobResizeCallback: KnobResizeCallback
+  knobResizeCallback: (event: PointerEvent, role: ResizeKnobPosition) => void
 }

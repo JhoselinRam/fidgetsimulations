@@ -1,3 +1,4 @@
+import type { PointerEvent } from "react"
 import type { ResizeKnobClass } from "../../WindowElement_types"
 import type { ResizeKnobProps } from "./ResizeKnob_types"
 
@@ -22,11 +23,15 @@ function ResizeKnob({
       "bottom-0 right-0 translate-x-[calc(50%+8px)] translate-y-[calc(50%+8px)] after:hover:cursor-nwse-resize"
   }
 
+  function handleClick(e: PointerEvent): void {
+    resizeCallback(e, position)
+  }
+
   return (
     <div
       className={`w-3 h-3 absolute bg-tuatara-700 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-6 after:h-6 
       ${className[position]}`}
-      onPointerDown={resizeCallback}
+      onPointerDown={handleClick}
     ></div>
   )
 }

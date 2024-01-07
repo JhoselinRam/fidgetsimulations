@@ -1,14 +1,11 @@
 import { type PointerEvent } from "react"
 import type { ResizeKnobPosition } from "../../../../components/WindowElement/WindowElement_types"
+import type { WindowCoords } from "../useWindowMove/useWindowMove_types"
 
 export interface UseWindowResize {
-  knobResizeCallback: KnobResizeCallback
+  knobResizeCallback: (event: PointerEvent, role: ResizeKnobPosition) => void
   windowResize: (newSize: WindowResizeProps) => void
   onWindowResize: (handler: WindowResizeHandler) => void
-}
-
-export type KnobResizeCallback = {
-  [k in ResizeKnobPosition]: (event: PointerEvent) => void
 }
 
 export interface WindowResizeProps {
@@ -24,4 +21,8 @@ export type WindowResizeHandler = (
 export interface WindowSize {
   width: number
   height: number
+}
+
+export type OnMoveWindowResizeHandler = {
+  [k in ResizeKnobPosition]: (position: WindowCoords) => void
 }

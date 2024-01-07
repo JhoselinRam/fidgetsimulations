@@ -8,7 +8,6 @@ import type { Graph2D } from "scigrapher/lib/es5/Graph2D/Graph2D_Types"
 const SimulationWindow = memo((): JSX.Element => {
   const mainAreaElement = useContext(mainAreaContext)
   const windowHandlers = useRef<WindowElementRef | null>(null)
-  const test = useRef<number>(500)
   const graph = useRef<Graph2D | null>(null)
 
   function setupGraphWindow(element: HTMLDivElement): void {
@@ -21,30 +20,15 @@ const SimulationWindow = memo((): JSX.Element => {
     windowHandlers.current = handlers
     handlers.onWindowResize((_, { width, height }) => {
       if (graph.current == null) return
-      console.dir(graph.current)
+
       graph.current.containerSize({ width, height }).draw()
     })
   }
 
-  function handleTest(): void {
-    if (windowHandlers.current == null) return
-
-    test.current += 2
-    windowHandlers.current.windowResize({ width: test.current })
-  }
-
   return (
-    <>
-      <WindowElement
-        mainAreaElement={mainAreaElement}
-        ref={setupWindowHandlers}
-      >
-        <div ref={setupGraphWindow}></div>
-      </WindowElement>
-      <button onClick={handleTest} className="relative bottom-0 right-0 z-50">
-        Click
-      </button>
-    </>
+    <WindowElement mainAreaElement={mainAreaElement} ref={setupWindowHandlers}>
+      <div ref={setupGraphWindow}></div>
+    </WindowElement>
   )
 })
 

@@ -3,5 +3,5 @@ import type { ResizeKnobPosition } from "../../WindowElement_types"
 
 export interface ResizeKnobProps {
   position: ResizeKnobPosition
-  resizeCallback: (event: PointerEvent) => void
+  resizeCallback: (event: PointerEvent, role: ResizeKnobPosition) => void
 }

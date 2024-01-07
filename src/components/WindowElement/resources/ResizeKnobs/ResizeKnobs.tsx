@@ -19,7 +19,7 @@ function ResizeKnobs({ knobResizeCallback }: ResizeKnobsProps): JSX.Element {
         <ResizeKnob
           position={position}
           key={position}
-          resizeCallback={knobResizeCallback[position]}
+          resizeCallback={knobResizeCallback}
         />
       ))}
     </>

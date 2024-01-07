@@ -9,12 +9,15 @@ function useWindowMovement(
 ): UseWindowMovement {
   const [movementEnable, setMovementEnable] = useState(true)
 
-  const { knobResizeCallback, onWindowResize, windowResize } =
-    useWindowResize(element)
-
   const { moveLayerCallback, onWindowMove, windowMove } = useWindowMove(
     element,
     parent
+  )
+
+  const { knobResizeCallback, onWindowResize, windowResize } = useWindowResize(
+    element,
+    parent,
+    windowMove
   )
 
   return {
