@@ -15,7 +15,7 @@ export interface WindowResizeProps {
 
 export type WindowResizeHandler = (
   oldSize: WindowSize,
-  newSize: WindowResizeProps
+  newSize: WindowSize
 ) => void
 
 export interface WindowSize {
@@ -24,5 +24,16 @@ export interface WindowSize {
 }
 
 export type OnMoveWindowResizeHandler = {
-  [k in ResizeKnobPosition]: (position: WindowCoords) => void
+  [k in ResizeKnobPosition]: (position: WindowCoords, shiftKey: boolean) => void
 }
+
+export type CursorByRole = {
+  [k in ResizeKnobPosition]: ResizeCursor
+}
+
+export type ResizeCursor =
+  | "ew-resize"
+  | "ns-resize"
+  | "nesw-resize"
+  | "nwse-resize"
+  | "none"

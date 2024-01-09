@@ -77,14 +77,10 @@ function useWindowMove(
       y: coords.y - firstCursorPosition.current.y + parent.current.scrollTop
     }
 
-    let newX = firstWindowPosition.current.x + displacement.x
-    let newY = firstWindowPosition.current.y + displacement.y
+    const newX = firstWindowPosition.current.x + displacement.x
+    const newY = firstWindowPosition.current.y + displacement.y
 
-    newX = newX < 0 ? 0 : newX
-    newY = newY < 0 ? 0 : newY
-
-    element.current.style.left = `${newX}px`
-    element.current.style.top = `${newY}px`
+    windowMove({ x: newX, y: newY })
   }, throttleTime)
 
   // --------------------------------------------------------
@@ -104,6 +100,9 @@ function useWindowMove(
       parent
     )
     position = { ...position, ...newPosition }
+
+    position.x = position.x < 0 ? 0 : position.x
+    position.y = position.y < 0 ? 0 : position.y
 
     // Runs the handler after the new position is computed but before the changes are applied
     if (windowMoveHandler.current != null)

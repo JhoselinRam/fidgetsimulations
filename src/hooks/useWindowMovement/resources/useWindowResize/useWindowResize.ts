@@ -4,6 +4,7 @@ import {
   type RefObject
 } from "react"
 import type {
+  CursorByRole,
   OnMoveWindowResizeHandler,
   UseWindowResize,
   WindowResizeHandler,
@@ -16,6 +17,7 @@ import type {
 } from "../useWindowMove/useWindowMove_types"
 import type { ResizeKnobPosition } from "../../../../components/WindowElement/WindowElement_types"
 import { throttlefy } from "../../../../auxiliary/throttlefy"
+import { screen2mainCoords } from "../../../../auxiliary/screen2mainCoords"
 
 function useWindowResize(
   element: RefObject<HTMLDivElement>,
@@ -29,6 +31,16 @@ function useWindowResize(
   const pointerID = useRef<number | null>(null)
   const knobRole = useRef<ResizeKnobPosition>("bottom")
   const throttleTime = 60
+  const cursor: CursorByRole = {
+    "top-left": "nwse-resize",
+    top: "ns-resize",
+    "top-right": "nesw-resize",
+    left: "ew-resize",
+    right: "ew-resize",
+    "bottom-left": "nesw-resize",
+    bottom: "ns-resize",
+    "bottom-right": "nwse-resize"
+  }
 
   // --------------------------------------------------------
   // ---- On click handler used by ResizeKnob component -----
@@ -54,17 +66,23 @@ function useWindowResize(
       width: elementRect.width,
       height: elementRect.height
     }
-    firstWindowPosition.current = {
-      x: elementRect.x + parent.current.scrollLeft,
-      y: elementRect.y + parent.current.scrollTop
-    }
+    firstWindowPosition.current = screen2mainCoords(
+      {
+        x: elementRect.x + parent.current.scrollLeft,
+        y: elementRect.y + parent.current.scrollTop
+      },
+      parent
+    )
 
     knobElement.setPointerCapture(event.pointerId)
+    knobElement.style.cursor = cursor[role]
     knobElement.addEventListener("pointermove", handlePointerMove)
+
     knobElement.addEventListener("pointerup", () => {
       knobElement.removeEventListener("pointermove", handlePointerMove)
       knobElement.releasePointerCapture(event.pointerId)
       pointerID.current = null
+      knobElement.style.cursor = "none"
     })
   }
 
@@ -72,77 +90,124 @@ function useWindowResize(
   // -------------- On Pointer Move Handler -----------------
 
   function handlePointerMove(event: PointerEvent): void {
-    onMoveHandler[knobRole.current]({ x: event.x, y: event.y })
+    onMoveHandler[knobRole.current]({ x: event.x, y: event.y }, event.shiftKey)
   }
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // -------------------- Top Left --------------------------
 
-  const resizeTopLeft = throttlefy((position: WindowCoords) => {
-    console.log("topLeft")
-  }, throttleTime)
+  const resizeTopLeft = throttlefy(
+    (position: WindowCoords, shiftKey: boolean) => {
+      const displacement = getDisplacement(position, shiftKey)
+
+      windowResize({
+        width: firstWindowSize.current.width - displacement.x,
+        height: firstWindowSize.current.height - displacement.y
+      })
+
+      windowMove({
+        x: firstWindowPosition.current.x + displacement.x,
+        y: firstWindowPosition.current.y + displacement.y
+      })
+    },
+    throttleTime
+  )
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ---------------------- Top -----------------------------
 
   const resizeTop = throttlefy((position: WindowCoords) => {
-    console.log("top")
+    const displacement = getDisplacement(position).y
+
+    windowMove({ y: firstWindowPosition.current.y + displacement })
+
+    windowResize({ height: firstWindowSize.current.height - displacement })
   }, throttleTime)
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------------------- Top Right --------------------------
 
-  const resizeTopRight = throttlefy((position: WindowCoords) => {
-    console.log("topRight")
-  }, throttleTime)
+  const resizeTopRight = throttlefy(
+    (position: WindowCoords, shiftKey: boolean) => {
+      const displacement = getDisplacement(position, shiftKey, true)
+
+      windowResize({
+        width: firstWindowSize.current.width + displacement.x,
+        height: firstWindowSize.current.height - displacement.y
+      })
+
+      windowMove({ y: firstWindowPosition.current.y + displacement.y })
+    },
+    throttleTime
+  )
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ---------------------- Left ----------------------------
 
   const resizeLeft = throttlefy((position: WindowCoords) => {
-    console.log("left")
+    const displacement = getDisplacement(position).x
+
+    windowMove({ x: firstWindowPosition.current.x + displacement })
+
+    windowResize({ width: firstWindowSize.current.width - displacement })
   }, throttleTime)
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ---------------------- Right ---------------------------
 
   const resizeRight = throttlefy((position: WindowCoords) => {
+    const displacement = getDisplacement(position).x
+
     windowResize({
-      width:
-        firstWindowSize.current.width +
-        position.x -
-        firstPointerPosition.current.x
+      width: firstWindowSize.current.width + displacement
     })
   }, throttleTime)
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------------------- Bottom Left ------------------------
 
-  const resizeBottomLeft = throttlefy((position: WindowCoords) => {
-    console.log("bottomLeft")
-  }, throttleTime)
+  const resizeBottomLeft = throttlefy(
+    (position: WindowCoords, shiftKey: boolean) => {
+      const displacement = getDisplacement(position, shiftKey, true)
+
+      windowResize({
+        width: firstWindowSize.current.width - displacement.x,
+        height: firstWindowSize.current.height + displacement.y
+      })
+
+      windowMove({ x: firstWindowPosition.current.x + displacement.x })
+    },
+    throttleTime
+  )
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // --------------------- Bottom ---------------------------
 
   const resizeBottom = throttlefy((position: WindowCoords) => {
+    const displacement = getDisplacement(position)
+
     windowResize({
-      height:
-        firstWindowSize.current.height +
-        position.y -
-        firstPointerPosition.current.y
+      height: firstWindowSize.current.height + displacement.y
     })
   }, throttleTime)
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------------------- Bottom Right -----------------------
 
-  const resizeBottomRight = throttlefy((position: WindowCoords) => {
-    console.log("bottomRight")
-  }, throttleTime)
+  const resizeBottomRight = throttlefy(
+    (position: WindowCoords, shiftKey: boolean) => {
+      const displacement = getDisplacement(position, shiftKey)
+
+      windowResize({
+        width: firstWindowSize.current.width + displacement.x,
+        height: firstWindowSize.current.height + displacement.y
+      })
+    },
+    throttleTime
+  )
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------------- Resize Handlers Object -------------------
 
   const onMoveHandler: OnMoveWindowResizeHandler = {
     "top-left": resizeTopLeft,
@@ -184,6 +249,24 @@ function useWindowResize(
 
   function onWindowResize(handler: WindowResizeHandler): void {
     windowResizeHandler.current = handler
+  }
+
+  // --------------------------------------------------------
+  // Get the difference between new and old pointer positions
+
+  function getDisplacement(
+    position: WindowCoords,
+    shiftKey = false,
+    reverse = false
+  ): WindowCoords {
+    const displacement = {
+      x: position.x - firstPointerPosition.current.x,
+      y: position.y - firstPointerPosition.current.y
+    }
+
+    if (shiftKey) displacement.y = reverse ? -displacement.x : displacement.x
+
+    return displacement
   }
 
   // --------------------------------------------------------
