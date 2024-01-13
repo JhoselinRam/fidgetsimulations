@@ -7,11 +7,11 @@ function App(): JSX.Element {
   return (
     <>
       <NavBar />
-      <main className="w-full grow relative overflow-hidden">
+      <main className="w-full grow relative overflow-hidden flex flex-row">
+        <ToolBar />
         <MainArea>
           <SimulationWindow />
         </MainArea>
-        <ToolBar />
       </main>
     </>
   )

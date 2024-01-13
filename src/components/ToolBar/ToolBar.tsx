@@ -14,9 +14,9 @@ function ToolBar(): JSX.Element {
   return (
     <toolBarContext.Provider value={state}>
       <aside
-        className={`absolute top-0 bottom-0 w-full max-w-menu bg-tuatara-900 transition-transform ${
+        className={`top-0 bottom-0 w-full max-w-menu bg-tuatara-900 transition-transform ${
           state.isCollapsed ? "-translate-x-full" : "translate-x-0"
-        }`}
+        } ${state.isQueryMeet ? "static h-full" : "absolute"}`}
         ref={getAsideElement}
         id="toolBarAside"
       >
