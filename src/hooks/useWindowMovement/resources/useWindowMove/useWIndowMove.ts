@@ -1,7 +1,8 @@
 import {
   type PointerEvent as ReactPointerEvent,
   useRef,
-  type RefObject
+  type RefObject,
+  useContext
 } from "react"
 import type {
   UseWindowMove,
@@ -11,15 +12,20 @@ import type {
 } from "./useWindowMove_types"
 import { screen2mainCoords } from "../../../../auxiliary/screen2mainCoords"
 import { throttlefy } from "../../../../auxiliary/throttlefy"
+import type { GraphicElementType } from "../../../useMainState/resources/GraphicElement/GraphicElement_types"
+import { mainStateContext } from "../../../useMainState/useMainState"
 
 function useWindowMove(
   element: RefObject<HTMLDivElement>,
-  parent: RefObject<HTMLDivElement>
+  parent: RefObject<HTMLDivElement>,
+  id: string,
+  type: GraphicElementType
 ): UseWindowMove {
   const windowMoveHandler = useRef<WindowMoveHandler | null>(null)
   const pointerID = useRef<number | null>(null)
   const firstCursorPosition = useRef<WindowCoords>({ x: 0, y: 0 })
   const firstWindowPosition = useRef<WindowCoords>({ x: 0, y: 0 })
+  const { dispatch } = useContext(mainStateContext)
   const throttleTime = 60
 
   // ----- On click handler used by MoveLayer component -----
@@ -112,8 +118,24 @@ function useWindowMove(
       )
 
     // Set the window to the new position
-    element.current.style.left = `${position.x}px`
-    element.current.style.top = `${position.y}px`
+    // element.current.style.left = `${position.x}px`
+    // element.current.style.top = `${position.y}px`
+    dispatch({
+      type: "graphic@positionX",
+      payload: {
+        id,
+        type,
+        positionX: position.x
+      }
+    })
+    dispatch({
+      type: "graphic@positionY",
+      payload: {
+        id,
+        type,
+        positionY: position.y
+      }
+    })
   }
 
   // --------------------------------------------------------

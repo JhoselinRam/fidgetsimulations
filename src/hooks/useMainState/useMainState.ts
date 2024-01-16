@@ -6,18 +6,29 @@ import type {
   UseMainState
 } from "./useMainState_types"
 import {
-  mainAreaHeight,
-  mainAreaPositionX,
-  mainAreaPositionY
-} from "./resources/MainAreaState/MainAreaState"
+  graphicElementHeight,
+  graphicElementPositionX,
+  graphicElementPositionY,
+  graphicElementWidth
+} from "./resources/GraphicElement/GraphicElement"
 
 // ------------------ Initial State -----------------------
 const initialState: MainState = {
-  mainArea: {
-    positionX: 0,
-    positionY: 0,
-    height: 500,
-    width: 500
+  graphElements: {
+    simulationWindow: [
+      {
+        positionX: 0,
+        positionY: 0,
+        height: 501,
+        width: 501,
+        id: "simulationWindow",
+        type: "simulationWindow",
+        startX: -4,
+        endX: 6,
+        startY: -2,
+        endY: 8
+      }
+    ]
   }
 }
 
@@ -37,10 +48,10 @@ export default function useMainState(): UseMainState {
 // ------------------ Reducer Object ----------------------
 
 const reducerObject: ReducerObject = {
-  "mainArea@positionX": mainAreaPositionX,
-  "mainArea@positionY": mainAreaPositionY,
-  "mainArea@sizeWidth": mainAreaHeight,
-  "mainArea@sizeHeight": mainAreaHeight
+  "graphic@positionX": graphicElementPositionX,
+  "graphic@positionY": graphicElementPositionY,
+  "graphic@width": graphicElementWidth,
+  "graphic@height": graphicElementHeight
 }
 
 // --------------------------------------------------------

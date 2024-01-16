@@ -1,8 +1,8 @@
 import type { Dispatch } from "react"
 import type {
-  MainAreaState,
-  MainAreaStateActionType
-} from "./resources/MainAreaState/MainAreaState_types"
+  GraphicActionType,
+  GraphicalElementsState
+} from "./resources/GraphicElement/GraphicElement_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -11,11 +11,11 @@ export interface UseMainState {
 }
 
 // All actions available
-export type MainStateActionType = MainAreaStateActionType
+export type MainStateActionType = GraphicActionType
 
 // Main state type
 export interface MainState {
-  mainArea: MainAreaState
+  graphElements: GraphicalElementsState
 }
 
 // Action type
@@ -24,10 +24,12 @@ export interface MainStateAction {
   payload?: Record<string, unknown>
 }
 
+// Type of the reducer object
 export type ReducerObject = {
-  [k in MainAreaStateActionType]: ReducerSlice
+  [k in MainStateActionType]: ReducerSlice
 }
 
+// Type pf the reducer slice function
 export type ReducerSlice = (
   state: MainState,
   payload: Record<string, unknown> | undefined

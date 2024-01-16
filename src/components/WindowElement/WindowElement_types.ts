@@ -7,10 +7,13 @@ import type {
   WindowMoveHandler,
   WindowMoveProps
 } from "../../hooks/useWindowMovement/resources/useWindowMove/useWindowMove_types"
+import type { GraphicElementType } from "../../hooks/useMainState/resources/GraphicElement/GraphicElement_types"
 
 export interface WindowElementProps {
   children: ReactNode
   mainAreaElement: RefObject<HTMLDivElement>
+  id: string
+  type: GraphicElementType
 }
 
 export type ResizeKnobPosition =

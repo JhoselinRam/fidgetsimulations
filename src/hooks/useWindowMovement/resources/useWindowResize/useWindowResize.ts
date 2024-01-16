@@ -1,7 +1,8 @@
 import {
   type PointerEvent as ReactPointerEvent,
   useRef,
-  type RefObject
+  type RefObject,
+  useContext
 } from "react"
 import type {
   CursorByRole,
@@ -18,10 +19,14 @@ import type {
 import type { ResizeKnobPosition } from "../../../../components/WindowElement/WindowElement_types"
 import { throttlefy } from "../../../../auxiliary/throttlefy"
 import { screen2mainCoords } from "../../../../auxiliary/screen2mainCoords"
+import type { GraphicElementType } from "../../../useMainState/resources/GraphicElement/GraphicElement_types"
+import { mainStateContext } from "../../../useMainState/useMainState"
 
 function useWindowResize(
   element: RefObject<HTMLDivElement>,
   parent: RefObject<HTMLDivElement>,
+  id: string,
+  type: GraphicElementType,
   windowMove: (newPosition: WindowMoveProps) => void
 ): UseWindowResize {
   const windowResizeHandler = useRef<WindowResizeHandler | null>(null)
@@ -30,6 +35,7 @@ function useWindowResize(
   const firstWindowSize = useRef<WindowSize>({ width: 0, height: 0 })
   const pointerID = useRef<number | null>(null)
   const knobRole = useRef<ResizeKnobPosition>("bottom")
+  const { dispatch } = useContext(mainStateContext)
   const throttleTime = 60
   const cursor: CursorByRole = {
     "top-left": "nwse-resize",
@@ -240,8 +246,24 @@ function useWindowResize(
         size
       )
 
-    element.current.style.width = `${size.width}px`
-    element.current.style.height = `${size.height}px`
+    // element.current.style.width = `${size.width}px`
+    // element.current.style.height = `${size.height}px`
+    dispatch({
+      type: "graphic@width",
+      payload: {
+        type,
+        id,
+        width: size.width
+      }
+    })
+    dispatch({
+      type: "graphic@height",
+      payload: {
+        type,
+        id,
+        height: size.height
+      }
+    })
   }
 
   // --------------------------------------------------------

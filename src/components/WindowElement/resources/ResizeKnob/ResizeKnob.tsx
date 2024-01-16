@@ -29,7 +29,7 @@ function ResizeKnob({
 
   return (
     <div
-      className={`w-3 h-3 absolute bg-tuatara-700 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-6 after:h-6 
+      className={`touch-none w-3 h-3 absolute bg-tuatara-700 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-6 after:h-6 
       ${className[position]}`}
       onPointerDown={handleClick}
     ></div>
