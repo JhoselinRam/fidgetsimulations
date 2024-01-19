@@ -65,6 +65,9 @@ export default {
       },
       backgroundImage: {
         grid: "url('/src/assets/bg-grid.png')"
+      },
+      transitionTimingFunction: {
+        overshot: "cubic-bezier(0.4, 0, 0.31, 2.45)"
       }
     }
   },
