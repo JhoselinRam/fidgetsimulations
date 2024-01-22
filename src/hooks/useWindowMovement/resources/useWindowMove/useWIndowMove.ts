@@ -26,7 +26,6 @@ function useWindowMove(
   const firstCursorPosition = useRef<WindowCoords>({ x: 0, y: 0 })
   const firstWindowPosition = useRef<WindowCoords>({ x: 0, y: 0 })
   const { dispatch } = useContext(mainStateContext)
-  const throttleTime = 60
 
   // ----- On click handler used by MoveLayer component -----
 
@@ -74,20 +73,23 @@ function useWindowMove(
   // --------------------------------------------------------
   // --------- Move the window to mimic the pointer ---------
 
-  const throttleMove = throttlefy((coords: WindowCoords) => {
-    if (element.current == null) return
-    if (parent.current == null) return
+  const throttleMove = throttlefy(
+    (coords: WindowCoords) => {
+      if (element.current == null) return
+      if (parent.current == null) return
 
-    const displacement = {
-      x: coords.x - firstCursorPosition.current.x + parent.current.scrollLeft,
-      y: coords.y - firstCursorPosition.current.y + parent.current.scrollTop
-    }
+      const displacement = {
+        x: coords.x - firstCursorPosition.current.x + parent.current.scrollLeft,
+        y: coords.y - firstCursorPosition.current.y + parent.current.scrollTop
+      }
 
-    const newX = firstWindowPosition.current.x + displacement.x
-    const newY = firstWindowPosition.current.y + displacement.y
+      const newX = firstWindowPosition.current.x + displacement.x
+      const newY = firstWindowPosition.current.y + displacement.y
 
-    windowMove({ x: newX, y: newY })
-  }, throttleTime)
+      windowMove({ x: newX, y: newY })
+    },
+    import.meta.env.VITE_THROTTLE_TIME
+  )
 
   // --------------------------------------------------------
   // -------- Moves the window to a new position ------------

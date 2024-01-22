@@ -1,11 +1,3 @@
-import { createContext } from "react"
-import type { ToolBarContext } from "./ToolBar_types"
+import { createToolBarContext } from "../../hooks/useToolBar/useToolBar"
 
-export const toolBarContext = createContext<ToolBarContext>({
-  isCollapsed: true,
-  isQueryMeet: true,
-  showConfig: false,
-  addElementInMenu: () => false,
-  setIsCollapsed: () => false,
-  setShowConfig: () => false
-})
+export const toolBarContext = createToolBarContext()

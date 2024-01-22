@@ -36,7 +36,6 @@ function useWindowResize(
   const pointerID = useRef<number | null>(null)
   const knobRole = useRef<ResizeKnobPosition>("bottom")
   const { dispatch } = useContext(mainStateContext)
-  const throttleTime = 60
   const cursor: CursorByRole = {
     "top-left": "nwse-resize",
     top: "ns-resize",
@@ -116,19 +115,22 @@ function useWindowResize(
         y: firstWindowPosition.current.y + displacement.y
       })
     },
-    throttleTime
+    import.meta.env.VITE_THROTTLE_TIME
   )
 
   // --------------------------------------------------------
   // ---------------------- Top -----------------------------
 
-  const resizeTop = throttlefy((position: WindowCoords) => {
-    const displacement = getDisplacement(position).y
+  const resizeTop = throttlefy(
+    (position: WindowCoords) => {
+      const displacement = getDisplacement(position).y
 
-    windowMove({ y: firstWindowPosition.current.y + displacement })
+      windowMove({ y: firstWindowPosition.current.y + displacement })
 
-    windowResize({ height: firstWindowSize.current.height - displacement })
-  }, throttleTime)
+      windowResize({ height: firstWindowSize.current.height - displacement })
+    },
+    import.meta.env.VITE_THROTTLE_TIME
+  )
 
   // --------------------------------------------------------
   // ------------------- Top Right --------------------------
@@ -144,30 +146,36 @@ function useWindowResize(
 
       windowMove({ y: firstWindowPosition.current.y + displacement.y })
     },
-    throttleTime
+    import.meta.env.VITE_THROTTLE_TIME
   )
 
   // --------------------------------------------------------
   // ---------------------- Left ----------------------------
 
-  const resizeLeft = throttlefy((position: WindowCoords) => {
-    const displacement = getDisplacement(position).x
+  const resizeLeft = throttlefy(
+    (position: WindowCoords) => {
+      const displacement = getDisplacement(position).x
 
-    windowMove({ x: firstWindowPosition.current.x + displacement })
+      windowMove({ x: firstWindowPosition.current.x + displacement })
 
-    windowResize({ width: firstWindowSize.current.width - displacement })
-  }, throttleTime)
+      windowResize({ width: firstWindowSize.current.width - displacement })
+    },
+    import.meta.env.VITE_THROTTLE_TIME
+  )
 
   // --------------------------------------------------------
   // ---------------------- Right ---------------------------
 
-  const resizeRight = throttlefy((position: WindowCoords) => {
-    const displacement = getDisplacement(position).x
+  const resizeRight = throttlefy(
+    (position: WindowCoords) => {
+      const displacement = getDisplacement(position).x
 
-    windowResize({
-      width: firstWindowSize.current.width + displacement
-    })
-  }, throttleTime)
+      windowResize({
+        width: firstWindowSize.current.width + displacement
+      })
+    },
+    import.meta.env.VITE_THROTTLE_TIME
+  )
 
   // --------------------------------------------------------
   // ------------------- Bottom Left ------------------------
@@ -183,19 +191,22 @@ function useWindowResize(
 
       windowMove({ x: firstWindowPosition.current.x + displacement.x })
     },
-    throttleTime
+    import.meta.env.VITE_THROTTLE_TIME
   )
 
   // --------------------------------------------------------
   // --------------------- Bottom ---------------------------
 
-  const resizeBottom = throttlefy((position: WindowCoords) => {
-    const displacement = getDisplacement(position)
+  const resizeBottom = throttlefy(
+    (position: WindowCoords) => {
+      const displacement = getDisplacement(position)
 
-    windowResize({
-      height: firstWindowSize.current.height + displacement.y
-    })
-  }, throttleTime)
+      windowResize({
+        height: firstWindowSize.current.height + displacement.y
+      })
+    },
+    import.meta.env.VITE_THROTTLE_TIME
+  )
 
   // --------------------------------------------------------
   // ------------------- Bottom Right -----------------------
@@ -209,7 +220,7 @@ function useWindowResize(
         height: firstWindowSize.current.height + displacement.y
       })
     },
-    throttleTime
+    import.meta.env.VITE_THROTTLE_TIME
   )
 
   // --------------------------------------------------------
