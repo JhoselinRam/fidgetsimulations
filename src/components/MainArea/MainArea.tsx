@@ -1,9 +1,15 @@
-import type { MainAreaProps } from "./MainArea_types"
-import { useRef } from "react"
+import { useContext, useRef } from "react"
 import { mainAreaContext } from "./context"
+import { mainStateContext } from "../../hooks/useMainState/useMainState"
+import type { GraphicSelector } from "../../hooks/useMainState/resources/GraphicElement/GraphicElement_types"
+import SimulationWindow from "../SimulationWindow/SimulationWindow"
 
-function MainArea({ children }: MainAreaProps): JSX.Element {
+function MainArea(): JSX.Element {
   const mainAreaElement = useRef<HTMLDivElement>(null)
+  const { mainState } = useContext(mainStateContext)
+  const graphicSelector: GraphicSelector = {
+    simulationWindow: (id) => <SimulationWindow key={id} />
+  }
 
   return (
     <div
@@ -11,7 +17,9 @@ function MainArea({ children }: MainAreaProps): JSX.Element {
       ref={mainAreaElement}
     >
       <mainAreaContext.Provider value={mainAreaElement}>
-        {children}
+        {mainState.order.map((element) =>
+          graphicSelector[element.type](element.id)
+        )}
       </mainAreaContext.Provider>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import CloseToolBar from "../CloseToolBar/CloseToolBar"
 import { toolBarContext } from "../../context"
-import OpenConfig from "../OpenConfig/OpenConfig"
+import SimulationParameters from "../../../SimulationParameters/SimulationParameters"
 
 function Tools(): JSX.Element {
   const { isQueryMeet, isCollapsed, addElementInMenu } =
@@ -21,7 +21,7 @@ function Tools(): JSX.Element {
       id="toolBarAside"
     >
       <CloseToolBar />
-      <OpenConfig />
+      <SimulationParameters />
     </aside>
   )
 }

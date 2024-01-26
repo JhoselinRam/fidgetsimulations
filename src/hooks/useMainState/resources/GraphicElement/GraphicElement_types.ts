@@ -21,6 +21,15 @@ export interface GraphicalElementsState {
   simulationWindow: readonly [SimulationWindowState]
 }
 
+export interface GraphOrder {
+  type: GraphicElementType
+  id: string
+}
+
+export type GraphicSelector = {
+  [k in GraphicElementType]: (id: string) => JSX.Element
+}
+
 // --------------------- Position -------------------------
 
 type PositionActionType = "graphic@positionX" | "graphic@positionY"

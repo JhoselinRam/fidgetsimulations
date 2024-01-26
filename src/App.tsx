@@ -1,6 +1,5 @@
 import MainArea from "./components/MainArea/MainArea"
 import NavBar from "./components/NavBar/NavBar"
-import SimulationWindow from "./components/SimulationWindow/SimulationWindow"
 import ToolBar from "./components/ToolBar/ToolBar"
 import useMainState, {
   mainStateContext
@@ -15,9 +14,7 @@ function App(): JSX.Element {
       <main className="w-full grow relative overflow-hidden flex flex-row">
         <mainStateContext.Provider value={mainStateHook}>
           <ToolBar />
-          <MainArea>
-            <SimulationWindow />
-          </MainArea>
+          <MainArea />
         </mainStateContext.Provider>
       </main>
     </>

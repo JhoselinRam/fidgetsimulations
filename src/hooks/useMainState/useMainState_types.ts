@@ -1,5 +1,6 @@
 import type { Dispatch } from "react"
 import type {
+  GraphOrder,
   GraphicActionType,
   GraphicalElementsState
 } from "./resources/GraphicElement/GraphicElement_types"
@@ -16,6 +17,7 @@ export type MainStateActionType = GraphicActionType
 // Main state type
 export interface MainState {
   graphElements: GraphicalElementsState
+  order: GraphOrder[]
 }
 
 // Action type

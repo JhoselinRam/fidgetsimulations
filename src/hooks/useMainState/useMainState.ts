@@ -29,7 +29,8 @@ const initialState: MainState = {
         endY: 8
       }
     ]
-  }
+  },
+  order: [{ id: "simulationWindow", type: "simulationWindow" }]
 }
 
 // --------------------------------------------------------

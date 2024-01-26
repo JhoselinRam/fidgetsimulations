@@ -14,9 +14,10 @@ export function useMenuToggle(
 ): UseMenuToggle {
   // Navbar state
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [isQueryMeet, setIsQueryMeet] = useState(true)
   const mediaQuery = useRef(window.matchMedia(query))
+  const [isQueryMeet, setIsQueryMeet] = useState(mediaQuery.current.matches)
   const elements = useRef<HTMLElement[]>(elementsInMenu)
+  const elementCallbacks = useRef<Array<() => void>>([])
 
   const handleChange = useCallback(
     (e: MediaQueryListEvent) => {
@@ -25,10 +26,10 @@ export function useMenuToggle(
     [setIsQueryMeet]
   )
 
+  // Checks if the user clicks outside the menu element
   const windowHandleClick = useCallback(
     (e: PointerEvent): void => {
-      if (isQueryMeet) return
-      if (isCollapsed) return
+      if (isQueryMeet || isCollapsed) return
       let toggleMenu = true
 
       elements.current.forEach((element) => {
@@ -40,19 +41,27 @@ export function useMenuToggle(
         }
       })
 
-      if (toggleMenu) setIsCollapsed(true)
+      if (toggleMenu) {
+        setIsCollapsed(true)
+        elementCallbacks.current.forEach((callback) => {
+          callback()
+        })
+      }
     },
     [setIsCollapsed, isQueryMeet, isCollapsed]
   )
 
+  // Adds the event listener to the Media query list observer
   useEffect(() => {
     mediaQuery.current.addEventListener("change", handleChange)
   }, [handleChange])
 
+  // Collapses or open the menu according to the media query observer
   useEffect(() => {
     setIsCollapsed(!isQueryMeet)
   }, [isQueryMeet])
 
+  // Adds a click event on the window element to detect when the user clicks outside the menu elements
   useEffect(() => {
     window.addEventListener("pointerdown", windowHandleClick)
 
@@ -61,10 +70,7 @@ export function useMenuToggle(
     }
   }, [windowHandleClick])
 
-  useEffect(() => {
-    setIsQueryMeet(mediaQuery.current.matches)
-  }, [])
-
+  // Adds the html element in the menu
   function addElementInMenu(element: HTMLElement): void {
     if (
       elements.current.find((menuElement) => menuElement.id === element.id) !==
@@ -75,11 +81,17 @@ export function useMenuToggle(
     elements.current.push(element)
   }
 
+  // This callbacks will be called when the user click outside the menu elements
+  function addCloseCallback(callback: () => void): void {
+    elementCallbacks.current.push(callback)
+  }
+
   return {
     isCollapsed,
     isQueryMeet,
     setIsCollapsed,
-    addElementInMenu
+    addElementInMenu,
+    addCloseCallback
   }
 }
 
@@ -88,6 +100,7 @@ export function createMenuToggleContext(): React.Context<UseMenuToggle> {
     isCollapsed: true,
     isQueryMeet: true,
     setIsCollapsed: () => false,
-    addElementInMenu: () => false
+    addElementInMenu: () => false,
+    addCloseCallback: () => false
   })
 }

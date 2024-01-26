@@ -3,4 +3,5 @@ export interface UseMenuToggle {
   isQueryMeet: boolean
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
   addElementInMenu: (element: HTMLElement) => void
+  addCloseCallback: (callback: () => void) => void
 }

@@ -3,8 +3,13 @@ import { useMenuToggle } from "../useMenuToggle/useMenuToggle"
 import type { UseToolBar } from "./useToolBar_types"
 
 function useToolBar(): UseToolBar {
-  const { addElementInMenu, isCollapsed, isQueryMeet, setIsCollapsed } =
-    useMenuToggle(import.meta.env.VITE_TOOL_TOGGLE_QUERY)
+  const {
+    addElementInMenu,
+    isCollapsed,
+    isQueryMeet,
+    setIsCollapsed,
+    addCloseCallback
+  } = useMenuToggle(import.meta.env.VITE_TOOL_TOGGLE_QUERY)
   const [showConfig, setShowConfig] = useState(false)
   const intersectObserver = useRef(
     window.matchMedia(import.meta.env.VITE_CONFIG_INTERSECT_QUERY)
@@ -35,13 +40,21 @@ function useToolBar(): UseToolBar {
     else setIsCollapsed(false)
   }, [showConfig, setIsCollapsed])
 
+  // Closes the config bar when the user clicks outside of it
+  useEffect(() => {
+    addCloseCallback(() => {
+      setShowConfig(false)
+    })
+  }, [addCloseCallback, setShowConfig])
+
   return {
     showConfig,
     setShowConfig,
     addElementInMenu,
     isCollapsed,
     isQueryMeet,
-    setIsCollapsed
+    setIsCollapsed,
+    addCloseCallback
   }
 }
 
@@ -53,6 +66,7 @@ export function createToolBarContext(): Context<UseToolBar> {
     isQueryMeet: true,
     showConfig: false,
     addElementInMenu: () => false,
+    addCloseCallback: () => false,
     setIsCollapsed: () => false,
     setShowConfig: () => false
   })
