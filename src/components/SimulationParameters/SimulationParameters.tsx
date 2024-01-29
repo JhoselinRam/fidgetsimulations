@@ -1,25 +1,31 @@
 import { useState } from "react"
-// import ParametersTitle from "./ParametersTitle/ParametersTitle"
-// import ParametersForm from "./ParametersForm/ParametersForm"
 import DropSection from "../DropSection/DropSection"
 
 function SimulationParameters(): JSX.Element {
   const [isDrop, setIsDrop] = useState(true)
 
   return (
-    <DropSection>
-      <DropSection.Title isDrop={isDrop} onChange={setIsDrop}>
-        Parameters
-      </DropSection.Title>
+    <DropSection className="relative mt-3 ml-2 mr-2 pb-3 after:absolute after:border-2 after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
+      <div className="w-full flex justify-center">
+        <DropSection.Title
+          className="text-zinc-300 text-lg"
+          iconClassName="stroke-zinc-300"
+          isDrop={isDrop}
+          onChange={setIsDrop}
+        >
+          Parameters
+        </DropSection.Title>
+      </div>
+      <DropSection.Body isDrop={isDrop}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+        facilis rerum exercitationem, praesentium veniam fugit quod illo
+        consequatur voluptatibus, maiores at? Veniam saepe quasi suscipit! Iusto
+        veniam aperiam vel alias eveniet, nobis dolore dicta ex consequuntur
+        possimus temporibus rerum expedita impedit architecto explicabo. Ut
+        deleniti praesentium tenetur ipsa, corporis beatae?
+      </DropSection.Body>
     </DropSection>
   )
 }
-// <section className="mt-5 flex flex-col items-center relative after:w-11/12 after:border-2 after:border-zinc-300 after:absolute after:bottom-0">
-//   <ParametersTitle
-//     isCollapsed={isCollapsed}
-//     setIsCollapsed={setIsCollapsed}
-//   />
-//   <ParametersForm isCollapsed={isCollapsed} />
-// </section>
 
 export default SimulationParameters

@@ -1,18 +1,21 @@
 import type { ComponentType } from "react"
 
-type InnerType<K> = K extends unknown ? Record<string, ComponentType<K>> : never
+type InnerType<K> = Record<string, ComponentType<K>>
 
 export function createComponentNamespace<P, I>(
   displayName: string,
   topLevelComponent: ComponentType<P>,
-  innerComponents: InnerType<I>
+  innerComponents: Record<string, unknown>
 ): ComponentType<P> & InnerType<I> {
   // Set the displayName of the top and inner components
   topLevelComponent.displayName = displayName
 
   Object.values(innerComponents).forEach((component) => {
-    component.displayName = `${displayName}.${component.displayName}`
+    ;(component as ComponentType).displayName = `${displayName}.${
+      (component as ComponentType).displayName
+    }`
   })
 
-  return Object.assign(topLevelComponent, innerComponents)
+  // Returns the component and their inner components
+  return Object.assign(topLevelComponent, innerComponents as InnerType<I>)
 }

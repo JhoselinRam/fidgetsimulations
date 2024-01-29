@@ -15,8 +15,8 @@ function DropArrowIcon({
     >
       <path
         className="transition-all"
-        d={`M 1 ${isDrop ? "4" : "8"} L 5 ${isDrop ? "8" : "4"} L 9 ${
-          isDrop ? "4" : "8"
+        d={`M 1 ${isDrop ? "8" : "4"} L 5 ${isDrop ? "4" : "8"} L 9 ${
+          isDrop ? "8" : "4"
         }`}
       />
     </svg>

@@ -13,7 +13,7 @@ const DropSection = createComponentNamespace<
   ({ children, className = "" }: DropSectionProps) => {
     return <section className={className}>{children}</section>
   },
-  { Title, Body }
+  { Body, Title }
 )
 
 export default DropSection
