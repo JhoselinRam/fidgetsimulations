@@ -1,5 +1,6 @@
 import { useState } from "react"
 import DropSection from "../DropSection/DropSection"
+import ParametersForm from "./ParametersForm/ParametersForm"
 
 function SimulationParameters(): JSX.Element {
   const [isDrop, setIsDrop] = useState(true)
@@ -16,13 +17,8 @@ function SimulationParameters(): JSX.Element {
           Parameters
         </DropSection.Title>
       </div>
-      <DropSection.Body isDrop={isDrop}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
-        facilis rerum exercitationem, praesentium veniam fugit quod illo
-        consequatur voluptatibus, maiores at? Veniam saepe quasi suscipit! Iusto
-        veniam aperiam vel alias eveniet, nobis dolore dicta ex consequuntur
-        possimus temporibus rerum expedita impedit architecto explicabo. Ut
-        deleniti praesentium tenetur ipsa, corporis beatae?
+      <DropSection.Body className="px-3" isDrop={isDrop}>
+        <ParametersForm />
       </DropSection.Body>
     </DropSection>
   )

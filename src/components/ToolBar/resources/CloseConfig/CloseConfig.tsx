@@ -4,7 +4,7 @@ import CloseIcon from "../../../Icons/CloseIcon/CloseIcon"
 import { toolBarContext } from "../../context"
 
 function CloseConfig(): JSX.Element {
-  const { setShowConfig } = useContext(toolBarContext)
+  const { setShowConfig, showConfig } = useContext(toolBarContext)
 
   function handleClick(): void {
     setShowConfig(false)
@@ -12,7 +12,9 @@ function CloseConfig(): JSX.Element {
 
   return (
     <Button
-      className="w-6 !px-0 absolute top-1 left-1 group"
+      className={`w-6 !px-0 absolute top-1 left-1 group ${
+        showConfig ? "block" : "hidden"
+      }`}
       buttonType="transparent"
       aria-label="closeToolBar"
       onPress={handleClick}
