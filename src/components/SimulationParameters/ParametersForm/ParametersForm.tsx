@@ -6,7 +6,7 @@ function ParametersForm(): JSX.Element {
     <>
       <span className="flex flex-row gap-2 content-center">
         Simulation time:
-        <Info placement="right" crossOffset={30} defaultOpen>
+        <Info placement="right" crossOffset={40}>
           <p>
             The amount of time to be simulated. If set to
             &quot;continuous&quot;, the simulation will run indefinitely
