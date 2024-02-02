@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useRef } from "react"
 import CloseToolBar from "../CloseToolBar/CloseToolBar"
 import { toolBarContext } from "../../context"
 import SimulationParameters from "../../../SimulationParameters/SimulationParameters"
@@ -6,18 +6,16 @@ import SimulationParameters from "../../../SimulationParameters/SimulationParame
 function Tools(): JSX.Element {
   const { isQueryMeet, isCollapsed, addElementInMenu } =
     useContext(toolBarContext)
+  const asideElement = useRef<HTMLElement>(null)
 
-  function getAsideElement(e: HTMLElement): void {
-    if (e == null) return
-    addElementInMenu(e)
-  }
+  addElementInMenu(asideElement)
 
   return (
     <aside
-      className={`top-0 bottom-0 z-40 w-full max-w-menu bg-tuatara-900 transition-transform ${
+      className={`top-0 bottom-0 z-40 w-full max-w-menu bg-tuatara-800 transition-transform ${
         isCollapsed ? "-translate-x-full" : "translate-x-0"
       } ${isQueryMeet ? "static h-full" : "absolute"}`}
-      ref={getAsideElement}
+      ref={asideElement}
       id="toolBarAside"
     >
       <CloseToolBar />

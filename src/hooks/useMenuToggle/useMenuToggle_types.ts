@@ -1,7 +1,9 @@
+import type { RefObject } from "react"
+
 export interface UseMenuToggle {
   isCollapsed: boolean
   isQueryMeet: boolean
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
-  addElementInMenu: (element: HTMLElement) => void
+  addElementInMenu: (element: RefObject<HTMLElement>) => void
   addCloseCallback: (callback: () => void) => void
 }

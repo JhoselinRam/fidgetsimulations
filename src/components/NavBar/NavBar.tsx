@@ -2,14 +2,13 @@ import { useMenuToggle } from "../../hooks/useMenuToggle/useMenuToggle"
 import NavLinks from "./resources/NavLinks/NavLinks"
 import NavLogo from "./resources/NavLogo/NavLogo"
 import { navBarContext } from "./context"
+import { useRef } from "react"
 
 function NavBar(): JSX.Element {
   const state = useMenuToggle(import.meta.env.VITE_MENU_TOGGLE_QUERY)
+  const headerElement = useRef<HTMLElement>(null)
 
-  function getHeaderElement(e: HTMLElement): void {
-    if (e == null) return
-    state.addElementInMenu(e)
-  }
+  state.addElementInMenu(headerElement)
 
   return (
     <navBarContext.Provider value={state}>
@@ -21,7 +20,7 @@ function NavBar(): JSX.Element {
           ? "shadow-none"
           : "shadow-visible"
       }`}
-        ref={getHeaderElement}
+        ref={headerElement}
       >
         <NavLogo />
         <NavLinks />

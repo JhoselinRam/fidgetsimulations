@@ -1,16 +1,13 @@
-import { useContext } from "react"
+import { useContext, useRef } from "react"
 import type { NavLinkListProps } from "./NavLinkList_types"
 import { navBarContext } from "../../context"
 
 function NavLinkList({ children }: NavLinkListProps): JSX.Element {
   const { isCollapsed, isQueryMeet, addElementInMenu } =
     useContext(navBarContext)
+  const listElement = useRef<HTMLUListElement>(null)
 
-  function getUlElement(e: HTMLUListElement): void {
-    if (e == null) return
-
-    addElementInMenu(e)
-  }
+  addElementInMenu(listElement)
 
   return (
     <ul
@@ -24,7 +21,7 @@ function NavLinkList({ children }: NavLinkListProps): JSX.Element {
         : "scale-y-100 child:text-100 block"
     } 
     ${!isCollapsed && !isQueryMeet ? "shadow-visible" : "shadow-none"}`}
-      ref={getUlElement}
+      ref={listElement}
     >
       {children}
     </ul>

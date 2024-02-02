@@ -7,28 +7,57 @@ function useTooltip(
 ): UseTooltip {
   const [isOpen, setIsOpen] = useState(false)
 
+  // Handles the tooltip hoover behavior
   useEffect(() => {
-    if (buttonElement.current == null) return
+    const button = buttonElement.current
+    const dialog = dialogElement.current
+    let showTimeoutID = -1
+    let hideTimeoutID = -1
 
     function buttonMouseEnter(): void {
-      const timeOutID = setTimeout(() => {
-        setIsOpen(true)
-      }, 1000)
-
-      function buttonMouseLeave(): void {
-        setIsOpen(false)
-        clearTimeout(timeOutID)
-        buttonElement.current?.removeEventListener(
-          "mouseleave",
-          buttonMouseLeave
-        )
-      }
-
-      buttonElement.current?.addEventListener("mouseleave", buttonMouseLeave)
+      showTimeoutID = setTimeout(
+        () => {
+          setIsOpen(true)
+        },
+        import.meta.env.VITE_INFO_HOVER_ENTER_TIME
+      )
     }
 
-    buttonElement.current.addEventListener("mouseenter", buttonMouseEnter)
-  }, [buttonElement, setIsOpen])
+    function buttonMouseLeave(): void {
+      clearTimeout(showTimeoutID)
+      hideTimeoutID = setTimeout(
+        () => {
+          setIsOpen(false)
+        },
+        import.meta.env.VITE_INFO_HOVER_LEAVE_TIME
+      )
+    }
+
+    function dialogMouseEnter(): void {
+      clearTimeout(hideTimeoutID)
+    }
+
+    function dialogMouseLeave(): void {
+      hideTimeoutID = setTimeout(
+        () => {
+          setIsOpen(false)
+        },
+        import.meta.env.VITE_INFO_HOVER_LEAVE_TIME
+      )
+    }
+
+    button?.addEventListener("mouseenter", buttonMouseEnter)
+    button?.addEventListener("mouseleave", buttonMouseLeave)
+    dialog?.addEventListener("mouseenter", dialogMouseEnter)
+    dialog?.addEventListener("mouseleave", dialogMouseLeave)
+
+    return (): void => {
+      button?.removeEventListener("mouseenter", buttonMouseEnter)
+      button?.removeEventListener("mouseleave", buttonMouseLeave)
+      dialog?.removeEventListener("mouseenter", dialogMouseEnter)
+      dialog?.removeEventListener("mouseleave", dialogMouseLeave)
+    }
+  })
 
   function buttonToggle(): void {
     setIsOpen((prev) => !prev)

@@ -1,4 +1,11 @@
-import { createContext, useCallback, useEffect, useRef, useState } from "react"
+import {
+  type RefObject,
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react"
 import type { UseMenuToggle } from "./useMenuToggle_types"
 
 /**
@@ -10,13 +17,13 @@ import type { UseMenuToggle } from "./useMenuToggle_types"
  */
 export function useMenuToggle(
   query: string,
-  elementsInMenu: HTMLElement[] = []
+  elementsInMenu: Array<RefObject<HTMLElement>> = []
 ): UseMenuToggle {
   // Navbar state
   const [isCollapsed, setIsCollapsed] = useState(true)
   const mediaQuery = useRef(window.matchMedia(query))
   const [isQueryMeet, setIsQueryMeet] = useState(mediaQuery.current.matches)
-  const elements = useRef<HTMLElement[]>(elementsInMenu)
+  const elements = useRef<Array<RefObject<HTMLElement>>>(elementsInMenu)
   const elementCallbacks = useRef<Array<() => void>>([])
 
   const handleChange = useCallback(
@@ -33,7 +40,8 @@ export function useMenuToggle(
       let toggleMenu = true
 
       elements.current.forEach((element) => {
-        const rect = element.getClientRects()[0]
+        if (element.current == null) return
+        const rect = element.current.getClientRects()[0]
         if (e.x >= rect.x && e.x <= rect.x + rect.width) {
           if (e.y >= rect.y && e.y <= rect.y + rect.height) {
             toggleMenu = false
@@ -71,10 +79,12 @@ export function useMenuToggle(
   }, [windowHandleClick])
 
   // Adds the html element in the menu
-  function addElementInMenu(element: HTMLElement): void {
+  function addElementInMenu(element: RefObject<HTMLElement>): void {
     if (
-      elements.current.find((menuElement) => menuElement.id === element.id) !==
-      undefined
+      elements.current.find((menuElement) => {
+        if (menuElement.current == null || element.current == null) return false
+        return menuElement.current.id === element.current.id
+      }) !== undefined
     )
       return
 

@@ -58,7 +58,8 @@ export default {
           "inset 5px 5px 9px rgba(2, 132, 199, 0.5), inset -5px -5px 9px rgba(207, 250, 254, 0.5)"
       },
       maxWidth: {
-        menu: "14rem"
+        menu: "14rem",
+        input: "3rem"
       },
       spacing: {
         menu: "14rem"
@@ -68,6 +69,58 @@ export default {
       },
       transitionTimingFunction: {
         overshot: "cubic-bezier(0.4, 0, 0.31, 2.45)"
+      },
+      keyframes: {
+        "info-slide-top": {
+          "0%": {
+            transform: "translate(0,8px)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translate(0,0)",
+            opacity: "1"
+          }
+        },
+        "info-slide-bottom": {
+          "0%": {
+            transform: "translate(0,-8px)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translate(0,0)",
+            opacity: "1"
+          }
+        },
+        "info-slide-left": {
+          "0%": {
+            transform: "translate(8px,0)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translate(0,0)",
+            opacity: "1"
+          }
+        },
+        "info-slide-right": {
+          "0%": {
+            transform: "translate(-8px,0)",
+            opacity: "0"
+          },
+          "100%": {
+            transform: "translate(0,0)",
+            opacity: "1"
+          }
+        }
+      },
+      animation: {
+        "info-top-enter": "info-slide-top 200ms",
+        "info-top-exit": "info-slide-top 200ms reverse ease-in",
+        "info-bottom-enter": "info-slide-bottom 200ms",
+        "info-bottom-exit": "info-slide-bottom 200ms reverse ease-in",
+        "info-left-enter": "info-slide-left 200ms",
+        "info-left-exit": "info-slide-left 200ms reverse ease-in",
+        "info-right-enter": "info-slide-right 200ms",
+        "info-right-exit": "info-slide-right 200ms reverse ease-in"
       }
     }
   },
