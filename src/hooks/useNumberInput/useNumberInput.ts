@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react"
+import { type RefObject, useEffect, useState } from "react"
 import type { UseNumberInput } from "./useNumberInput_types"
+import useLabelMove from "./resources/useLabelMove/useLabelMove"
 
 function useNumberInput(
+  labelElement: RefObject<HTMLLabelElement>,
+  step: number,
   outerValue?: number,
-  onChange?: (value: number) => void
+  onChange?: (value: number) => void,
+  minValue?: number,
+  maxValue?: number
 ): UseNumberInput {
   const [innerValue, setInnerValue] = useState(outerValue ?? 0)
+  const { labelMoveCallback } = useLabelMove(labelElement, setInnerValue, step)
 
+  // Synchronizes the inner and outer values
   useEffect(() => {
     if (outerValue == null) return
     setInnerValue(outerValue)
@@ -23,9 +30,9 @@ function useNumberInput(
   }
 
   return {
-    setInnerValue,
     innerValue,
-    onInnerChange
+    onInnerChange,
+    labelMoveCallback
   }
 }
 

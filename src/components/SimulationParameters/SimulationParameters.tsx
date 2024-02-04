@@ -17,7 +17,10 @@ function SimulationParameters(): JSX.Element {
           Parameters
         </DropSection.Title>
       </div>
-      <DropSection.Body className="px-3" isDrop={isDrop}>
+      <DropSection.Body
+        className="px-3 pb-2 border-2 border-tuatara-600 rounded-md"
+        isDrop={isDrop}
+      >
         <ParametersForm />
       </DropSection.Body>
     </DropSection>

@@ -1,7 +1,6 @@
-import type { Dispatch, SetStateAction } from "react"
+import type { UseLabelMove } from "./resources/useLabelMove/useLabelMove_types"
 
-export interface UseNumberInput {
+export interface UseNumberInput extends UseLabelMove {
   innerValue: number
   onInnerChange: (value: number) => void
-  setInnerValue: Dispatch<SetStateAction<number>>
 }
