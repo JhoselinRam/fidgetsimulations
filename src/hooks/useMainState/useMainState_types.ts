@@ -4,6 +4,10 @@ import type {
   GraphicActionType,
   GraphicalElementsState
 } from "./resources/GraphicElement/GraphicElement_types"
+import type {
+  TimeActionType,
+  TimeState
+} from "./resources/TimeParameters/TimeParameters_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -12,12 +16,13 @@ export interface UseMainState {
 }
 
 // All actions available
-export type MainStateActionType = GraphicActionType
+export type MainStateActionType = GraphicActionType | TimeActionType
 
 // Main state type
 export interface MainState {
   graphElements: GraphicalElementsState
   order: GraphOrder[]
+  time: TimeState
 }
 
 // Action type

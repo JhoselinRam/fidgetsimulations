@@ -3,7 +3,7 @@ import DropSection from "../DropSection/DropSection"
 import ParametersForm from "./ParametersForm/ParametersForm"
 
 function SimulationParameters(): JSX.Element {
-  const [isDrop, setIsDrop] = useState(true)
+  const [isDrop, setIsDrop] = useState(false)
 
   return (
     <DropSection className="relative mt-3 ml-2 mr-2 pb-3 after:absolute after:border-2 after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
@@ -18,7 +18,7 @@ function SimulationParameters(): JSX.Element {
         </DropSection.Title>
       </div>
       <DropSection.Body
-        className="px-3 pb-2 border-2 border-tuatara-600 rounded-md"
+        className="px-3 pb-2 border-2 border-tuatara-500 bg-tuatara-800 rounded-md"
         isDrop={isDrop}
       >
         <ParametersForm />

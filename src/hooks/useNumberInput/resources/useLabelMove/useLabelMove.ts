@@ -11,7 +11,8 @@ import { throttlefy } from "../../../../auxiliary/throttlefy"
 function useLabelMove(
   labelElement: RefObject<HTMLLabelElement>,
   setInnerValue: Dispatch<SetStateAction<number>>,
-  step: number
+  step: number,
+  isDisabled: boolean
 ): UseLabelMove {
   const lastPosition = useRef(0)
   const pointerID = useRef(0)
@@ -19,6 +20,7 @@ function useLabelMove(
   // On Pointer Down Callback
   function labelMoveCallback(e: RPointerEvent): void {
     if (labelElement.current == null) return
+    if (isDisabled) return
 
     lastPosition.current = e.clientX
     pointerID.current = e.pointerId

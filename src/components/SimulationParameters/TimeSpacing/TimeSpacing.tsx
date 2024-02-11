@@ -1,25 +1,45 @@
+import useTimeSpacing from "../../../hooks/useTimeSpacing/useTimeSpacing"
 import Info from "../../Info/Info"
 import NumberInput from "../../NumberInput/NumberInput"
 
 function TimeSpacing(): JSX.Element {
+  const { delay, delayCallback, dt, dtCallback } = useTimeSpacing()
+
   return (
     <div className="mt-6 flex flex-col gap-2">
       <span className="flex flex-row gap-2 content-center">
-        <NumberInput step={0.001} unit="s" className="gap-7" minValue={0.0001}>
+        <NumberInput
+          step={0.001}
+          unit="ms"
+          className="gap-7"
+          minValue={0.1}
+          formatOptions={{ maximumFractionDigits: 3 }}
+          value={dt}
+          onChange={dtCallback}
+        >
           dt:
         </NumberInput>
-        <Info>
+        <Info placement="right" crossOffset={50}>
           <p>The size of the time step inside the simulation.</p>
           <p className="mt-3">
-            The smaller this value the simulation will be more accurate, but
-            more data points will be generated and the simulation will take
-            longer and render slower
+            The smaller this value, the more accurate the simulation will be,
+            but more data points will be generated and will take longer to
+            render.
           </p>
         </Info>
       </span>
       <span className="flex flex-row gap-2 content-center">
-        <NumberInput unit="ms">delay:</NumberInput>
-        <Info>
+        <NumberInput
+          unit="ms"
+          minValue={0}
+          step={0.1}
+          formatOptions={{ maximumFractionDigits: 0 }}
+          value={delay}
+          onChange={delayCallback}
+        >
+          delay:
+        </NumberInput>
+        <Info placement="right" crossOffset={30}>
           <p>
             The amount of time (in milliseconds) between each animation frame.
           </p>

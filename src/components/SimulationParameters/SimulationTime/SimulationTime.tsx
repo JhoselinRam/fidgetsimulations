@@ -1,21 +1,17 @@
-import { useContext, useEffect, useRef } from "react"
+import { useRef } from "react"
 import Info from "../../Info/Info"
 import NumberInput from "../../NumberInput/NumberInput"
 import Switch from "../../Switch/Switch"
-import { toolBarContext } from "../../ToolBar/context"
+import useSimulationTime from "../../../hooks/useSimulationTime/useSimulationTime"
 
 function SimulationTime(): JSX.Element {
-  const { addElementInMenu } = useContext(toolBarContext)
   const simTimeRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (simTimeRef.current != null) simTimeRef.current.id = "simulationTimeInfo"
-    addElementInMenu(simTimeRef)
-  }, [simTimeRef, addElementInMenu])
+  const { switchValue, switchCallback, timeValue, timeCallback } =
+    useSimulationTime(simTimeRef)
 
   return (
     <>
-      <span className="flex flex-row gap-2 content-center">
+      <span className="flex flex-row gap-2 content-center mt-1">
         Simulation time:
         <Info placement="right" crossOffset={40} ref={simTimeRef}>
           <p>
@@ -29,8 +25,22 @@ function SimulationTime(): JSX.Element {
         </Info>
       </span>
       <div className="px-2 flex flex-col gap-2">
-        <Switch className="w-fit">Continuous</Switch>
-        <NumberInput unit="s" step={0.1}>
+        <Switch
+          isSelected={switchValue}
+          onChange={switchCallback}
+          className="w-fit"
+        >
+          Continuous
+        </Switch>
+        <NumberInput
+          unit="s"
+          step={0.06}
+          minValue={1}
+          formatOptions={{ maximumFractionDigits: 1 }}
+          value={timeValue}
+          onChange={timeCallback}
+          isDisabled={switchValue}
+        >
           Time:
         </NumberInput>
       </div>

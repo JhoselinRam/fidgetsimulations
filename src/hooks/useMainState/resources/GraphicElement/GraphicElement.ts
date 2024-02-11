@@ -20,10 +20,10 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
       typeof payload.id !== "string" ||
       typeof payload.type !== "string"
     )
-      return { ...state }
+      return state
 
     // Checks that the type is in the main state graphical elements
-    if (!(payload.type in state.graphElements)) return { ...state }
+    if (!(payload.type in state.graphElements)) return state
 
     // Finds the graphic element to change
     const graphicType = payload.type as GraphicElementType
@@ -32,7 +32,7 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
     )
 
     // Guard
-    if (index === -1) return { ...state }
+    if (index === -1) return state
 
     // Generate the new state
     const newState = { ...state }

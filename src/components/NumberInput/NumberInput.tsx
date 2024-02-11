@@ -13,6 +13,7 @@ function NumberInput({
   onChange,
   minValue,
   maxValue,
+  isDisabled,
   ...props
 }: NumberInputProps): JSX.Element {
   const labelElement = useRef<HTMLLabelElement>(null)
@@ -22,18 +23,20 @@ function NumberInput({
     value,
     onChange,
     minValue,
-    maxValue
+    maxValue,
+    isDisabled
   )
 
   return (
     <NumberField
-      className={`flex flex-row gap-2 text-sm ${className}`}
+      className={`flex flex-row gap-2 text-sm group ${className}`}
       value={value ?? innerValue}
       onChange={onInnerChange}
+      isDisabled={isDisabled}
       {...props}
     >
       <Label
-        className="select-none"
+        className="select-none group-data-[disabled]:text-tuatara-600"
         onPointerDown={labelMoveCallback}
         ref={labelElement}
       >
@@ -43,10 +46,13 @@ function NumberInput({
         <Input
           className={`max-w-input rounded-md bg-zinc-600 px-1 outline-none
           data-[focus-visible]:outline data-[focus-visible]:outline-2
-        data-[focus-visible]:outline-accent-blue-300/30 data-[focus-visible]:outline-offset-1 
+        data-[focus-visible]:outline-accent-blue-300/30 data-[focus-visible]:outline-offset-1
+        group-data-[disabled]:text-tuatara-900 
           ${inputClassName}`}
         />
-        <span className="ml-1">{unit}</span>
+        <span className="ml-1 group-data-[disabled]:text-tuatara-600">
+          {unit}
+        </span>
       </Group>
     </NumberField>
   )
