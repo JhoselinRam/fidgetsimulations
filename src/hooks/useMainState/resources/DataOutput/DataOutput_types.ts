@@ -4,4 +4,4 @@ import type {
 } from "../GraphicElement/GraphicElement_types"
 
 // Simulation window type
-export interface SimulationWindowState extends GraphicState, AxisDomain {}
+export interface DataOutputState extends GraphicState, AxisDomain {}

@@ -1,25 +1,26 @@
 import { useContext, useRef } from "react"
-import WindowElement from "../WindowElement/WindowElement"
+import type { LinechartProps } from "./Linechart_types"
 import { mainAreaContext } from "../MainArea/context"
 import type { WindowElementRef } from "../WindowElement/WindowElement_types"
-import useSimulationWindow from "../../hooks/useSimulationWindow/useSimulationWindow"
+import WindowElement from "../WindowElement/WindowElement"
+import useLinechart from "../../hooks/useLinechart/useLinechart"
 
-function SimulationWindow(): JSX.Element {
+function Linechart({ id }: LinechartProps): JSX.Element {
   const mainAreaElement = useContext(mainAreaContext)
-  const windowHandlers = useRef<WindowElementRef>(null)
+  const windowHandlers = useRef<WindowElementRef | null>(null)
   const graphElement = useRef<HTMLDivElement>(null)
-  useSimulationWindow(graphElement)
+  useLinechart(graphElement, id)
 
   return (
     <WindowElement
       mainAreaElement={mainAreaElement}
       ref={windowHandlers}
-      id="simulationWindow"
-      type="simulationWindow"
+      id={id}
+      type="linechart"
     >
       <div ref={graphElement}></div>
     </WindowElement>
   )
 }
 
-export default SimulationWindow
+export default Linechart

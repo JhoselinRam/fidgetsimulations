@@ -1,3 +1,5 @@
+import type { DataOutputState } from "../DataOutput/DataOutput_types"
+import type { LinechartState } from "../Linechart/LineChart_types"
 import type { SimulationWindowState } from "../SimulationWindow/SimulationWindow_types"
 
 // Actions available
@@ -19,6 +21,8 @@ export type GraphicKeys = keyof GraphicState
 
 export interface GraphicalElementsState {
   simulationWindow: readonly [SimulationWindowState]
+  linechart: LinechartState[]
+  dataoutput: DataOutputState[]
 }
 
 export interface GraphOrder {
@@ -51,3 +55,10 @@ interface GraphicElementSize {
 
 // --------------------------------------------------------
 // --------------------------------------------------------
+
+export interface AxisDomain {
+  startX: number
+  endX: number
+  startY: number
+  endY: number
+}
