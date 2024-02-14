@@ -25,7 +25,6 @@ function useLabelMove(
     lastPosition.current = e.clientX
     pointerID.current = e.pointerId
     labelElement.current.setPointerCapture(e.pointerId)
-    labelElement.current.style.cursor = "ew-resize"
     labelElement.current.addEventListener("pointermove", handlePointerMove)
     labelElement.current.addEventListener("pointerup", handlePointerUp)
   }
@@ -54,7 +53,6 @@ function useLabelMove(
     labelElement.current.removeEventListener("pointermove", handlePointerMove)
     labelElement.current.releasePointerCapture(pointerID.current)
     labelElement.current.removeEventListener("pointerup", handlePointerUp)
-    labelElement.current.style.cursor = "auto"
   }
 
   // ------------------------------------------

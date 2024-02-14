@@ -13,7 +13,7 @@ function CloseToolBar(): JSX.Element {
 
   return (
     <Button
-      className={`w-6 !px-0 absolute top-1 right-1 group ${
+      className={`w-6 !px-0 absolute top-1 right-1 group z-50 ${
         isQueryMeet || isCollapsed ? "hidden" : "block"
       }`}
       buttonType="transparent"

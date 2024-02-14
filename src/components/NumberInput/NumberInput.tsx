@@ -36,7 +36,7 @@ function NumberInput({
       {...props}
     >
       <Label
-        className="select-none group-data-[disabled]:text-tuatara-600"
+        className="select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default"
         onPointerDown={labelMoveCallback}
         ref={labelElement}
       >
@@ -44,7 +44,7 @@ function NumberInput({
       </Label>
       <Group className="w-fit">
         <Input
-          className={`max-w-input rounded-md bg-zinc-600 px-1 outline-none
+          className={`max-w-input rounded-md bg-zinc-500 px-1 outline-none
           data-[focus-visible]:outline data-[focus-visible]:outline-2
         data-[focus-visible]:outline-accent-blue-300/30 data-[focus-visible]:outline-offset-1
         group-data-[disabled]:text-tuatara-900 
