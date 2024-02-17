@@ -1,4 +1,4 @@
-export interface CollectionsProps {
+export interface CollectionSelectProps {
   selectedKey: CollectionOption
   onSelectionChange: (selection: CollectionOption) => void
 }

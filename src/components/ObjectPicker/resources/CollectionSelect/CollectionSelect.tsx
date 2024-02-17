@@ -2,13 +2,13 @@ import Select from "../../../Select/Select"
 import {
   CollectionArray,
   type CollectionOption,
-  type CollectionsProps
-} from "./Collections_types"
+  type CollectionSelectProps
+} from "./CollectionSelect_types"
 
-function Collections({
+function CollectionSelect({
   onSelectionChange,
   selectedKey
-}: CollectionsProps): JSX.Element {
+}: CollectionSelectProps): JSX.Element {
   const items = CollectionArray.map((item) => {
     return {
       id: item,
@@ -34,4 +34,4 @@ function Collections({
   )
 }
 
-export default Collections
+export default CollectionSelect

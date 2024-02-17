@@ -147,7 +147,7 @@ export default {
         "select-bottom-exit": "select-slide-bottom 150ms reverse ease-in"
       },
       gridTemplateColumns: {
-        "responsive-14": "repeat(auto-fit,2.75rem)"
+        collection: "repeat(auto-fit,minmax(2.75rem, 1fr))"
       }
     }
   },

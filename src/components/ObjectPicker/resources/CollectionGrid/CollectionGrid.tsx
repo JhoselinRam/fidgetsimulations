@@ -1,27 +1,32 @@
 import { ListBox, ListBoxItem } from "react-aria-components"
-import type { CollectionsGridProps } from "./CollectionsGrid_types"
+import type {
+  CollectionsGridProps,
+  ItemsBySelection
+} from "./CollectionGrid_types"
+import CollectionButton from "../CollectionButton/CollectionButton"
+import { dataOutItem, lineChartItem } from "../Collections/Graphical"
 
 function CollectionGrid({ selection }: CollectionsGridProps): JSX.Element {
-  const test = [
-    { id: 1, name: "Balls" },
-    { id: 2, name: "Rope" },
-    { id: 3, name: "Fabric" },
-    { id: 4, name: "Obstacle" }
-  ]
+  const collectionItems: ItemsBySelection = {
+    graphical: [lineChartItem, dataOutItem],
+    constrains: [],
+    objects: [],
+    force: []
+  }
 
   return (
-    <div className="flex-grow p-2">
+    <div className="flex-grow py-4">
       <ListBox
-        className="grid grid-cols-responsive-14 gap-3 justify-items-center"
-        items={test}
+        className="grid grid-cols-collection gap-3 justify-items-center"
+        items={collectionItems[selection]}
         layout="grid"
         orientation="horizontal"
       >
         {(item) => (
           <ListBoxItem className="w-fit">
-            <div className="bg-zinc-300 text-xs w-12 h-12 rounded-md">
-              {item.name}
-            </div>
+            <CollectionButton action={item.action} title={item.title}>
+              {item.children}
+            </CollectionButton>
           </ListBoxItem>
         )}
       </ListBox>
