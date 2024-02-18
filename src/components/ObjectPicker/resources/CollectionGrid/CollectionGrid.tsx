@@ -5,12 +5,13 @@ import type {
 } from "./CollectionGrid_types"
 import CollectionButton from "../CollectionButton/CollectionButton"
 import { dataOutItem, lineChartItem } from "../Collections/Graphical"
+import { ballsItem, fabricItem, ropeItem } from "../Collections/Objects"
 
 function CollectionGrid({ selection }: CollectionsGridProps): JSX.Element {
   const collectionItems: ItemsBySelection = {
     graphical: [lineChartItem, dataOutItem],
     constrains: [],
-    objects: [],
+    objects: [ballsItem, ropeItem, fabricItem],
     force: []
   }
 
@@ -21,9 +22,10 @@ function CollectionGrid({ selection }: CollectionsGridProps): JSX.Element {
         items={collectionItems[selection]}
         layout="grid"
         orientation="horizontal"
+        aria-label="collection grid"
       >
         {(item) => (
-          <ListBoxItem className="w-fit">
+          <ListBoxItem className="w-fit outline-none" textValue={item.id}>
             <CollectionButton action={item.action} title={item.title}>
               {item.children}
             </CollectionButton>

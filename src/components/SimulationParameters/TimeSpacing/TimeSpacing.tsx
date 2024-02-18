@@ -39,7 +39,7 @@ function TimeSpacing(): JSX.Element {
         >
           delay:
         </NumberInput>
-        <Info placement="right" crossOffset={30}>
+        <Info placement="right" crossOffset={40}>
           <p>
             The amount of time (in milliseconds) between each animation frame.
           </p>
