@@ -6,7 +6,7 @@ import type { ItemType } from "../CollectionGrid/CollectionGrid_types"
 
 export const lineChartItem: ItemType = {
   id: "linechart",
-  title: "Line Chart",
+  title: ["Line", "Chart"],
   action: lineChartAction,
   children: <LinechartIcon />
 }

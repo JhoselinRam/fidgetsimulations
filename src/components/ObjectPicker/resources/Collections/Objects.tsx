@@ -1,5 +1,6 @@
-import BallsIcon from "../../../Icons/BallsIcon"
-import LinechartIcon from "../../../Icons/LinechartIcon/LinechartIcon"
+import BallsIcon from "../../../Icons/BallsIcon/BallsIcon"
+import FabricIcon from "../../../Icons/FabricIcon/FabricIcon"
+import RopeIcon from "../../../Icons/RopeIcon/RopeIcon"
 import type { ItemType } from "../CollectionGrid/CollectionGrid_types"
 
 // ------------------- Balls Chart ------------------------
@@ -16,13 +17,13 @@ function ballsAction(): void {
 }
 
 // --------------------------------------------------------
-// ------------------- Rope Chart ------------------------
+// ------------------- Rope Chart -------------------------
 
 export const ropeItem: ItemType = {
   id: "rope",
   title: "Rope",
   action: ropeAction,
-  children: <LinechartIcon />
+  children: <RopeIcon />
 }
 
 function ropeAction(): void {
@@ -30,13 +31,13 @@ function ropeAction(): void {
 }
 
 // --------------------------------------------------------
-// ------------------- Fabric Chart ------------------------
+// ------------------ Fabric Chart ------------------------
 
 export const fabricItem: ItemType = {
   id: "fabric",
   title: "Fabric",
   action: fabricAction,
-  children: <LinechartIcon />
+  children: <FabricIcon />
 }
 
 function fabricAction(): void {

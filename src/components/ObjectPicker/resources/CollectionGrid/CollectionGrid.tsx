@@ -6,13 +6,25 @@ import type {
 import CollectionButton from "../CollectionButton/CollectionButton"
 import { dataOutItem, lineChartItem } from "../Collections/Graphical"
 import { ballsItem, fabricItem, ropeItem } from "../Collections/Objects"
+import {
+  containerItem,
+  obstacleItem,
+  rodItem,
+  springItem
+} from "../Collections/Constrains"
+import {
+  dragItem,
+  electricItem,
+  gravityItem,
+  localGravityItem
+} from "../Collections/Force"
 
 function CollectionGrid({ selection }: CollectionsGridProps): JSX.Element {
   const collectionItems: ItemsBySelection = {
     graphical: [lineChartItem, dataOutItem],
-    constrains: [],
+    constrains: [springItem, rodItem, obstacleItem, containerItem],
     objects: [ballsItem, ropeItem, fabricItem],
-    force: []
+    force: [localGravityItem, gravityItem, dragItem, electricItem]
   }
 
   return (
