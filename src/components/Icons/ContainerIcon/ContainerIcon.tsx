@@ -8,7 +8,7 @@ function ContainerIcon(): JSX.Element {
       strokeWidth="3"
     >
       <circle fill="none" cx={13} cy={16} r={10}></circle>
-      <rect x={10} y={13} width={25} height={25} fill="none" />
+      <rect x={10.5} y={13.5} width={25} height={25} fill="none" />
     </svg>
   )
 }

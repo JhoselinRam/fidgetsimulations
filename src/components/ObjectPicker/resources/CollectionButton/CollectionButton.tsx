@@ -10,7 +10,7 @@ function CollectionButton({
     <Button
       onPress={action}
       className="w-14 !px-0 !bg-zinc-300 text-xs text-tuatara-950 h-[4.25rem] flex flex-col items-center
-      pb-1 pt-2 fill-slate-800 data-[hovered]:!bg-zinc-50 data-[pressed]:!bg-accent-blue-100"
+      pb-1 pt-2 fill-slate-800 data-[hovered]:!bg-zinc-50 data-[pressed]:!bg-accent-blue-300"
       buttonType="transparent"
       aria-label={typeof title === "string" ? title : title.join(" ")}
     >

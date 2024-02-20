@@ -58,7 +58,7 @@ export default {
           "inset 5px 5px 9px rgba(2, 132, 199, 0.5), inset -5px -5px 9px rgba(207, 250, 254, 0.5)"
       },
       maxWidth: {
-        menu: "14rem",
+        menu: "15rem",
         input: "4rem"
       },
       spacing: {
@@ -147,7 +147,7 @@ export default {
         "select-bottom-exit": "select-slide-bottom 150ms reverse ease-in"
       },
       gridTemplateColumns: {
-        collection: "repeat(auto-fit,minmax(2.5rem, 1fr))"
+        collection: "repeat(auto-fit,minmax(3.5rem, 1fr))"
       }
     }
   },
