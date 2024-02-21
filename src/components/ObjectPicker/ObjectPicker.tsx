@@ -7,7 +7,7 @@ function ObjectPicker(): JSX.Element {
   const [selection, setSelection] = useState<CollectionOption>("graphical")
 
   return (
-    <section className="h-56 bg-tuatara-800 mx-2 mt-4 border border-1 border-tuatara-500 rounded-md pt-1 px-3 flex flex-col">
+    <section className="h-56 bg-tuatara-800 mx-2 mt-4 border border-2 border-tuatara-500 rounded-md pt-1 px-3 flex flex-col">
       <CollectionSelect
         selectedKey={selection}
         onSelectionChange={setSelection}
