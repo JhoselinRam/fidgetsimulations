@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react"
 import type {
+  CollectionType,
   MainState,
   MainStateAction,
   ReducerObject,
@@ -18,6 +19,8 @@ import {
   timeParameterDelay,
   timeParameterTime
 } from "./resources/TimeParameters/TimeParameters"
+import { linechartNew } from "./resources/Linechart/Linechart"
+import { dataOutputNew } from "./resources/DataOutput/DataOutput"
 
 // -------------------- Hook body -------------------------
 
@@ -41,7 +44,9 @@ const reducerObject: ReducerObject = {
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,
-  "time@delay": timeParameterDelay
+  "time@delay": timeParameterDelay,
+  "linechart@new": linechartNew,
+  "dataoutput@new": dataOutputNew
 }
 
 // --------------------------------------------------------
@@ -58,6 +63,21 @@ export const mainStateContext = createContext<UseMainState>({
   mainState: initialState,
   dispatch: () => false
 })
+
+// --------------------------------------------------------
+// -- Check if the new collection is already in the list --
+
+export function isInCollection(
+  id: string,
+  type: CollectionType,
+  state: MainState
+): boolean {
+  const index = state.order.findIndex(
+    (item) => item.id === id && item.type === type
+  )
+
+  return index !== -1
+}
 
 // --------------------------------------------------------
 // --------------------------------------------------------

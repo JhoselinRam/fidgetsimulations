@@ -1,3 +1,4 @@
+import type { CollectionState } from "../../useMainState_types"
 import type { DataOutputState } from "../DataOutput/DataOutput_types"
 import type { LinechartState } from "../Linechart/LineChart_types"
 import type { SimulationWindowState } from "../SimulationWindow/SimulationWindow_types"
@@ -8,10 +9,8 @@ export type GraphicActionType = PositionActionType | SizeActionType
 // Graphic state type
 export interface GraphicState
   extends GraphicElementPosition,
-    GraphicElementSize {
-  id: string
-  type: GraphicElementType
-}
+    GraphicElementSize,
+    CollectionState {}
 
 // Types of graphic elements
 export type GraphicElementType = keyof GraphicalElementsState
@@ -23,11 +22,6 @@ export interface GraphicalElementsState {
   simulationWindow: readonly [SimulationWindowState]
   linechart: LinechartState[]
   dataoutput: DataOutputState[]
-}
-
-export interface GraphOrder {
-  type: GraphicElementType
-  id: string
 }
 
 export type GraphicSelector = {

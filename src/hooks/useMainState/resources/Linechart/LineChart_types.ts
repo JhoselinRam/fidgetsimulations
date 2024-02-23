@@ -5,3 +5,5 @@ import type {
 
 // Simulation window type
 export interface LinechartState extends GraphicState, AxisDomain {}
+
+export type LinechartActionType = "linechart@new"

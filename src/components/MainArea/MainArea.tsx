@@ -21,9 +21,14 @@ function MainArea(): JSX.Element {
       ref={mainAreaElement}
     >
       <mainAreaContext.Provider value={mainAreaElement}>
-        {mainState.order.map((element) =>
-          graphicSelector[element.type](element.id)
-        )}
+        {mainState.order
+          .filter(
+            (collection) =>
+              collection.type === "dataoutput" ||
+              collection.type === "linechart" ||
+              collection.type === "simulationWindow"
+          )
+          .map((element) => graphicSelector[element.type](element.id))}
       </mainAreaContext.Provider>
     </div>
   )

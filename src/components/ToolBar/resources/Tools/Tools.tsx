@@ -2,8 +2,8 @@ import { useContext, useRef } from "react"
 import CloseToolBar from "../CloseToolBar/CloseToolBar"
 import { toolBarContext } from "../../context"
 import SimulationParameters from "../../../SimulationParameters/SimulationParameters"
-import ObjectPicker from "../../../ObjectPicker/ObjectPicker"
-import ObjectList from "../../../ObjectList/ObjectList"
+import CollectionPicker from "../../../CollectionPicker/CollectionPicker"
+import CollectionList from "../../../CollectionList/CollectionList"
 
 function Tools(): JSX.Element {
   const { isQueryMeet, isCollapsed, addElementInMenu } =
@@ -22,8 +22,8 @@ function Tools(): JSX.Element {
     >
       <CloseToolBar />
       <SimulationParameters />
-      <ObjectPicker />
-      <ObjectList />
+      <CollectionPicker />
+      <CollectionList />
     </aside>
   )
 }

@@ -12,7 +12,7 @@ function useWindowMovement(
   type: GraphicElementType
 ): UseWindowMovement {
   const { mainState } = useContext(mainStateContext)
-  const [movementEnable, setMovementEnable] = useState(true)
+  const [movementEnable, setMovementEnable] = useState(false)
 
   const { moveLayerCallback, onWindowMove, windowMove } = useWindowMove(
     element,

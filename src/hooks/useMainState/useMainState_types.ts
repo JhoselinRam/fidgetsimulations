@@ -1,13 +1,15 @@
 import type { Dispatch } from "react"
 import type {
-  GraphOrder,
   GraphicActionType,
+  GraphicElementType,
   GraphicalElementsState
 } from "./resources/GraphicElement/GraphicElement_types"
 import type {
   TimeActionType,
   TimeState
 } from "./resources/TimeParameters/TimeParameters_types"
+import type { LinechartActionType } from "./resources/Linechart/LineChart_types"
+import type { DataOutputActionType } from "./resources/DataOutput/DataOutput_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -16,19 +18,23 @@ export interface UseMainState {
 }
 
 // All actions available
-export type MainStateActionType = GraphicActionType | TimeActionType
+export type MainStateActionType =
+  | GraphicActionType
+  | TimeActionType
+  | LinechartActionType
+  | DataOutputActionType
 
 // Main state type
 export interface MainState {
   graphElements: GraphicalElementsState
-  order: GraphOrder[]
+  order: CollectionState[]
   time: TimeState
 }
 
 // Action type
 export interface MainStateAction {
   type: MainStateActionType
-  payload?: Record<string, unknown>
+  payload: Record<string, unknown>
 }
 
 // Type of the reducer object
@@ -39,5 +45,12 @@ export type ReducerObject = {
 // Type pf the reducer slice function
 export type ReducerSlice = (
   state: MainState,
-  payload: Record<string, unknown> | undefined
+  payload: Record<string, unknown>
 ) => MainState
+
+export type CollectionType = GraphicElementType
+
+export interface CollectionState {
+  id: string
+  type: CollectionType
+}

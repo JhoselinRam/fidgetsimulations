@@ -1,31 +1,10 @@
 import { ListBox, ListBoxItem } from "react-aria-components"
-import type {
-  CollectionsGridProps,
-  ItemsBySelection
-} from "./CollectionGrid_types"
+import type { CollectionsGridProps } from "./CollectionGrid_types"
 import CollectionButton from "../CollectionButton/CollectionButton"
-import { dataOutItem, lineChartItem } from "../Collections/Graphical"
-import { ballsItem, fabricItem, ropeItem } from "../Collections/Objects"
-import {
-  containerItem,
-  obstacleItem,
-  rodItem,
-  springItem
-} from "../Collections/Constrains"
-import {
-  dragItem,
-  electricItem,
-  gravityItem,
-  localGravityItem
-} from "../Collections/Force"
+import useCollectionGrid from "../../../../hooks/useCollectionGrid/useCollectionGrid"
 
 function CollectionGrid({ selection }: CollectionsGridProps): JSX.Element {
-  const collectionItems: ItemsBySelection = {
-    graphical: [lineChartItem, dataOutItem],
-    constrains: [springItem, rodItem, obstacleItem, containerItem],
-    objects: [ballsItem, ropeItem, fabricItem],
-    force: [localGravityItem, gravityItem, dragItem, electricItem]
-  }
+  const { collectionItems } = useCollectionGrid()
 
   return (
     <div className="flex-grow pt-5">
