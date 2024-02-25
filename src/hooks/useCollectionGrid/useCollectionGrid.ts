@@ -8,8 +8,8 @@ import getObjectsItems from "./resources/objects"
 import getForceItems from "./resources/force"
 
 function useCollectionGrid(): UseCollectionGrid {
-  const { dispatch } = useContext(mainStateContext)
-  const graphical = getGraphicalItems(dispatch)
+  const { mainState, dispatch } = useContext(mainStateContext)
+  const graphical = getGraphicalItems(mainState, dispatch)
   const constrains = getConstrainsItems(dispatch)
   const objects = getObjectsItems(dispatch)
   const force = getForceItems(dispatch)

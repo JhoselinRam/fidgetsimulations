@@ -6,6 +6,7 @@ export const linechartDefaultState: LinechartState = {
   height: 300,
   width: 300,
   id: "",
+  name: "",
   type: "linechart",
   startX: 0,
   endX: 10,

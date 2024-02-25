@@ -6,7 +6,8 @@ export const dataOutputDefaultState: DataOutputState = {
   height: 300,
   width: 300,
   id: "",
-  type: "dataoutput"
+  type: "dataoutput",
+  name: ""
 }
 
 export function createDataOutputState(): DataOutputState {

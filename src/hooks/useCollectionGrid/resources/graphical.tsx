@@ -1,12 +1,18 @@
 import type { Dispatch } from "react"
-import type { MainStateAction } from "../../useMainState/useMainState_types"
+import type {
+  MainState,
+  MainStateAction
+} from "../../useMainState/useMainState_types"
 import type { ItemType } from "../../../components/CollectionPicker/resources/CollectionGrid/CollectionGrid_types"
 import LinechartIcon from "../../../components/Icons/LinechartIcon/LinechartIcon"
 import DataIcon from "../../../components/Icons/DataIcon/DataIcon"
 import { createLinechartState } from "../../../components/Linechart/defaultState"
 import { createDataOutputState } from "../../../components/DataOutput/defaultState"
 
-function getGraphicalItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
+function getGraphicalItems(
+  state: MainState,
+  dispatch: Dispatch<MainStateAction>
+): ItemType[] {
   // ------------------- Line Chart -------------------------
 
   const lineChartItem: ItemType = {
@@ -17,11 +23,13 @@ function getGraphicalItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
   }
 
   function lineChartAction(): void {
-    const newLinechart = createLinechartState() as unknown as Record<
-      string,
-      unknown
-    >
-    dispatch({ type: "linechart@new", payload: newLinechart })
+    const newLinechart = createLinechartState()
+    newLinechart.name = `Linechart ${state.graphElements.linechart.length + 1}`
+
+    dispatch({
+      type: "linechart@new",
+      payload: newLinechart as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------
@@ -35,11 +43,13 @@ function getGraphicalItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
   }
 
   function dataOutAction(): void {
-    const newDataOutput = createDataOutputState() as unknown as Record<
-      string,
-      unknown
-    >
-    dispatch({ type: "dataoutput@new", payload: newDataOutput })
+    const newDataOutput = createDataOutputState()
+    newDataOutput.name = `Data out ${state.graphElements.dataoutput.length + 1}`
+
+    dispatch({
+      type: "dataoutput@new",
+      payload: newDataOutput as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------

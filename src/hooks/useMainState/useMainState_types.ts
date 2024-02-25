@@ -27,7 +27,7 @@ export type MainStateActionType =
 // Main state type
 export interface MainState {
   graphElements: GraphicalElementsState
-  order: CollectionState[]
+  order: CollectionOrder[]
   time: TimeState
 }
 
@@ -50,7 +50,11 @@ export type ReducerSlice = (
 
 export type CollectionType = GraphicElementType
 
-export interface CollectionState {
+export interface CollectionState extends CollectionOrder {
+  name: string
+}
+
+export interface CollectionOrder {
   id: string
   type: CollectionType
 }

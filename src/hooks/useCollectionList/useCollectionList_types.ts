@@ -1,5 +1,5 @@
-import type { CollectionState } from "../useMainState/useMainState_types"
+import type { CollectionOrder } from "../useMainState/useMainState_types"
 
 export interface UseCollectionList {
-  items: CollectionState[]
+  items: CollectionOrder[]
 }

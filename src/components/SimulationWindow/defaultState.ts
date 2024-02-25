@@ -7,6 +7,7 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   width: 501,
   id: "simulationWindow",
   type: "simulationWindow",
+  name: "Simulation",
   startX: -4,
   endX: 6,
   startY: -2,
