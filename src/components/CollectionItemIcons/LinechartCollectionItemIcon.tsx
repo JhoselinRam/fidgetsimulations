@@ -3,7 +3,7 @@ import IconWrapper from "./IconWrapper"
 
 function LinechartCollectionItemIcon(): JSX.Element {
   return (
-    <IconWrapper className="bg-sky-400">
+    <IconWrapper className="bg-sky-300">
       <LinechartIcon />
     </IconWrapper>
   )

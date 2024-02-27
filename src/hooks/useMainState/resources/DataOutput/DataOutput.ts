@@ -13,7 +13,7 @@ export function dataOutputNew(
 
   const newState = { ...state }
 
-  newState.graphElements.dataoutput.push(payload)
+  newState.dataoutput.push(payload)
   newState.order.push({
     type: "dataoutput",
     id: payload.id

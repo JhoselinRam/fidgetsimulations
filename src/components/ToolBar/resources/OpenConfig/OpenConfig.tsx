@@ -1,30 +1,29 @@
-import { useContext, useRef } from "react"
+import { useRef } from "react"
 import Button from "../../../Button/Button"
 import GearIcon from "../../../Icons/GearIcon/GearIcon"
-import { toolBarContext } from "../../context"
 import useConfigButton from "../../../../hooks/useConfigButton/useConfigButton"
+import type { OpenConfigProps } from "./OpenConfig_types"
 
-function OpenConfig(): JSX.Element {
-  const { setShowConfig } = useContext(toolBarContext)
+function OpenConfig({ selectOnAction }: OpenConfigProps): JSX.Element {
   const buttonElement = useRef<HTMLButtonElement>(null)
   const svgElement = useRef<SVGSVGElement>(null)
 
-  useConfigButton(buttonElement, svgElement)
-
-  function handleClick(): void {
-    setShowConfig(true)
-  }
+  const { handleClick } = useConfigButton(
+    buttonElement,
+    svgElement,
+    selectOnAction
+  )
 
   return (
     <Button
-      className="w-14 !p-0"
+      className="w-5 !p-0 flex-shrink-0"
       buttonType="transparent"
       onPress={handleClick}
       aria-label="openConfigTool"
       ref={buttonElement}
     >
       <GearIcon
-        className="fill-zinc-300 transition-transform ease-overshot"
+        className="fill-tuatara-100 transition-transform ease-overshot"
         ref={svgElement}
       />
     </Button>

@@ -13,7 +13,7 @@ export function linechartNew(
 
   const newState = { ...state }
 
-  newState.graphElements.linechart.push(payload)
+  newState.linechart.push(payload)
   newState.order.push({
     type: "linechart",
     id: payload.id

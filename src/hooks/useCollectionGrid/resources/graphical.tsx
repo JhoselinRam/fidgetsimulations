@@ -24,7 +24,7 @@ function getGraphicalItems(
 
   function lineChartAction(): void {
     const newLinechart = createLinechartState()
-    newLinechart.name = `Linechart ${state.graphElements.linechart.length + 1}`
+    newLinechart.name = `Linechart ${state.linechart.length + 1}`
 
     dispatch({
       type: "linechart@new",
@@ -44,7 +44,7 @@ function getGraphicalItems(
 
   function dataOutAction(): void {
     const newDataOutput = createDataOutputState()
-    newDataOutput.name = `Data out ${state.graphElements.dataoutput.length + 1}`
+    newDataOutput.name = `Data out ${state.dataoutput.length + 1}`
 
     dispatch({
       type: "dataoutput@new",

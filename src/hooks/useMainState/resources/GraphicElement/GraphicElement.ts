@@ -23,11 +23,11 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
       return state
 
     // Checks that the type is in the main state graphical elements
-    if (!(payload.type in state.graphElements)) return state
+    if (!(payload.type in state)) return state
 
     // Finds the graphic element to change
     const graphicType = payload.type as GraphicElementType
-    const index = state.graphElements[graphicType].findIndex(
+    const index = state[graphicType].findIndex(
       (element) => element.id === payload.id
     )
 
@@ -36,7 +36,7 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
 
     // Generate the new state
     const newState = { ...state }
-    ;(newState.graphElements[graphicType][index][key] as unknown) = payload[key]
+    ;(newState[graphicType][index][key] as unknown) = payload[key]
 
     return newState
   }

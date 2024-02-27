@@ -13,7 +13,7 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     graphElement.current.replaceChildren()
 
     const graph = graph2D(graphElement.current)
-    const config = mainState.graphElements.simulationWindow[0]
+    const config = mainState.simulationWindow[0]
 
     setSize(graph, config)
     setDomain(graph, config)

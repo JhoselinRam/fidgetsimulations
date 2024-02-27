@@ -3,7 +3,7 @@ import IconWrapper from "./IconWrapper"
 
 function DataOutCollectionItemIcon(): JSX.Element {
   return (
-    <IconWrapper className="bg-gin-fizz-400">
+    <IconWrapper className="bg-gin-fizz-300">
       <DataIcon />
     </IconWrapper>
   )

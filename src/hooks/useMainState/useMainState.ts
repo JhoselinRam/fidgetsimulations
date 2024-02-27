@@ -1,5 +1,7 @@
 import { createContext, useReducer } from "react"
 import type {
+  CollectionOrder,
+  CollectionState,
   CollectionType,
   MainState,
   MainStateAction,
@@ -21,6 +23,10 @@ import {
 } from "./resources/TimeParameters/TimeParameters"
 import { linechartNew } from "./resources/Linechart/Linechart"
 import { dataOutputNew } from "./resources/DataOutput/DataOutput"
+import {
+  collectionDelete,
+  collectionRename
+} from "./resources/Collection/Collection"
 
 // -------------------- Hook body -------------------------
 
@@ -37,6 +43,8 @@ export default function useMainState(): UseMainState {
 // ------------------ Reducer Object ----------------------
 
 const reducerObject: ReducerObject = {
+  "collection@delete": collectionDelete,
+  "collection@rename": collectionRename,
   "graphic@positionX": graphicElementPositionX,
   "graphic@positionY": graphicElementPositionY,
   "graphic@width": graphicElementWidth,
@@ -65,7 +73,7 @@ export const mainStateContext = createContext<UseMainState>({
 })
 
 // --------------------------------------------------------
-// -- Check if the new collection is already in the list --
+// ------- Check if the collection is in the list ---------
 
 export function isInCollection(
   id: string,
@@ -80,4 +88,35 @@ export function isInCollection(
 }
 
 // --------------------------------------------------------
+// ----- Check if a string is a valid collection type -----
+
+export function isCollectionType(type: string): type is CollectionType {
+  return (
+    type === "simulationWindow" || type === "linechart" || type === "dataoutput"
+  )
+}
+
+// --------------------------------------------------------
+// -- Checks if the data is a valid collection order type --
+
+export function isCollectionOrder(data: unknown): data is CollectionOrder {
+  if (data == null) return false
+  if (typeof data !== "object") return false
+  if (!("id" in data) || !("type" in data)) return false
+  if (typeof data.id !== "string" || typeof data.type !== "string") return false
+
+  return true
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function isCollectionState(data: unknown): data is CollectionState {
+  if (!isCollectionOrder(data)) return false
+  if (!("name" in data)) return false
+  if (typeof data.name !== "string") return false
+
+  return true
+}
+
 // --------------------------------------------------------

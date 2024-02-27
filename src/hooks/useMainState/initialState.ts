@@ -3,11 +3,9 @@ import type { MainState } from "./useMainState_types"
 
 // ------------------ Initial State -----------------------
 const initialState: MainState = {
-  graphElements: {
-    simulationWindow: [{ ...simulationWindowDefaultState }],
-    linechart: [],
-    dataoutput: []
-  },
+  simulationWindow: [{ ...simulationWindowDefaultState }],
+  linechart: [],
+  dataoutput: [],
   order: [{ id: "simulationWindow", type: "simulationWindow" }],
   time: {
     continuous: true,

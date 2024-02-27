@@ -3,7 +3,7 @@ import IconWrapper from "./IconWrapper"
 
 function SimulationWindowCollectionItemIcon(): JSX.Element {
   return (
-    <IconWrapper className="bg-green-400">
+    <IconWrapper className="bg-green-300">
       <SimulationWindowIcon />
     </IconWrapper>
   )

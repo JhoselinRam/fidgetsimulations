@@ -3,7 +3,7 @@ import useCollectionList from "../../hooks/useCollectionList/useCollectionList"
 import CollectionItem from "./resources/CollectionItem/CollectionItem"
 
 function CollectionList(): JSX.Element {
-  const { items } = useCollectionList()
+  const { items, selection, setSelection } = useCollectionList()
 
   return (
     <section
@@ -14,11 +14,11 @@ function CollectionList(): JSX.Element {
         items={items}
         selectionMode="multiple"
         selectionBehavior="replace"
-        defaultSelectedKeys={["simulationWindow"]}
-        disallowEmptySelection
+        selectedKeys={selection}
+        onSelectionChange={setSelection}
         aria-label="Collection grid"
       >
-        {(item) => <CollectionItem item={item} />}
+        {(item) => <CollectionItem item={item} setSelection={setSelection} />}
       </GridList>
     </section>
   )

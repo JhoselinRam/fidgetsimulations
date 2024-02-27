@@ -3,9 +3,17 @@ import type { CollectionItemProps } from "./CollectionItem_types"
 import useCollectionItem from "../../../../hooks/useCollectionItem/useCollectionItem"
 import DragHandler from "../DragHandler/DragHandler"
 import CollectionName from "../CollectionName/CollectionName"
+import DeleteCollection from "../DeleteCollection/DeleteCollection"
+import OpenConfig from "../../../ToolBar/resources/OpenConfig/OpenConfig"
 
-function CollectionItem({ item }: CollectionItemProps): JSX.Element {
-  const { name, icon } = useCollectionItem(item)
+function CollectionItem({
+  item,
+  setSelection
+}: CollectionItemProps): JSX.Element {
+  const { name, icon, onDelete, selectOnAction } = useCollectionItem(
+    item,
+    setSelection
+  )
 
   return (
     <GridListItem
@@ -17,7 +25,13 @@ function CollectionItem({ item }: CollectionItemProps): JSX.Element {
     >
       <DragHandler />
       {icon}
-      <CollectionName name={name} editing={false} />
+      <CollectionName name={name} />
+      <OpenConfig selectOnAction={selectOnAction} />
+      {item.type === "simulationWindow" ? (
+        <div className="w-4 flex-shrink-0"></div>
+      ) : (
+        <DeleteCollection onDelete={onDelete} selectOnAction={selectOnAction} />
+      )}
     </GridListItem>
   )
 }

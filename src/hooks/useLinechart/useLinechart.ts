@@ -14,16 +14,14 @@ function useLinechart(
     // Guard conditions
     if (graphElement.current == null) return
 
-    const index = mainState.graphElements.linechart.findIndex(
-      (chart) => chart.id === id
-    )
+    const index = mainState.linechart.findIndex((chart) => chart.id === id)
     if (index === -1) return
 
     // clean the last graph
     graphElement.current.replaceChildren()
     const graph = graph2D(graphElement.current)
 
-    const config = mainState.graphElements.linechart[index]
+    const config = mainState.linechart[index]
 
     setSize(graph, config)
     setDomain(graph, config)

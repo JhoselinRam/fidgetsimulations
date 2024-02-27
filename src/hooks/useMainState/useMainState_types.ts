@@ -10,6 +10,7 @@ import type {
 } from "./resources/TimeParameters/TimeParameters_types"
 import type { LinechartActionType } from "./resources/Linechart/LineChart_types"
 import type { DataOutputActionType } from "./resources/DataOutput/DataOutput_types"
+import type { CollectionActionType } from "./resources/Collection/Collection_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -23,10 +24,10 @@ export type MainStateActionType =
   | TimeActionType
   | LinechartActionType
   | DataOutputActionType
+  | CollectionActionType
 
 // Main state type
-export interface MainState {
-  graphElements: GraphicalElementsState
+export interface MainState extends GraphicalElementsState {
   order: CollectionOrder[]
   time: TimeState
 }
