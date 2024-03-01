@@ -1,6 +1,8 @@
-import { type Context, createContext, useState, useRef, useEffect } from "react"
+import { type Context, createContext } from "react"
 import { useMenuToggle } from "../useMenuToggle/useMenuToggle"
 import type { UseToolBar } from "./useToolBar_types"
+import useConfigShow from "./resources/useConfigShow/useConfigShow"
+import useConfigContent from "./resources/useConfigContent/useConfigContent"
 
 function useToolBar(): UseToolBar {
   const {
@@ -10,42 +12,12 @@ function useToolBar(): UseToolBar {
     setIsCollapsed,
     addCloseCallback
   } = useMenuToggle(import.meta.env.VITE_TOOL_TOGGLE_QUERY)
-  const [showConfig, setShowConfig] = useState(false)
-  const intersectObserver = useRef(
-    window.matchMedia(import.meta.env.VITE_CONFIG_INTERSECT_QUERY)
+  const { setShowConfig, showConfig } = useConfigShow(
+    setIsCollapsed,
+    addCloseCallback
   )
-
-  // Sets the intersection observer event listener on first render
-  useEffect(() => {
-    const observer = intersectObserver.current
-    const handleObserverChange = (e: MediaQueryListEvent): void => {
-      if (!e.matches) return
-
-      setShowConfig(false)
-    }
-
-    observer.addEventListener("change", handleObserverChange)
-
-    // Clean up the listener
-    return (): void => {
-      observer.removeEventListener("change", handleObserverChange)
-    }
-  }, [setShowConfig])
-
-  // Makes sure the toolbar and config bar do not overlap
-  useEffect(() => {
-    if (!intersectObserver.current.matches) return
-
-    if (showConfig) setIsCollapsed(true)
-    else setIsCollapsed(false)
-  }, [showConfig, setIsCollapsed])
-
-  // Closes the config bar when the user clicks outside of it
-  useEffect(() => {
-    addCloseCallback(() => {
-      setShowConfig(false)
-    })
-  }, [addCloseCallback, setShowConfig])
+  const { setTargetCollection, targetCollection } =
+    useConfigContent(setShowConfig)
 
   return {
     showConfig,
@@ -54,7 +26,9 @@ function useToolBar(): UseToolBar {
     isCollapsed,
     isQueryMeet,
     setIsCollapsed,
-    addCloseCallback
+    addCloseCallback,
+    setTargetCollection,
+    targetCollection
   }
 }
 
@@ -65,9 +39,11 @@ export function createToolBarContext(): Context<UseToolBar> {
     isCollapsed: true,
     isQueryMeet: true,
     showConfig: false,
+    targetCollection: null,
     addElementInMenu: () => false,
     addCloseCallback: () => false,
     setIsCollapsed: () => false,
-    setShowConfig: () => false
+    setShowConfig: () => false,
+    setTargetCollection: () => false
   })
 }

@@ -1,1 +1,4 @@
-export type CollectionActionType = "collection@delete" | "collection@rename"
+export type CollectionActionType =
+  | "collection@delete"
+  | "collection@rename"
+  | "collection@reorder"

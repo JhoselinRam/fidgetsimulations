@@ -1,12 +1,16 @@
-import { useContext, useRef } from "react"
-import { toolBarContext } from "../../context"
+import { useRef } from "react"
 import CloseConfig from "../CloseConfig/CloseConfig"
+import useToolConfig from "../../../../hooks/useToolConfig/useToolConfig"
+import type { ConfigByType } from "./ToolConfig_types"
 
 function ToolConfig(): JSX.Element {
-  const { showConfig, addElementInMenu } = useContext(toolBarContext)
   const asideElement = useRef<HTMLElement>(null)
-
-  addElementInMenu(asideElement)
+  const { showConfig, targetCollection } = useToolConfig(asideElement)
+  const configComponent: ConfigByType = {
+    simulationWindow: <div>{targetCollection?.type}</div>,
+    dataoutput: <div>{targetCollection?.type}</div>,
+    linechart: <div>{targetCollection?.type}</div>
+  }
 
   return (
     <aside
@@ -16,6 +20,7 @@ function ToolConfig(): JSX.Element {
       id="configBarAside"
     >
       <CloseConfig />
+      {targetCollection != null && configComponent[targetCollection.type]}
     </aside>
   )
 }

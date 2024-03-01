@@ -3,11 +3,13 @@ import type { UseCollectionList } from "./useCollectionList_types"
 import { mainStateContext } from "../useMainState/useMainState"
 import useListSelection from "./resources/useListSelection/useListSelection"
 import type { CollectionOrder } from "../useMainState/useMainState_types"
+import useListReorder from "./resources/useListReorder/useListReorder"
 
 function useCollectionList(): UseCollectionList {
   const { selection, setSelection } = useListSelection()
-  const { mainState } = useContext(mainStateContext)
+  const { mainState, dispatch } = useContext(mainStateContext)
   const [items, setItems] = useState<CollectionOrder[]>([])
+  const { dragAndDropHooks } = useListReorder(mainState, dispatch)
 
   // --------------------------------------------------------
   // --------------------------------------------------------
@@ -26,7 +28,8 @@ function useCollectionList(): UseCollectionList {
   return {
     items,
     selection,
-    setSelection
+    setSelection,
+    dragAndDropHooks
   }
 }
 

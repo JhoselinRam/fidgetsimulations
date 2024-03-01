@@ -3,7 +3,7 @@ import {
   isCollectionState,
   isInCollection
 } from "../../useMainState"
-import type { MainState } from "../../useMainState_types"
+import type { CollectionOrder, MainState } from "../../useMainState_types"
 
 // ------------------ Delete Collection -------------------
 
@@ -52,4 +52,63 @@ export function collectionRename(
   return newState
 }
 
+// --------------------------------------------------------
+// --------------- Reorder Collection ---------------------
+
+export function collectionReorder(
+  state: MainState,
+  payload: Record<string, unknown>
+): MainState {
+  if (typeof payload !== "object") return state
+  if (!("order" in payload)) return state
+  if (!isCollectionArray(payload.order)) return state
+  if (!containsAllCollections(payload.order, state.order)) return state
+
+  const newState = { ...state }
+
+  newState.order = payload.order
+
+  return newState
+}
+
+// --------------------------------------------------------
+
+// --------------------------------------------------------
+// ----- Check if data is an array of CollectionOrder -----
+
+function isCollectionArray(data: unknown): data is CollectionOrder[] {
+  if (data == null) return false
+  if (!Array.isArray(data)) return false
+
+  let result = true
+
+  data.forEach((element) => {
+    if (!isCollectionOrder(element)) result = false
+  })
+
+  return result
+}
+
+// --------------------------------------------------------
+// -- Check if data contains all the collection elements --
+
+function containsAllCollections(
+  data: CollectionOrder[],
+  source: CollectionOrder[]
+): boolean {
+  if (data.length !== source.length) return false
+
+  let result = true
+
+  source.forEach((collection) => {
+    const index = data.findIndex(
+      (target) => target.id === collection.id && target.type === collection.type
+    )
+    if (index === -1) result = false
+  })
+
+  return result
+}
+
+// --------------------------------------------------------
 // --------------------------------------------------------

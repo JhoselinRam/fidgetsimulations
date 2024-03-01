@@ -25,7 +25,8 @@ import { linechartNew } from "./resources/Linechart/Linechart"
 import { dataOutputNew } from "./resources/DataOutput/DataOutput"
 import {
   collectionDelete,
-  collectionRename
+  collectionRename,
+  collectionReorder
 } from "./resources/Collection/Collection"
 
 // -------------------- Hook body -------------------------
@@ -45,6 +46,7 @@ export default function useMainState(): UseMainState {
 const reducerObject: ReducerObject = {
   "collection@delete": collectionDelete,
   "collection@rename": collectionRename,
+  "collection@reorder": collectionReorder,
   "graphic@positionX": graphicElementPositionX,
   "graphic@positionY": graphicElementPositionY,
   "graphic@width": graphicElementWidth,

@@ -154,6 +154,7 @@ export default {
   plugins: [
     function ({ addVariant }) {
       addVariant("child", "&>*")
+      addVariant("drop-indicator", "&>*.react-aria-DropIndicator")
     }
   ]
 }

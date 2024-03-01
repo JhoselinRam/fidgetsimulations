@@ -4,14 +4,15 @@ import GearIcon from "../../../Icons/GearIcon/GearIcon"
 import useConfigButton from "../../../../hooks/useConfigButton/useConfigButton"
 import type { OpenConfigProps } from "./OpenConfig_types"
 
-function OpenConfig({ selectOnAction }: OpenConfigProps): JSX.Element {
+function OpenConfig({ selectOnAction, item }: OpenConfigProps): JSX.Element {
   const buttonElement = useRef<HTMLButtonElement>(null)
   const svgElement = useRef<SVGSVGElement>(null)
 
   const { handleClick } = useConfigButton(
     buttonElement,
     svgElement,
-    selectOnAction
+    selectOnAction,
+    item
   )
 
   return (

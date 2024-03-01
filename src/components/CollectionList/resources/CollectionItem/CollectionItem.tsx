@@ -26,7 +26,7 @@ function CollectionItem({
       <DragHandler />
       {icon}
       <CollectionName name={name} />
-      <OpenConfig selectOnAction={selectOnAction} />
+      <OpenConfig selectOnAction={selectOnAction} item={item} />
       {item.type === "simulationWindow" ? (
         <div className="w-4 flex-shrink-0"></div>
       ) : (

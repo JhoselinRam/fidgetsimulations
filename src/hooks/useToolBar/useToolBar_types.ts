@@ -1,7 +1,8 @@
-import type { Dispatch, SetStateAction } from "react"
 import type { UseMenuToggle } from "../useMenuToggle/useMenuToggle_types"
+import type { UseConfigContent } from "./resources/useConfigContent/useConfigContent_types"
+import type { UseConfigShow } from "./resources/useConfigShow/useConfigShot_types"
 
-export interface UseToolBar extends UseMenuToggle {
-  showConfig: boolean
-  setShowConfig: Dispatch<SetStateAction<boolean>>
-}
+export interface UseToolBar
+  extends UseMenuToggle,
+    UseConfigShow,
+    UseConfigContent {}
