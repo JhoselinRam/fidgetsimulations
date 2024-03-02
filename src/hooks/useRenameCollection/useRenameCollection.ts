@@ -5,7 +5,7 @@ import { mainStateContext } from "../useMainState/useMainState"
 import useCollectionName from "./resources/useCollectionName/useCollectionName"
 
 function useRenameCollection(item: CollectionOrder): UseRenameCollection {
-  const { mainState } = useContext(mainStateContext)
+  const { mainState, dispatch } = useContext(mainStateContext)
   const { name } = useCollectionName(item, mainState)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -13,10 +13,23 @@ function useRenameCollection(item: CollectionOrder): UseRenameCollection {
     setIsEditing(true)
   }
 
+  function onInputBlur(): void {
+    setIsEditing(false)
+  }
+
+  function onInputChange(newName: string): void {
+    dispatch({
+      type: "collection@rename",
+      payload: { ...item, name: newName }
+    })
+  }
+
   return {
     name,
     isEditing,
-    onPressEdit
+    onPressEdit,
+    onInputBlur,
+    onInputChange
   }
 }
 

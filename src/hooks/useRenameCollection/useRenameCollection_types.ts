@@ -3,4 +3,6 @@ import type { UseCollectionName } from "./resources/useCollectionName/useCollect
 export interface UseRenameCollection extends UseCollectionName {
   isEditing: boolean
   onPressEdit: () => void
+  onInputBlur: () => void
+  onInputChange: (newName: string) => void
 }
