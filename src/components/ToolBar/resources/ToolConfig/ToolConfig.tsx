@@ -2,14 +2,17 @@ import { useRef } from "react"
 import CloseConfig from "../CloseConfig/CloseConfig"
 import useToolConfig from "../../../../hooks/useToolConfig/useToolConfig"
 import type { ConfigByType } from "./ToolConfig_types"
+import ConfigSimulationWindow from "../../../ConfigCollection/resources/collections/ConfigSimulationWindow/ConfigSimulationWindow"
+import ConfigDataOutput from "../../../ConfigCollection/resources/collections/ConfigDataOutput/ConfigDataOutput"
+import ConfigLinechart from "../../../ConfigCollection/resources/collections/ConfigLinechart/ConfigLinechart"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
   const { showConfig, targetCollection } = useToolConfig(asideElement)
   const configComponent: ConfigByType = {
-    simulationWindow: <div>{targetCollection?.type}</div>,
-    dataoutput: <div>{targetCollection?.type}</div>,
-    linechart: <div>{targetCollection?.type}</div>
+    simulationWindow: (item) => <ConfigSimulationWindow item={item} />,
+    dataoutput: (item) => <ConfigDataOutput item={item} />,
+    linechart: (item) => <ConfigLinechart item={item} />
   }
 
   return (
@@ -20,7 +23,8 @@ function ToolConfig(): JSX.Element {
       id="configBarAside"
     >
       <CloseConfig />
-      {targetCollection != null && configComponent[targetCollection.type]}
+      {targetCollection != null &&
+        configComponent[targetCollection.type](targetCollection)}
     </aside>
   )
 }
