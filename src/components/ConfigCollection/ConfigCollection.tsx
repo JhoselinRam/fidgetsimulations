@@ -1,5 +1,5 @@
+import RenameCollection from "../RenameCollection/RenameCollection"
 import type { ConfigCollectionProps } from "./ConfigCollection_types"
-import RenameCollection from "./resources/RenameCollection/RenameCollection"
 
 function ConfigCollection({
   item,

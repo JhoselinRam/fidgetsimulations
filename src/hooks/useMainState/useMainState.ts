@@ -28,6 +28,7 @@ import {
   collectionRename,
   collectionReorder
 } from "./resources/Collection/Collection"
+import { GraphicElementType } from "./resources/GraphicElement/GraphicElement_types"
 
 // -------------------- Hook body -------------------------
 
@@ -67,7 +68,7 @@ function reducer(state: MainState, action: MainStateAction): MainState {
 }
 
 // --------------------------------------------------------
-// ---------------- Main State Context --------------------
+// ---------------- Main State Context --------------------order
 
 export const mainStateContext = createContext<UseMainState>({
   mainState: initialState,
@@ -111,7 +112,7 @@ export function isCollectionOrder(data: unknown): data is CollectionOrder {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// -- Checks if the data is a valid collection state type -
 
 export function isCollectionState(data: unknown): data is CollectionState {
   if (!isCollectionOrder(data)) return false
@@ -119,6 +120,17 @@ export function isCollectionState(data: unknown): data is CollectionState {
   if (typeof data.name !== "string") return false
 
   return true
+}
+
+// --------------------------------------------------------
+// - Checks if the type is part of the graphical elements -
+
+export function isGraphicalCollection(
+  type: CollectionType
+): type is GraphicElementType {
+  return (
+    type === "simulationWindow" || type === "linechart" || type === "dataoutput"
+  )
 }
 
 // --------------------------------------------------------

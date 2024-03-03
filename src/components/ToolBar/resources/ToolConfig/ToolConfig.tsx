@@ -2,9 +2,9 @@ import { useRef } from "react"
 import CloseConfig from "../CloseConfig/CloseConfig"
 import useToolConfig from "../../../../hooks/useToolConfig/useToolConfig"
 import type { ConfigByType } from "./ToolConfig_types"
-import ConfigSimulationWindow from "../../../ConfigCollection/resources/collections/ConfigSimulationWindow/ConfigSimulationWindow"
-import ConfigDataOutput from "../../../ConfigCollection/resources/collections/ConfigDataOutput/ConfigDataOutput"
-import ConfigLinechart from "../../../ConfigCollection/resources/collections/ConfigLinechart/ConfigLinechart"
+import ConfigSimulationWindow from "../../../ConfigElements/ConfigSimulationWindow/ConfigSimulationWindow"
+import ConfigDataOutput from "../../../ConfigElements/ConfigDataOutput/ConfigDataOutput"
+import ConfigLinechart from "../../../ConfigElements/ConfigLinechart/ConfigLinechart"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
