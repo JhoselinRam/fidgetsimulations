@@ -10,6 +10,8 @@ import type {
 } from "./useMainState_types"
 import {
   graphicElementHeight,
+  graphicElementLockRatio,
+  graphicElementManualEdit,
   graphicElementPositionX,
   graphicElementPositionY,
   graphicElementWidth
@@ -28,7 +30,7 @@ import {
   collectionRename,
   collectionReorder
 } from "./resources/Collection/Collection"
-import { GraphicElementType } from "./resources/GraphicElement/GraphicElement_types"
+import type { GraphicElementType } from "./resources/GraphicElement/GraphicElement_types"
 
 // -------------------- Hook body -------------------------
 
@@ -52,6 +54,8 @@ const reducerObject: ReducerObject = {
   "graphic@positionY": graphicElementPositionY,
   "graphic@width": graphicElementWidth,
   "graphic@height": graphicElementHeight,
+  "graphic@manualEdit": graphicElementManualEdit,
+  "graphic@lockRatio": graphicElementLockRatio,
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,

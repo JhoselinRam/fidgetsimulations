@@ -11,7 +11,9 @@ export const linechartDefaultState: LinechartState = {
   startX: 0,
   endX: 10,
   startY: 0,
-  endY: 10
+  endY: 10,
+  lockRatio: false,
+  manualEdit: false
 }
 
 export function createLinechartState(): LinechartState {

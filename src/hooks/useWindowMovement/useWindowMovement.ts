@@ -42,6 +42,16 @@ function useWindowMovement(
     element.current.style.height = `${mainState[type][index].height}px`
   }, [mainState, element, type, id])
 
+  useEffect(() => {
+    const index = mainState[type].findIndex(
+      (collection) => collection.id === id
+    )
+    if (index === -1) return
+    if (mainState[type][index].manualEdit === movementEnable) return
+
+    setMovementEnable(mainState[type][index].manualEdit)
+  }, [mainState, type, id, movementEnable])
+
   return {
     movementEnable,
     setMovementEnable,

@@ -14,6 +14,7 @@ function useCollectionSize(
 ): UseCollectionSize {
   const [width, setWidth] = useState(getInitialSize(item, state, "x"))
   const [height, setHeight] = useState(getInitialSize(item, state, "y"))
+  const [isRatioLock, setIsRatioLock] = useState(false)
 
   useEffect(() => {
     dispatch({
@@ -35,11 +36,23 @@ function useCollectionSize(
     })
   }, [height, dispatch, item])
 
+  useEffect(() => {
+    dispatch({
+      type: "graphic@lockRatio",
+      payload: {
+        ...item,
+        lockRatio: isRatioLock
+      }
+    })
+  }, [isRatioLock, dispatch, item])
+
   return {
     width,
     height,
+    isRatioLock,
     changeHeight: setHeight,
-    changeWidth: setWidth
+    changeWidth: setWidth,
+    changeRatioLock: setIsRatioLock
   }
 }
 

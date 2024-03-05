@@ -9,7 +9,7 @@ function RenameCollection({ item }: ConfigCollectionProps): JSX.Element {
     useRenameCollection(item)
 
   return (
-    <header className="flex flex-row gap-1 justify-between items-center mx-6 rounded-t-md text-zinc-300 border-b-2 border-b-tuatara-200">
+    <header className="h-6 flex flex-row gap-1 justify-between items-center mx-6 rounded-t-md text-zinc-300 border-b-2 border-b-tuatara-200">
       {isEditing ? (
         <TextField
           className="w-full bg-transparent"

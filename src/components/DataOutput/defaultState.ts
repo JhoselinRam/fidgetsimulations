@@ -7,7 +7,9 @@ export const dataOutputDefaultState: DataOutputState = {
   width: 300,
   id: "",
   type: "dataoutput",
-  name: ""
+  name: "",
+  lockRatio: false,
+  manualEdit: false
 }
 
 export function createDataOutputState(): DataOutputState {

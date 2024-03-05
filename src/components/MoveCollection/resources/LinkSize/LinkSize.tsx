@@ -1,10 +1,15 @@
 import LinkIcon from "../../../Icons/LinkIcon/LinkIcon"
+import IconToggle from "../../../IconToggle/IconToggle"
 
 function LinkSize(): JSX.Element {
   return (
-    <div className="w-4 h-6 rounded-full bg-tuatara-600 stroke-tuatara-900 flex justify-end items-center absolute top-1/2 -translate-y-1/2 right-0 translate-x-full">
+    <IconToggle
+      className="w-4 h-6 rounded-full absolute top-1/2 -translate-y-1/2 right-0 translate-x-full"
+      aria-label="lock aspect ration"
+      coloredBy="fill"
+    >
       <LinkIcon />
-    </div>
+    </IconToggle>
   )
 }
 

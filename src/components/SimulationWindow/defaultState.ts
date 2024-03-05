@@ -11,5 +11,7 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   startX: -4,
   endX: 6,
   startY: -2,
-  endY: 8
+  endY: 8,
+  lockRatio: false,
+  manualEdit: false
 }

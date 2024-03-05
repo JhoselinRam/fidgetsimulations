@@ -1,17 +1,18 @@
-import Button from "../../../Button/Button"
+import IconToggle from "../../../IconToggle/IconToggle"
 import TransformIcon from "../../../Icons/TransformIcon/TransformIcon"
+import type { ManualControlProps } from "./ManualControl_types"
 
-function ManualControl(): JSX.Element {
+function ManualControl(manualControlProps: ManualControlProps): JSX.Element {
   return (
     <header className="flex flex-row items-center gap-3 text-zinc-300">
       Position and Size:
-      <Button
-        className="w-5 !bg-accent-blue-600 !p-0.5 stroke-zinc-200 data-[hovered]:!bg-accent-blue-500
-        data-[focus-visible]:!outline-offset-2"
-        buttonType="transparent"
+      <IconToggle
+        className="w-5 rounded-md p-0.5"
+        coloredBy="stroke"
+        {...manualControlProps}
       >
         <TransformIcon />
-      </Button>
+      </IconToggle>
     </header>
   )
 }

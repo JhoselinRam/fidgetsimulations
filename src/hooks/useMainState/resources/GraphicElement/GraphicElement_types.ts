@@ -4,13 +4,17 @@ import type { LinechartState } from "../Linechart/LineChart_types"
 import type { SimulationWindowState } from "../SimulationWindow/SimulationWindow_types"
 
 // Actions available
-export type GraphicActionType = PositionActionType | SizeActionType
+export type GraphicActionType =
+  | PositionActionType
+  | SizeActionType
+  | SizeEditActionType
 
 // Graphic state type
 export interface GraphicState
   extends GraphicElementPosition,
     GraphicElementSize,
-    CollectionState {}
+    CollectionState,
+    SizeEdit {}
 
 // Types of graphic elements
 export type GraphicElementType = keyof GraphicalElementsState
@@ -48,7 +52,7 @@ interface GraphicElementSize {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// -------------------- Axis Domain -----------------------
 
 export interface AxisDomain {
   startX: number
@@ -56,3 +60,15 @@ export interface AxisDomain {
   startY: number
   endY: number
 }
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+type SizeEditActionType = "graphic@manualEdit" | "graphic@lockRatio"
+
+export interface SizeEdit {
+  manualEdit: boolean
+  lockRatio: boolean
+}
+
+// --------------------------------------------------------

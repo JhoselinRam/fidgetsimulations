@@ -5,11 +5,12 @@ import MoveControl from "./resources/MoveControl/MoveControl"
 import SizeControl from "./resources/SizeControl/SizeControl"
 
 function MoveCollection({ item }: ConfigCollectionProps): JSX.Element {
-  const { moveControlProps, sizeControlProps } = useMoveCollection(item)
+  const { moveControlProps, sizeControlProps, manualControlProps } =
+    useMoveCollection(item)
 
   return (
     <section className="bg-tuatara-800 mt-4 border-2 border-tuatara-500 rounded-md py-1 px-3 flex flex-col">
-      <ManualControl />
+      <ManualControl {...manualControlProps} />
       <MoveControl {...moveControlProps} />
       <SizeControl {...sizeControlProps} />
     </section>

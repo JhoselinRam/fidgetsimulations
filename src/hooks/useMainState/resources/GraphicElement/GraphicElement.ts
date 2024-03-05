@@ -7,6 +7,8 @@ export const graphicElementPositionX = generateByKey("positionX")
 export const graphicElementPositionY = generateByKey("positionY")
 export const graphicElementWidth = generateByKey("width")
 export const graphicElementHeight = generateByKey("height")
+export const graphicElementManualEdit = generateByKey("manualEdit")
+export const graphicElementLockRatio = generateByKey("lockRatio")
 
 // --------------------------------------------------------
 // --------------- Generator function ---------------------
