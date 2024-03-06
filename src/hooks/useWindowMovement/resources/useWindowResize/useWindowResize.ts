@@ -257,8 +257,6 @@ function useWindowResize(
         size
       )
 
-    // element.current.style.width = `${size.width}px`
-    // element.current.style.height = `${size.height}px`
     dispatch({
       type: "graphic@width",
       payload: {

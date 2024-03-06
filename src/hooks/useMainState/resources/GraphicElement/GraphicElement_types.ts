@@ -22,6 +22,11 @@ export type GraphicElementType = keyof GraphicalElementsState
 // Keys of the graphic state type
 export type GraphicKeys = keyof GraphicState
 
+export type GraphicalCollection =
+  | SimulationWindowState
+  | LinechartState
+  | DataOutputState
+
 export interface GraphicalElementsState {
   simulationWindow: readonly [SimulationWindowState]
   linechart: LinechartState[]
@@ -36,7 +41,7 @@ export type GraphicSelector = {
 
 type PositionActionType = "graphic@positionX" | "graphic@positionY"
 
-interface GraphicElementPosition {
+export interface GraphicElementPosition {
   positionX: number
   positionY: number
 }
@@ -46,7 +51,7 @@ interface GraphicElementPosition {
 
 type SizeActionType = "graphic@width" | "graphic@height"
 
-interface GraphicElementSize {
+export interface GraphicElementSize {
   width: number
   height: number
 }

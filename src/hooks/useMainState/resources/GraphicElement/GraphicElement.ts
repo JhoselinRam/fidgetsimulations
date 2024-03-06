@@ -1,5 +1,10 @@
+import {
+  isCollectionOrder,
+  isGraphicalCollection,
+  isInCollection
+} from "../../useMainState"
 import type { ReducerSlice } from "../../useMainState_types"
-import type { GraphicElementType, GraphicKeys } from "./GraphicElement_types"
+import type { GraphicKeys } from "./GraphicElement_types"
 
 // ------------- Main area reducer slices -----------------
 
@@ -17,28 +22,23 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
   return (state, payload) => {
     // ----------- Guard conditions ---------------
     // Makes sure the payload contains the necessary data
-    if (
-      typeof payload !== "object" ||
-      typeof payload.id !== "string" ||
-      typeof payload.type !== "string"
-    )
-      return state
-
-    // Checks that the type is in the main state graphical elements
-    if (!(payload.type in state)) return state
+    if (!isCollectionOrder(payload)) return state
+    if (!isGraphicalCollection(payload.type)) return state
+    if (!isInCollection(payload.id, payload.type, state)) return state
+    if (!(key in payload)) return state
 
     // Finds the graphic element to change
-    const graphicType = payload.type as GraphicElementType
-    const index = state[graphicType].findIndex(
-      (element) => element.id === payload.id
+    const index = state[payload.type].findIndex(
+      (collection) =>
+        collection.id === payload.id && collection.type === payload.type
     )
 
-    // Guard
-    if (index === -1) return state
+    if (typeof payload[key] !== typeof state[payload.type][index][key])
+      return state
 
     // Generate the new state
     const newState = { ...state }
-    ;(newState[graphicType][index][key] as unknown) = payload[key]
+    ;(newState[payload.type][index][key] as unknown) = payload[key]
 
     return newState
   }

@@ -30,7 +30,10 @@ import {
   collectionRename,
   collectionReorder
 } from "./resources/Collection/Collection"
-import type { GraphicElementType } from "./resources/GraphicElement/GraphicElement_types"
+import type {
+  GraphicElementType,
+  GraphicalCollection
+} from "./resources/GraphicElement/GraphicElement_types"
 
 // -------------------- Hook body -------------------------
 
@@ -134,6 +137,22 @@ export function isGraphicalCollection(
 ): type is GraphicElementType {
   return (
     type === "simulationWindow" || type === "linechart" || type === "dataoutput"
+  )
+}
+
+// --------------------------------------------------------
+// --------- Returns a given graphical collection ---------
+
+export function getGraphicalCollection(
+  item: CollectionOrder,
+  state: MainState
+): GraphicalCollection | undefined {
+  if (!isCollectionOrder(item)) return
+  if (!isGraphicalCollection(item.type)) return
+  if (!isInCollection(item.id, item.type, state)) return
+
+  return state[item.type].find(
+    (collection) => collection.id === item.id && collection.type === item.type
   )
 }
 

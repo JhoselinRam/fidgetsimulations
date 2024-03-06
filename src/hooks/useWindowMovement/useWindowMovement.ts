@@ -1,9 +1,15 @@
 import { useState, type RefObject, useEffect, useContext } from "react"
-import type { UseWindowMovement } from "./useWindowMovement_types"
+import type {
+  MovementCollectionProperties,
+  UseWindowMovement
+} from "./useWindowMovement_types"
 import useWindowResize from "./resources/useWindowResize/useWindowResize"
 import useWindowMove from "./resources/useWindowMove/useWIndowMove"
 import type { GraphicElementType } from "../useMainState/resources/GraphicElement/GraphicElement_types"
-import { mainStateContext } from "../useMainState/useMainState"
+import {
+  getGraphicalCollection,
+  mainStateContext
+} from "../useMainState/useMainState"
 
 function useWindowMovement(
   element: RefObject<HTMLDivElement>,
@@ -13,14 +19,12 @@ function useWindowMovement(
 ): UseWindowMovement {
   const { mainState } = useContext(mainStateContext)
   const [movementEnable, setMovementEnable] = useState(false)
-
   const { moveLayerCallback, onWindowMove, windowMove } = useWindowMove(
     element,
     parent,
     id,
     type
   )
-
   const { knobResizeCallback, onWindowResize, windowResize } = useWindowResize(
     element,
     parent,
@@ -28,29 +32,46 @@ function useWindowMovement(
     type,
     windowMove
   )
+  const { height, manualEdit, positionX, positionY, width } =
+    getCollectionProperties()
 
   useEffect(() => {
     if (element.current == null) return
-    if (!(type in mainState)) return
 
-    const index = mainState[type].findIndex((element) => element.id === id)
-    if (index === -1) return
-
-    element.current.style.left = `${mainState[type][index].positionX}px`
-    element.current.style.top = `${mainState[type][index].positionY}px`
-    element.current.style.width = `${mainState[type][index].width}px`
-    element.current.style.height = `${mainState[type][index].height}px`
-  }, [mainState, element, type, id])
+    element.current.style.left = `${positionX}px`
+    element.current.style.top = `${positionY}px`
+    element.current.style.width = `${width}px`
+    element.current.style.height = `${height}px`
+  }, [element, positionX, positionY, width, height])
 
   useEffect(() => {
-    const index = mainState[type].findIndex(
-      (collection) => collection.id === id
-    )
-    if (index === -1) return
-    if (mainState[type][index].manualEdit === movementEnable) return
+    if (manualEdit === movementEnable) return
 
-    setMovementEnable(mainState[type][index].manualEdit)
-  }, [mainState, type, id, movementEnable])
+    setMovementEnable(manualEdit)
+  }, [movementEnable, manualEdit])
+
+  function getCollectionProperties(): MovementCollectionProperties {
+    const collection = getGraphicalCollection({ id, type }, mainState)
+
+    if (collection == null)
+      return {
+        positionX: 0,
+        positionY: 0,
+        width: 500,
+        height: 500,
+        lockRatio: false,
+        manualEdit: false
+      }
+
+    return {
+      positionX: collection.positionX,
+      positionY: collection.positionY,
+      width: collection.width,
+      height: collection.height,
+      lockRatio: collection.lockRatio,
+      manualEdit: collection.manualEdit
+    }
+  }
 
   return {
     movementEnable,

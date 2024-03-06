@@ -120,8 +120,6 @@ function useWindowMove(
       )
 
     // Set the window to the new position
-    // element.current.style.left = `${position.x}px`
-    // element.current.style.top = `${position.y}px`
     dispatch({
       type: "graphic@positionX",
       payload: {
