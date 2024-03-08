@@ -6,6 +6,8 @@ import type { SimulationWindowState } from "../useMainState/resources/Simulation
 
 function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const { mainState } = useContext(mainStateContext)
+  const simulationCollection = mainState.simulationWindow[0]
+  const simulationString = JSON.stringify(simulationCollection)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -13,13 +15,12 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     graphElement.current.replaceChildren()
 
     const graph = graph2D(graphElement.current)
-    const config = mainState.simulationWindow[0]
 
-    setSize(graph, config)
-    setDomain(graph, config)
+    setSize(graph, simulationCollection)
+    setDomain(graph, simulationCollection)
 
     graph.draw()
-  }, [mainState, graphElement])
+  }, [graphElement, simulationString, simulationCollection])
 }
 
 export default useSimulationWindow

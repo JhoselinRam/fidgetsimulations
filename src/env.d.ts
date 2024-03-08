@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_THROTTLE_TIME: number
   readonly VITE_INFO_HOVER_ENTER_TIME: number
   readonly VITE_INFO_HOVER_LEAVE_TIME: number
+  readonly VITE_ROUNDED_DECIMALS: number
 }
 
 interface ImportMeta {

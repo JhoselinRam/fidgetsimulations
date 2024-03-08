@@ -17,7 +17,7 @@ function MainArea(): JSX.Element {
 
   return (
     <div
-      className="w-full h-full bg-gin-fizz-50 bg-repeat bg-grid overflow-scroll relative bg-local"
+      className="w-full h-full bg-gin-fizz-50 bg-repeat bg-grid overflow-auto relative bg-local"
       ref={mainAreaElement}
     >
       <mainAreaContext.Provider value={mainAreaElement}>

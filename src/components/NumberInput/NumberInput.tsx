@@ -14,17 +14,18 @@ function NumberInput({
   minValue,
   maxValue,
   isDisabled,
+  isReadOnly,
   ...props
 }: NumberInputProps): JSX.Element {
   const labelElement = useRef<HTMLLabelElement>(null)
   const { innerValue, onInnerChange, labelMoveCallback } = useNumberInput(
     labelElement,
     step ?? 1,
+    isDisabled ?? isReadOnly ?? false,
     value,
     onChange,
     minValue,
-    maxValue,
-    isDisabled
+    maxValue
   )
 
   return (
@@ -33,10 +34,16 @@ function NumberInput({
       value={value ?? innerValue}
       onChange={onInnerChange}
       isDisabled={isDisabled}
+      isReadOnly={isReadOnly}
       {...props}
     >
       <Label
-        className="select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default"
+        className={`select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default 
+        ${
+          isReadOnly == null || !isReadOnly
+            ? ""
+            : "text-tuatara-600 cursor-default"
+        }`}
         onPointerDown={labelMoveCallback}
         ref={labelElement}
       >
@@ -47,10 +54,21 @@ function NumberInput({
           className={`max-w-input rounded-md bg-zinc-500 px-1 outline-none
           data-[focus-visible]:outline data-[focus-visible]:outline-2
         data-[focus-visible]:outline-accent-blue-300/30 data-[focus-visible]:outline-offset-1
-        group-data-[disabled]:text-tuatara-900 
+        group-data-[disabled]:text-tuatara-900
+        ${
+          isReadOnly == null || !isReadOnly
+            ? ""
+            : "text-tuatara-600 cursor-default"
+        } 
           ${inputClassName}`}
         />
-        <span className="ml-1 group-data-[disabled]:text-tuatara-600">
+        <span
+          className={`ml-1 group-data-[disabled]:text-tuatara-600 ${
+            isReadOnly == null || !isReadOnly
+              ? ""
+              : "text-tuatara-600 cursor-default"
+          }`}
+        >
           {unit}
         </span>
       </Group>

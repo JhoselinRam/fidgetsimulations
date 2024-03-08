@@ -20,7 +20,10 @@ import type { ResizeKnobPosition } from "../../../../components/WindowElement/Wi
 import { throttlefy } from "../../../../auxiliary/throttlefy"
 import { screen2mainCoords } from "../../../../auxiliary/screen2mainCoords"
 import type { GraphicElementType } from "../../../useMainState/resources/GraphicElement/GraphicElement_types"
-import { mainStateContext } from "../../../useMainState/useMainState"
+import {
+  getGraphicalCollection,
+  mainStateContext
+} from "../../../useMainState/useMainState"
 
 function useWindowResize(
   element: RefObject<HTMLDivElement>,
@@ -35,7 +38,7 @@ function useWindowResize(
   const firstWindowSize = useRef<WindowSize>({ width: 0, height: 0 })
   const pointerID = useRef<number | null>(null)
   const knobRole = useRef<ResizeKnobPosition>("bottom")
-  const { dispatch } = useContext(mainStateContext)
+  const { dispatch, mainState } = useContext(mainStateContext)
   const cursor: CursorByRole = {
     "top-left": "nwse-resize",
     top: "ns-resize",
@@ -46,6 +49,8 @@ function useWindowResize(
     bottom: "ns-resize",
     "bottom-right": "nwse-resize"
   }
+  const collection = getGraphicalCollection({ id, type }, mainState)
+  const lockRatio = collection == null ? false : collection.lockRatio
 
   // --------------------------------------------------------
   // ---- On click handler used by ResizeKnob component -----
@@ -105,6 +110,12 @@ function useWindowResize(
     (position: WindowCoords, shiftKey: boolean) => {
       const displacement = getDisplacement(position, shiftKey)
 
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = displacement.x * ratio
+      }
+
       windowResize({
         width: firstWindowSize.current.width - displacement.x,
         height: firstWindowSize.current.height - displacement.y
@@ -123,11 +134,22 @@ function useWindowResize(
 
   const resizeTop = throttlefy(
     (position: WindowCoords) => {
-      const displacement = getDisplacement(position).y
+      const displacement = getDisplacement(position)
+      let width = firstWindowSize.current.width
 
-      windowMove({ y: firstWindowPosition.current.y + displacement })
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.width / firstWindowSize.current.height
+        displacement.x = displacement.y * ratio
+        width -= displacement.x
+      }
 
-      windowResize({ height: firstWindowSize.current.height - displacement })
+      windowMove({ y: firstWindowPosition.current.y + displacement.y })
+
+      windowResize({
+        width,
+        height: firstWindowSize.current.height - displacement.y
+      })
     },
     import.meta.env.VITE_THROTTLE_TIME
   )
@@ -138,6 +160,12 @@ function useWindowResize(
   const resizeTopRight = throttlefy(
     (position: WindowCoords, shiftKey: boolean) => {
       const displacement = getDisplacement(position, shiftKey, true)
+
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = -displacement.x * ratio
+      }
 
       windowResize({
         width: firstWindowSize.current.width + displacement.x,
@@ -154,11 +182,24 @@ function useWindowResize(
 
   const resizeLeft = throttlefy(
     (position: WindowCoords) => {
-      const displacement = getDisplacement(position).x
+      const displacement = getDisplacement(position)
+      let y = firstWindowPosition.current.y
+      let height = firstWindowSize.current.height
 
-      windowMove({ x: firstWindowPosition.current.x + displacement })
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = displacement.x * ratio
+        y += displacement.y
+        height -= displacement.y
+      }
 
-      windowResize({ width: firstWindowSize.current.width - displacement })
+      windowMove({ x: firstWindowPosition.current.x + displacement.x, y })
+
+      windowResize({
+        width: firstWindowSize.current.width - displacement.x,
+        height
+      })
     },
     import.meta.env.VITE_THROTTLE_TIME
   )
@@ -168,10 +209,23 @@ function useWindowResize(
 
   const resizeRight = throttlefy(
     (position: WindowCoords) => {
-      const displacement = getDisplacement(position).x
+      const displacement = getDisplacement(position)
+      let y = firstWindowPosition.current.y
+      let height = firstWindowSize.current.height
+
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = displacement.x * ratio
+        y -= displacement.y
+        height += displacement.y
+      }
+
+      windowMove({ y })
 
       windowResize({
-        width: firstWindowSize.current.width + displacement
+        width: firstWindowSize.current.width + displacement.x,
+        height
       })
     },
     import.meta.env.VITE_THROTTLE_TIME
@@ -183,6 +237,12 @@ function useWindowResize(
   const resizeBottomLeft = throttlefy(
     (position: WindowCoords, shiftKey: boolean) => {
       const displacement = getDisplacement(position, shiftKey, true)
+
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = -displacement.x * ratio
+      }
 
       windowResize({
         width: firstWindowSize.current.width - displacement.x,
@@ -200,9 +260,18 @@ function useWindowResize(
   const resizeBottom = throttlefy(
     (position: WindowCoords) => {
       const displacement = getDisplacement(position)
+      let width = firstWindowSize.current.width
+
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.width / firstWindowSize.current.height
+        displacement.x = displacement.y * ratio
+        width += displacement.x
+      }
 
       windowResize({
-        height: firstWindowSize.current.height + displacement.y
+        height: firstWindowSize.current.height + displacement.y,
+        width
       })
     },
     import.meta.env.VITE_THROTTLE_TIME
@@ -214,6 +283,12 @@ function useWindowResize(
   const resizeBottomRight = throttlefy(
     (position: WindowCoords, shiftKey: boolean) => {
       const displacement = getDisplacement(position, shiftKey)
+
+      if (lockRatio) {
+        const ratio =
+          firstWindowSize.current.height / firstWindowSize.current.width
+        displacement.y = displacement.x * ratio
+      }
 
       windowResize({
         width: firstWindowSize.current.width + displacement.x,

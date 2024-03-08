@@ -1,40 +1,109 @@
-import { useState, type Dispatch, useEffect } from "react"
+import { useState, type Dispatch, useEffect, useCallback } from "react"
 import type {
   CollectionOrder,
   MainState,
   MainStateAction
 } from "../../../useMainState/useMainState_types"
-import { isGraphicalCollection } from "../../../useMainState/useMainState"
+import { getGraphicalCollection } from "../../../useMainState/useMainState"
 import type { UseCollectionSize } from "./useCollectionSize_types"
+import { toRounded } from "../../../../auxiliary/toRounded"
 
 function useCollectionSize(
   item: CollectionOrder,
   state: MainState,
   dispatch: Dispatch<MainStateAction>
 ): UseCollectionSize {
-  const [width, setWidth] = useState(getInitialSize(item, state, "x"))
-  const [height, setHeight] = useState(getInitialSize(item, state, "y"))
+  const collection = getGraphicalCollection(item, state)
+  const collectionWidth = collection == null ? 500 : collection.width
+  const collectionHeight = collection == null ? 500 : collection.height
+  const [width, setWidth] = useState(collectionWidth)
+  const [height, setHeight] = useState(collectionHeight)
   const [isRatioLock, setIsRatioLock] = useState(false)
 
-  useEffect(() => {
-    dispatch({
-      type: "graphic@width",
-      payload: {
-        ...item,
-        width
+  // -------------------------------------------------------------
+  // Called when the value on the numeric input is about to change
+  const changeWidth = useCallback(
+    (newWidth: number): void => {
+      const newCollectionWidth = toRounded(
+        newWidth,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      dispatch({
+        type: "graphic@width",
+        payload: {
+          ...item,
+          width: newCollectionWidth
+        }
+      })
+      setWidth(newCollectionWidth)
+
+      if (isRatioLock) {
+        const ratio = collectionHeight / collectionWidth
+        const newCollectionHeight = toRounded(
+          newCollectionWidth * ratio,
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        )
+        dispatch({
+          type: "graphic@height",
+          payload: {
+            ...item,
+            height: newCollectionHeight
+          }
+        })
+        setHeight(newCollectionHeight)
       }
-    })
-  }, [width, dispatch, item])
+    },
+    [dispatch, item, isRatioLock, collectionWidth, collectionHeight]
+  )
+
+  const changeHeight = useCallback(
+    (newHeight: number): void => {
+      const newCollectionHeight = toRounded(
+        newHeight,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      dispatch({
+        type: "graphic@height",
+        payload: {
+          ...item,
+          height: newCollectionHeight
+        }
+      })
+      setHeight(newCollectionHeight)
+
+      if (isRatioLock) {
+        const ratio = collectionWidth / collectionHeight
+        const newCollectionWidth = toRounded(
+          newHeight * ratio,
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        )
+
+        dispatch({
+          type: "graphic@width",
+          payload: {
+            ...item,
+            width: newCollectionWidth
+          }
+        })
+        setWidth(newCollectionWidth)
+      }
+    },
+    [dispatch, item, collectionHeight, collectionWidth, isRatioLock]
+  )
+
+  // --------------------------------------------------------------
+  // - Called when the size change from outside the numeric input -
 
   useEffect(() => {
-    dispatch({
-      type: "graphic@height",
-      payload: {
-        ...item,
-        height
-      }
-    })
-  }, [height, dispatch, item])
+    changeWidth(collectionWidth)
+  }, [collectionWidth, changeWidth])
+
+  useEffect(() => {
+    changeHeight(collectionHeight)
+  }, [collectionHeight, changeHeight])
+
+  // -------------------------------------------------------------
+  // -------------------------------------------------------------
 
   useEffect(() => {
     dispatch({
@@ -46,29 +115,16 @@ function useCollectionSize(
     })
   }, [isRatioLock, dispatch, item])
 
+  // -------------------------------------------------------------
+
   return {
     width,
     height,
     isRatioLock,
-    changeHeight: setHeight,
-    changeWidth: setWidth,
+    changeHeight,
+    changeWidth,
     changeRatioLock: setIsRatioLock
   }
 }
 
 export default useCollectionSize
-
-function getInitialSize(
-  item: CollectionOrder,
-  state: MainState,
-  axis: "x" | "y"
-): number {
-  if (!isGraphicalCollection(item.type)) return 0
-
-  const index = state[item.type].findIndex(
-    (collection) => collection.id === item.id || collection.type === item.type
-  )
-  const collection = state[item.type][index]
-
-  return axis === "x" ? collection.width : collection.height
-}

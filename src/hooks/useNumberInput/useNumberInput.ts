@@ -5,18 +5,18 @@ import useLabelMove from "./resources/useLabelMove/useLabelMove"
 function useNumberInput(
   labelElement: RefObject<HTMLLabelElement>,
   step: number,
+  isDisabled: boolean,
   outerValue?: number,
   onChange?: (value: number) => void,
   minValue?: number,
-  maxValue?: number,
-  isDisabled?: boolean
+  maxValue?: number
 ): UseNumberInput {
   const [innerValue, setInnerValue] = useState(outerValue ?? 0)
   const { labelMoveCallback } = useLabelMove(
     labelElement,
     setInnerValue,
     step,
-    isDisabled ?? false
+    isDisabled
   )
 
   // Synchronizes the inner and outer values
@@ -41,15 +41,14 @@ function useNumberInput(
   useEffect(() => {
     if (outerValue == null) return
 
-    const newOuterValue =
-      isDisabled === true ? innerValue : validValue(outerValue)
+    const newOuterValue = isDisabled ? innerValue : validValue(outerValue)
     onInnerChange(newOuterValue)
   }, [outerValue, onInnerChange, validValue, innerValue, isDisabled])
 
   useEffect(() => {
     const newInnerValue = validValue(innerValue)
-    onInnerChange(newInnerValue)
-  }, [innerValue, onInnerChange, validValue])
+    if (onChange != null) onChange(newInnerValue)
+  }, [innerValue, onChange, validValue])
 
   return {
     innerValue,

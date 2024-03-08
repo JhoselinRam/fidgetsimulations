@@ -6,7 +6,9 @@ function SizeControl({
   changeHeight,
   changeWidth,
   height,
-  width
+  width,
+  changeRatioLock,
+  isRatioLock
 }: SizeControlProps): JSX.Element {
   return (
     <div className="flex flex-col gap-2 mt-4 relative w-fit pr-2">
@@ -31,7 +33,7 @@ function SizeControl({
       >
         height:
       </NumberInput>
-      <LinkSize />
+      <LinkSize isSelected={isRatioLock} onChange={changeRatioLock} />
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { toRounded } from "../../../../auxiliary/toRounded"
 import {
   isCollectionOrder,
   isGraphicalCollection,
@@ -35,6 +36,14 @@ function generateByKey(key: GraphicKeys): ReducerSlice {
 
     if (typeof payload[key] !== typeof state[payload.type][index][key])
       return state
+    if (payload[key] === state[payload.type][index][key]) return state
+
+    if (typeof payload[key] === "number") {
+      ;(payload[key] as number) = toRounded(
+        payload[key] as number,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+    }
 
     // Generate the new state
     const newState = { ...state }
