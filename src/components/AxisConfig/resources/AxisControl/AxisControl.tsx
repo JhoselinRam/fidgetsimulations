@@ -3,16 +3,12 @@ import type { AxisControlProps } from "./AxisControl_types"
 
 function AxisControl({ axis }: AxisControlProps): JSX.Element {
   return (
-    <div className="text-sm flex flex-row my-1">
-      <span>
-        {axis}: <span className="text-base">[</span>
-      </span>
-      <div className="flex flex-row">
-        <NumberInput></NumberInput>
-        <span className="text-base">,</span>
-        <NumberInput></NumberInput>
+    <div className="mt-2">
+      {axis}:
+      <div className="pl-2 flex flex-col gap-2">
+        <NumberInput>From : </NumberInput>
+        <NumberInput className="ml-5">To:</NumberInput>
       </div>
-      <span className="text-base">]</span>
     </div>
   )
 }

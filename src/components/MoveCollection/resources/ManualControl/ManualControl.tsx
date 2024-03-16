@@ -1,5 +1,6 @@
 import IconToggle from "../../../IconToggle/IconToggle"
 import TransformIcon from "../../../Icons/TransformIcon/TransformIcon"
+import Info from "../../../Info/Info"
 import type { ManualControlProps } from "./ManualControl_types"
 
 function ManualControl(manualControlProps: ManualControlProps): JSX.Element {
@@ -13,6 +14,9 @@ function ManualControl(manualControlProps: ManualControlProps): JSX.Element {
       >
         <TransformIcon />
       </IconToggle>
+      <Info placement="left" crossOffset={10}>
+        Initiate the manual movement and resize of the element.
+      </Info>
     </header>
   )
 }
