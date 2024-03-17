@@ -3,6 +3,7 @@ import Info from "../../Info/Info"
 import NumberInput from "../../NumberInput/NumberInput"
 import Switch from "../../Switch/Switch"
 import useSimulationTime from "../../../hooks/useSimulationTime/useSimulationTime"
+import ConfigSection from "../../ConfigSection/ConfigSection"
 
 function SimulationTime(): JSX.Element {
   const simTimeRef = useRef<HTMLDivElement>(null)
@@ -11,7 +12,7 @@ function SimulationTime(): JSX.Element {
 
   return (
     <>
-      <span className="flex flex-row gap-2 content-center mt-1">
+      <ConfigSection.Header className="text-black -mb-5">
         Simulation time:
         <Info placement="right" crossOffset={40} ref={simTimeRef}>
           <p>
@@ -23,8 +24,8 @@ function SimulationTime(): JSX.Element {
             time in the real world.
           </p>
         </Info>
-      </span>
-      <div className="px-2 flex flex-col gap-2">
+      </ConfigSection.Header>
+      <ConfigSection.Section className="pl-2 ">
         <Switch
           isSelected={switchValue}
           onChange={switchCallback}
@@ -43,7 +44,7 @@ function SimulationTime(): JSX.Element {
         >
           Time:
         </NumberInput>
-      </div>
+      </ConfigSection.Section>
     </>
   )
 }

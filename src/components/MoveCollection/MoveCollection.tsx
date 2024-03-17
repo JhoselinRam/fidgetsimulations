@@ -10,7 +10,7 @@ function MoveCollection({ item }: ConfigCollectionProps): JSX.Element {
     useMoveCollection(item)
 
   return (
-    <ConfigSection>
+    <ConfigSection title="Position and Size">
       <ManualControl {...manualControlProps} />
       <MoveControl {...moveControlProps} />
       <SizeControl {...sizeControlProps} />

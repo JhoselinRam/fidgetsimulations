@@ -1,3 +1,4 @@
+import ConfigSection from "../../../ConfigSection/ConfigSection"
 import NumberInput from "../../../NumberInput/NumberInput"
 import LinkSize from "../LinkSize/LinkSize"
 import type { SizeControlProps } from "./SizeControl_types"
@@ -11,7 +12,7 @@ function SizeControl({
   isRatioLock
 }: SizeControlProps): JSX.Element {
   return (
-    <div className="flex flex-col gap-2 mt-4 relative w-fit pr-2 mb-1">
+    <ConfigSection.Section className="relative w-fit pr-2">
       <NumberInput
         unit="px"
         className="gap-3"
@@ -34,7 +35,7 @@ function SizeControl({
         height:
       </NumberInput>
       <LinkSize isSelected={isRatioLock} onChange={changeRatioLock} />
-    </div>
+    </ConfigSection.Section>
   )
 }
 

@@ -17,7 +17,7 @@ function ToolConfig(): JSX.Element {
 
   return (
     <aside
-      className={`z-50 absolute top-0 bottom-0 right-0 w-full max-w-menu bg-tuatara-900 transition-transform 
+      className={`z-50 absolute top-0 bottom-0 right-0 w-full max-w-menu bg-tuatara-900 transition-transform overflow-y-auto
     ${showConfig ? "translate-x-0" : "translate-x-full"}`}
       ref={asideElement}
       id="configBarAside"

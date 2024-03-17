@@ -1,3 +1,4 @@
+import ConfigSection from "../../../ConfigSection/ConfigSection"
 import NumberInput from "../../../NumberInput/NumberInput"
 import type { MoveControlProps } from "./MoveControl_types"
 
@@ -8,7 +9,7 @@ function MoveControl({
   y
 }: MoveControlProps): JSX.Element {
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <ConfigSection.Section>
       <NumberInput
         unit="px"
         step={1}
@@ -27,7 +28,7 @@ function MoveControl({
       >
         y:
       </NumberInput>
-    </div>
+    </ConfigSection.Section>
   )
 }
 

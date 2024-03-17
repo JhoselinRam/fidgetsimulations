@@ -1,29 +1,15 @@
-import { useState } from "react"
-import DropSection from "../DropSection/DropSection"
-import ParametersForm from "./ParametersForm/ParametersForm"
+import ConfigSection from "../ConfigSection/ConfigSection"
+import SimulationTime from "./SimulationTime/SimulationTime"
+import TimeSpacing from "./TimeSpacing/TimeSpacing"
 
 function SimulationParameters(): JSX.Element {
-  const [isDrop, setIsDrop] = useState(true)
-
   return (
-    <DropSection className="relative mt-3 mx-2 pb-3 after:absolute after:border-2 after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
-      <div className="w-full flex justify-center">
-        <DropSection.Title
-          className="text-zinc-300 text-lg"
-          iconClassName="stroke-zinc-300"
-          isDrop={isDrop}
-          onChange={setIsDrop}
-        >
-          Parameters
-        </DropSection.Title>
-      </div>
-      <DropSection.Body
-        className="px-3 pb-2 border-2 border-tuatara-500 bg-tuatara-800 rounded-md"
-        isDrop={isDrop}
-      >
-        <ParametersForm />
-      </DropSection.Body>
-    </DropSection>
+    <div className="px-2">
+      <ConfigSection title="Parameters" dropDefault={true}>
+        <SimulationTime />
+        <TimeSpacing />
+      </ConfigSection>
+    </div>
   )
 }
 

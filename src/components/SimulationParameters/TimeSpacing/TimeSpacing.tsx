@@ -1,4 +1,5 @@
 import useTimeSpacing from "../../../hooks/useTimeSpacing/useTimeSpacing"
+import ConfigSection from "../../ConfigSection/ConfigSection"
 import Info from "../../Info/Info"
 import NumberInput from "../../NumberInput/NumberInput"
 
@@ -6,7 +7,7 @@ function TimeSpacing(): JSX.Element {
   const { delay, delayCallback, dt, dtCallback } = useTimeSpacing()
 
   return (
-    <div className="mt-6 flex flex-col gap-2">
+    <ConfigSection.Section>
       <span className="flex flex-row gap-2 content-center">
         <NumberInput
           step={0.001}
@@ -46,7 +47,7 @@ function TimeSpacing(): JSX.Element {
           <p className="mt-3">Helpful when the animation renders too fast.</p>
         </Info>
       </span>
-    </div>
+    </ConfigSection.Section>
   )
 }
 

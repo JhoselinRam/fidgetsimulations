@@ -1,3 +1,4 @@
+import ConfigSection from "../../../ConfigSection/ConfigSection"
 import IconToggle from "../../../IconToggle/IconToggle"
 import TransformIcon from "../../../Icons/TransformIcon/TransformIcon"
 import Info from "../../../Info/Info"
@@ -5,8 +6,8 @@ import type { ManualControlProps } from "./ManualControl_types"
 
 function ManualControl(manualControlProps: ManualControlProps): JSX.Element {
   return (
-    <header className="flex flex-row items-center gap-3 text-zinc-300">
-      Position and Size:
+    <ConfigSection.Header>
+      <p>Manual control:</p>
       <IconToggle
         className="w-5 rounded-md p-0.5"
         coloredBy="stroke"
@@ -17,7 +18,7 @@ function ManualControl(manualControlProps: ManualControlProps): JSX.Element {
       <Info placement="left" crossOffset={10}>
         Initiate the manual movement and resize of the element.
       </Info>
-    </header>
+    </ConfigSection.Header>
   )
 }
 
