@@ -8,6 +8,7 @@ export type GraphicActionType =
   | PositionActionType
   | SizeActionType
   | SizeEditActionType
+  | DomainActionType
 
 // Graphic state type
 export interface GraphicState
@@ -20,7 +21,7 @@ export interface GraphicState
 export type GraphicElementType = keyof GraphicalElementsState
 
 // Keys of the graphic state type
-export type GraphicKeys = keyof GraphicState
+export type GraphicKeys = keyof (GraphicState & AxisDomain)
 
 export type GraphicalCollection =
   | SimulationWindowState
@@ -58,6 +59,12 @@ export interface GraphicElementSize {
 
 // --------------------------------------------------------
 // -------------------- Axis Domain -----------------------
+
+type DomainActionType =
+  | "graphic@startX"
+  | "graphic@startY"
+  | "graphic@endX"
+  | "graphic@endY"
 
 export interface AxisDomain {
   startX: number

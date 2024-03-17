@@ -14,7 +14,11 @@ import {
   graphicElementManualEdit,
   graphicElementPositionX,
   graphicElementPositionY,
-  graphicElementWidth
+  graphicElementWidth,
+  graphicEndX,
+  graphicEndY,
+  graphicStartX,
+  graphicStartY
 } from "./resources/GraphicElement/GraphicElement"
 import initialState from "./initialState"
 import {
@@ -59,6 +63,10 @@ const reducerObject: ReducerObject = {
   "graphic@height": graphicElementHeight,
   "graphic@manualEdit": graphicElementManualEdit,
   "graphic@lockRatio": graphicElementLockRatio,
+  "graphic@startX": graphicStartX,
+  "graphic@startY": graphicStartY,
+  "graphic@endX": graphicEndX,
+  "graphic@endY": graphicEndY,
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,
