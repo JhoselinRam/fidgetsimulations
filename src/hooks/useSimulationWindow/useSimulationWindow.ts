@@ -18,6 +18,7 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
 
     setSize(graph, simulationCollection)
     setDomain(graph, simulationCollection)
+    setMargin(graph, simulationCollection)
 
     graph.draw()
   }, [graphElement, simulationString, simulationCollection])
@@ -28,17 +29,8 @@ export default useSimulationWindow
 // --------------------------------------------------------
 // ------------------- Axis Domain ------------------------
 function setDomain(graph: Graph2D, config: SimulationWindowState): void {
-  const dpi = window.devicePixelRatio
   const domainX = { start: config.startX, end: config.endX }
   const domainY = { start: config.startY, end: config.endY }
-
-  if (dpi < 1) {
-    const lengthX = domainX.end - domainX.start
-    const lengthY = domainY.end - domainY.start
-
-    domainX.end = domainX.end + lengthX * (1 - dpi)
-    domainY.start = domainY.start - lengthY * (1 - dpi)
-  }
 
   graph.axisDomain({ x: domainX, y: domainY })
 }
@@ -54,4 +46,20 @@ function setSize(graph: Graph2D, config: SimulationWindowState): void {
     height: config.height * dpi
   })
 }
+// --------------------------------------------------------
+// -------------------- Set Margin ------------------------
+
+function setMargin(graph: Graph2D, config: SimulationWindowState): void {
+  const dpi = window.devicePixelRatio
+  let marginX = 0
+  let marginY = 0
+
+  if (dpi < 1) {
+    marginX = config.width * (1 - dpi)
+    marginY = config.height * (1 - dpi)
+  }
+
+  graph.margin({ x: { end: marginX }, y: { start: marginY } })
+}
+
 // --------------------------------------------------------

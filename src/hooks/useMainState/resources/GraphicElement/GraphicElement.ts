@@ -49,7 +49,7 @@ export const graphicStartX = generateByKey("startX", [
   "simulationWindow",
   "linechart"
 ])
-export const graphicStartY = generateByKey("startX", [
+export const graphicStartY = generateByKey("startY", [
   "simulationWindow",
   "linechart"
 ])
@@ -57,7 +57,7 @@ export const graphicEndX = generateByKey("endX", [
   "simulationWindow",
   "linechart"
 ])
-export const graphicEndY = generateByKey("endX", [
+export const graphicEndY = generateByKey("endY", [
   "simulationWindow",
   "linechart"
 ])
@@ -76,7 +76,6 @@ function generateByKey(
     if (!isGraphicalCollection(payload.type)) return state
     if (!isInCollection(payload.id, payload.type, state)) return state
     if (!(key in payload)) return state
-
     let isAllowedType = false
     allowedTypes.forEach((type) => {
       if (type === payload.type) isAllowedType = true
