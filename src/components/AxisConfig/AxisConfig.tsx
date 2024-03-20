@@ -6,16 +6,24 @@ import LinkControl from "./resources/LinkControl/LinkControl"
 import ManualControl from "./resources/ManualControl/ManualControl"
 
 function AxisConfig({ item }: AxisConfigProps): JSX.Element {
-  const { axisHooks } = useAxisConfig(item)
+  const { axisHooks, linkHooks } = useAxisConfig(item)
 
   return (
     <ConfigSection title="Axis Domain">
       <ManualControl />
       <div className="relative mb-2">
-        <AxisControl axis="x" axisHooks={axisHooks} />
-        <LinkControl />
+        <AxisControl
+          axis="x"
+          axisHooks={axisHooks}
+          isLink={linkHooks.isSelected}
+        />
+        <LinkControl {...linkHooks} />
       </div>
-      <AxisControl axis="y" axisHooks={axisHooks} />
+      <AxisControl
+        axis="y"
+        axisHooks={axisHooks}
+        isLink={linkHooks.isSelected}
+      />
     </ConfigSection>
   )
 }

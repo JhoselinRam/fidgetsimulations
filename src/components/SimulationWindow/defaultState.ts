@@ -8,10 +8,10 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   id: "simulationWindow",
   type: "simulationWindow",
   name: "Simulation",
-  startX: -4,
-  endX: 6,
-  startY: -2,
-  endY: 8,
+  startX: -5,
+  endX: 5,
+  startY: -5,
+  endY: 5,
   lockRatio: false,
   manualEdit: false
 }

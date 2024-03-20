@@ -3,4 +3,5 @@ import type { AxisHooks } from "../../../../hooks/useAxisConfig/useAxisConfig_ty
 export interface AxisControlProps {
   axis: "x" | "y"
   axisHooks: AxisHooks
+  isLink: boolean
 }

@@ -11,6 +11,10 @@ export interface AxisProps {
   endProp: "endX" | "endY"
   startAction: "graphic@startX" | "graphic@startY"
   endAction: "graphic@endX" | "graphic@endY"
+  complementStartProp: "startX" | "startY"
+  complementEndProp: "endX" | "endY"
+  complementStartAction: "graphic@startX" | "graphic@startY"
+  complementEndAction: "graphic@endX" | "graphic@endY"
 }
 
 export interface CoupleHooks {

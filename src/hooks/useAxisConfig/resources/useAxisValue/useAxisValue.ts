@@ -12,11 +12,23 @@ function useAxisValue(
   item: CollectionOrder,
   dispatch: Dispatch<MainStateAction>,
   collection: SimulationWindowState | LinechartState | undefined,
-  axis: "x" | "y"
+  axis: "x" | "y",
+  isLink: boolean,
+  setIsLink: (value: boolean) => void,
+  ratio: number
 ): UseAxisValue {
-  const { endProp, startProp, endAction, startAction } = getAxisProps(axis)
+  const {
+    endProp,
+    startProp,
+    endAction,
+    startAction,
+    complementEndProp,
+    complementStartAction,
+    complementStartProp
+  } = getAxisProps(axis)
   const collectionStart = collection == null ? -5 : collection[startProp]
-  const collectionEnd = collection == null ? -5 : collection[endProp]
+  const collectionEnd = collection == null ? 5 : collection[endProp]
+  const complementEnd = collection == null ? 5 : collection[complementEndProp]
   const [start, setStart] = useState(collectionStart)
   const [end, setEnd] = useState(collectionEnd)
   const [couple, setCouple] = useState(false)
@@ -27,13 +39,14 @@ function useAxisValue(
       const newStart = toRounded(value, import.meta.env.VITE_ROUNDED_DECIMALS)
       const payload: Record<string, unknown> = { ...item }
       payload[startProp] = newStart
-
+      // Updates the start value
       dispatch({
         type: startAction,
         payload
       })
       setStart(newStart)
 
+      // If the couple or zoom is active, update the end value
       if (couple || zoom) {
         let delta = newStart - start
         if (zoom) delta *= -1
@@ -50,6 +63,22 @@ function useAxisValue(
         })
         setEnd(newEnd)
       }
+
+      if (isLink) {
+        const ratioUsed = axis === "x" ? 1 / ratio : ratio
+        const newComplement = toRounded(
+          complementEnd - (end - newStart) * ratioUsed,
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        )
+
+        const payload: Record<string, unknown> = { ...item }
+        payload[complementStartProp] = newComplement
+
+        dispatch({
+          type: complementStartAction,
+          payload
+        })
+      }
     },
     [
       item,
@@ -61,7 +90,13 @@ function useAxisValue(
       end,
       endProp,
       endAction,
-      zoom
+      zoom,
+      axis,
+      complementEnd,
+      complementStartAction,
+      complementStartProp,
+      isLink,
+      ratio
     ]
   )
 
@@ -71,12 +106,14 @@ function useAxisValue(
       const payload: Record<string, unknown> = { ...item }
       payload[endProp] = newEnd
 
+      // Update the end value
       dispatch({
         type: endAction,
         payload
       })
       setEnd(newEnd)
 
+      // If the couple or zoom is active, update the start value
       if (couple || zoom) {
         let delta = newEnd - end
         if (zoom) delta *= -1
@@ -93,6 +130,21 @@ function useAxisValue(
         })
         setStart(newStart)
       }
+
+      // if (isLink) {
+      //   const ratioUsed = axis === "x" ? 1 / ratio : ratio
+      //   const newComplement = toRounded(
+      //     complementStart + (newEnd - start) * ratioUsed,
+      //     import.meta.env.VITE_ROUNDED_DECIMALS
+      //   )
+
+      //   const payload: Record<string, unknown> = { ...item }
+      //   payload[complementEndProp] = newComplement
+      //   dispatch({
+      //     type: complementEndAction,
+      //     payload
+      //   })
+      // }
     },
     [
       endProp,
@@ -105,25 +157,35 @@ function useAxisValue(
       startAction,
       startProp,
       zoom
+      // axis,
+      // complementStart,
+      // complementEndAction,
+      // complementEndProp,
+      // isLink,
+      // ratio
     ]
   )
 
   useEffect(() => {
     changeStart(collectionStart)
+    setStart(collectionStart)
   }, [collectionStart, changeStart])
 
   useEffect(() => {
     changeEnd(collectionEnd)
+    setEnd(collectionEnd)
   }, [collectionEnd, changeEnd])
 
   function changeCouple(value: boolean): void {
     if (value && zoom) setZoom(false)
+    if (value && isLink) setIsLink(false)
 
     setCouple(value)
   }
 
   function changeZoom(value: boolean): void {
     if (value && couple) setCouple(false)
+    if (value && isLink) setIsLink(false)
 
     setZoom(value)
   }
@@ -150,7 +212,11 @@ function getAxisProps(axis: "x" | "y"): AxisProps {
       startProp: "startX",
       endProp: "endX",
       startAction: "graphic@startX",
-      endAction: "graphic@endX"
+      endAction: "graphic@endX",
+      complementStartProp: "startY",
+      complementEndProp: "endY",
+      complementStartAction: "graphic@startY",
+      complementEndAction: "graphic@endY"
     }
   }
 
@@ -158,6 +224,10 @@ function getAxisProps(axis: "x" | "y"): AxisProps {
     startProp: "startY",
     endProp: "endY",
     startAction: "graphic@startY",
-    endAction: "graphic@endY"
+    endAction: "graphic@endY",
+    complementStartProp: "startX",
+    complementEndProp: "endX",
+    complementStartAction: "graphic@startX",
+    complementEndAction: "graphic@endX"
   }
 }
