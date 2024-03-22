@@ -3,11 +3,7 @@ import NumberInput from "../../../NumberInput/NumberInput"
 import CoupleControl from "../CoupleControl/CoupleControl"
 import type { AxisControlProps } from "./AxisControl_types"
 
-function AxisControl({
-  axis,
-  axisHooks,
-  isLink
-}: AxisControlProps): JSX.Element {
+function AxisControl({ axis, axisHooks }: AxisControlProps): JSX.Element {
   return (
     <ConfigSection.Section className="relative w-fit pr-0.5">
       <div className="flex flex-row items-center gap-2">
@@ -27,7 +23,6 @@ function AxisControl({
             value={axisHooks[axis].end}
             onChange={axisHooks[axis].changeEnd}
             step={0.2}
-            isDisabled={isLink}
           >
             To:
           </NumberInput>

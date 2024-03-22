@@ -12,18 +12,10 @@ function AxisConfig({ item }: AxisConfigProps): JSX.Element {
     <ConfigSection title="Axis Domain">
       <ManualControl />
       <div className="relative mb-2">
-        <AxisControl
-          axis="x"
-          axisHooks={axisHooks}
-          isLink={linkHooks.isSelected}
-        />
+        <AxisControl axis="x" axisHooks={axisHooks} />
         <LinkControl {...linkHooks} />
       </div>
-      <AxisControl
-        axis="y"
-        axisHooks={axisHooks}
-        isLink={linkHooks.isSelected}
-      />
+      <AxisControl axis="y" axisHooks={axisHooks} />
     </ConfigSection>
   )
 }

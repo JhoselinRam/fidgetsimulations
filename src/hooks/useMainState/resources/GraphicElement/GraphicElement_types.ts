@@ -60,7 +60,7 @@ export interface GraphicElementSize {
 // --------------------------------------------------------
 // -------------------- Axis Domain -----------------------
 
-type DomainActionType =
+export type DomainActionType =
   | "graphic@startX"
   | "graphic@startY"
   | "graphic@endX"
