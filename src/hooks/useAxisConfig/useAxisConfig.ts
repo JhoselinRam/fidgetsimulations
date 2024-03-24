@@ -206,6 +206,16 @@ function useAxisConfig(item: CollectionOrder): UseAxisConfig {
     changeEndY(mainEndY)
   }, [mainEndY, changeEndY])
 
+  function manualControlPress(): void {
+    dispatch({
+      type: "graphic@aspectRatio",
+      payload: {
+        ...item,
+        setAspectRatio: true
+      }
+    })
+  }
+
   return {
     axisHooks: {
       x: {
@@ -236,7 +246,8 @@ function useAxisConfig(item: CollectionOrder): UseAxisConfig {
     linkHooks: {
       isSelected: isLink,
       onChange: onChangeLink
-    }
+    },
+    manualControlPress
   }
 }
 

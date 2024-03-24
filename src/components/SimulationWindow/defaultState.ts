@@ -13,5 +13,6 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   startY: -5,
   endY: 5,
   lockRatio: false,
-  manualEdit: false
+  manualEdit: false,
+  setAspectRatio: false
 }

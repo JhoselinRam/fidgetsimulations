@@ -61,6 +61,10 @@ export const graphicEndY = generateByKey("endY", [
   "simulationWindow",
   "linechart"
 ])
+export const graphicAspectRatio = generateByKey("setAspectRatio", [
+  "simulationWindow",
+  "linechart"
+])
 
 // --------------------------------------------------------
 // --------------- Generator function ---------------------

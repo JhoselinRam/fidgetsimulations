@@ -7,6 +7,7 @@ import type {
 export interface UseAxisConfig {
   axisHooks: AxisHooks
   linkHooks: LinkHooks
+  manualControlPress: () => void
 }
 
 export interface AxisHooks {

@@ -9,6 +9,7 @@ export type GraphicActionType =
   | SizeActionType
   | SizeEditActionType
   | DomainActionType
+  | AspectRatioActionType
 
 // Graphic state type
 export interface GraphicState
@@ -21,7 +22,7 @@ export interface GraphicState
 export type GraphicElementType = keyof GraphicalElementsState
 
 // Keys of the graphic state type
-export type GraphicKeys = keyof (GraphicState & AxisDomain)
+export type GraphicKeys = keyof (GraphicState & AxisDomain & AspectRatioEdit)
 
 export type GraphicalCollection =
   | SimulationWindowState
@@ -74,7 +75,7 @@ export interface AxisDomain {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// ---------------- Manual axis editing -------------------
 
 type SizeEditActionType = "graphic@manualEdit" | "graphic@lockRatio"
 
@@ -83,4 +84,14 @@ export interface SizeEdit {
   lockRatio: boolean
 }
 
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+type AspectRatioActionType = "graphic@aspectRatio"
+
+export interface AspectRatioEdit {
+  setAspectRatio: boolean
+}
+
+// --------------------------------------------------------
 // --------------------------------------------------------

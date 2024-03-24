@@ -9,6 +9,7 @@ import type {
   UseMainState
 } from "./useMainState_types"
 import {
+  graphicAspectRatio,
   graphicElementHeight,
   graphicElementLockRatio,
   graphicElementManualEdit,
@@ -67,6 +68,7 @@ const reducerObject: ReducerObject = {
   "graphic@startY": graphicStartY,
   "graphic@endX": graphicEndX,
   "graphic@endY": graphicEndY,
+  "graphic@aspectRatio": graphicAspectRatio,
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,

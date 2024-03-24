@@ -13,7 +13,8 @@ export const linechartDefaultState: LinechartState = {
   startY: 0,
   endY: 10,
   lockRatio: false,
-  manualEdit: false
+  manualEdit: false,
+  setAspectRatio: false
 }
 
 export function createLinechartState(): LinechartState {
