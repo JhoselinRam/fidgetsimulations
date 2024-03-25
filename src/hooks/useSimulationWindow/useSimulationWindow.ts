@@ -21,6 +21,7 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     setDomain(graph, simulationCollection)
     setMargin(graph, simulationCollection)
     setAspectRatio(graph, simulationCollection, dispatch)
+    setColor(graph, simulationCollection)
 
     graph.draw()
   }, [graphElement, simulationString, simulationCollection, dispatch])
@@ -65,7 +66,7 @@ function setMargin(graph: Graph2D, config: SimulationWindowState): void {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// ------------------ Set Aspect Ratio --------------------
 
 function setAspectRatio(
   graph: Graph2D,
@@ -104,6 +105,16 @@ function setAspectRatio(
       setAspectRatio: false
     }
   })
+}
+
+// --------------------------------------------------------
+// --------------------- Set Color ------------------------
+
+function setColor(graph: Graph2D, config: SimulationWindowState): void {
+  graph
+    .backgroundColor(config.background)
+    .axisColor({ xAxis: config.colorX, yAxis: config.colorY })
+    .axisOpacity({ xAxis: config.opacityX, yAxis: config.opacityY })
 }
 
 // --------------------------------------------------------

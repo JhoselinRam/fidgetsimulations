@@ -10,6 +10,7 @@ export type GraphicActionType =
   | SizeEditActionType
   | DomainActionType
   | AspectRatioActionType
+  | AxisColorActionType
 
 // Graphic state type
 export interface GraphicState
@@ -22,7 +23,10 @@ export interface GraphicState
 export type GraphicElementType = keyof GraphicalElementsState
 
 // Keys of the graphic state type
-export type GraphicKeys = keyof (GraphicState & AxisDomain & AspectRatioEdit)
+export type GraphicKeys = keyof (GraphicState &
+  AxisDomain &
+  AspectRatioEdit &
+  AxisColor)
 
 export type GraphicalCollection =
   | SimulationWindowState
@@ -85,12 +89,30 @@ export interface SizeEdit {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// ----------------- Aspect ratio -------------------------
 
 type AspectRatioActionType = "graphic@aspectRatio"
 
 export interface AspectRatioEdit {
   setAspectRatio: boolean
+}
+
+// --------------------------------------------------------
+// --------------------- Color ----------------------------
+
+export type AxisColorActionType =
+  | "graphic@background"
+  | "graphic@colorX"
+  | "graphic@opacityX"
+  | "graphic@colorY"
+  | "graphic@opacityY"
+
+export interface AxisColor {
+  background: string
+  colorX: string
+  opacityX: number
+  colorY: string
+  opacityY: number
 }
 
 // --------------------------------------------------------

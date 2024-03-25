@@ -65,6 +65,26 @@ export const graphicAspectRatio = generateByKey("setAspectRatio", [
   "simulationWindow",
   "linechart"
 ])
+export const graphicBackground = generateByKey("background", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicColorX = generateByKey("colorX", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicOpacityX = generateByKey("opacityX", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicColorY = generateByKey("colorY", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicOpacityY = generateByKey("opacityY", [
+  "simulationWindow",
+  "linechart"
+])
 
 // --------------------------------------------------------
 // --------------- Generator function ---------------------

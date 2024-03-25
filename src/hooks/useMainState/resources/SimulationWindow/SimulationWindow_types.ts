@@ -1,5 +1,6 @@
 import type {
   AspectRatioEdit,
+  AxisColor,
   AxisDomain,
   GraphicState
 } from "../GraphicElement/GraphicElement_types"
@@ -8,4 +9,5 @@ import type {
 export interface SimulationWindowState
   extends GraphicState,
     AxisDomain,
-    AspectRatioEdit {}
+    AspectRatioEdit,
+    AxisColor {}

@@ -16,7 +16,7 @@ const ConfigSection = createComponentNamespace<
     const [isDrop, setIsDrop] = useState(dropDefault ?? false)
 
     return (
-      <DropSection className="w-full mt-4 flex flex-col items-center relative after:absolute after:border-2 after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
+      <DropSection className="w-full mt-4 flex flex-col items-center relative after:absolute after:border after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
         <DropSection.Title
           className="text-zinc-300"
           iconClassName="stroke-zinc-300"
@@ -26,7 +26,7 @@ const ConfigSection = createComponentNamespace<
           {title}
         </DropSection.Title>
         <DropSection.Body
-          className="bg-tuatara-800 border-2 border-tuatara-500 rounded-md pt-1 pb-2 px-3 flex flex-col mb-3"
+          className="bg-tuatara-800 border border-tuatara-500 rounded-md pt-1 pb-2 px-3 flex flex-col mb-3"
           isDrop={isDrop}
         >
           {children}

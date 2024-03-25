@@ -14,5 +14,10 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   endY: 5,
   lockRatio: false,
   manualEdit: false,
-  setAspectRatio: false
+  setAspectRatio: false,
+  background: "#ffffff",
+  colorX: "#000000",
+  opacityX: 1,
+  colorY: "#000000",
+  opacityY: 1
 }

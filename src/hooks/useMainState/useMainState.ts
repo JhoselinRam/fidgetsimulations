@@ -10,6 +10,9 @@ import type {
 } from "./useMainState_types"
 import {
   graphicAspectRatio,
+  graphicBackground,
+  graphicColorX,
+  graphicColorY,
   graphicElementHeight,
   graphicElementLockRatio,
   graphicElementManualEdit,
@@ -18,6 +21,8 @@ import {
   graphicElementWidth,
   graphicEndX,
   graphicEndY,
+  graphicOpacityX,
+  graphicOpacityY,
   graphicStartX,
   graphicStartY
 } from "./resources/GraphicElement/GraphicElement"
@@ -69,6 +74,11 @@ const reducerObject: ReducerObject = {
   "graphic@endX": graphicEndX,
   "graphic@endY": graphicEndY,
   "graphic@aspectRatio": graphicAspectRatio,
+  "graphic@background": graphicBackground,
+  "graphic@colorX": graphicColorX,
+  "graphic@opacityX": graphicOpacityX,
+  "graphic@colorY": graphicColorY,
+  "graphic@opacityY": graphicOpacityY,
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,

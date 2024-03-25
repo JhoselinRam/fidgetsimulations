@@ -59,7 +59,7 @@ export default {
       },
       maxWidth: {
         menu: "15rem",
-        input: "4rem"
+        input: "3.5rem"
       },
       spacing: {
         menu: "14rem"

@@ -41,13 +41,17 @@ function useNumberInput(
   useEffect(() => {
     if (outerValue == null) return
 
-    const newOuterValue = isDisabled ? innerValue : validValue(outerValue)
+    const newOuterValue = isDisabled
+      ? validValue(innerValue)
+      : validValue(outerValue)
     onInnerChange(newOuterValue)
   }, [outerValue, onInnerChange, validValue, innerValue, isDisabled])
 
   useEffect(() => {
     const newInnerValue = validValue(innerValue)
+
     if (onChange != null) onChange(newInnerValue)
+    if (innerValue !== newInnerValue) setInnerValue(newInnerValue)
   }, [innerValue, onChange, validValue])
 
   return {
