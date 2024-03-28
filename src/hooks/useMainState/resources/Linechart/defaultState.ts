@@ -1,4 +1,4 @@
-import type { LinechartState } from "../../hooks/useMainState/resources/Linechart/LineChart_types"
+import type { LinechartState } from "./LineChart_types"
 
 export const linechartDefaultState: LinechartState = {
   positionX: 0,
@@ -19,7 +19,11 @@ export const linechartDefaultState: LinechartState = {
   colorX: "#000000",
   opacityX: 1,
   colorY: "#000000",
-  opacityY: 1
+  opacityY: 1,
+  gridPrimaryEnable: true,
+  gridPrimaryColor: "#000000",
+  gridSecondaryEnable: true,
+  gridSecondaryColor: "#000000"
 }
 
 export function createLinechartState(): LinechartState {

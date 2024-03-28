@@ -11,6 +11,7 @@ export type GraphicActionType =
   | DomainActionType
   | AspectRatioActionType
   | AxisColorActionType
+  | GridActionType
 
 // Graphic state type
 export interface GraphicState
@@ -26,7 +27,8 @@ export type GraphicElementType = keyof GraphicalElementsState
 export type GraphicKeys = keyof (GraphicState &
   AxisDomain &
   AspectRatioEdit &
-  AxisColor)
+  AxisColor &
+  Grid)
 
 export type GraphicalCollection =
   | SimulationWindowState
@@ -113,6 +115,22 @@ export interface AxisColor {
   opacityX: number
   colorY: string
   opacityY: number
+}
+
+// --------------------------------------------------------
+// ---------------------- Grid ----------------------------
+
+export type GridActionType =
+  | "graphic@gridPrimaryEnable"
+  | "graphic@gridPrimaryColor"
+  | "graphic@gridSecondaryEnable"
+  | "graphic@gridSecondaryColor"
+
+export interface Grid {
+  gridPrimaryEnable: boolean
+  gridPrimaryColor: string
+  gridSecondaryEnable: boolean
+  gridSecondaryColor: string
 }
 
 // --------------------------------------------------------

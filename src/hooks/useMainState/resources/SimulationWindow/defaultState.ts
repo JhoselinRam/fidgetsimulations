@@ -1,4 +1,4 @@
-import type { SimulationWindowState } from "../../hooks/useMainState/resources/SimulationWindow/SimulationWindow_types"
+import type { SimulationWindowState } from "./SimulationWindow_types"
 
 export const simulationWindowDefaultState: SimulationWindowState = {
   positionX: 0,
@@ -19,5 +19,9 @@ export const simulationWindowDefaultState: SimulationWindowState = {
   colorX: "#000000",
   opacityX: 1,
   colorY: "#000000",
-  opacityY: 1
+  opacityY: 1,
+  gridPrimaryEnable: true,
+  gridPrimaryColor: "#000000",
+  gridSecondaryEnable: true,
+  gridSecondaryColor: "#000000"
 }

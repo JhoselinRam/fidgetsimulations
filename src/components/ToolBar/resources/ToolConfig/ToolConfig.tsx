@@ -5,6 +5,7 @@ import type { ConfigByType } from "./ToolConfig_types"
 import ConfigSimulationWindow from "../../../ConfigElements/ConfigSimulationWindow/ConfigSimulationWindow"
 import ConfigDataOutput from "../../../ConfigElements/ConfigDataOutput/ConfigDataOutput"
 import ConfigLinechart from "../../../ConfigElements/ConfigLinechart/ConfigLinechart"
+import ConfigContainer from "../../../ConfigElements/ConfigContainer/ConfigContainer"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -12,7 +13,8 @@ function ToolConfig(): JSX.Element {
   const configComponent: ConfigByType = {
     simulationWindow: (item) => <ConfigSimulationWindow item={item} />,
     dataoutput: (item) => <ConfigDataOutput item={item} />,
-    linechart: (item) => <ConfigLinechart item={item} />
+    linechart: (item) => <ConfigLinechart item={item} />,
+    container: (item) => <ConfigContainer item={item} />
   }
 
   return (

@@ -1,12 +1,19 @@
 import type { Dispatch } from "react"
-import type { MainStateAction } from "../../useMainState/useMainState_types"
+import type {
+  MainState,
+  MainStateAction
+} from "../../useMainState/useMainState_types"
 import type { ItemType } from "../../../components/CollectionPicker/resources/CollectionGrid/CollectionGrid_types"
 import SpringIcon from "../../../components/Icons/SpringIcon/SpringIcon"
 import RodIcon from "../../../components/Icons/RodIcon/RodIcon"
 import ObstacleIcon from "../../../components/Icons/ObstacleIcon/ObstacleIcon"
 import ContainerIcon from "../../../components/Icons/ContainerIcon/ContainerIcon"
+import { createContainerState } from "../../useMainState/resources/Container/defaultState"
 
-function getConstrainsItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
+function getConstrainsItems(
+  state: MainState,
+  dispatch: Dispatch<MainStateAction>
+): ItemType[] {
   // ------------------- Spring Chart ------------------------
 
   const springItem: ItemType = {
@@ -59,7 +66,13 @@ function getConstrainsItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
   }
 
   function containerAction(): void {
-    console.log("Container Action")
+    const newContainer = createContainerState()
+    newContainer.name = `Container ${state.container.length + 1}`
+
+    dispatch({
+      type: "container@new",
+      payload: newContainer as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------

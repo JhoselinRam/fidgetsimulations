@@ -1,7 +1,7 @@
-import { dataOutputDefaultState } from "../../../../components/DataOutput/defaultState"
 import { isInCollection } from "../../useMainState"
 import type { MainState } from "../../useMainState_types"
 import type { DataOutputState } from "./DataOutput_types"
+import { dataOutputDefaultState } from "./defaultState"
 
 // ------------------ New DataOutput ----------------------
 export function dataOutputNew(

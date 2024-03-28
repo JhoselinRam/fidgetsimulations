@@ -1,4 +1,4 @@
-import { simulationWindowDefaultState } from "../../components/SimulationWindow/defaultState"
+import { simulationWindowDefaultState } from "./resources/SimulationWindow/defaultState"
 import type { MainState } from "./useMainState_types"
 
 // ------------------ Initial State -----------------------
@@ -12,7 +12,8 @@ const initialState: MainState = {
     time: 10,
     dt: 0.1,
     delay: 0
-  }
+  },
+  container: []
 }
 
 // --------------------------------------------------------

@@ -6,8 +6,8 @@ import type {
 import type { ItemType } from "../../../components/CollectionPicker/resources/CollectionGrid/CollectionGrid_types"
 import LinechartIcon from "../../../components/Icons/LinechartIcon/LinechartIcon"
 import DataIcon from "../../../components/Icons/DataIcon/DataIcon"
-import { createLinechartState } from "../../../components/Linechart/defaultState"
-import { createDataOutputState } from "../../../components/DataOutput/defaultState"
+import { createLinechartState } from "../../useMainState/resources/Linechart/defaultState"
+import { createDataOutputState } from "../../useMainState/resources/DataOutput/defaultState"
 
 function getGraphicalItems(
   state: MainState,

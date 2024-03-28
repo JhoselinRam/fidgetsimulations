@@ -1,9 +1,14 @@
 import { useEffect, type RefObject, useContext, type Dispatch } from "react"
-import { mainStateContext } from "../useMainState/useMainState"
+import { isCollection, mainStateContext } from "../useMainState/useMainState"
 import { graph2D } from "scigrapher"
 import type { Graph2D } from "scigrapher/lib/es5/Graph2D/Graph2D_Types"
 import type { SimulationWindowState } from "../useMainState/resources/SimulationWindow/SimulationWindow_types"
-import type { MainStateAction } from "../useMainState/useMainState_types"
+import type {
+  MainState,
+  MainStateAction
+} from "../useMainState/useMainState_types"
+import type { ContainerState } from "../useMainState/resources/Container/Container_types"
+import { containerDefaultState } from "../useMainState/resources/Container/defaultState"
 
 function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -22,9 +27,17 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     setMargin(graph, simulationCollection)
     setAspectRatio(graph, simulationCollection, dispatch)
     setColor(graph, simulationCollection)
+    setGrid(graph, simulationCollection)
+    setData(graph, mainState)
 
     graph.draw()
-  }, [graphElement, simulationString, simulationCollection, dispatch])
+  }, [
+    graphElement,
+    simulationString,
+    simulationCollection,
+    dispatch,
+    mainState
+  ])
 }
 
 export default useSimulationWindow
@@ -115,6 +128,63 @@ function setColor(graph: Graph2D, config: SimulationWindowState): void {
     .backgroundColor(config.background)
     .axisColor({ xAxis: config.colorX, yAxis: config.colorY })
     .axisOpacity({ xAxis: config.opacityX, yAxis: config.opacityY })
+}
+
+// --------------------------------------------------------
+// --------------------- Set Grid -------------------------
+
+function setGrid(graph: Graph2D, config: SimulationWindowState): void {
+  graph
+    .gridColor({
+      primary: config.gridPrimaryColor,
+      secondary: config.gridSecondaryColor
+    })
+    .gridOpacity({
+      primary: config.gridPrimaryEnable ? 0.2 : 0,
+      secondary: config.gridSecondaryEnable ? 0.1 : 0
+    })
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function setData(graph: Graph2D, state: MainState): void {
+  console.log("data")
+  const orderElements = state.order.filter(
+    (collection) => collection.type === "container"
+  )
+
+  orderElements.forEach((collection) => {
+    if (isCollection<ContainerState>(collection, containerDefaultState))
+      drawContainer(graph, collection)
+  })
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function drawContainer(graph: Graph2D, container: ContainerState): void {
+  if (container.shape === "rectangle") {
+    graph
+      .addDataset("linechart")
+      .dataX([
+        container.positionX,
+        container.positionX + container.width,
+        container.positionX + container.width,
+        container.positionX,
+        container.positionX
+      ])
+      .dataY([
+        container.positionY,
+        container.positionY,
+        container.positionY + container.height,
+        container.positionY + container.height,
+        container.positionY
+      ])
+      .lineColor(container.borderColor)
+      .lineOpacity(container.borderOpacity)
+      .lineWidth(container.borderWidth)
+  }
 }
 
 // --------------------------------------------------------

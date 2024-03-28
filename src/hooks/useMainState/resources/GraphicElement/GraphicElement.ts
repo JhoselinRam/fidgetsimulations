@@ -85,6 +85,22 @@ export const graphicOpacityY = generateByKey("opacityY", [
   "simulationWindow",
   "linechart"
 ])
+export const graphicGridPrimaryEnable = generateByKey("gridPrimaryEnable", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicGridSecondaryColor = generateByKey("gridSecondaryColor", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicGridSecondaryEnable = generateByKey("gridSecondaryEnable", [
+  "simulationWindow",
+  "linechart"
+])
+export const graphicGridPrimaryColor = generateByKey("gridPrimaryColor", [
+  "simulationWindow",
+  "linechart"
+])
 
 // --------------------------------------------------------
 // --------------- Generator function ---------------------
@@ -120,7 +136,6 @@ function generateByKey(
 
     // Check if the data actually change
     if (typeof payload[validKey] !== typeof collection[validKey]) return state
-    if (payload[validKey] === collection[validKey]) return state
 
     if (typeof payload[validKey] === "number") {
       ;(payload[validKey] as number) = toRounded(
@@ -128,6 +143,8 @@ function generateByKey(
         import.meta.env.VITE_ROUNDED_DECIMALS
       )
     }
+
+    if (payload[validKey] === collection[validKey]) return state
 
     // Generate the new state
     const newState = { ...state }

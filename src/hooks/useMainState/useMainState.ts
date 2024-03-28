@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react"
 import type {
+  CollectionElementState,
   CollectionOrder,
   CollectionState,
   CollectionType,
@@ -21,6 +22,10 @@ import {
   graphicElementWidth,
   graphicEndX,
   graphicEndY,
+  graphicGridPrimaryColor,
+  graphicGridPrimaryEnable,
+  graphicGridSecondaryColor,
+  graphicGridSecondaryEnable,
   graphicOpacityX,
   graphicOpacityY,
   graphicStartX,
@@ -44,6 +49,20 @@ import type {
   GraphicElementType,
   GraphicalCollection
 } from "./resources/GraphicElement/GraphicElement_types"
+import {
+  containerAngle,
+  containerBorderColor,
+  containerBorderOpacity,
+  containerBorderWidth,
+  containerFillColor,
+  containerFillOpacity,
+  containerHeight,
+  containerNew,
+  containerPositionX,
+  containerPositionY,
+  containerShape,
+  containerWidth
+} from "./resources/Container/Container"
 
 // -------------------- Hook body -------------------------
 
@@ -79,12 +98,28 @@ const reducerObject: ReducerObject = {
   "graphic@opacityX": graphicOpacityX,
   "graphic@colorY": graphicColorY,
   "graphic@opacityY": graphicOpacityY,
+  "graphic@gridPrimaryEnable": graphicGridPrimaryEnable,
+  "graphic@gridPrimaryColor": graphicGridPrimaryColor,
+  "graphic@gridSecondaryEnable": graphicGridSecondaryEnable,
+  "graphic@gridSecondaryColor": graphicGridSecondaryColor,
   "time@continuous": timeParameterContinuous,
   "time@time": timeParameterTime,
   "time@dt": timeParameterDT,
   "time@delay": timeParameterDelay,
   "linechart@new": linechartNew,
-  "dataoutput@new": dataOutputNew
+  "dataoutput@new": dataOutputNew,
+  "container@new": containerNew,
+  "container@positionX": containerPositionX,
+  "container@positionY": containerPositionY,
+  "container@width": containerWidth,
+  "container@height": containerHeight,
+  "container@borderColor": containerBorderColor,
+  "container@borderOpacity": containerBorderOpacity,
+  "container@borderWidth": containerBorderWidth,
+  "container@fillColor": containerFillColor,
+  "container@fillOpacity": containerFillOpacity,
+  "container@shape": containerShape,
+  "container@angle": containerAngle
 }
 
 // --------------------------------------------------------
@@ -122,7 +157,10 @@ export function isInCollection(
 
 export function isCollectionType(type: string): type is CollectionType {
   return (
-    type === "simulationWindow" || type === "linechart" || type === "dataoutput"
+    type === "simulationWindow" ||
+    type === "linechart" ||
+    type === "dataoutput" ||
+    type === "container"
   )
 }
 
@@ -174,6 +212,28 @@ export function getGraphicalCollection(
   return state[item.type].find(
     (collection) => collection.id === item.id && collection.type === item.type
   )
+}
+
+// --------------------------------------------------------
+// -- Checks if the data is a valid collection state type -
+
+// Checks if the payload contains all the necessary data
+export function isCollection<T extends CollectionElementState>(
+  data: unknown,
+  keyState: T
+): data is T {
+  if (data == null) return false
+  if (typeof data !== "object") return false
+
+  const stateKeys = Object.keys(keyState)
+  let keysInData = true
+
+  stateKeys.forEach((key) => {
+    if (key in data) return
+    keysInData = false
+  })
+
+  return keysInData
 }
 
 // --------------------------------------------------------

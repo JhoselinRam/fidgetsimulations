@@ -1,4 +1,4 @@
-import type { DataOutputState } from "../../hooks/useMainState/resources/DataOutput/DataOutput_types"
+import type { DataOutputState } from "./DataOutput_types"
 
 export const dataOutputDefaultState: DataOutputState = {
   positionX: 0,

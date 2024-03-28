@@ -1,7 +1,7 @@
-import { linechartDefaultState } from "../../../../components/Linechart/defaultState"
 import { isInCollection } from "../../useMainState"
 import type { MainState } from "../../useMainState_types"
 import type { LinechartState } from "./LineChart_types"
+import { linechartDefaultState } from "./defaultState"
 
 // ------------------ New Linechart -----------------------
 export function linechartNew(

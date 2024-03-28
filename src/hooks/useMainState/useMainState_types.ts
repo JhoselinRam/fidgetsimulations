@@ -8,9 +8,22 @@ import type {
   TimeActionType,
   TimeState
 } from "./resources/TimeParameters/TimeParameters_types"
-import type { LinechartActionType } from "./resources/Linechart/LineChart_types"
-import type { DataOutputActionType } from "./resources/DataOutput/DataOutput_types"
+import type {
+  LinechartActionType,
+  LinechartState
+} from "./resources/Linechart/LineChart_types"
+import type {
+  DataOutputActionType,
+  DataOutputState
+} from "./resources/DataOutput/DataOutput_types"
 import type { CollectionActionType } from "./resources/Collection/Collection_types"
+import type {
+  ContainerActionType,
+  ContainerElementState,
+  ContainerElementType,
+  ContainerState
+} from "./resources/Container/Container_types"
+import type { SimulationWindowState } from "./resources/SimulationWindow/SimulationWindow_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -25,9 +38,12 @@ export type MainStateActionType =
   | LinechartActionType
   | DataOutputActionType
   | CollectionActionType
+  | ContainerActionType
 
 // Main state type
-export interface MainState extends GraphicalElementsState {
+export interface MainState
+  extends GraphicalElementsState,
+    ContainerElementState {
   order: CollectionOrder[]
   time: TimeState
 }
@@ -49,7 +65,13 @@ export type ReducerSlice = (
   payload: Record<string, unknown>
 ) => MainState
 
-export type CollectionType = GraphicElementType
+export type CollectionType = GraphicElementType | ContainerElementType
+
+export type CollectionElementState =
+  | SimulationWindowState
+  | LinechartState
+  | DataOutputState
+  | ContainerState
 
 export interface CollectionState extends CollectionOrder {
   name: string
