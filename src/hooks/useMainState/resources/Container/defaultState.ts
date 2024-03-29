@@ -10,7 +10,7 @@ import type {
 
 export const containerPositionDefaultState: ContainerPosition = {
   positionX: -5,
-  positionY: -5
+  positionY: 5
 }
 
 export const containerSizeDefaultState: ContainerSize = {
@@ -21,7 +21,7 @@ export const containerSizeDefaultState: ContainerSize = {
 export const containerBorderDefaultState: ContainerBorder = {
   borderColor: "#000000",
   borderOpacity: 1,
-  borderWidth: 1
+  borderWidth: 2
 }
 
 export const containerFillDefaultState: ContainerFill = {

@@ -85,7 +85,7 @@ export interface ContainerFill {
 export type ContainerShapeActionType = "container@shape"
 
 export interface ContainerShape {
-  shape: "oval" | "rectangle"
+  shape: "ellipse" | "rectangle"
 }
 
 // --------------------------------------------------------
