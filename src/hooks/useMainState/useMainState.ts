@@ -60,6 +60,7 @@ import {
   containerNew,
   containerPositionX,
   containerPositionY,
+  containerRatioLock,
   containerShape,
   containerWidth
 } from "./resources/Container/Container"
@@ -119,7 +120,8 @@ const reducerObject: ReducerObject = {
   "container@fillColor": containerFillColor,
   "container@fillOpacity": containerFillOpacity,
   "container@shape": containerShape,
-  "container@angle": containerAngle
+  "container@angle": containerAngle,
+  "container@ratioLock": containerRatioLock
 }
 
 // --------------------------------------------------------

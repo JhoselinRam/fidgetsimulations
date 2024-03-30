@@ -1,9 +1,15 @@
-import type { UseCollectionManual } from "./resources/useCollectionManual/useCollectionManual_types"
-import type { UseCollectionPosition } from "./resources/useCollectionPosition/useCollectionPosition_types"
-import type { UseCollectionSize } from "./resources/useCollectionSize/useCollectionSize_types"
+export interface UseMoveCollection extends MoveCollectionProps {
+  manualControlProps: {
+    isSelected: boolean
+    onChange: (value: boolean) => void
+  }
+}
 
-export interface UseMoveCollection {
-  moveControlProps: UseCollectionPosition
-  sizeControlProps: UseCollectionSize
-  manualControlProps: UseCollectionManual
+export interface MoveCollectionProps {
+  positionX: number
+  positionY: number
+  width: number
+  height: number
+  lockRatio: boolean
+  manualEdit: boolean
 }

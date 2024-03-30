@@ -45,6 +45,7 @@ export const containerFillColor = generateByKey("fillColor")
 export const containerFillOpacity = generateByKey("fillOpacity")
 export const containerShape = generateByKey("shape")
 export const containerAngle = generateByKey("angle")
+export const containerRatioLock = generateByKey("ratioLock")
 
 // --------------------------------------------------------
 // ---------------- Generation function -------------------

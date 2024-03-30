@@ -9,6 +9,7 @@ export type ContainerActionType =
   | ContainerFillActionType
   | ContainerShapeActionType
   | ContainerAngleActionType
+  | ContainerRatioLockActionType
 
 // Types of the container element
 export type ContainerElementType = keyof ContainerElementState
@@ -26,7 +27,8 @@ export interface ContainerState
     ContainerBorder,
     ContainerFill,
     ContainerShape,
-    ContainerAngle {}
+    ContainerAngle,
+    ContainerRatioLock {}
 
 // Keys of the container state
 export type ContainerKeys = keyof ContainerState
@@ -95,6 +97,15 @@ export type ContainerAngleActionType = "container@angle"
 
 export interface ContainerAngle {
   angle: number
+}
+
+// --------------------------------------------------------
+// ------------------ Ratio lock --------------------------
+
+export type ContainerRatioLockActionType = "container@ratioLock"
+
+export interface ContainerRatioLock {
+  ratioLock: boolean
 }
 
 // --------------------------------------------------------

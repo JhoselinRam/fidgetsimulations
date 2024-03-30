@@ -3,6 +3,7 @@ import type {
   ContainerBorder,
   ContainerFill,
   ContainerPosition,
+  ContainerRatioLock,
   ContainerShape,
   ContainerSize,
   ContainerState
@@ -37,6 +38,10 @@ export const containerAngleDefaultState: ContainerAngle = {
   angle: 0
 }
 
+export const containerRatioLockDefaultState: ContainerRatioLock = {
+  ratioLock: false
+}
+
 export const containerDefaultState: ContainerState = {
   ...containerPositionDefaultState,
   ...containerSizeDefaultState,
@@ -44,6 +49,7 @@ export const containerDefaultState: ContainerState = {
   ...containerFillDefaultState,
   ...containerShapeDefaultState,
   ...containerAngleDefaultState,
+  ...containerRatioLockDefaultState,
   type: "container",
   name: "",
   id: ""
