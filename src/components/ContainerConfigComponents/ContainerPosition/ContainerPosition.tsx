@@ -1,34 +1,27 @@
 import useContainerPosition from "../../../hooks/useContainerPosition/useContainerPosition"
 import ConfigSection from "../../ConfigSection/ConfigSection"
-import MoveConfig from "../../MoveConfig/MoveConfig"
-import SizeConfig from "../../SizeConfig/SizeConfig"
 import type { ContainerConfigProps } from "../ContainerConfig_types"
+import HeaderControl from "./resources/HeaderControl/HeaderControl"
+import PositionControl from "./resources/PositionControl/PositionControl"
+import SizeControl from "./resources/SizeControl/SizeControl"
 
 function ContainerPosition({ item }: ContainerConfigProps): JSX.Element {
-  const { positionX, positionY, height, width, ratioLock } =
+  const { positionX, positionY, height, width, ratioLock, setAspectRatio } =
     useContainerPosition(item)
 
   return (
     <ConfigSection title="Position and Size">
-      <MoveConfig
+      <HeaderControl setAspectRatio={setAspectRatio} />
+      <PositionControl
         item={item}
-        unit="m"
-        step={0.01}
-        actionX="container@positionX"
-        actionY="container@positionY"
-        valueX={positionX}
-        valueY={positionY}
+        positionX={positionX}
+        positionY={positionY}
       />
-      <SizeConfig
+      <SizeControl
         item={item}
-        unit="m"
-        step={0.01}
-        actionWidth="container@width"
-        actionHeight="container@height"
-        valueWidth={width}
-        valueHeight={height}
-        actionRatioLock="container@ratioLock"
-        valueRatioLock={ratioLock}
+        width={width}
+        height={height}
+        ratioLock={ratioLock}
       />
     </ConfigSection>
   )

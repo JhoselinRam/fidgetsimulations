@@ -16,11 +16,25 @@ import type {
 import { mainStateContext } from "../useMainState/useMainState"
 
 function useContainerPosition(item: CollectionOrder): UseContainerPosition {
-  const { mainState } = useContext(mainStateContext)
+  const { mainState, dispatch } = useContext(mainStateContext)
   const containerValues = getContainerProps(item, mainState)
 
+  function setAspectRatio(): void {
+    const collection = getContainerCollection(item, mainState)
+    if (collection == null) return
+
+    dispatch({
+      type: "container@height",
+      payload: {
+        ...item,
+        height: collection.width
+      }
+    })
+  }
+
   return {
-    ...containerValues
+    ...containerValues,
+    setAspectRatio
   }
 }
 

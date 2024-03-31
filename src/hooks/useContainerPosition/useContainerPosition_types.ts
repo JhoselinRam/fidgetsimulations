@@ -1,4 +1,6 @@
-export interface UseContainerPosition extends ContainerPositionProps {}
+export interface UseContainerPosition extends ContainerPositionProps {
+  setAspectRatio: () => void
+}
 
 export interface ContainerPositionProps {
   positionX: number
