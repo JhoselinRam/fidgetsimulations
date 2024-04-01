@@ -13,7 +13,8 @@ const initialState: MainState = {
     dt: 0.1,
     delay: 0
   },
-  container: []
+  container: [],
+  obstacle: []
 }
 
 // --------------------------------------------------------

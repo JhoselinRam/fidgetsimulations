@@ -9,6 +9,7 @@ function ColorInput({
   id,
   onChange,
   onInput,
+  disabled,
   ...props
 }: ColorInputProps): JSX.Element {
   const wrapperElement = useRef<HTMLDivElement>(null)
@@ -17,22 +18,30 @@ function ColorInput({
     inputElement,
     wrapperElement,
     onChange,
-    onInput
+    onInput,
+    disabled ?? false
   )
 
   return (
     <div className={`flex flex-row gap-2 items-center ${containerClassName}`}>
-      <label htmlFor={id ?? defaultId}>{children}</label>
+      <label
+        htmlFor={id ?? defaultId}
+        className={`${disabled != null && disabled ? "text-tuatara-600" : ""}`}
+      >
+        {children}
+      </label>
       <div
         ref={wrapperElement}
         className={`w-7 h-4 rounded-full border border-zinc-300 relative
         has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent-blue-300/30 has-[:focus-visible]:outline-offset-2
+        ${disabled != null && disabled ? "border-zinc-500" : ""}
         ${className}`}
       >
         <input
           type="color"
           className="opacity-0 w-full h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           {...props}
+          disabled={disabled}
           id={id ?? defaultId}
           onInput={onInputCallback}
           onChange={onChangeCallback}

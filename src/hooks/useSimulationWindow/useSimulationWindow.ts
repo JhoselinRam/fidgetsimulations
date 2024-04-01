@@ -10,12 +10,15 @@ import type {
 import type { ContainerState } from "../useMainState/resources/Container/Container_types"
 import { containerDefaultState } from "../useMainState/resources/Container/defaultState"
 import type { ContainerCoords } from "./useSimulationWindow_types"
+import type { ObstacleState } from "../useMainState/resources/Obstacle/Obstacle_types"
+import { obstacleDefaultState } from "../useMainState/resources/Obstacle/defaultState"
 
 function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
   const simulationCollection = mainState.simulationWindow[0]
   const simulationString = JSON.stringify(simulationCollection)
   const containers = JSON.stringify(mainState.container)
+  const obstacles = JSON.stringify(mainState.obstacle)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -39,7 +42,8 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     simulationCollection,
     dispatch,
     mainState,
-    containers
+    containers,
+    obstacles
   ])
 }
 
@@ -153,7 +157,8 @@ function setGrid(graph: Graph2D, config: SimulationWindowState): void {
 
 function setData(graph: Graph2D, state: MainState): void {
   const orderElements = state.order.filter(
-    (collection) => collection.type === "container"
+    (collection) =>
+      collection.type === "container" || collection.type === "obstacle"
   )
 
   orderElements.forEach((item) => {
@@ -161,24 +166,30 @@ function setData(graph: Graph2D, state: MainState): void {
       (element) => element.id === item.id
     )
     if (isCollection<ContainerState>(collection, containerDefaultState))
-      drawContainer(graph, collection)
+      drawObject(graph, collection)
+    else if (isCollection<ObstacleState>(collection, obstacleDefaultState)) {
+      drawObject(graph, collection)
+    }
   })
 }
 
 // --------------------------------------------------------
 
-function drawContainer(graph: Graph2D, container: ContainerState): void {
-  const data = getContainerData(container)
+function drawObject(
+  graph: Graph2D,
+  object: ContainerState | ObstacleState
+): void {
+  const data = getObjectData(object)
 
   graph
     .addDataset("linechart")
     .dataX(data.x)
     .dataY(data.y)
-    .lineColor(container.borderColor)
-    .lineOpacity(container.borderOpacity)
-    .lineWidth(container.borderWidth)
+    .lineColor(object.borderColor)
+    .lineOpacity(object.borderOpacity)
+    .lineWidth(object.borderWidth)
 
-  if (container.fillOpacity === 0) return
+  if (object.fillOpacity === 0) return
 
   graph
     .addDataset("area")
@@ -186,18 +197,20 @@ function drawContainer(graph: Graph2D, container: ContainerState): void {
     .dataY(data.y)
     .baseX([data.x[0]])
     .baseY([data.y[0]])
-    .color(container.fillColor)
-    .opacity(container.fillOpacity)
+    .color(object.fillColor)
+    .opacity(object.fillOpacity)
 }
 
 // --------------------------------------------------------
 
-function getContainerData(container: ContainerState): ContainerCoords {
-  const initialCoords = getInitialCoors(container)
+function getObjectData(
+  object: ContainerState | ObstacleState
+): ContainerCoords {
+  const initialCoords = getInitialCoors(object)
 
   const centerCoords = [
-    container.positionX + container.width / 2,
-    container.positionY - container.height / 2
+    object.positionX + object.width / 2,
+    object.positionY - object.height / 2
   ]
 
   const centeredCoords = initialCoords.map((coord) => [
@@ -205,7 +218,7 @@ function getContainerData(container: ContainerState): ContainerCoords {
     coord[1] - centerCoords[1]
   ])
 
-  const angle = (Math.PI / 180) * container.angle
+  const angle = (Math.PI / 180) * object.angle
   const rotatedCoords = centeredCoords.map((coord) => [
     coord[0] * Math.cos(angle) - coord[1] * Math.sin(angle),
     coord[0] * Math.sin(angle) + coord[1] * Math.cos(angle)
@@ -224,29 +237,26 @@ function getContainerData(container: ContainerState): ContainerCoords {
 
 // --------------------------------------------------------
 
-function getInitialCoors(container: ContainerState): number[][] {
-  if (container.shape === "rectangle")
+function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
+  if (object.shape === "rectangle")
     return [
-      [container.positionX, container.positionY],
-      [container.positionX + container.width, container.positionY],
-      [
-        container.positionX + container.width,
-        container.positionY - container.height
-      ],
-      [container.positionX, container.positionY - container.height],
-      [container.positionX, container.positionY]
+      [object.positionX, object.positionY],
+      [object.positionX + object.width, object.positionY],
+      [object.positionX + object.width, object.positionY - object.height],
+      [object.positionX, object.positionY - object.height],
+      [object.positionX, object.positionY]
     ]
 
   // else
-  const a = container.width / 2
-  const b = container.height / 2
+  const a = object.width / 2
+  const b = object.height / 2
   const positiveX = linspace(-a, a, import.meta.env.VITE_ELLIPSE_RESOLUTION)
   const negativeX = positiveX.slice().reverse()
   const y = positiveX.map((x) => b * Math.sqrt(1 - x ** 2 / a ** 2))
 
   const centerCoords = [
-    container.positionX + container.width / 2,
-    container.positionY - container.height / 2
+    object.positionX + object.width / 2,
+    object.positionY - object.height / 2
   ]
 
   const positiveCoords = positiveX.map((x, i) => [

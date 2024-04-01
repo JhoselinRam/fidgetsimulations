@@ -3,7 +3,7 @@ function ObstacleIcon(): JSX.Element {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
-      viewBox="3 0 46 40"
+      viewBox="3 0 46 46"
       stroke="#1e293b"
       strokeWidth="3"
     >

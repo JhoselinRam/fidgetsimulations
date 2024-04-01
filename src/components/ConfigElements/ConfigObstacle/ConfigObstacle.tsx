@@ -4,7 +4,7 @@ import ObjectColor from "../../ObjectConfigComponents/ObjectColor/ContainerColor
 import ObjectPosition from "../../ObjectConfigComponents/ObjectPosition/ContainerPosition"
 import ObjectShape from "../../ObjectConfigComponents/ObjectShape/ObjectShape"
 
-function ConfigContainer({ item }: ConfigCollectionProps): JSX.Element {
+function ConfigObstacle({ item }: ConfigCollectionProps): JSX.Element {
   return (
     <ConfigCollection item={item}>
       <ObjectPosition item={item} />
@@ -14,4 +14,4 @@ function ConfigContainer({ item }: ConfigCollectionProps): JSX.Element {
   )
 }
 
-export default ConfigContainer
+export default ConfigObstacle

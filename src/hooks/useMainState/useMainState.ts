@@ -64,6 +64,21 @@ import {
   containerShape,
   containerWidth
 } from "./resources/Container/Container"
+import {
+  obstacleAngle,
+  obstacleBorderColor,
+  obstacleBorderOpacity,
+  obstacleBorderWidth,
+  obstacleFillColor,
+  obstacleFillOpacity,
+  obstacleHeight,
+  obstacleNew,
+  obstaclePositionX,
+  obstaclePositionY,
+  obstacleRatioLock,
+  obstacleShape,
+  obstacleWidth
+} from "./resources/Obstacle/Obstacle"
 
 // -------------------- Hook body -------------------------
 
@@ -121,7 +136,20 @@ const reducerObject: ReducerObject = {
   "container@fillOpacity": containerFillOpacity,
   "container@shape": containerShape,
   "container@angle": containerAngle,
-  "container@ratioLock": containerRatioLock
+  "container@ratioLock": containerRatioLock,
+  "obstacle@new": obstacleNew,
+  "obstacle@positionX": obstaclePositionX,
+  "obstacle@positionY": obstaclePositionY,
+  "obstacle@width": obstacleWidth,
+  "obstacle@height": obstacleHeight,
+  "obstacle@borderColor": obstacleBorderColor,
+  "obstacle@borderOpacity": obstacleBorderOpacity,
+  "obstacle@borderWidth": obstacleBorderWidth,
+  "obstacle@fillColor": obstacleFillColor,
+  "obstacle@fillOpacity": obstacleFillOpacity,
+  "obstacle@shape": obstacleShape,
+  "obstacle@angle": obstacleAngle,
+  "obstacle@ratioLock": obstacleRatioLock
 }
 
 // --------------------------------------------------------
@@ -162,7 +190,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "simulationWindow" ||
     type === "linechart" ||
     type === "dataoutput" ||
-    type === "container"
+    type === "container" ||
+    type === "obstacle"
   )
 }
 
@@ -236,6 +265,41 @@ export function isCollection<T extends CollectionElementState>(
   })
 
   return keysInData
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+export function getCollection<T>(
+  item: CollectionOrder,
+  state: MainState,
+  type: CollectionType[]
+): T | undefined
+export function getCollection<T>(
+  item: CollectionOrder,
+  state: MainState,
+  type: CollectionType
+): T | undefined
+export function getCollection<T>(
+  item: CollectionOrder,
+  state: MainState,
+  type: CollectionType | CollectionType[]
+): T | undefined {
+  if (!isCollectionOrder(item)) return
+  if (!isInCollection(item.id, item.type, state)) return
+  if (typeof type === "string" && item.type !== type) return
+  if (typeof type === "object") {
+    if (!Array.isArray(type)) return
+    let isValidType = false
+
+    type.forEach((option) => {
+      if (item.type === option) isValidType = true
+    })
+    if (!isValidType) return
+  }
+
+  return state[item.type].find(
+    (collection) => collection.id === item.id && collection.type === item.type
+  ) as T | undefined
 }
 
 // --------------------------------------------------------

@@ -13,7 +13,8 @@ function useColorInput(
   input: RefObject<HTMLInputElement>,
   wrapper: RefObject<HTMLDivElement>,
   outerChangeCallback: ((color: string) => void) | undefined,
-  outerInputCallback: ((color: string) => void) | undefined
+  outerInputCallback: ((color: string) => void) | undefined,
+  disabled: boolean
 ): UseColorInput {
   const defaultId = useId()
   const usedChangeCallback = useCallback(
@@ -38,9 +39,13 @@ function useColorInput(
   useEffect(() => {
     if (input.current == null) return
     if (wrapper.current == null) return
+    if (disabled) {
+      wrapper.current.style.backgroundColor = "#5d5d5d" // Tuatara 600
+      return
+    }
 
     wrapper.current.style.backgroundColor = input.current.value
-  }, [input, wrapper])
+  }, [input, wrapper, disabled])
 
   function onInputCallback(e: FormEvent): void {
     const color = (e.target as HTMLInputElement).value

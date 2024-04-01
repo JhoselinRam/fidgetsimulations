@@ -9,6 +9,7 @@ import RodIcon from "../../../components/Icons/RodIcon/RodIcon"
 import ObstacleIcon from "../../../components/Icons/ObstacleIcon/ObstacleIcon"
 import ContainerIcon from "../../../components/Icons/ContainerIcon/ContainerIcon"
 import { createContainerState } from "../../useMainState/resources/Container/defaultState"
+import { createObstacleState } from "../../useMainState/resources/Obstacle/defaultState"
 
 function getConstrainsItems(
   state: MainState,
@@ -52,7 +53,13 @@ function getConstrainsItems(
   }
 
   function obstacleAction(): void {
-    console.log("Obstacle Action")
+    const newObstacle = createObstacleState()
+    newObstacle.name = `Obstacle ${state.obstacle.length + 1}`
+
+    dispatch({
+      type: "obstacle@new",
+      payload: newObstacle as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------

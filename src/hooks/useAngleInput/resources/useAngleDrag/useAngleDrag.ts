@@ -40,7 +40,11 @@ function useAngleDrag(
             }
           }
           if (angle < 0) {
-            for (let i = 0; i < angleRange.length - 1; i++) {}
+            for (let i = 0; i < angleRange.length - 1; i++) {
+              if (angle < -angleRange[i] && angle > -angleRange[i + 1]) {
+                angle = -angleRange[i] - 45 / 2
+              }
+            }
           }
         }
 

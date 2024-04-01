@@ -9,7 +9,7 @@ function GridSection({ grid, hooks }: GridSectionProps): JSX.Element {
       <ConfigSection.Header>
         <p>{`${grid[0].toUpperCase()}${grid.slice(1)}`}:</p>
       </ConfigSection.Header>
-      <ConfigSection.Section className="pl-2">
+      <ConfigSection.Section>
         <Switch
           isSelected={hooks[grid].enable}
           onChange={hooks[grid].changeEnable}

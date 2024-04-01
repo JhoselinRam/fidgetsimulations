@@ -24,6 +24,12 @@ import type {
   ContainerState
 } from "./resources/Container/Container_types"
 import type { SimulationWindowState } from "./resources/SimulationWindow/SimulationWindow_types"
+import type {
+  ObstacleActionType,
+  ObstacleElementState,
+  ObstacleElementType,
+  ObstacleState
+} from "./resources/Obstacle/Obstacle_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -39,11 +45,13 @@ export type MainStateActionType =
   | DataOutputActionType
   | CollectionActionType
   | ContainerActionType
+  | ObstacleActionType
 
 // Main state type
 export interface MainState
   extends GraphicalElementsState,
-    ContainerElementState {
+    ContainerElementState,
+    ObstacleElementState {
   order: CollectionOrder[]
   time: TimeState
 }
@@ -65,13 +73,17 @@ export type ReducerSlice = (
   payload: Record<string, unknown>
 ) => MainState
 
-export type CollectionType = GraphicElementType | ContainerElementType
+export type CollectionType =
+  | GraphicElementType
+  | ContainerElementType
+  | ObstacleElementType
 
 export type CollectionElementState =
   | SimulationWindowState
   | LinechartState
   | DataOutputState
   | ContainerState
+  | ObstacleState
 
 export interface CollectionState extends CollectionOrder {
   name: string

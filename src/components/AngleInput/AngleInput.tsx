@@ -8,7 +8,12 @@ function AngleInput({
   value
 }: AngleInputProps): JSX.Element {
   const inputElement = useRef<HTMLDivElement>(null)
-  const { angle } = useAngleInput(inputElement, value, onChange)
+  const { angle } = useAngleInput(
+    inputElement,
+    disabled ?? false,
+    value,
+    onChange
+  )
 
   return (
     <div
