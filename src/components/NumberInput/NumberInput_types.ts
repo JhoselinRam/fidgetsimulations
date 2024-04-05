@@ -8,7 +8,7 @@ export interface NumberInputProps
   > {
   children?: ReactNode
   className?: string
-  unit?: string
+  unit?: string | ReactNode
   inputClassName?: string
   value?: number
   onChange?: (value: number) => void

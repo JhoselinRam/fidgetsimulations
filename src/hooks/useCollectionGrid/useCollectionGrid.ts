@@ -12,7 +12,7 @@ function useCollectionGrid(): UseCollectionGrid {
   const graphical = getGraphicalItems(mainState, dispatch)
   const constrains = getConstrainsItems(mainState, dispatch)
   const objects = getObjectsItems(dispatch)
-  const force = getForceItems(dispatch)
+  const force = getForceItems(mainState, dispatch)
 
   const collectionItems: ItemsBySelection = {
     graphical,

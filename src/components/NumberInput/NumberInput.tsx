@@ -49,7 +49,7 @@ function NumberInput({
       >
         {children}
       </Label>
-      <Group className="w-fit">
+      <Group className="w-fit flex flex-row">
         <Input
           className={`max-w-input rounded-md bg-zinc-500 px-1 outline-none
           data-[focus-visible]:outline data-[focus-visible]:outline-2

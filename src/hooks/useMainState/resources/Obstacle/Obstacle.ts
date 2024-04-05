@@ -1,32 +1,17 @@
 import {
-  createSimpleSlice,
-  isCollection,
-  isInCollection
+  createSimpleNewCollectionSlice,
+  createSimpleSlice
 } from "../../useMainState"
-import type { MainState } from "../../useMainState_types"
-import type { ObstacleKeys, ObstacleState } from "./Obstacle_types"
+import type { ObstacleKeys } from "./Obstacle_types"
 import { obstacleDefaultState } from "./defaultState"
 
 // --------------------------------------------------------
 // -------------- Obstacle reducer slices ----------------
 
-export function obstacleNew(
-  state: MainState,
-  payload: Record<string, unknown>
-): MainState {
-  if (!isCollection<ObstacleState>(payload, obstacleDefaultState)) return state
-  if (isInCollection(payload.id, payload.type, state)) return state
-
-  const newState = { ...state }
-
-  newState.obstacle.push(payload)
-  newState.order.push({
-    type: "obstacle",
-    id: payload.id
-  })
-
-  return newState
-}
+export const obstacleNew = createSimpleNewCollectionSlice(
+  "obstacle",
+  obstacleDefaultState
+)
 
 export const obstaclePositionX = createSimpleSlice<ObstacleKeys>(
   "positionX",

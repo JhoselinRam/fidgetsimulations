@@ -7,6 +7,8 @@ import ConfigDataOutput from "../../../ConfigElements/ConfigDataOutput/ConfigDat
 import ConfigLinechart from "../../../ConfigElements/ConfigLinechart/ConfigLinechart"
 import ConfigContainer from "../../../ConfigElements/ConfigContainer/ConfigContainer"
 import ConfigObstacle from "../../../ConfigElements/ConfigObstacle/ConfigObstacle"
+import ConfigBalls from "../../../ConfigElements/ConfigBalls/ConfigBalls"
+import ConfigLocalGravity from "../../../ConfigElements/ConfigLocalGravity/ConfigLocalGravity"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -16,7 +18,9 @@ function ToolConfig(): JSX.Element {
     dataoutput: (item) => <ConfigDataOutput item={item} />,
     linechart: (item) => <ConfigLinechart item={item} />,
     container: (item) => <ConfigContainer item={item} />,
-    obstacle: (item) => <ConfigObstacle item={item} />
+    obstacle: (item) => <ConfigObstacle item={item} />,
+    balls: (item) => <ConfigBalls item={item} />,
+    localGravity: (item) => <ConfigLocalGravity item={item} />
   }
 
   return (

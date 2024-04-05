@@ -35,6 +35,12 @@ import type {
   BallElementType,
   BallState
 } from "./resources/Balls/Balls_types"
+import type {
+  LocalGravityActionType,
+  LocalGravityElementState,
+  LocalGravityElementType,
+  LocalGravityState
+} from "./resources/LocalGravity/LocalGravity_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -51,13 +57,15 @@ export type MainStateActionType =
   | CollectionActionType
   | ContainerActionType
   | ObstacleActionType
+  | LocalGravityActionType
 
 // Main state type
 export interface MainState
   extends GraphicalElementsState,
     ContainerElementState,
     ObstacleElementState,
-    BallElementState {
+    BallElementState,
+    LocalGravityElementState {
   order: CollectionOrder[]
   time: TimeState
 }
@@ -84,6 +92,7 @@ export type CollectionType =
   | ContainerElementType
   | ObstacleElementType
   | BallElementType
+  | LocalGravityElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -92,6 +101,7 @@ export type CollectionElementState =
   | ContainerState
   | ObstacleState
   | BallState
+  | LocalGravityState
 
 export interface CollectionState extends CollectionOrder {
   name: string

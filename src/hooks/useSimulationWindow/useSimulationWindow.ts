@@ -12,6 +12,8 @@ import { containerDefaultState } from "../useMainState/resources/Container/defau
 import type { ContainerCoords } from "./useSimulationWindow_types"
 import type { ObstacleState } from "../useMainState/resources/Obstacle/Obstacle_types"
 import { obstacleDefaultState } from "../useMainState/resources/Obstacle/defaultState"
+import type { BallState } from "../useMainState/resources/Balls/Balls_types"
+import { ballDefaultState } from "../useMainState/resources/Balls/defaultState"
 
 function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -158,7 +160,9 @@ function setGrid(graph: Graph2D, config: SimulationWindowState): void {
 function setData(graph: Graph2D, state: MainState): void {
   const orderElements = state.order.filter(
     (collection) =>
-      collection.type === "container" || collection.type === "obstacle"
+      collection.type === "container" ||
+      collection.type === "obstacle" ||
+      collection.type === "balls"
   )
 
   orderElements.forEach((item) => {
@@ -167,9 +171,10 @@ function setData(graph: Graph2D, state: MainState): void {
     )
     if (isCollection<ContainerState>(collection, containerDefaultState))
       drawObject(graph, collection)
-    else if (isCollection<ObstacleState>(collection, obstacleDefaultState)) {
+    else if (isCollection<ObstacleState>(collection, obstacleDefaultState))
       drawObject(graph, collection)
-    }
+    else if (isCollection<BallState>(collection, ballDefaultState))
+      drawBalls(graph, collection)
   })
 }
 
@@ -269,6 +274,25 @@ function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
   ])
 
   return [...positiveCoords, ...negativeCoords]
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function drawBalls(graph: Graph2D, collection: BallState): void {
+  const scale = graph.coordinateMaps().primary.x
+  const radiusCorrection =
+    Math.abs(scale.map(1) - scale.map(0)) /
+    import.meta.env.VITE_DEFAULT_MARKER_SIZE
+
+  graph
+    .addDataset("linechart")
+    .dataX(collection.data.map((data) => data.positionX))
+    .dataY(collection.data.map((data) => data.positionY))
+    .lineEnable(false)
+    .markerEnable(true)
+    .markerColor(collection.data.map((data) => data.color))
+    .markerSize(collection.data.map((data) => data.radius * radiusCorrection))
 }
 
 // --------------------------------------------------------

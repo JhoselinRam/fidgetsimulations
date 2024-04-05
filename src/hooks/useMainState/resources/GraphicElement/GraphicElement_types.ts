@@ -36,7 +36,7 @@ export type GraphicalCollection =
   | DataOutputState
 
 export interface GraphicalElementsState {
-  simulationWindow: readonly [SimulationWindowState]
+  simulationWindow: SimulationWindowState[]
   linechart: LinechartState[]
   dataoutput: DataOutputState[]
 }

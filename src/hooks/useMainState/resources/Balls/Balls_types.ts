@@ -12,7 +12,7 @@ export type BallActionType =
   | BallColorActionType
 
 export interface BallElementState {
-  balls: readonly [BallState]
+  balls: BallState[]
 }
 
 export type BallElementType = keyof BallElementState

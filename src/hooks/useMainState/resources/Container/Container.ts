@@ -1,33 +1,17 @@
 import {
-  createSimpleSlice,
-  isCollection,
-  isInCollection
+  createSimpleNewCollectionSlice,
+  createSimpleSlice
 } from "../../useMainState"
-import type { MainState } from "../../useMainState_types"
-import type { ContainerKeys, ContainerState } from "./Container_types"
+import type { ContainerKeys } from "./Container_types"
 import { containerDefaultState } from "./defaultState"
 
 // --------------------------------------------------------
 // -------------- Container reducer slices ----------------
 
-export function containerNew(
-  state: MainState,
-  payload: Record<string, unknown>
-): MainState {
-  if (!isCollection<ContainerState>(payload, containerDefaultState))
-    return state
-  if (isInCollection(payload.id, payload.type, state)) return state
-
-  const newState = { ...state }
-
-  newState.container.push(payload)
-  newState.order.push({
-    type: "container",
-    id: payload.id
-  })
-
-  return newState
-}
+export const containerNew = createSimpleNewCollectionSlice(
+  "container",
+  containerDefaultState
+)
 
 export const containerPositionX = createSimpleSlice<ContainerKeys>(
   "positionX",

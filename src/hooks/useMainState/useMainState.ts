@@ -81,6 +81,11 @@ import {
   obstacleWidth
 } from "./resources/Obstacle/Obstacle"
 import { toRounded } from "../../auxiliary/toRounded"
+import {
+  localGravityMagnitudeX,
+  localGravityMagnitudeY,
+  localGravityNew
+} from "./resources/LocalGravity/LocalGravity"
 
 // -------------------- Hook body -------------------------
 
@@ -151,7 +156,10 @@ const reducerObject: ReducerObject = {
   "obstacle@fillOpacity": obstacleFillOpacity,
   "obstacle@shape": obstacleShape,
   "obstacle@angle": obstacleAngle,
-  "obstacle@ratioLock": obstacleRatioLock
+  "obstacle@ratioLock": obstacleRatioLock,
+  "localGravity@new": localGravityNew,
+  "localGravity@magnitudeX": localGravityMagnitudeX,
+  "localGravity@magnitudeY": localGravityMagnitudeY
 }
 
 // --------------------------------------------------------
@@ -194,7 +202,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "dataoutput" ||
     type === "container" ||
     type === "obstacle" ||
-    type === "balls"
+    type === "balls" ||
+    type === "localGravity"
   )
 }
 
@@ -345,6 +354,30 @@ export function createSimpleSlice<KeyType extends string>(
     // Generate the new state
     const newState = { ...state }
     ;(newState[payload.type][index][validKey] as unknown) = payload[validKey]
+
+    return newState
+  }
+}
+
+// --------------------------------------------------------
+// - Creates a new collection slice for simple collections -
+
+export function createSimpleNewCollectionSlice<
+  T extends CollectionElementState
+>(type: CollectionType, sampleState: T): ReducerSlice {
+  return (state, payload) => {
+    if (!isCollection(payload, sampleState)) return state
+    if (payload.type === "simulationWindow" || payload.type === "balls")
+      return state
+    if (isInCollection(payload.id, payload.type, state)) return state
+
+    const newState = { ...state }
+
+    ;(newState[type] as T[]).push(payload)
+    newState.order.push({
+      id: payload.id,
+      type
+    })
 
     return newState
   }

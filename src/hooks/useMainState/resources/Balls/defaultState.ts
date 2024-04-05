@@ -52,5 +52,16 @@ export const ballDefaultState: BallState = {
   id: "balls",
   name: "Balls",
   ...ballCollisionDefaultState,
-  data: []
+  data: [
+    {
+      ...ballPositionDefaultState,
+      ...ballVelocityDefaultState,
+      ...ballAccelDefaultState,
+      ...ballMassDefaultState,
+      ...ballRadiusDefaultState,
+      ...ballChargeDefaultState,
+      ...ballColorDefaultState,
+      id: crypto.randomUUID()
+    }
+  ]
 }

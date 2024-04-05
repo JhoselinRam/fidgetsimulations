@@ -1,12 +1,19 @@
 import type { Dispatch } from "react"
-import type { MainStateAction } from "../../useMainState/useMainState_types"
+import type {
+  MainState,
+  MainStateAction
+} from "../../useMainState/useMainState_types"
 import type { ItemType } from "../../../components/CollectionPicker/resources/CollectionGrid/CollectionGrid_types"
 import LocalGravityIcon from "../../../components/Icons/LocalGravityIcon/LocalGravityIcon"
 import GravityIcon from "../../../components/Icons/GravityIcon/GravityIcon"
 import DragIcon from "../../../components/Icons/DragIcon/DragIcon"
 import ElectricIcon from "../../../components/Icons/ElectricIcon/ElectricIcon"
+import { createLocalGravityState } from "../../useMainState/resources/LocalGravity/defaultState"
 
-function getForceItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
+function getForceItems(
+  state: MainState,
+  dispatch: Dispatch<MainStateAction>
+): ItemType[] {
   // ---------------- Local Gravity Chart -------------------
 
   const localGravityItem: ItemType = {
@@ -17,7 +24,13 @@ function getForceItems(dispatch: Dispatch<MainStateAction>): ItemType[] {
   }
 
   function localGravityAction(): void {
-    console.log("Local Gravity Action")
+    const newLocalGravity = createLocalGravityState()
+    newLocalGravity.name = `Local Gravity ${state.localGravity.length + 1}`
+
+    dispatch({
+      type: "localGravity@new",
+      payload: newLocalGravity as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------
