@@ -14,17 +14,14 @@ function generateByNumericKey(key: TimeKeys): ReducerSlice {
   return (state, payload) => {
     // ----------- Guard condition ---------------
     // Makes sure the payload contains the necessary data
-    if (
-      typeof payload !== "object" ||
-      (key === "continuous" && typeof payload.value !== "boolean") ||
-      (key !== "continuous" && typeof payload.value !== "number")
-    )
-      return state
-    if (state.time[key] === payload.value) return state
+    if (typeof payload !== "object") return state
+    if (!(key in payload)) return state
+    if (typeof state.time[key] !== typeof payload[key]) return state
+    if (state.time[key] === payload[key]) return state
 
     // Generate the new state
     const newState = { ...state }
-    ;(newState.time[key] as unknown) = payload.value
+    ;(newState.time[key] as unknown) = payload[key]
 
     return newState
   }

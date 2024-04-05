@@ -1,23 +1,26 @@
 import { useContext } from "react"
 import type { UseTimeSpacing } from "./useTimeSpacing_types"
 import { mainStateContext } from "../useMainState/useMainState"
+import useBindState from "../useBindState/useBindState"
 
 function useTimeSpacing(): UseTimeSpacing {
-  const { dispatch, mainState } = useContext(mainStateContext)
-
-  function dtCallback(value: number): void {
-    dispatch({ type: "time@dt", payload: { value } })
-  }
-
-  function delayCallback(value: number): void {
-    dispatch({ type: "time@delay", payload: { value } })
-  }
+  const { mainState } = useContext(mainStateContext)
+  const dtProps = useBindState(
+    { id: "dt", type: "simulationWindow" },
+    mainState.time.dt,
+    "time@dt"
+  )
+  const delayProps = useBindState(
+    { id: "delay", type: "simulationWindow" },
+    mainState.time.delay,
+    "time@delay"
+  )
 
   return {
-    dt: mainState.time.dt,
-    dtCallback,
-    delay: mainState.time.delay,
-    delayCallback
+    dt: dtProps.value,
+    dtCallback: dtProps.changeValue,
+    delay: delayProps.value,
+    delayCallback: delayProps.changeValue
   }
 }
 

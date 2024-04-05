@@ -2,12 +2,13 @@ import { useContext, type RefObject, useEffect } from "react"
 import type { UseSimulationTime } from "./useSimulationTime_types"
 import { toolBarContext } from "../../components/ToolBar/context"
 import { mainStateContext } from "../useMainState/useMainState"
+import useBindState from "../useBindState/useBindState"
 
 function useSimulationTime(
   infoElement: RefObject<HTMLDivElement>
 ): UseSimulationTime {
   const { addElementInMenu } = useContext(toolBarContext)
-  const { dispatch, mainState } = useContext(mainStateContext)
+  const { mainState } = useContext(mainStateContext)
 
   useEffect(() => {
     if (infoElement.current != null)
@@ -15,19 +16,22 @@ function useSimulationTime(
     addElementInMenu(infoElement)
   }, [infoElement, addElementInMenu])
 
-  function switchCallback(value: boolean): void {
-    dispatch({ type: "time@continuous", payload: { value } })
-  }
-
-  function timeCallback(value: number): void {
-    dispatch({ type: "time@time", payload: { value } })
-  }
+  const switchProps = useBindState(
+    { id: "continuous", type: "simulationWindow" },
+    mainState.time.continuous,
+    "time@continuous"
+  )
+  const timeProps = useBindState(
+    { id: "time", type: "simulationWindow" },
+    mainState.time.time,
+    "time@time"
+  )
 
   return {
-    switchValue: mainState.time.continuous,
-    timeValue: mainState.time.time,
-    switchCallback,
-    timeCallback
+    switchValue: switchProps.value,
+    timeValue: timeProps.value,
+    switchCallback: switchProps.changeValue,
+    timeCallback: timeProps.changeValue
   }
 }
 

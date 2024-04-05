@@ -12,20 +12,18 @@ function useNumberInput(
   maxValue?: number
 ): UseNumberInput {
   const [innerValue, setInnerValue] = useState(outerValue ?? 0)
-  const { labelMoveCallback } = useLabelMove(
-    labelElement,
-    setInnerValue,
-    step,
-    isDisabled
-  )
-
-  // Synchronizes the inner and outer values
   const onInnerChange = useCallback(
     (value: number): void => {
       setInnerValue(value)
       if (onChange != null) onChange(value)
     },
     [onChange]
+  )
+  const { labelMoveCallback } = useLabelMove(
+    labelElement,
+    setInnerValue,
+    step,
+    isDisabled
   )
 
   const validValue = useCallback(
@@ -38,6 +36,7 @@ function useNumberInput(
     [minValue, maxValue]
   )
 
+  // Synchronizes the inner and outer values
   useEffect(() => {
     if (outerValue == null) return
 
@@ -50,9 +49,8 @@ function useNumberInput(
   useEffect(() => {
     const newInnerValue = validValue(innerValue)
 
-    if (onChange != null) onChange(newInnerValue)
-    if (innerValue !== newInnerValue) setInnerValue(newInnerValue)
-  }, [innerValue, onChange, validValue])
+    onInnerChange(newInnerValue)
+  }, [innerValue, onInnerChange, validValue])
 
   return {
     innerValue,

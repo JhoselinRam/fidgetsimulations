@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import type {
   CollectionOrder,
   MainState
@@ -11,6 +11,8 @@ import type {
 } from "../useMainState/resources/LocalGravity/LocalGravity_types"
 import { localGravityMagnitudeDefaultState } from "../useMainState/resources/LocalGravity/defaultState"
 import useBindState from "../useBindState/useBindState"
+import { toDegrees, toRadians } from "../../auxiliary/angleAux"
+import { toRounded } from "../../auxiliary/toRounded"
 
 function useLocalGravityMagnitude(
   item: CollectionOrder
@@ -27,10 +29,55 @@ function useLocalGravityMagnitude(
     magnitudeY,
     "localGravity@magnitudeY"
   )
-  const [magnitude, setMagnitude] = useState(Math.hypot(magnitudeX, magnitudeY))
-  const [angle, setAngle] = useState(
-    (Math.atan2(magnitudeY, magnitudeX) * 180) / Math.PI
+
+  const [magnitude, setMagnitude] = useState(
+    Math.hypot(magnitudeXProps.value, magnitudeYProps.value)
   )
+  const [angle, setAngle] = useState(
+    toDegrees(Math.atan2(magnitudeYProps.value, magnitudeXProps.value))
+  )
+
+  const changeMagnitude = useCallback(
+    (value: number): void => {
+      const newMagnitude = toRounded(
+        value,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      magnitudeXProps.changeValue(newMagnitude * Math.cos(toRadians(angle)))
+      magnitudeYProps.changeValue(newMagnitude * Math.sin(toRadians(angle)))
+
+      setMagnitude(newMagnitude)
+    },
+    [angle, magnitudeXProps, magnitudeYProps]
+  )
+
+  const changeAngle = useCallback(
+    (value: number): void => {
+      const newAngle = toRounded(value, import.meta.env.VITE_ROUNDED_DECIMALS)
+      magnitudeXProps.changeValue(magnitude * Math.cos(toRadians(newAngle)))
+      magnitudeYProps.changeValue(magnitude * Math.sin(toRadians(newAngle)))
+
+      setAngle(newAngle)
+    },
+    [magnitude, magnitudeXProps, magnitudeYProps]
+  )
+
+  useEffect(() => {
+    const newMagnitudeX = toRounded(
+      magnitudeXProps.value,
+      import.meta.env.VITE_ROUNDED_DECIMALS
+    )
+    const newMagnitudeY = toRounded(
+      magnitudeYProps.value,
+      import.meta.env.VITE_ROUNDED_DECIMALS
+    )
+
+    changeMagnitude(Math.hypot(newMagnitudeX, newMagnitudeY))
+    changeAngle(toDegrees(Math.atan2(newMagnitudeY, newMagnitudeX)))
+
+    magnitudeXProps.changeValue(newMagnitudeX)
+    magnitudeYProps.changeValue(newMagnitudeY)
+  }, [magnitudeXProps, magnitudeYProps, changeMagnitude, changeAngle])
 
   return {
     rectangularHooks: {
@@ -40,10 +87,10 @@ function useLocalGravityMagnitude(
       changeMagnitudeY: magnitudeYProps.changeValue
     },
     polarHooks: {
+      magnitude,
       angle,
-      changeAngle: setAngle,
-      changeMagnitude: setMagnitude,
-      magnitude
+      changeMagnitude,
+      changeAngle
     }
   }
 }
