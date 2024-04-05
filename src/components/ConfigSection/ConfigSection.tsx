@@ -13,7 +13,7 @@ const ConfigSection = createComponentNamespace<
 >(
   "ConfigSection",
   ({ title, children, dropDefault }) => {
-    const [isDrop, setIsDrop] = useState(dropDefault ?? false)
+    const [isDrop, setIsDrop] = useState(dropDefault ?? true)
 
     return (
       <DropSection className="w-full mt-4 flex flex-col items-center relative after:absolute after:border after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">

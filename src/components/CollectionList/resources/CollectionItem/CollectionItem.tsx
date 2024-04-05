@@ -27,7 +27,7 @@ function CollectionItem({
       {icon}
       <CollectionName name={name} />
       <OpenConfig selectOnAction={selectOnAction} item={item} />
-      {item.type === "simulationWindow" ? (
+      {item.type === "simulationWindow" || item.type === "balls" ? (
         <div className="w-4 flex-shrink-0"></div>
       ) : (
         <DeleteCollection onDelete={onDelete} selectOnAction={selectOnAction} />

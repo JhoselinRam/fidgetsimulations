@@ -1,3 +1,4 @@
+import BallCollectionItemIcon from "../../../../components/CollectionItemIcons/BallCollectionItemIcon"
 import ContainerCollectionItemIcon from "../../../../components/CollectionItemIcons/ContainerCollectionItemIcon"
 import DataOutCollectionItemIcon from "../../../../components/CollectionItemIcons/DataOutCollectionItemIcon"
 import LinechartCollectionItemIcon from "../../../../components/CollectionItemIcons/LinechartCollectionItemIcon"
@@ -10,5 +11,6 @@ export const itemIcon: ItemIcon = {
   linechart: <LinechartCollectionItemIcon />,
   dataoutput: <DataOutCollectionItemIcon />,
   container: <ContainerCollectionItemIcon />,
-  obstacle: <ObstacleCollectionItemIcon />
+  obstacle: <ObstacleCollectionItemIcon />,
+  balls: <BallCollectionItemIcon />
 }

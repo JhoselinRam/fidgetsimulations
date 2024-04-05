@@ -30,6 +30,11 @@ import type {
   ObstacleElementType,
   ObstacleState
 } from "./resources/Obstacle/Obstacle_types"
+import type {
+  BallElementState,
+  BallElementType,
+  BallState
+} from "./resources/Balls/Balls_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -51,7 +56,8 @@ export type MainStateActionType =
 export interface MainState
   extends GraphicalElementsState,
     ContainerElementState,
-    ObstacleElementState {
+    ObstacleElementState,
+    BallElementState {
   order: CollectionOrder[]
   time: TimeState
 }
@@ -77,6 +83,7 @@ export type CollectionType =
   | GraphicElementType
   | ContainerElementType
   | ObstacleElementType
+  | BallElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -84,6 +91,7 @@ export type CollectionElementState =
   | DataOutputState
   | ContainerState
   | ObstacleState
+  | BallState
 
 export interface CollectionState extends CollectionOrder {
   name: string

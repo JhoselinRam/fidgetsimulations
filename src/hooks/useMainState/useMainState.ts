@@ -7,6 +7,7 @@ import type {
   MainState,
   MainStateAction,
   ReducerObject,
+  ReducerSlice,
   UseMainState
 } from "./useMainState_types"
 import {
@@ -79,6 +80,7 @@ import {
   obstacleShape,
   obstacleWidth
 } from "./resources/Obstacle/Obstacle"
+import { toRounded } from "../../auxiliary/toRounded"
 
 // -------------------- Hook body -------------------------
 
@@ -191,7 +193,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "linechart" ||
     type === "dataoutput" ||
     type === "container" ||
-    type === "obstacle"
+    type === "obstacle" ||
+    type === "balls"
   )
 }
 
@@ -300,6 +303,51 @@ export function getCollection<T>(
   return state[item.type].find(
     (collection) => collection.id === item.id && collection.type === item.type
   ) as T | undefined
+}
+
+// --------------------------------------------------------
+// --- Creates a dispatch slice for simple valued states --
+
+export function createSimpleSlice<KeyType extends string>(
+  key: KeyType,
+  type: CollectionType
+): ReducerSlice {
+  return (state, payload) => {
+    // ----------- Guard conditions ---------------
+    // Makes sure the payload contains the necessary data
+    if (!isCollectionOrder(payload)) return state
+    if (!isInCollection(payload.id, payload.type, state)) return state
+    if (payload.type !== type) return state
+    if (!(key in payload)) return state
+
+    const index = state[payload.type].findIndex(
+      (collection) =>
+        collection.id === payload.id && collection.type === payload.type
+    )
+    const collection = state[payload.type][index]
+
+    // Checks if the key exist in the collection
+    if (!(key in collection)) return state
+    const validKey = key as keyof typeof collection
+
+    // Check if the data actually change
+    if (typeof payload[validKey] !== typeof collection[validKey]) return state
+
+    if (typeof payload[validKey] === "number") {
+      ;(payload[validKey] as number) = toRounded(
+        payload[validKey] as number,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+    }
+
+    if (payload[validKey] === collection[validKey]) return state
+
+    // Generate the new state
+    const newState = { ...state }
+    ;(newState[payload.type][index][validKey] as unknown) = payload[validKey]
+
+    return newState
+  }
 }
 
 // --------------------------------------------------------

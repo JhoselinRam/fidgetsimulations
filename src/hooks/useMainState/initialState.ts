@@ -1,3 +1,4 @@
+import { ballDefaultState } from "./resources/Balls/defaultState"
 import { simulationWindowDefaultState } from "./resources/SimulationWindow/defaultState"
 import type { MainState } from "./useMainState_types"
 
@@ -6,7 +7,10 @@ const initialState: MainState = {
   simulationWindow: [{ ...simulationWindowDefaultState }],
   linechart: [],
   dataoutput: [],
-  order: [{ id: "simulationWindow", type: "simulationWindow" }],
+  order: [
+    { id: "simulationWindow", type: "simulationWindow" },
+    { id: "balls", type: "balls" }
+  ],
   time: {
     continuous: true,
     time: 10,
@@ -14,7 +18,8 @@ const initialState: MainState = {
     delay: 0
   },
   container: [],
-  obstacle: []
+  obstacle: [],
+  balls: [{ ...ballDefaultState }]
 }
 
 // --------------------------------------------------------
