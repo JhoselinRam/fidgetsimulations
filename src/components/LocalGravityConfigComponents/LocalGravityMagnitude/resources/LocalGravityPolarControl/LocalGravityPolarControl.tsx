@@ -37,7 +37,7 @@ function LocalGravityPolarControl({
           >
             Angle:
           </NumberInput>
-          <AngleInput />
+          <AngleInput value={angle} onChange={changeAngle} />
         </div>
       </ConfigSection.Section>
     </>

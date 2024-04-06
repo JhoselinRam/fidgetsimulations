@@ -1,3 +1,9 @@
+import type { Dispatch, SetStateAction } from "react"
+import type {
+  LocalGravityActionType,
+  LocalGravityMagnitude
+} from "../useMainState/resources/LocalGravity/LocalGravity_types"
+
 export interface UseLocalGravityMagnitude {
   rectangularHooks: LocalGravityMagnitudeRectangularHooks
   polarHooks: LocalGravityMagnitudePolarHooks
@@ -15,4 +21,12 @@ export interface LocalGravityMagnitudePolarHooks {
   angle: number
   changeMagnitude: (value: number) => void
   changeAngle: (value: number) => void
+}
+
+export type LocalGravityActionPiker = {
+  [k in keyof LocalGravityMagnitude]: LocalGravityActionType
+}
+
+export type LocalGravitySetterPiker = {
+  [k in keyof LocalGravityMagnitude]: Dispatch<SetStateAction<number>>
 }

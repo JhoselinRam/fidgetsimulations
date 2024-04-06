@@ -3,88 +3,162 @@ import type {
   CollectionOrder,
   MainState
 } from "../useMainState/useMainState_types"
-import type { UseLocalGravityMagnitude } from "./useLocalGravityMagnitude_types"
+import type {
+  LocalGravityActionPiker,
+  LocalGravitySetterPiker,
+  UseLocalGravityMagnitude
+} from "./useLocalGravityMagnitude_types"
 import { getCollection, mainStateContext } from "../useMainState/useMainState"
 import type {
   LocalGravityMagnitude,
   LocalGravityState
 } from "../useMainState/resources/LocalGravity/LocalGravity_types"
 import { localGravityMagnitudeDefaultState } from "../useMainState/resources/LocalGravity/defaultState"
-import useBindState from "../useBindState/useBindState"
 import { toDegrees, toRadians } from "../../auxiliary/angleAux"
 import { toRounded } from "../../auxiliary/toRounded"
 
 function useLocalGravityMagnitude(
   item: CollectionOrder
 ): UseLocalGravityMagnitude {
-  const { mainState } = useContext(mainStateContext)
+  const { mainState, dispatch } = useContext(mainStateContext)
   const { magnitudeX, magnitudeY } = getMagnitudeProps(item, mainState)
-  const magnitudeXProps = useBindState(
-    item,
-    magnitudeX,
-    "localGravity@magnitudeX"
-  )
-  const magnitudeYProps = useBindState(
-    item,
-    magnitudeY,
-    "localGravity@magnitudeY"
+
+  const [gravityX, setGravityX] = useState(magnitudeX)
+  const [gravityY, setGravityY] = useState(magnitudeY)
+  const [magnitude, setMagnitude] = useState(Math.hypot(magnitudeX, magnitudeY))
+  const [angle, setAngle] = useState(
+    toDegrees(Math.atan2(magnitudeY, magnitudeX))
   )
 
-  const [magnitude, setMagnitude] = useState(
-    Math.hypot(magnitudeXProps.value, magnitudeYProps.value)
+  const updateGravity = useCallback(
+    (value: number, key: keyof LocalGravityMagnitude) => {
+      const action: LocalGravityActionPiker = {
+        magnitudeX: "localGravity@magnitudeX",
+        magnitudeY: "localGravity@magnitudeY"
+      }
+      const setter: LocalGravitySetterPiker = {
+        magnitudeX: setGravityX,
+        magnitudeY: setGravityY
+      }
+
+      const payload: Record<string, unknown> = { ...item }
+      payload[key] = value
+
+      dispatch({ type: action[key], payload })
+      setter[key](value)
+    },
+    [dispatch, item]
   )
-  const [angle, setAngle] = useState(
-    toDegrees(Math.atan2(magnitudeYProps.value, magnitudeXProps.value))
+
+  const changeGravityX = useCallback(
+    (value: number) => {
+      const newGravityX = toRounded(
+        value,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      updateGravity(newGravityX, "magnitudeX")
+
+      const newMagnitude = toRounded(
+        Math.hypot(newGravityX, gravityY),
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      const newAngle = toRounded(
+        toDegrees(Math.atan2(gravityY, newGravityX)),
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+
+      setMagnitude(newMagnitude)
+      setAngle(newAngle)
+    },
+    [updateGravity, gravityY]
+  )
+
+  const changeGravityY = useCallback(
+    (value: number) => {
+      const newGravityY = toRounded(
+        value,
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      updateGravity(newGravityY, "magnitudeY")
+
+      const newMagnitude = toRounded(
+        Math.hypot(gravityX, newGravityY),
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+      const newAngle = toRounded(
+        toDegrees(Math.atan2(newGravityY, gravityX)),
+        import.meta.env.VITE_ROUNDED_DECIMALS
+      )
+
+      setMagnitude(newMagnitude)
+      setAngle(newAngle)
+    },
+    [updateGravity, gravityX]
   )
 
   const changeMagnitude = useCallback(
-    (value: number): void => {
+    (value: number) => {
       const newMagnitude = toRounded(
         value,
         import.meta.env.VITE_ROUNDED_DECIMALS
       )
-      magnitudeXProps.changeValue(newMagnitude * Math.cos(toRadians(angle)))
-      magnitudeYProps.changeValue(newMagnitude * Math.sin(toRadians(angle)))
-
       setMagnitude(newMagnitude)
+
+      updateGravity(
+        toRounded(
+          newMagnitude * Math.cos(toRadians(angle)),
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        ),
+        "magnitudeX"
+      )
+      updateGravity(
+        toRounded(
+          newMagnitude * Math.sin(toRadians(angle)),
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        ),
+        "magnitudeY"
+      )
     },
-    [angle, magnitudeXProps, magnitudeYProps]
+    [angle, updateGravity]
   )
 
   const changeAngle = useCallback(
-    (value: number): void => {
+    (value: number) => {
       const newAngle = toRounded(value, import.meta.env.VITE_ROUNDED_DECIMALS)
-      magnitudeXProps.changeValue(magnitude * Math.cos(toRadians(newAngle)))
-      magnitudeYProps.changeValue(magnitude * Math.sin(toRadians(newAngle)))
-
       setAngle(newAngle)
+
+      updateGravity(
+        toRounded(
+          magnitude * Math.cos(toRadians(newAngle)),
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        ),
+        "magnitudeX"
+      )
+      updateGravity(
+        toRounded(
+          magnitude * Math.sin(toRadians(newAngle)),
+          import.meta.env.VITE_ROUNDED_DECIMALS
+        ),
+        "magnitudeY"
+      )
     },
-    [magnitude, magnitudeXProps, magnitudeYProps]
+    [updateGravity, magnitude]
   )
 
   useEffect(() => {
-    const newMagnitudeX = toRounded(
-      magnitudeXProps.value,
-      import.meta.env.VITE_ROUNDED_DECIMALS
-    )
-    const newMagnitudeY = toRounded(
-      magnitudeYProps.value,
-      import.meta.env.VITE_ROUNDED_DECIMALS
-    )
+    changeGravityX(magnitudeX)
+  }, [magnitudeX, changeGravityX])
 
-    changeMagnitude(Math.hypot(newMagnitudeX, newMagnitudeY))
-    changeAngle(toDegrees(Math.atan2(newMagnitudeY, newMagnitudeX)))
-
-    magnitudeXProps.changeValue(newMagnitudeX)
-    magnitudeYProps.changeValue(newMagnitudeY)
-  }, [magnitudeXProps, magnitudeYProps, changeMagnitude, changeAngle])
+  useEffect(() => {
+    changeGravityY(magnitudeY)
+  }, [magnitudeY, changeGravityY])
 
   return {
     rectangularHooks: {
-      magnitudeX: magnitudeXProps.value,
-      changeMagnitudeX: magnitudeXProps.changeValue,
-      magnitudeY: magnitudeYProps.value,
-      changeMagnitudeY: magnitudeYProps.changeValue
+      magnitudeX: gravityX,
+      magnitudeY: gravityY,
+      changeMagnitudeX: changeGravityX,
+      changeMagnitudeY: changeGravityY
     },
     polarHooks: {
       magnitude,
