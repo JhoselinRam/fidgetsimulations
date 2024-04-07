@@ -20,7 +20,10 @@ const initialState: MainState = {
   container: [],
   obstacle: [],
   balls: [{ ...ballDefaultState }],
-  localGravity: []
+  localGravity: [],
+  drag: [],
+  electric: [],
+  gravity: []
 }
 
 // --------------------------------------------------------

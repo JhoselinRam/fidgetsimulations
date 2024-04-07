@@ -41,6 +41,20 @@ import type {
   LocalGravityElementType,
   LocalGravityState
 } from "./resources/LocalGravity/LocalGravity_types"
+import type {
+  SimpleForceActionType,
+  SimpleForceElementState,
+  SimpleForceElementType
+} from "./resources/SimpleForce/SimpleForce_types"
+import type {
+  GravityActionType,
+  GravityState
+} from "./resources/Gravity/Gravity_types"
+import type { DragActionType, DragState } from "./resources/Drag/Drag_types"
+import type {
+  ElectricActionType,
+  ElectricState
+} from "./resources/Electric/Electric_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -58,6 +72,10 @@ export type MainStateActionType =
   | ContainerActionType
   | ObstacleActionType
   | LocalGravityActionType
+  | SimpleForceActionType
+  | GravityActionType
+  | DragActionType
+  | ElectricActionType
 
 // Main state type
 export interface MainState
@@ -65,7 +83,8 @@ export interface MainState
     ContainerElementState,
     ObstacleElementState,
     BallElementState,
-    LocalGravityElementState {
+    LocalGravityElementState,
+    SimpleForceElementState {
   order: CollectionOrder[]
   time: TimeState
 }
@@ -93,6 +112,7 @@ export type CollectionType =
   | ObstacleElementType
   | BallElementType
   | LocalGravityElementType
+  | SimpleForceElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -102,6 +122,9 @@ export type CollectionElementState =
   | ObstacleState
   | BallState
   | LocalGravityState
+  | GravityState
+  | DragState
+  | ElectricState
 
 export interface CollectionState extends CollectionOrder {
   name: string

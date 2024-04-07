@@ -86,6 +86,10 @@ import {
   localGravityMagnitudeY,
   localGravityNew
 } from "./resources/LocalGravity/LocalGravity"
+import { simpleForceMagnitude } from "./resources/SimpleForce/SimpleForce"
+import { gravityNew } from "./resources/Gravity/Gravity"
+import { dragNew } from "./resources/Drag/Drag"
+import { electricNew } from "./resources/Electric/Electric"
 
 // -------------------- Hook body -------------------------
 
@@ -159,7 +163,11 @@ const reducerObject: ReducerObject = {
   "obstacle@ratioLock": obstacleRatioLock,
   "localGravity@new": localGravityNew,
   "localGravity@magnitudeX": localGravityMagnitudeX,
-  "localGravity@magnitudeY": localGravityMagnitudeY
+  "localGravity@magnitudeY": localGravityMagnitudeY,
+  "simpleForce@magnitude": simpleForceMagnitude,
+  "gravity@new": gravityNew,
+  "drag@new": dragNew,
+  "electric@new": electricNew
 }
 
 // --------------------------------------------------------
@@ -203,7 +211,10 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "container" ||
     type === "obstacle" ||
     type === "balls" ||
-    type === "localGravity"
+    type === "localGravity" ||
+    type === "gravity" ||
+    type === "drag" ||
+    type === "electric"
   )
 }
 
@@ -316,17 +327,31 @@ export function getCollection<T>(
 
 // --------------------------------------------------------
 // --- Creates a dispatch slice for simple valued states --
-
 export function createSimpleSlice<KeyType extends string>(
   key: KeyType,
   type: CollectionType
+): ReducerSlice
+export function createSimpleSlice<KeyType extends string>(
+  key: KeyType,
+  type: CollectionType[]
+): ReducerSlice
+export function createSimpleSlice<KeyType extends string>(
+  key: KeyType,
+  type: CollectionType | CollectionType[]
 ): ReducerSlice {
   return (state, payload) => {
     // ----------- Guard conditions ---------------
     // Makes sure the payload contains the necessary data
     if (!isCollectionOrder(payload)) return state
     if (!isInCollection(payload.id, payload.type, state)) return state
-    if (payload.type !== type) return state
+    if (typeof type === "string" && payload.type !== type) return state
+    if (Array.isArray(type)) {
+      let isValidType = false
+      type.forEach((option) => {
+        if (payload.type === option) isValidType = true
+      })
+      if (!isValidType) return state
+    }
     if (!(key in payload)) return state
 
     const index = state[payload.type].findIndex(

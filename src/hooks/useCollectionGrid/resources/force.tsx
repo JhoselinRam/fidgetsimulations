@@ -9,6 +9,9 @@ import GravityIcon from "../../../components/Icons/GravityIcon/GravityIcon"
 import DragIcon from "../../../components/Icons/DragIcon/DragIcon"
 import ElectricIcon from "../../../components/Icons/ElectricIcon/ElectricIcon"
 import { createLocalGravityState } from "../../useMainState/resources/LocalGravity/defaultState"
+import { createGravityState } from "../../useMainState/resources/Gravity/defaultState"
+import { createDragState } from "../../useMainState/resources/Drag/defaultState"
+import { createElectricState } from "../../useMainState/resources/Electric/defaultState"
 
 function getForceItems(
   state: MainState,
@@ -44,7 +47,13 @@ function getForceItems(
   }
 
   function gravityAction(): void {
-    console.log(" Gravity Action")
+    const newGravity = createGravityState()
+    newGravity.name = `Gravity ${state.gravity.length + 1}`
+
+    dispatch({
+      type: "gravity@new",
+      payload: newGravity as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------
@@ -58,7 +67,13 @@ function getForceItems(
   }
 
   function dragAction(): void {
-    console.log(" Drag Action")
+    const newDrag = createDragState()
+    newDrag.name = `Drag ${state.drag.length + 1}`
+
+    dispatch({
+      type: "drag@new",
+      payload: newDrag as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------
@@ -72,7 +87,13 @@ function getForceItems(
   }
 
   function electricAction(): void {
-    console.log(" Electric Action")
+    const newElectric = createElectricState()
+    newElectric.name = `Electric ${state.electric.length + 1}`
+
+    dispatch({
+      type: "electric@new",
+      payload: newElectric as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------

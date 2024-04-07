@@ -9,6 +9,9 @@ import ConfigContainer from "../../../ConfigElements/ConfigContainer/ConfigConta
 import ConfigObstacle from "../../../ConfigElements/ConfigObstacle/ConfigObstacle"
 import ConfigBalls from "../../../ConfigElements/ConfigBalls/ConfigBalls"
 import ConfigLocalGravity from "../../../ConfigElements/ConfigLocalGravity/ConfigLocalGravity"
+import ConfigGravity from "../../../ConfigElements/ConfigGravity/ConfigGravity"
+import ConfigDrag from "../../../ConfigElements/ConfigDrag/ConfigDrag"
+import ConfigElectric from "../../../ConfigElements/ConfigElectric/ConfigElectric"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -20,7 +23,10 @@ function ToolConfig(): JSX.Element {
     container: (item) => <ConfigContainer item={item} />,
     obstacle: (item) => <ConfigObstacle item={item} />,
     balls: (item) => <ConfigBalls item={item} />,
-    localGravity: (item) => <ConfigLocalGravity item={item} />
+    localGravity: (item) => <ConfigLocalGravity item={item} />,
+    gravity: (item) => <ConfigGravity item={item} />,
+    drag: (item) => <ConfigDrag item={item} />,
+    electric: (item) => <ConfigElectric item={item} />
   }
 
   return (
