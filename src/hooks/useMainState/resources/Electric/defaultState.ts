@@ -1,12 +1,12 @@
 import type { SimpleForceMagnitude } from "../SimpleForce/SimpleForce_types"
 import type { ElectricState } from "./Electric_types"
 
-export const electricDefaultMagnitudeState: SimpleForceMagnitude = {
+export const electricMagnitudeDefaultState: SimpleForceMagnitude = {
   magnitude: 8.9896e9
 }
 
 export const electricDefaultState: ElectricState = {
-  ...electricDefaultMagnitudeState,
+  ...electricMagnitudeDefaultState,
   id: "",
   name: "",
   type: "electric"

@@ -7,13 +7,16 @@ function ConfigGravity({ item }: ConfigCollectionProps): JSX.Element {
     <ConfigCollection item={item}>
       <SimpleForceConfig
         item={item}
-        name="G"
+        magnitudeName="G"
         unit={
           <p>
             Nm<sup>2</sup>/kg<sup>2</sup>
           </p>
         }
-        header="Gravitational constant"
+        magnitudeHeader="Gravitational constant"
+        magnitudeScientificNotation={true}
+        magnitudeDecimals={21}
+        magnitudeStep={0}
       />
     </ConfigCollection>
   )

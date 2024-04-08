@@ -7,13 +7,15 @@ function ConfigElectric({ item }: ConfigCollectionProps): JSX.Element {
     <ConfigCollection item={item}>
       <SimpleForceConfig
         item={item}
-        name="k"
+        magnitudeName="k"
         unit={
           <p>
             Nm<sup>2</sup>/C<sup>2</sup>
           </p>
         }
-        header="Coulomb's constant"
+        magnitudeHeader="Coulomb's constant"
+        magnitudeScientificNotation={true}
+        magnitudeStep={0}
       />
     </ConfigCollection>
   )

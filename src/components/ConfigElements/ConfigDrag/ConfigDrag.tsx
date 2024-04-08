@@ -7,9 +7,10 @@ function ConfigDrag({ item }: ConfigCollectionProps): JSX.Element {
     <ConfigCollection item={item}>
       <SimpleForceConfig
         item={item}
-        name="c"
+        magnitudeName="c"
         unit="kg/s"
-        header="Drag coefficient"
+        magnitudeHeader="Drag coefficient"
+        magnitudeStep={0.005}
       />
     </ConfigCollection>
   )

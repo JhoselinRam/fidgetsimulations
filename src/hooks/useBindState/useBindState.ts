@@ -5,7 +5,6 @@ import type {
 } from "../useMainState/useMainState_types"
 import type { UseBindState } from "./useBindState_types"
 import { mainStateContext } from "../useMainState/useMainState"
-import { toRounded } from "../../auxiliary/toRounded"
 
 function useBindState<T>(
   item: CollectionOrder,
@@ -17,16 +16,16 @@ function useBindState<T>(
 
   const changeValue = useCallback(
     (value: T) => {
-      const usedValue =
-        typeof value === "number"
-          ? toRounded(value, import.meta.env.VITE_ROUNDED_DECIMALS)
-          : value
+      const usedValue = value
+      // typeof value === "number"
+      //   ? toRounded(value, import.meta.env.VITE_ROUNDED_DECIMALS)
+      //   : value
       const prop = action.split("@")[1]
       const payload: Record<string, unknown> = { ...item }
       payload[prop] = usedValue
 
       dispatch({ type: action, payload })
-      setLocalValue(usedValue as T)
+      setLocalValue(usedValue)
     },
     [item, action, dispatch]
   )

@@ -1,9 +1,12 @@
 import type { ReactNode } from "react"
-import type { CollectionOrder } from "../../../../hooks/useMainState/useMainState_types"
+import type { UseMagnitude } from "../../../../hooks/useSimpleForce/resources/useMagnitude/useMagnitude_types"
 
 export interface MagnitudeConfigProps {
-  item: CollectionOrder
+  hooks: UseMagnitude
   unit: string | ReactNode
-  name: string
-  header: string
+  magnitudeName: string
+  magnitudeHeader: string
+  magnitudeDecimals?: number
+  magnitudeStep?: number
+  magnitudeScientificNotation?: boolean
 }

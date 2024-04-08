@@ -80,7 +80,6 @@ import {
   obstacleShape,
   obstacleWidth
 } from "./resources/Obstacle/Obstacle"
-import { toRounded } from "../../auxiliary/toRounded"
 import {
   localGravityMagnitudeX,
   localGravityMagnitudeY,
@@ -367,12 +366,12 @@ export function createSimpleSlice<KeyType extends string>(
     // Check if the data actually change
     if (typeof payload[validKey] !== typeof collection[validKey]) return state
 
-    if (typeof payload[validKey] === "number") {
-      ;(payload[validKey] as number) = toRounded(
-        payload[validKey] as number,
-        import.meta.env.VITE_ROUNDED_DECIMALS
-      )
-    }
+    // if (typeof payload[validKey] === "number") {
+    //   ;(payload[validKey] as number) = toRounded(
+    //     payload[validKey] as number,
+    //     import.meta.env.VITE_ROUNDED_DECIMALS
+    //   )
+    // }
 
     if (payload[validKey] === collection[validKey]) return state
 
