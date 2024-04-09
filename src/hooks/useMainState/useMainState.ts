@@ -106,7 +106,7 @@ export default function useMainState(): UseMainState {
 
 const reducerObject: ReducerObject = {
   "collection@delete": collectionDelete,
-  "collection@rename": collectionRename,
+  "collection@name": collectionRename,
   "collection@reorder": collectionReorder,
   "graphic@positionX": graphicElementPositionX,
   "graphic@positionY": graphicElementPositionY,

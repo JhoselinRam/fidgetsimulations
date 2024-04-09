@@ -40,7 +40,7 @@ export const ballRadiusDefaultState: BallRadius = {
 }
 
 export const ballChargeDefaultState: BallCharge = {
-  charge: 0.1
+  charge: 0.001
 }
 
 export const ballColorDefaultState: BallColor = {

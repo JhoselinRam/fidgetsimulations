@@ -39,11 +39,7 @@ function NumberInput({
     >
       <Label
         className={`select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default 
-        ${
-          isReadOnly == null || !isReadOnly
-            ? ""
-            : "text-tuatara-600 cursor-default"
-        }`}
+        `}
         onPointerDown={labelMoveCallback}
         ref={labelElement}
       >
@@ -55,20 +51,10 @@ function NumberInput({
           data-[focus-visible]:outline data-[focus-visible]:outline-2
         data-[focus-visible]:outline-accent-blue-300/30 data-[focus-visible]:outline-offset-1
         group-data-[disabled]:text-tuatara-900
-        ${
-          isReadOnly == null || !isReadOnly
-            ? ""
-            : "text-tuatara-600 cursor-default"
-        } 
+        
           ${inputClassName}`}
         />
-        <span
-          className={`ml-1 group-data-[disabled]:text-tuatara-600 ${
-            isReadOnly == null || !isReadOnly
-              ? ""
-              : "text-tuatara-600 cursor-default"
-          }`}
-        >
+        <span className={`ml-1 group-data-[disabled]:text-tuatara-600`}>
           {unit}
         </span>
       </Group>

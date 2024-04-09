@@ -1,34 +1,31 @@
-import { useContext, useRef, useState } from "react"
-import type { CollectionOrder } from "../useMainState/useMainState_types"
+import { useContext } from "react"
+import type {
+  CollectionOrder,
+  MainState
+} from "../useMainState/useMainState_types"
 import type { UseRenameCollection } from "./useRenameCollection_types"
-import { mainStateContext } from "../useMainState/useMainState"
-import useCollectionName from "./resources/useCollectionName/useCollectionName"
-import useRenameInput from "./resources/useRenameInput/useRenameInput"
+import { isInCollection, mainStateContext } from "../useMainState/useMainState"
+import useBindState from "../useBindState/useBindState"
 
 function useRenameCollection(item: CollectionOrder): UseRenameCollection {
-  const { mainState, dispatch } = useContext(mainStateContext)
-  const { name } = useCollectionName(item, mainState)
-  const [isEditing, setIsEditing] = useState(false)
-  const initialName = useRef("")
-  const renameInputProps = useRenameInput(
-    item,
-    dispatch,
-    setIsEditing,
-    initialName
-  )
-  renameInputProps.defaultValue = name
-
-  function onPressEdit(): void {
-    initialName.current = name
-    setIsEditing(true)
-  }
+  const { mainState } = useContext(mainStateContext)
+  const collectionName = getCollectionName(item, mainState)
+  const nameProps = useBindState(item, collectionName, "collection@name")
 
   return {
-    name,
-    isEditing,
-    onPressEdit,
-    renameInputProps
+    name: nameProps.value,
+    changeName: nameProps.changeValue
   }
 }
 
 export default useRenameCollection
+
+function getCollectionName(item: CollectionOrder, state: MainState): string {
+  if (!isInCollection(item.id, item.type, state)) return ""
+
+  const index = state[item.type].findIndex(
+    (collection) => collection.id === item.id && collection.type === item.type
+  )
+
+  return state[item.type][index].name
+}
