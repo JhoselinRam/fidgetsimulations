@@ -54,7 +54,8 @@ const Select = createComponentNamespace<SelectProps, ItemProps>(
           </div>
         </RAButton>
         <Popover
-          className={`bg-zinc-500 rounded-md border border-tuatara-400 -translate-y-1
+          maxHeight={240}
+          className={`bg-zinc-500 rounded-md border border-tuatara-400 -translate-y-1 overflow-y-auto 
         data-[entering]:data-[placement=bottom]:animate-select-bottom-enter data-[exiting]:data-[placement=bottom]:animate-select-bottom-exit
         data-[entering]:data-[placement=top]:animate-select-top-enter data-[exiting]:data-[placement=top]:animate-select-top-exit`}
           style={{

@@ -21,6 +21,7 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const simulationString = JSON.stringify(simulationCollection)
   const containers = JSON.stringify(mainState.container)
   const obstacles = JSON.stringify(mainState.obstacle)
+  const balls = JSON.stringify(mainState.balls[0].data)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -45,7 +46,8 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     dispatch,
     mainState,
     containers,
-    obstacles
+    obstacles,
+    balls
   ])
 }
 

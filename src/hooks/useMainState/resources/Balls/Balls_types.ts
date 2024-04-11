@@ -2,6 +2,8 @@ import type { CollectionState } from "../../useMainState_types"
 
 export type BallActionType =
   | "balls@new"
+  | "ball@update"
+  | BallCollisionActionType
   | BallPositionActionType
   | BallVelocityActionType
   | BallAccelActionType
@@ -17,6 +19,8 @@ export interface BallElementState {
 
 export type BallElementType = keyof BallElementState
 
+export type BallKeys = keyof BallState
+
 export interface BallState extends CollectionState, BallCollision {
   data: BallData[]
 }
@@ -28,9 +32,12 @@ export interface BallData
     BallMass,
     BallRadius,
     BallCharge,
-    BallColor {
+    BallColor,
+    BallName {
   id: string
 }
+
+export type BallDataKeys = keyof BallData
 
 // --------------------------------------------------------
 // -------------------- Collision -------------------------
@@ -47,8 +54,8 @@ export interface BallCollision {
 export type BallPositionActionType =
   | "balls@positionX"
   | "balls@positionY"
-  | "balls@LastPositionX"
-  | "balls@LastPositionY"
+  | "balls@lastPositionX"
+  | "balls@lastPositionY"
 
 export interface BallPosition {
   positionX: number
@@ -110,7 +117,7 @@ export interface BallCharge {
 export type BallNameActionType = "balls@name"
 
 export interface BallName {
-  name: number
+  name: string
 }
 
 // --------------------------------------------------------

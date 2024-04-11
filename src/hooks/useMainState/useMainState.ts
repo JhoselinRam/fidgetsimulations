@@ -89,6 +89,26 @@ import { simpleForceMagnitude } from "./resources/SimpleForce/SimpleForce"
 import { gravityNew } from "./resources/Gravity/Gravity"
 import { dragNew } from "./resources/Drag/Drag"
 import { electricNew } from "./resources/Electric/Electric"
+import type { BallData, BallDataKeys } from "./resources/Balls/Balls_types"
+import { ballDataDefaultState } from "./resources/Balls/defaultState"
+import {
+  ballAccelX,
+  ballAccelY,
+  ballCharge,
+  ballCollision,
+  ballColor,
+  ballLastPositionX,
+  ballLastPositionY,
+  ballMass,
+  ballName,
+  ballNew,
+  ballPositionX,
+  ballPositionY,
+  ballRadius,
+  ballUpdate,
+  ballVelocityX,
+  ballVelocityY
+} from "./resources/Balls/Balls"
 
 // -------------------- Hook body -------------------------
 
@@ -166,7 +186,23 @@ const reducerObject: ReducerObject = {
   "simpleForce@magnitude": simpleForceMagnitude,
   "gravity@new": gravityNew,
   "drag@new": dragNew,
-  "electric@new": electricNew
+  "electric@new": electricNew,
+  "balls@new": ballNew,
+  "ball@update": ballUpdate,
+  "balls@positionX": ballPositionX,
+  "balls@positionY": ballPositionY,
+  "balls@lastPositionX": ballLastPositionX,
+  "balls@lastPositionY": ballLastPositionY,
+  "balls@velocityX": ballVelocityX,
+  "balls@velocityY": ballVelocityY,
+  "balls@accelX": ballAccelX,
+  "balls@accelY": ballAccelY,
+  "balls@mass": ballMass,
+  "balls@charge": ballCharge,
+  "balls@radius": ballRadius,
+  "balls@name": ballName,
+  "balls@color": ballColor,
+  "balls@collision": ballCollision
 }
 
 // --------------------------------------------------------
@@ -271,7 +307,7 @@ export function getGraphicalCollection(
 // -- Checks if the data is a valid collection state type -
 
 // Checks if the payload contains all the necessary data
-export function isCollection<T extends CollectionElementState>(
+export function isCollection<T extends CollectionElementState | BallData>(
   data: unknown,
   keyState: T
 ): data is T {
@@ -405,6 +441,22 @@ export function createSimpleNewCollectionSlice<
 
     return newState
   }
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function isBallIdentifier(data: unknown, key: BallDataKeys): boolean {
+  if (data == null) return false
+  if (typeof data !== "object") return false
+  if (!("id" in data)) return false
+  if (typeof data.id !== "string") return false
+  if (!(key in data)) return false
+
+  const validKey = key as keyof typeof data
+  if (typeof data[validKey] !== typeof ballDataDefaultState[key]) return false
+
+  return true
 }
 
 // --------------------------------------------------------

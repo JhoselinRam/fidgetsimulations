@@ -1,8 +1,14 @@
+import { randomBetween } from "../../../../auxiliary/randomBetween"
+import {
+  containerPositionDefaultState,
+  containerSizeDefaultState
+} from "../Container/defaultState"
 import type {
   BallAccel,
   BallCharge,
   BallCollision,
   BallColor,
+  BallData,
   BallMass,
   BallPosition,
   BallRadius,
@@ -47,6 +53,18 @@ export const ballColorDefaultState: BallColor = {
   color: "#0000ff"
 }
 
+export const ballDataDefaultState: BallData = {
+  ...ballPositionDefaultState,
+  ...ballVelocityDefaultState,
+  ...ballAccelDefaultState,
+  ...ballMassDefaultState,
+  ...ballRadiusDefaultState,
+  ...ballChargeDefaultState,
+  ...ballColorDefaultState,
+  id: "",
+  name: ""
+}
+
 export const ballDefaultState: BallState = {
   type: "balls",
   id: "balls",
@@ -54,14 +72,32 @@ export const ballDefaultState: BallState = {
   ...ballCollisionDefaultState,
   data: [
     {
-      ...ballPositionDefaultState,
-      ...ballVelocityDefaultState,
-      ...ballAccelDefaultState,
-      ...ballMassDefaultState,
-      ...ballRadiusDefaultState,
-      ...ballChargeDefaultState,
-      ...ballColorDefaultState,
-      id: crypto.randomUUID()
+      ...ballDataDefaultState,
+      id: crypto.randomUUID(),
+      name: "Ball 1"
     }
   ]
+}
+
+export function createBallState(): BallData {
+  const state = { ...ballDataDefaultState }
+
+  const minPositionX = containerPositionDefaultState.positionX + state.radius
+  const maxPositionX =
+    containerPositionDefaultState.positionX +
+    containerSizeDefaultState.width -
+    state.radius
+  const minPositionY = containerPositionDefaultState.positionY - state.radius
+  const maxPositionY =
+    containerPositionDefaultState.positionY -
+    containerSizeDefaultState.height +
+    state.radius
+
+  state.id = crypto.randomUUID()
+  state.positionX = randomBetween(minPositionX, maxPositionX)
+  state.positionY = randomBetween(minPositionY, maxPositionY)
+  state.lastPositionX = state.positionX
+  state.lastPositionY = state.positionY
+
+  return state
 }

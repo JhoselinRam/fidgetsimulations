@@ -31,6 +31,7 @@ import type {
   ObstacleState
 } from "./resources/Obstacle/Obstacle_types"
 import type {
+  BallActionType,
   BallElementState,
   BallElementType,
   BallState
@@ -76,6 +77,7 @@ export type MainStateActionType =
   | GravityActionType
   | DragActionType
   | ElectricActionType
+  | BallActionType
 
 // Main state type
 export interface MainState
