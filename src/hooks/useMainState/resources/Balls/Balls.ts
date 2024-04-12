@@ -36,6 +36,24 @@ export function ballNew(
   return newState
 }
 
+export function ballDelete(
+  state: MainState,
+  payload: Record<string, unknown>
+): MainState {
+  if (payload == null) return state
+  if (typeof payload !== "object") return state
+  if (!("id" in payload)) return state
+  if (typeof payload.id !== "string") return state
+
+  const index = state.balls[0].data.findIndex((ball) => ball.id === payload.id)
+  if (index === -1) return state
+
+  const newState = { ...state }
+  newState.balls[0].data.splice(index, 1)
+
+  return newState
+}
+
 export function ballUpdate(
   state: MainState,
   payload: Record<string, unknown>
@@ -61,11 +79,12 @@ function generateBallSlice(key: BallDataKeys): ReducerSlice {
       (ball) => ball.id === payload.id
     )
     if (index === -1) return state
+    if (state.balls[0].data[index][key] === payload[key]) return state
 
     const newState = { ...state }
     ;(newState.balls[0].data[index][key] as unknown) = payload[key]
 
-    return state
+    return newState
   }
 }
 

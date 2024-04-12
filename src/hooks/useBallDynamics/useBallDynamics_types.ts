@@ -1,16 +1,10 @@
-import type { Key } from "react-aria-components"
-import type { UseBallRename } from "./resources/useBallRename/useBallRename_types"
-
-export interface UseBallDynamics extends SelectIdHooks {}
-
-export interface SelectIdHooks {
-  ballId: string
-  changeId: (id: Key) => void
-  items: BallSelectionItem[]
-  renameHooks: UseBallRename
+export interface UseBallDynamics {
+  positionHooks: BallDynamicsHooks
 }
 
-export interface BallSelectionItem {
-  id: string
-  name: string
+export interface BallDynamicsHooks {
+  valueX: number
+  changeValueX: (value: number) => void
+  valueY: number
+  changeValueY: (value: number) => void
 }

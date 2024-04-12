@@ -4,21 +4,32 @@ import {
   OverlayArrow,
   Popover
 } from "react-aria-components"
-import Button from "../../../Button/Button"
-import DeleteIcon from "../../../Icons/DeleteIcon/DeleteIcon"
-import type { DeleteCollectionProps } from "./DeleteCollection_type"
+import type { DeleteControlProps } from "./DeleteControl_types"
+import Button from "../Button/Button"
+import DeleteIcon from "../Icons/DeleteIcon/DeleteIcon"
+import { useState } from "react"
 
-function DeleteCollection({
+function DeleteControl({
+  actionOnPress,
+  className,
+  offset,
   onDelete,
-  selectOnAction
-}: DeleteCollectionProps): JSX.Element {
+  placement,
+  disabled
+}: DeleteControlProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <DialogTrigger>
       <Button
-        className="!px-0 w-4 stroke-red-800 flex-shrink-0"
+        className={`!px-0 w-4 stroke-red-800 data-[disabled]:stroke-tuatara-900 ${className}`}
         buttonType="transparent"
         aria-label="Delete collection"
-        onPress={selectOnAction}
+        onPress={() => {
+          setIsOpen(true)
+          if (actionOnPress != null) actionOnPress()
+        }}
+        isDisabled={disabled}
       >
         <DeleteIcon />
       </Button>
@@ -28,8 +39,10 @@ function DeleteCollection({
         data-[entering]:data-[placement=bottom]:animate-info-bottom-enter data-[exiting]:data-[placement=bottom]:animate-info-bottom-exit
         data-[entering]:data-[placement=left]:animate-info-left-enter data-[exiting]:data-[placement=left]:animate-info-left-exit
         data-[entering]:data-[placement=right]:animate-info-right-enter data-[exiting]:data-[placement=right]:animate-info-right-exit"
-        placement="right"
-        offset={5}
+        placement={placement}
+        offset={offset}
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
       >
         <OverlayArrow>
           <svg
@@ -46,7 +59,10 @@ function DeleteCollection({
           <Button
             buttonType="transparent"
             className="text-sm text-red-50 font-semibold"
-            onPress={onDelete}
+            onPress={() => {
+              setIsOpen(false)
+              if (onDelete != null) onDelete()
+            }}
           >
             Delete
           </Button>
@@ -56,4 +72,4 @@ function DeleteCollection({
   )
 }
 
-export default DeleteCollection
+export default DeleteControl

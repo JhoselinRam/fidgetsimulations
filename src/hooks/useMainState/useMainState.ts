@@ -97,6 +97,7 @@ import {
   ballCharge,
   ballCollision,
   ballColor,
+  ballDelete,
   ballLastPositionX,
   ballLastPositionY,
   ballMass,
@@ -202,7 +203,8 @@ const reducerObject: ReducerObject = {
   "balls@radius": ballRadius,
   "balls@name": ballName,
   "balls@color": ballColor,
-  "balls@collision": ballCollision
+  "balls@collision": ballCollision,
+  "balls@delete": ballDelete
 }
 
 // --------------------------------------------------------

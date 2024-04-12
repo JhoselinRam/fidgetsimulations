@@ -3,8 +3,8 @@ import type { CollectionItemProps } from "./CollectionItem_types"
 import useCollectionItem from "../../../../hooks/useCollectionItem/useCollectionItem"
 import DragHandler from "../DragHandler/DragHandler"
 import CollectionName from "../CollectionName/CollectionName"
-import DeleteCollection from "../DeleteCollection/DeleteCollection"
 import OpenConfig from "../../../ToolBar/resources/OpenConfig/OpenConfig"
+import DeleteControl from "../../../DeleteControl/DeleteControl"
 
 function CollectionItem({
   item,
@@ -30,7 +30,13 @@ function CollectionItem({
       {item.type === "simulationWindow" || item.type === "balls" ? (
         <div className="w-4 flex-shrink-0"></div>
       ) : (
-        <DeleteCollection onDelete={onDelete} selectOnAction={selectOnAction} />
+        <DeleteControl
+          onDelete={onDelete}
+          actionOnPress={selectOnAction}
+          placement="right"
+          offset={5}
+          className="flex-shrink-0"
+        />
       )}
     </GridListItem>
   )

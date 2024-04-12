@@ -2,6 +2,7 @@ import type { CollectionState } from "../../useMainState_types"
 
 export type BallActionType =
   | "balls@new"
+  | "balls@delete"
   | "ball@update"
   | BallCollisionActionType
   | BallPositionActionType

@@ -3,12 +3,22 @@ import BallDynamicProperties from "../../BallsConfigComponents/BallDynamicProper
 import ConfigCollection from "../../ConfigCollection/ConfigCollection"
 import type { ConfigCollectionProps } from "../../ConfigCollection/ConfigCollection_types"
 import BallProperties from "../../BallsConfigComponents/BallProperties/BallProperties"
+import BallRename from "../../BallsConfigComponents/BallRename/BallRename"
+import BallSelect from "../../BallsConfigComponents/BallSelect/BallSelect"
+import useBallSelect from "../../../hooks/useBallSelect/useBallSelect"
 
 function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
+  const { ballId, changeId, items, isValidSelection } = useBallSelect()
+
   return (
     <ConfigCollection item={item}>
       <BallNumber />
-      <BallDynamicProperties />
+      <BallRename ballId={ballId} />
+      <BallSelect ballId={ballId} changeId={changeId} items={items} />
+      <BallDynamicProperties
+        ballId={ballId}
+        isValidSelection={isValidSelection}
+      />
       <BallProperties />
     </ConfigCollection>
   )
