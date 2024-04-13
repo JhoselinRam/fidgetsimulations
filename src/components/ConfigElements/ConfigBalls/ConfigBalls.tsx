@@ -19,7 +19,7 @@ function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
         ballId={ballId}
         isValidSelection={isValidSelection}
       />
-      <BallProperties />
+      <BallProperties ballId={ballId} isValidSelection={isValidSelection} />
     </ConfigCollection>
   )
 }
