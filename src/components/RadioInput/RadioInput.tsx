@@ -11,6 +11,7 @@ const RadioInput = createComponentNamespace<RadioInputProps, OptionProps>(
     className,
     label,
     labelClassName,
+    innerClassName,
     optionOrientation = "vertical",
     ...props
   }) => {
@@ -20,7 +21,7 @@ const RadioInput = createComponentNamespace<RadioInputProps, OptionProps>(
         <div
           className={`flex gap-2 ${
             optionOrientation === "vertical" ? "flex-col" : "flex-row"
-          }`}
+          } ${innerClassName}`}
         >
           {children}
         </div>

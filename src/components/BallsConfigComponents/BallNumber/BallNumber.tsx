@@ -6,13 +6,13 @@ import CollisionControl from "./resources/CollisionControl/CollisionControl"
 import NumberControl from "./resources/NumberControl/NumberControl"
 
 function BallNumber(): JSX.Element {
-  const { number, addBall } = useBallNumber()
+  const { number, addBall, collisionHooks } = useBallNumber()
 
   return (
     <ConfigSection title="Configuration">
       <BatchConfigControl />
       <AddControl addBall={addBall} />
-      <CollisionControl />
+      <CollisionControl {...collisionHooks} />
       <NumberControl number={number} />
     </ConfigSection>
   )

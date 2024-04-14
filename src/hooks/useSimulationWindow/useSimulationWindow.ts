@@ -289,14 +289,6 @@ function drawBalls(graph: Graph2D, collection: BallState): void {
 
   graph
     .addDataset("linechart")
-    .dataX(collection.data.map((data) => data.lastPositionX))
-    .dataY(collection.data.map((data) => data.lastPositionY))
-    .lineEnable(false)
-    .markerEnable(true)
-    .markerColor("#ff00ff")
-    .markerSize(collection.data.map((data) => data.radius * radiusCorrection))
-  graph
-    .addDataset("linechart")
     .dataX(collection.data.map((data) => data.positionX))
     .dataY(collection.data.map((data) => data.positionY))
     .lineEnable(false)

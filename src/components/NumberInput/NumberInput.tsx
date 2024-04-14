@@ -8,6 +8,7 @@ function NumberInput({
   className,
   step,
   inputClassName,
+  labelClassName,
   unit,
   value,
   onChange,
@@ -39,7 +40,7 @@ function NumberInput({
     >
       <Label
         className={`select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default 
-        `}
+        ${labelClassName}`}
         onPointerDown={labelMoveCallback}
         ref={labelElement}
       >

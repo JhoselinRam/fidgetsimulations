@@ -8,4 +8,5 @@ export interface RadioInputProps
   label?: string
   optionOrientation?: "vertical" | "horizontal"
   labelClassName?: string
+  innerClassName?: string
 }

@@ -1,7 +1,7 @@
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import IconButton from "../../../../IconButton/IconButton"
-import AddBatchIcon from "../../../../Icons/AddBatchIcon/AddBatchIcon"
 import AddIcon from "../../../../Icons/AddIcon/AddIcon"
+import BallAddBatchModal from "../../../BallAddBatchModal/BallAddBatchModal"
 import type { AddControlProps } from "./AddControl_types"
 
 function AddControl({ addBall }: AddControlProps): JSX.Element {
@@ -14,9 +14,7 @@ function AddControl({ addBall }: AddControlProps): JSX.Element {
         </IconButton>
 
         <p>Add batch:</p>
-        <IconButton coloredBy="stroke">
-          <AddBatchIcon />
-        </IconButton>
+        <BallAddBatchModal />
       </div>
     </ConfigSection.Section>
   )

@@ -10,6 +10,7 @@ export interface NumberInputProps
   className?: string
   unit?: string | ReactNode
   inputClassName?: string
+  labelClassName?: string
   value?: number
   onChange?: (value: number) => void
   step?: number

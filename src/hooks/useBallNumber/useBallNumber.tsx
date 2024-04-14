@@ -2,9 +2,16 @@ import { useContext } from "react"
 import type { UseBallNumber } from "./useBallNumber_types"
 import { mainStateContext } from "../useMainState/useMainState"
 import { createBallState } from "../useMainState/resources/Balls/defaultState"
+import useBindState from "../useBindState/useBindState"
 
 function useBallNumber(): UseBallNumber {
   const { mainState, dispatch } = useContext(mainStateContext)
+  const ballCollision = mainState.balls[0].collision
+  const collisionHooks = useBindState(
+    { id: "balls", type: "balls" },
+    ballCollision,
+    "balls@collision"
+  )
 
   function addBall(): void {
     const newBallData = createBallState()
@@ -18,7 +25,11 @@ function useBallNumber(): UseBallNumber {
 
   return {
     number: mainState.balls[0].data.length,
-    addBall
+    addBall,
+    collisionHooks: {
+      enableCollision: collisionHooks.value,
+      changeCollision: collisionHooks.changeValue
+    }
   }
 }
 

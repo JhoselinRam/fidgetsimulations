@@ -59,7 +59,8 @@ export default {
       },
       maxWidth: {
         menu: "15rem",
-        input: "3.5rem"
+        input: "3.5rem",
+        modal: "800px"
       },
       spacing: {
         menu: "14rem"
