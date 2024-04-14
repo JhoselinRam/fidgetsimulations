@@ -62,6 +62,9 @@ export default {
         input: "3.5rem",
         modal: "800px"
       },
+      maxHeight: {
+        modal: "600px"
+      },
       spacing: {
         menu: "14rem"
       },

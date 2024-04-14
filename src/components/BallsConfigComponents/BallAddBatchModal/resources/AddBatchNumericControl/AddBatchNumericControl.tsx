@@ -12,7 +12,11 @@ function AddBatchNumericControl({
     <AddBatchSection>
       <AddBatchSection.Header>{title}:</AddBatchSection.Header>
       <AddBatchSection.Section>
-        <RadioInput innerClassName="gap-10" optionOrientation="horizontal">
+        <RadioInput
+          innerClassName="w-full"
+          className="w-full"
+          optionOrientation="horizontal"
+        >
           <AddBatchFixedControl
             {...numberInputProps}
             label={title.split(" ")[0]}

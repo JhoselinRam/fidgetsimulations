@@ -11,6 +11,7 @@ export interface NumberInputProps
   unit?: string | ReactNode
   inputClassName?: string
   labelClassName?: string
+  groupClassName?: string
   value?: number
   onChange?: (value: number) => void
   step?: number

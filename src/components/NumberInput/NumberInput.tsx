@@ -9,6 +9,7 @@ function NumberInput({
   step,
   inputClassName,
   labelClassName,
+  groupClassName,
   unit,
   value,
   onChange,
@@ -46,7 +47,7 @@ function NumberInput({
       >
         {children}
       </Label>
-      <Group className="w-fit flex flex-row">
+      <Group className={`w-fit flex flex-row ${groupClassName}`}>
         <Input
           className={`max-w-input rounded-md bg-zinc-500 px-1 outline-none
           data-[focus-visible]:outline data-[focus-visible]:outline-2
