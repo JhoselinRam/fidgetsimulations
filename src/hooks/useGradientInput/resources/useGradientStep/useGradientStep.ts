@@ -15,7 +15,7 @@ function useGradientStep(
   outerSpace?: GradientColorSpace,
   onOuterSpaceChange?: GradientOnSpaceChange
 ): UseGradientStep {
-  const [space, setSpace] = useState<GradientColorSpace>(outerSpace ?? "xyz")
+  const [space, setSpace] = useState<GradientColorSpace>(outerSpace ?? "rgb")
   const steps = getSteps(resolution, knobs, space)
 
   const onInnerChange = useCallback(

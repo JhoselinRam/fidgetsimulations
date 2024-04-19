@@ -9,11 +9,29 @@ export function createColorGradient(
 ): (position: number) => string {
   const interpolators: Color_Interpolator[] = []
 
+  if (knobs[0].position !== 0)
+    interpolators.push(
+      colorInterpolator({
+        from: [0, knobs[0].position],
+        to: [knobs[0].color, knobs[0].color],
+        space
+      })
+    )
+
   for (let i = 1; i < knobs.length; i++)
     interpolators.push(
       colorInterpolator({
         from: [knobs[i - 1].position, knobs[i].position],
         to: [knobs[i - 1].color, knobs[i].color],
+        space
+      })
+    )
+
+  if (knobs[knobs.length - 1].position !== 1)
+    interpolators.push(
+      colorInterpolator({
+        from: [knobs[knobs.length - 1].position, 1],
+        to: [knobs[knobs.length - 1].color, knobs[knobs.length - 1].color],
         space
       })
     )

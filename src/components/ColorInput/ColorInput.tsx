@@ -10,6 +10,7 @@ function ColorInput({
   onChange,
   onInput,
   disabled,
+  value,
   ...props
 }: ColorInputProps): JSX.Element {
   const wrapperElement = useRef<HTMLDivElement>(null)
@@ -19,7 +20,8 @@ function ColorInput({
     wrapperElement,
     onChange,
     onInput,
-    disabled ?? false
+    disabled ?? false,
+    value
   )
 
   return (
@@ -42,6 +44,7 @@ function ColorInput({
           className="opacity-0 w-full h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           {...props}
           disabled={disabled}
+          value={value}
           id={id ?? defaultId}
           onInput={onInputCallback}
           onChange={onChangeCallback}

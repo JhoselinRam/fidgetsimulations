@@ -1,21 +1,33 @@
+import { useRef } from "react"
 import useGradientInput from "../../hooks/useGradientInput/useGradientInput"
 import type { GradientInputProps } from "./GradientInput_types"
 import GradientConfig from "./resources/GradientConfig/GradientConfig"
+import GradientKnobElement from "./resources/GradientKnobElement/GradientKnobElement"
 import GradientStepElement from "./resources/GradientStepElement/GradientStepElement"
 
 function GradientInput({
   className,
   controlClassName,
   resolution = 200,
-  placement = "top",
+  placement = "bottom",
   onChange,
   value,
   onOuterSpaceChange,
   outerSpace
 }: GradientInputProps): JSX.Element {
   const validResolution = getValidResolution(resolution)
-  const { knobs, steps, changeSpace, space } = useGradientInput(
+  const mainElement = useRef<HTMLDivElement>(null)
+  const {
+    knobs,
+    steps,
+    changeSpace,
+    space,
+    knobSelected,
+    onGradientPointerDown,
+    changeKnobSelected
+  } = useGradientInput(
     validResolution,
+    mainElement,
     value,
     onChange,
     outerSpace,
@@ -26,7 +38,11 @@ function GradientInput({
     <div
       className={`w-full max-w-48 h-6 border border-tuatara-500 rounded-r-md flex flex-row ${className}`}
     >
-      <div className={`w-full h-full relative ${controlClassName}`}>
+      <div
+        className={`w-full h-full relative hover:cursor-copy ${controlClassName}`}
+        ref={mainElement}
+        onPointerDown={onGradientPointerDown}
+      >
         {steps.map((step) => (
           <GradientStepElement
             key={step.position}
@@ -34,8 +50,24 @@ function GradientInput({
             resolution={validResolution}
           />
         ))}
+        {knobs.map((knob, index) => (
+          <GradientKnobElement
+            index={index}
+            position={knob.position}
+            color={knob.color}
+            placement={placement}
+            key={knob.position}
+            changeKnobSelected={changeKnobSelected}
+          />
+        ))}
       </div>
-      <GradientConfig changeSpace={changeSpace} knobs={knobs} space={space} />
+      <GradientConfig
+        changeSpace={changeSpace}
+        knobs={knobs}
+        space={space}
+        knobSelected={knobSelected}
+        changeKnobSelected={changeKnobSelected}
+      />
     </div>
   )
 }

@@ -8,9 +8,10 @@ function AddBatchColorRangeControl({
   type
 }: AddBatchColorRangeControlProps): JSX.Element {
   const [value, setValue] = useState<GradientInputKnob[]>([
-    // { position: 0, color: "#0000ff" },
-    // { position: 0.25, color: "#00ff00" },
-    // { position: 1, color: "#ff0000" }
+    { position: 0, color: "#0000ff" },
+    { position: 0.25, color: "#00ffff" },
+    { position: 0.75, color: "#ffff00" },
+    { position: 1, color: "#ff0000" }
   ])
 
   return (

@@ -40,7 +40,7 @@ function NumberInput({
       {...props}
     >
       <Label
-        className={`select-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default 
+        className={`select-none touch-none group-data-[disabled]:text-tuatara-600 hover:cursor-ew-resize group-data-[disabled]:cursor-default 
         ${labelClassName}`}
         onPointerDown={labelMoveCallback}
         ref={labelElement}

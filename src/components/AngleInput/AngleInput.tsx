@@ -17,7 +17,7 @@ function AngleInput({
 
   return (
     <div
-      className={`size-5 border-2 rounded-full relative hover:cursor-crosshair
+      className={`size-5 border-2 rounded-full relative hover:cursor-crosshair touch-none
        ${
          disabled != null && disabled
            ? "border-tuatara-600 bg-tuatara-700"

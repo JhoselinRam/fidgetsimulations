@@ -62,7 +62,7 @@ const Select = createComponentNamespace<SelectProps, ItemProps>(
             width: matchSize != null && matchSize ? `${popoverSize}px` : "auto"
           }}
         >
-          <ListBox items={items} className="text-sm">
+          <ListBox items={items} className="text-sm outline-none">
             {children}
           </ListBox>
         </Popover>

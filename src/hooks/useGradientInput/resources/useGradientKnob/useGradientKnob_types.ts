@@ -1,4 +1,10 @@
-export interface UseGradientKnob {
+import type { Dispatch, SetStateAction } from "react"
+
+export interface UseGradientKnob extends GradientKnobHooks {
+  setKnobs: Dispatch<SetStateAction<GradientInputKnob[]>>
+}
+
+export interface GradientKnobHooks {
   knobs: GradientInputKnob[]
 }
 

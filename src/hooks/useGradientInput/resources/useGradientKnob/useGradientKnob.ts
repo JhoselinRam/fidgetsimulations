@@ -15,7 +15,8 @@ function useGradientKnob(
   onChange?: GradientOnChange
 ): UseGradientKnob {
   const [knobs, setKnobs] = useState<GradientInputKnob[]>(value ?? defaultKnobs)
-
+  const stringKnobs = JSON.stringify(knobs)
+  const stringValue = JSON.stringify(value)
   const onInnerChange = useCallback(
     (value: GradientInputKnob[]) => {
       setKnobs(value)
@@ -28,16 +29,17 @@ function useGradientKnob(
     const validKnobs = getValidInputKnobs(knobs)
 
     onInnerChange(validKnobs)
-  }, [knobs, onInnerChange])
+  }, [knobs, onInnerChange, stringKnobs])
 
   useEffect(() => {
     if (value == null) return
     const validKnobs = getValidInputKnobs(value)
     onInnerChange(validKnobs)
-  }, [value, onInnerChange])
+  }, [value, onInnerChange, stringValue])
 
   return {
-    knobs
+    knobs,
+    setKnobs
   }
 }
 
@@ -47,11 +49,6 @@ function getValidInputKnobs(knobs: GradientInputKnob[]): GradientInputKnob[] {
   if (knobs.length === 0) return defaultKnobs
 
   const newKnobs = knobs.sort((a, b) => a.position - b.position)
-  if (newKnobs[0].position !== 0)
-    newKnobs.unshift({ position: 0, color: newKnobs[0].color })
-
-  if (newKnobs[newKnobs.length - 1].position !== 1)
-    newKnobs.push({ position: 1, color: newKnobs[newKnobs.length - 1].color })
 
   return newKnobs
 }

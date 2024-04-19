@@ -1,11 +1,3 @@
-import type { GradientInputKnob } from "../../../../hooks/useGradientInput/resources/useGradientKnob/useGradientKnob_types"
-import type {
-  GradientColorSpace,
-  GradientOnSpaceChange
-} from "../../../../hooks/useGradientInput/resources/useGradientStep/useGradientStep_types"
+import type { GradientConfigFormProps } from "../GradientConfigForm/GradientConfigForm_types"
 
-export interface GradientConfigProps {
-  space: GradientColorSpace
-  changeSpace: GradientOnSpaceChange
-  knobs: GradientInputKnob[]
-}
+export interface GradientConfigProps extends GradientConfigFormProps {}
