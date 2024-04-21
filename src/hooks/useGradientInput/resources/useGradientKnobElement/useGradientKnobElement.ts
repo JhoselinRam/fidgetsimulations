@@ -3,7 +3,7 @@ import {
   useRef,
   type PointerEvent as RPointerEvent
 } from "react"
-import type { GradientOnMoveKnob } from "../useGradientMove/useGradientMove_types"
+import type { GradientOnMoveKnob } from "../useGradientUpdate/useGradientUpdate_types"
 import { throttlefy } from "../../../../auxiliary/throttlefy"
 import type { UseGradientKnobElement } from "./useGradientKnobElement_types"
 

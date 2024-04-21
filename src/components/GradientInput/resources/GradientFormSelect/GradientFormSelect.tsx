@@ -17,7 +17,7 @@ function GradientFormSelect({
     <div className="flex flex-row gap-3">
       <Select
         label="Color Space:"
-        className="flex-col items-center basis-full"
+        className="flex-col basis-full"
         labelClassName="text-zinc-300"
         matchSize={true}
         items={items}

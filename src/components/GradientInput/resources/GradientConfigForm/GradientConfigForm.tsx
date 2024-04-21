@@ -10,22 +10,36 @@ function GradientConfigForm({
   knobs,
   space,
   knobSelected,
-  changeKnobSelected
+  changeKnobSelected,
+  onMoveKnob,
+  onColorKnob,
+  onDeleteKnob
 }: GradientConfigFormProps): JSX.Element {
   return (
     <div className="p-3 w-full">
       <GradientFormSelect changeSpace={changeSpace} space={space} />
-      <div className="p-2 mt-2 border border-tuatara-500 bg-tuatara-700 rounded-md flex flex-col gap-3">
+      <div className="p-2 mt-2 border border-tuatara-600 bg-tuatara-700 rounded-md flex flex-col gap-3">
         <div className="flex flex-row justify-between pr-1">
           <GradientSelectKnob
             changeKnobSelected={changeKnobSelected}
             knobSelected={knobSelected}
             knobs={knobs}
           />
-          <GradientFormColor knobSelected={knobSelected} knobs={knobs} />
-          <GradientFormDelete />
+          <GradientFormColor
+            knobSelected={knobSelected}
+            knobs={knobs}
+            onColorKnob={onColorKnob}
+          />
+          <GradientFormDelete
+            knobSelected={knobSelected}
+            onDeleteKnob={onDeleteKnob}
+          />
         </div>
-        <GradientFormPosition />
+        <GradientFormPosition
+          knobSelected={knobSelected}
+          knobs={knobs}
+          onMoveKnob={onMoveKnob}
+        />
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ import {
 import type { GradientInputKnob } from "../useGradientKnob/useGradientKnob_types"
 import type { GradientColorSpace } from "../useGradientStep/useGradientStep_types"
 import { createColorGradient } from "../../../../auxiliary/colorGradient"
-import type { GradientOnMoveKnob } from "../useGradientMove/useGradientMove_types"
+import type { GradientOnMoveKnob } from "../useGradientUpdate/useGradientUpdate_types"
 import type { UseGradientPointer } from "./useGradientPointer_types"
 import { throttlefy } from "../../../../auxiliary/throttlefy"
 

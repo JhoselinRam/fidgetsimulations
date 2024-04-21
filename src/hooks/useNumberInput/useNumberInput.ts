@@ -12,20 +12,6 @@ function useNumberInput(
   maxValue?: number
 ): UseNumberInput {
   const [innerValue, setInnerValue] = useState(outerValue ?? 0)
-  const onInnerChange = useCallback(
-    (value: number): void => {
-      setInnerValue(value)
-      if (onChange != null) onChange(value)
-    },
-    [onChange]
-  )
-  const { labelMoveCallback } = useLabelMove(
-    labelElement,
-    setInnerValue,
-    step,
-    isDisabled
-  )
-
   const validValue = useCallback(
     (value: number): number => {
       if (minValue != null && value < minValue) return minValue
@@ -35,22 +21,33 @@ function useNumberInput(
     },
     [minValue, maxValue]
   )
+  const onInnerChange = useCallback(
+    (value: number): void => {
+      const newValue = validValue(value)
+      setInnerValue(newValue)
+      if (onChange != null) onChange(newValue)
+    },
+    [onChange, validValue]
+  )
+
+  const { labelMoveCallback } = useLabelMove(
+    labelElement,
+    setInnerValue,
+    step,
+    isDisabled
+  )
 
   // Synchronizes the inner and outer values
   useEffect(() => {
     if (outerValue == null) return
 
-    const newOuterValue = isDisabled
-      ? validValue(innerValue)
-      : validValue(outerValue)
+    const newOuterValue = isDisabled ? innerValue : outerValue
     onInnerChange(newOuterValue)
-  }, [outerValue, onInnerChange, validValue, innerValue, isDisabled])
+  }, [outerValue, onInnerChange, innerValue, isDisabled])
 
   useEffect(() => {
-    const newInnerValue = validValue(innerValue)
-
-    onInnerChange(newInnerValue)
-  }, [innerValue, onInnerChange, validValue])
+    onInnerChange(innerValue)
+  }, [innerValue, onInnerChange])
 
   return {
     innerValue,

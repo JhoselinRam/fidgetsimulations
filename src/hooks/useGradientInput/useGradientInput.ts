@@ -11,7 +11,8 @@ import type {
   GradientOnSpaceChange
 } from "./resources/useGradientStep/useGradientStep_types"
 import type { UseGradientInput } from "./useGradientInput_types"
-import useGradientMove from "./resources/useGradientMove/useGradientMove"
+import useGradientUpdate from "./resources/useGradientUpdate/useGradientUpdate"
+import useGradientDelete from "./resources/useGradientDelete/useGradientDelete"
 
 function useGradientInput(
   resolution: number,
@@ -28,9 +29,15 @@ function useGradientInput(
     outerSpace,
     onOuterSpaceChange
   )
-  const { onMoveKnob } = useGradientMove(knobs, setKnobs)
+  const { onMoveKnob, onColorKnob } = useGradientUpdate(knobs, setKnobs)
   const { onGradientPointerDown, changeKnobSelected, knobSelected } =
     useGradientPointer(knobs, setKnobs, space, mainElement, onMoveKnob)
+
+  const { onDeleteKnob } = useGradientDelete(
+    knobs,
+    setKnobs,
+    changeKnobSelected
+  )
 
   return {
     knobs,
@@ -40,7 +47,9 @@ function useGradientInput(
     onMoveKnob,
     onGradientPointerDown,
     changeKnobSelected,
-    knobSelected
+    knobSelected,
+    onColorKnob,
+    onDeleteKnob
   }
 }
 

@@ -4,6 +4,7 @@ import type {
   GradientOnChange,
   UseGradientKnob
 } from "./useGradientKnob_types"
+import { toRounded } from "../../../../auxiliary/toRounded"
 
 const defaultKnobs: GradientInputKnob[] = [
   { position: 0, color: "#000000" },
@@ -49,6 +50,13 @@ function getValidInputKnobs(knobs: GradientInputKnob[]): GradientInputKnob[] {
   if (knobs.length === 0) return defaultKnobs
 
   const newKnobs = knobs.sort((a, b) => a.position - b.position)
+
+  for (const knob of knobs) {
+    knob.position = toRounded(
+      knob.position,
+      import.meta.env.VITE_ROUNDED_DECIMALS
+    )
+  }
 
   return newKnobs
 }

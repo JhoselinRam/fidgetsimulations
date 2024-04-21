@@ -8,7 +8,7 @@ import GradientStepElement from "./resources/GradientStepElement/GradientStepEle
 function GradientInput({
   className,
   controlClassName,
-  resolution = 200,
+  resolution = 50,
   placement = "bottom",
   onChange,
   value,
@@ -24,7 +24,10 @@ function GradientInput({
     space,
     knobSelected,
     onGradientPointerDown,
-    changeKnobSelected
+    changeKnobSelected,
+    onColorKnob,
+    onDeleteKnob,
+    onMoveKnob
   } = useGradientInput(
     validResolution,
     mainElement,
@@ -67,6 +70,9 @@ function GradientInput({
         space={space}
         knobSelected={knobSelected}
         changeKnobSelected={changeKnobSelected}
+        onMoveKnob={onMoveKnob}
+        onColorKnob={onColorKnob}
+        onDeleteKnob={onDeleteKnob}
       />
     </div>
   )
