@@ -5,4 +5,5 @@ export interface GradientFormPositionProps {
   knobs: GradientInputKnob[]
   knobSelected: number
   onMoveKnob: GradientOnMoveKnob
+  isDisabled: boolean
 }

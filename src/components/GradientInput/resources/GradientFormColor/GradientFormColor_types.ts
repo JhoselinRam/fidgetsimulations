@@ -5,4 +5,5 @@ export interface GradientFormColorProps {
   knobSelected: number
   knobs: GradientInputKnob[]
   onColorKnob: GradientOnColorKnob
+  isDisabled: boolean
 }

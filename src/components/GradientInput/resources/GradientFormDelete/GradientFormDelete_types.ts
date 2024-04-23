@@ -3,4 +3,5 @@ import type { GradientOnDeleteKnob } from "../../../../hooks/useGradientInput/re
 export interface GradientFormDeleteProps {
   onDeleteKnob: GradientOnDeleteKnob
   knobSelected: number
+  isDisabled: boolean
 }

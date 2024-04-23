@@ -12,6 +12,7 @@ const defaultKnobs: GradientInputKnob[] = [
 ]
 
 function useGradientKnob(
+  isDisabled: boolean,
   value?: GradientInputKnob[],
   onChange?: GradientOnChange
 ): UseGradientKnob {
@@ -34,9 +35,12 @@ function useGradientKnob(
 
   useEffect(() => {
     if (value == null) return
-    const validKnobs = getValidInputKnobs(value)
+    const validKnobs = isDisabled
+      ? getValidInputKnobs(knobs)
+      : getValidInputKnobs(value)
+
     onInnerChange(validKnobs)
-  }, [value, onInnerChange, stringValue])
+  }, [value, onInnerChange, stringValue, isDisabled, knobs])
 
   return {
     knobs,

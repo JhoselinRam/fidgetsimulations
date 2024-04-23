@@ -3,4 +3,5 @@ import type { ChangeKnobSelectedHooks } from "../../../../hooks/useGradientInput
 
 export interface GradientSelectKnobProps extends ChangeKnobSelectedHooks {
   knobs: GradientInputKnob[]
+  isDisabled: boolean
 }

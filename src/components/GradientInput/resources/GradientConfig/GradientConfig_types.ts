@@ -1,3 +1,5 @@
 import type { GradientConfigFormProps } from "../GradientConfigForm/GradientConfigForm_types"
 
-export interface GradientConfigProps extends GradientConfigFormProps {}
+export interface GradientConfigProps extends GradientConfigFormProps {
+  isDisabled: boolean
+}

@@ -4,4 +4,5 @@ export interface GradientKnobElementProps {
   index: number
   placement: "top" | "bottom"
   changeKnobSelected: (index: number) => void
+  isDisabled: boolean
 }

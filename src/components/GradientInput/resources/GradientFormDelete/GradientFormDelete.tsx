@@ -3,7 +3,8 @@ import type { GradientFormDeleteProps } from "./GradientFormDelete_types"
 
 function GradientFormDelete({
   onDeleteKnob,
-  knobSelected
+  knobSelected,
+  isDisabled
 }: GradientFormDeleteProps): JSX.Element {
   return (
     <div className="bg-tuatara-600 rounded-md size-5 flex justify-center">
@@ -11,6 +12,7 @@ function GradientFormDelete({
         onDelete={() => {
           onDeleteKnob(knobSelected)
         }}
+        disabled={isDisabled}
       />
     </div>
   )

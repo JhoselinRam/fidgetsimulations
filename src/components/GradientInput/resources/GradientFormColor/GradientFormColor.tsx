@@ -4,7 +4,8 @@ import type { GradientFormColorProps } from "./GradientFormColor_types"
 function GradientFormColor({
   knobSelected,
   knobs,
-  onColorKnob
+  onColorKnob,
+  isDisabled
 }: GradientFormColorProps): JSX.Element {
   return (
     <ColorInput
@@ -13,6 +14,7 @@ function GradientFormColor({
         onColorKnob(color, knobSelected)
       }}
       containerClassName="!gap-0"
+      disabled={isDisabled}
     />
   )
 }

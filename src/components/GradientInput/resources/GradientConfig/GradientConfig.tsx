@@ -9,13 +9,18 @@ import Button from "../../../Button/Button"
 import OptionsIcon from "../../../Icons/OptionsIcon/OptionsIcon"
 import GradientConfigForm from "../GradientConfigForm/GradientConfigForm"
 
-function GradientConfig({ ...formProps }: GradientConfigProps): JSX.Element {
+function GradientConfig({
+  isDisabled,
+  ...formProps
+}: GradientConfigProps): JSX.Element {
   return (
     <DialogTrigger>
       <Button
         className="w-4 !p-0 !bg-accent-blue-700 rounded-l-none fill-zinc-300
-        data-[hovered]:!bg-accent-blue-600 data-[focus-visible]:!outline-1"
+        data-[hovered]:!bg-accent-blue-600 data-[focus-visible]:!outline-1 data-[disabled]:!bg-accent-blue-900
+        data-[disabled]:fill-zinc-500"
         buttonType="transparent"
+        isDisabled={isDisabled}
       >
         <OptionsIcon />
       </Button>
@@ -40,7 +45,7 @@ function GradientConfig({ ...formProps }: GradientConfigProps): JSX.Element {
           </svg>
         </OverlayArrow>
         <Dialog className="outline-none w-full relative">
-          <GradientConfigForm {...formProps} />
+          <GradientConfigForm {...formProps} isDisabled={isDisabled} />
         </Dialog>
       </Popover>
     </DialogTrigger>

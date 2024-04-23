@@ -18,7 +18,8 @@ function useGradientPointer(
   setKnobs: Dispatch<SetStateAction<GradientInputKnob[]>>,
   space: GradientColorSpace,
   mainElement: RefObject<HTMLDivElement>,
-  onMoveKnob: GradientOnMoveKnob
+  onMoveKnob: GradientOnMoveKnob,
+  isDisabled: boolean
 ): UseGradientPointer {
   const pointerId = useRef(0)
   const knobSelectedRef = useRef(0)
@@ -26,6 +27,8 @@ function useGradientPointer(
 
   function onGradientPointerDown(e: RPointerEvent): void {
     if (mainElement.current == null) return
+    if (isDisabled) return
+
     const element = mainElement.current
 
     if (

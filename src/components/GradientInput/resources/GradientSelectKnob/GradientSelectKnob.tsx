@@ -4,7 +4,8 @@ import type { GradientSelectKnobProps } from "./GradientSelectKnob_types"
 function GradientSelectKnob({
   changeKnobSelected,
   knobSelected,
-  knobs
+  knobs,
+  isDisabled
 }: GradientSelectKnobProps): JSX.Element {
   const items = knobs.map((_, index) => {
     return { id: `${index}`, name: `${index}` }
@@ -21,6 +22,7 @@ function GradientSelectKnob({
       label="Knob"
       className="gap-[1.63rem]"
       selectorClassName="!w-14"
+      isDisabled={isDisabled}
     >
       {(item) => <Select.Item>{item.name}</Select.Item>}
     </Select>

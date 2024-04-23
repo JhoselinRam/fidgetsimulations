@@ -16,4 +16,5 @@ export interface GradientInputProps {
   onChange?: GradientOnChange
   outerSpace?: GradientColorSpace
   onOuterSpaceChange?: GradientOnSpaceChange
+  isDisabled?: boolean
 }

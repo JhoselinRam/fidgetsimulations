@@ -1,7 +1,7 @@
 import { Group, Label, NumberField, Input } from "react-aria-components"
 import type { NumberInputProps } from "./NumberInput_types"
-import useNumberInput from "../../hooks/useNumberInput/useNumberInput"
 import { useRef } from "react"
+import useNumberInput from "../../hooks/useNumberInput/useNumberInput"
 
 function NumberInput({
   children,

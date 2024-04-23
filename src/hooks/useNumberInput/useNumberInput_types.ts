@@ -1,6 +1,7 @@
-import type { UseLabelMove } from "./resources/useLabelMove/useLabelMove_types"
+import type { PointerEvent } from "react"
 
-export interface UseNumberInput extends UseLabelMove {
+export interface UseNumberInput {
   innerValue: number
   onInnerChange: (value: number) => void
+  labelMoveCallback: (e: PointerEvent) => void
 }

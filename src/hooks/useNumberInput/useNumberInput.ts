@@ -1,6 +1,13 @@
-import { type RefObject, useEffect, useState, useCallback } from "react"
+import {
+  useState,
+  type RefObject,
+  useCallback,
+  useRef,
+  type PointerEvent as RPointerEvent,
+  useEffect
+} from "react"
 import type { UseNumberInput } from "./useNumberInput_types"
-import useLabelMove from "./resources/useLabelMove/useLabelMove"
+import { throttlefy } from "../../auxiliary/throttlefy"
 
 function useNumberInput(
   labelElement: RefObject<HTMLLabelElement>,
@@ -11,7 +18,10 @@ function useNumberInput(
   minValue?: number,
   maxValue?: number
 ): UseNumberInput {
+  // ------------------ Declarations ------------------------
+
   const [innerValue, setInnerValue] = useState(outerValue ?? 0)
+
   const validValue = useCallback(
     (value: number): number => {
       if (minValue != null && value < minValue) return minValue
@@ -21,6 +31,7 @@ function useNumberInput(
     },
     [minValue, maxValue]
   )
+
   const onInnerChange = useCallback(
     (value: number): void => {
       const newValue = validValue(value)
@@ -30,14 +41,48 @@ function useNumberInput(
     [onChange, validValue]
   )
 
-  const { labelMoveCallback } = useLabelMove(
-    labelElement,
-    setInnerValue,
-    step,
-    isDisabled
+  // --------------------------------------------------------
+  // ----------------- Label Move ---------------------------
+
+  const lastPosition = useRef(0)
+  const pointerId = useRef(0)
+  const lastValue = useRef(0)
+
+  function labelMoveCallback(e: RPointerEvent): void {
+    if (isDisabled) return
+
+    lastPosition.current = e.clientX
+    lastValue.current = innerValue
+    pointerId.current = e.pointerId
+
+    labelElement.current?.setPointerCapture(e.pointerId)
+    labelElement.current?.addEventListener("pointermove", onPointerMove)
+    labelElement.current?.addEventListener("pointerup", onPointerUp)
+  }
+
+  const labelMove = throttlefy(
+    (position: number) => {
+      const delta = position - lastPosition.current
+      const newInnerValue = lastValue.current + delta * step
+
+      onInnerChange(newInnerValue)
+    },
+    import.meta.env.VITE_THROTTLE_TIME
   )
 
-  // Synchronizes the inner and outer values
+  function onPointerMove(e: PointerEvent): void {
+    labelMove(e.clientX)
+  }
+
+  function onPointerUp(): void {
+    labelElement.current?.removeEventListener("pointermove", onPointerMove)
+    labelElement.current?.removeEventListener("pointerup", onPointerUp)
+    labelElement.current?.releasePointerCapture(pointerId.current)
+  }
+
+  // --------------------------------------------------------
+  // --------------------------------------------------------
+
   useEffect(() => {
     if (outerValue == null) return
 
@@ -45,14 +90,12 @@ function useNumberInput(
     onInnerChange(newOuterValue)
   }, [outerValue, onInnerChange, innerValue, isDisabled])
 
-  useEffect(() => {
-    onInnerChange(innerValue)
-  }, [innerValue, onInnerChange])
+  // --------------------------------------------------------
 
   return {
     innerValue,
-    onInnerChange,
-    labelMoveCallback
+    labelMoveCallback,
+    onInnerChange
   }
 }
 

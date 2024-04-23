@@ -13,7 +13,8 @@ function GradientConfigForm({
   changeKnobSelected,
   onMoveKnob,
   onColorKnob,
-  onDeleteKnob
+  onDeleteKnob,
+  isDisabled
 }: GradientConfigFormProps): JSX.Element {
   return (
     <div className="p-3 w-full">
@@ -24,21 +25,25 @@ function GradientConfigForm({
             changeKnobSelected={changeKnobSelected}
             knobSelected={knobSelected}
             knobs={knobs}
+            isDisabled={isDisabled}
           />
           <GradientFormColor
             knobSelected={knobSelected}
             knobs={knobs}
             onColorKnob={onColorKnob}
+            isDisabled={isDisabled}
           />
           <GradientFormDelete
             knobSelected={knobSelected}
             onDeleteKnob={onDeleteKnob}
+            isDisabled={isDisabled}
           />
         </div>
         <GradientFormPosition
           knobSelected={knobSelected}
           knobs={knobs}
           onMoveKnob={onMoveKnob}
+          isDisabled={isDisabled}
         />
       </div>
     </div>

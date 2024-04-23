@@ -8,12 +8,13 @@ import GradientStepElement from "./resources/GradientStepElement/GradientStepEle
 function GradientInput({
   className,
   controlClassName,
-  resolution = 50,
+  resolution = 75,
   placement = "bottom",
   onChange,
   value,
   onOuterSpaceChange,
-  outerSpace
+  outerSpace,
+  isDisabled
 }: GradientInputProps): JSX.Element {
   const validResolution = getValidResolution(resolution)
   const mainElement = useRef<HTMLDivElement>(null)
@@ -34,7 +35,8 @@ function GradientInput({
     value,
     onChange,
     outerSpace,
-    onOuterSpaceChange
+    onOuterSpaceChange,
+    isDisabled
   )
 
   return (
@@ -42,7 +44,15 @@ function GradientInput({
       className={`w-full max-w-48 h-6 border border-tuatara-500 rounded-r-md flex flex-row ${className}`}
     >
       <div
-        className={`w-full h-full relative hover:cursor-copy ${controlClassName}`}
+        className={`w-full h-full flex flex-row relative hover:cursor-copy p-0 m-0 ${
+          isDisabled != null && isDisabled ? "hover:cursor-auto" : ""
+        } ${controlClassName}`}
+        style={{
+          backgroundColor:
+            isDisabled != null && isDisabled
+              ? "black"
+              : knobs[knobs.length - 1].color
+        }}
         ref={mainElement}
         onPointerDown={onGradientPointerDown}
       >
@@ -50,7 +60,7 @@ function GradientInput({
           <GradientStepElement
             key={step.position}
             step={step}
-            resolution={validResolution}
+            isDisabled={isDisabled ?? false}
           />
         ))}
         {knobs.map((knob, index) => (
@@ -61,6 +71,7 @@ function GradientInput({
             placement={placement}
             key={knob.position}
             changeKnobSelected={changeKnobSelected}
+            isDisabled={isDisabled ?? false}
           />
         ))}
       </div>
@@ -73,6 +84,7 @@ function GradientInput({
         onMoveKnob={onMoveKnob}
         onColorKnob={onColorKnob}
         onDeleteKnob={onDeleteKnob}
+        isDisabled={isDisabled ?? false}
       />
     </div>
   )

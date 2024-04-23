@@ -2,5 +2,5 @@ import type { GradientStep } from "../../../../hooks/useGradientInput/resources/
 
 export interface GradientStepElementProps {
   step: GradientStep
-  resolution: number
+  isDisabled: boolean
 }

@@ -5,7 +5,8 @@ import type { GradientFormPositionProps } from "./GradientFormPosition_types"
 function GradientFormPosition({
   knobSelected,
   knobs,
-  onMoveKnob
+  onMoveKnob,
+  isDisabled
 }: GradientFormPositionProps): JSX.Element {
   const { changePosition, position } = useGradientPosition(
     knobs,
@@ -21,6 +22,7 @@ function GradientFormPosition({
       step={0.005}
       onChange={changePosition}
       value={position}
+      isDisabled={isDisabled}
     >
       Position
     </NumberInput>

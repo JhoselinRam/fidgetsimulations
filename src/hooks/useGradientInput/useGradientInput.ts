@@ -20,9 +20,14 @@ function useGradientInput(
   value?: GradientInputKnob[],
   onChange?: GradientOnChange,
   outerSpace?: GradientColorSpace,
-  onOuterSpaceChange?: GradientOnSpaceChange
+  onOuterSpaceChange?: GradientOnSpaceChange,
+  isDisabled?: boolean
 ): UseGradientInput {
-  const { knobs, setKnobs } = useGradientKnob(value, onChange)
+  const { knobs, setKnobs } = useGradientKnob(
+    isDisabled ?? false,
+    value,
+    onChange
+  )
   const { steps, changeSpace, space } = useGradientStep(
     resolution,
     knobs,
@@ -31,7 +36,14 @@ function useGradientInput(
   )
   const { onMoveKnob, onColorKnob } = useGradientUpdate(knobs, setKnobs)
   const { onGradientPointerDown, changeKnobSelected, knobSelected } =
-    useGradientPointer(knobs, setKnobs, space, mainElement, onMoveKnob)
+    useGradientPointer(
+      knobs,
+      setKnobs,
+      space,
+      mainElement,
+      onMoveKnob,
+      isDisabled ?? false
+    )
 
   const { onDeleteKnob } = useGradientDelete(
     knobs,
