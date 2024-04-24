@@ -2,8 +2,11 @@ import RadioInput from "../../../../RadioInput/RadioInput"
 import AddBatchColorFixedControl from "../AddBatchColorFixedControl/AddBatchColorFixedControl"
 import AddBatchColorRangeControl from "../AddBatchColorRangeControl/AddBatchColorRangeControl"
 import AddBatchSection from "../AddBatchSection/AddBatchSection"
+import type { AddBatchColorControlProps } from "./AddBatchColorControl_types"
 
-function AddBatchColorControl(): JSX.Element {
+function AddBatchColorControl({
+  hooks
+}: AddBatchColorControlProps): JSX.Element {
   return (
     <AddBatchSection>
       <AddBatchSection.Header>Color:</AddBatchSection.Header>

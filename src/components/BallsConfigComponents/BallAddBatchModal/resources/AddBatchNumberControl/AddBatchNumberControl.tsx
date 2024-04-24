@@ -1,7 +1,11 @@
 import NumberInput from "../../../../NumberInput/NumberInput"
 import AddBatchSection from "../AddBatchSection/AddBatchSection"
+import type { AddBatchNumberControlProps } from "./AddBatchNumberControl_types"
 
-function AddBatchNumberControl(): JSX.Element {
+function AddBatchNumberControl({
+  changeNumber,
+  number
+}: AddBatchNumberControlProps): JSX.Element {
   return (
     <AddBatchSection>
       <AddBatchSection.Header className="!mb-3">
@@ -11,6 +15,8 @@ function AddBatchNumberControl(): JSX.Element {
           formatOptions={{ maximumFractionDigits: 0 }}
           minValue={0}
           step={0.04}
+          value={number}
+          onChange={changeNumber}
         >
           Number:
         </NumberInput>

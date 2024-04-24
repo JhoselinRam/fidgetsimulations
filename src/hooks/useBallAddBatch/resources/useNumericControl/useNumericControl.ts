@@ -1,0 +1,39 @@
+import { useState } from "react"
+import type {
+  NumericControlMode,
+  UseNumericControl
+} from "./useNumericControl_types"
+
+function useNumericControl(): UseNumericControl {
+  const [mode, setMode] = useState<NumericControlMode>("fixed")
+  const [fixed, setFixed] = useState(0)
+  const [linearFrom, setLinearFrom] = useState(0)
+  const [linearTo, setLinearTo] = useState(5)
+  const [randomFrom, setRandomFrom] = useState(0)
+  const [randomTo, setRandomTo] = useState(5)
+
+  return {
+    controlMode: {
+      mode,
+      changeMode: setMode
+    },
+    fixed: {
+      value: fixed,
+      changeValue: setFixed
+    },
+    linear: {
+      from: linearFrom,
+      changeFrom: setLinearFrom,
+      to: linearTo,
+      changeTo: setLinearTo
+    },
+    random: {
+      from: randomFrom,
+      changeFrom: setRandomFrom,
+      to: randomTo,
+      changeTo: setRandomTo
+    }
+  }
+}
+
+export default useNumericControl

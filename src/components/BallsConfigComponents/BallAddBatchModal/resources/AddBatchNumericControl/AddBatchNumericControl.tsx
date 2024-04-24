@@ -6,6 +6,7 @@ import type { AddBatchNumericControlProps } from "./AddBatchNumericControl_types
 
 function AddBatchNumericControl({
   title,
+  hooks,
   ...numberInputProps
 }: AddBatchNumericControlProps): JSX.Element {
   return (
