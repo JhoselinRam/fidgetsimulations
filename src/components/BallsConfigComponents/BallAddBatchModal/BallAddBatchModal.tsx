@@ -6,8 +6,11 @@ import CloseAddModal from "./resources/CloseAddModal/CloseAddModal"
 import AddBatchControl from "./resources/AddBatchControl/AddBatchControl"
 import AddBatchCancel from "./resources/AddBatchCancel/AddBatchCancel"
 import AddBatchAccept from "./resources/AddBatchAccept/AddBatchAccept"
+import useBallAddBatch from "../../../hooks/useBallAddBatch/useBallAddBatch"
 
 function BallAddBatchModal(): JSX.Element {
+  const { createBatch, ...formHooks } = useBallAddBatch()
+
   return (
     <DialogTrigger>
       <IconButton coloredBy="stroke">
@@ -19,10 +22,10 @@ function BallAddBatchModal(): JSX.Element {
             <>
               <AddModalHeader />
               <CloseAddModal close={close} />
-              <AddBatchControl />
+              <AddBatchControl {...formHooks} />
               <div className="w-full flex flex-row justify-end gap-3">
                 <AddBatchCancel close={close} />
-                <AddBatchAccept />
+                <AddBatchAccept close={close} createBatch={createBatch} />
               </div>
             </>
           )}

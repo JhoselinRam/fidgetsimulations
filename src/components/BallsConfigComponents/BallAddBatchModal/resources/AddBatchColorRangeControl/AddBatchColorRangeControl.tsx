@@ -1,29 +1,33 @@
-import { useState } from "react"
 import GradientInput from "../../../../GradientInput/GradientInput"
 import RadioInput from "../../../../RadioInput/RadioInput"
 import type { AddBatchColorRangeControlProps } from "./AddBatchColorRangeControl_types"
-import type { GradientInputKnob } from "../../../../../hooks/useGradientInput/resources/useGradientKnob/useGradientKnob_types"
 
 function AddBatchColorRangeControl({
-  type
+  type,
+  changeKnobs,
+  knobs,
+  isModeSelected,
+  changeSpace,
+  space
 }: AddBatchColorRangeControlProps): JSX.Element {
-  const [value, setValue] = useState<GradientInputKnob[]>([
-    { position: 0, color: "#0000ff" },
-    { position: 0.25, color: "#00ffff" },
-    { position: 0.75, color: "#ffff00" },
-    { position: 1, color: "#ff0000" }
-  ])
-
   return (
-    <div className="flex flex-col p-1 basis-full gap-2 bg-tuatara-700 rounded-md border border-tuatara-600">
+    <div
+      className={`flex flex-col px-1 pt-1 pb-3 basis-full gap-2 rounded-md border ${
+        isModeSelected
+          ? "bg-tuatara-700 border-tuatara-600 shadow-xl"
+          : "border-transparent"
+      }`}
+    >
       <RadioInput.Option value={type}>{`${type[0].toUpperCase()}${type.slice(
         1
       )}`}</RadioInput.Option>
       <GradientInput
         className="self-center"
-        value={value}
-        onChange={setValue}
-        isDisabled={false}
+        value={knobs}
+        onChange={changeKnobs}
+        isDisabled={!isModeSelected}
+        outerSpace={space}
+        onOuterSpaceChange={changeSpace}
       />
     </div>
   )

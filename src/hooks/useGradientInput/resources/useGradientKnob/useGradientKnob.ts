@@ -22,6 +22,7 @@ function useGradientKnob(
   const onInnerChange = useCallback(
     (value: GradientInputKnob[]) => {
       setKnobs(value)
+      console.dir(value)
       if (onChange != null) onChange(value)
     },
     [onChange]

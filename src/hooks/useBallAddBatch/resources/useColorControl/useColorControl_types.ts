@@ -1,4 +1,5 @@
 import type { GradientInputKnob } from "../../../useGradientInput/resources/useGradientKnob/useGradientKnob_types"
+import type { GradientColorSpace } from "../../../useGradientInput/resources/useGradientStep/useGradientStep_types"
 
 export type ColorControlMode = "fixed" | "linear" | "random"
 
@@ -23,4 +24,6 @@ export interface ColorControlFixedHooks {
 export interface ColorControlRangeHooks {
   knobs: GradientInputKnob[]
   changeKnobs: (value: GradientInputKnob[]) => void
+  space: GradientColorSpace
+  changeSpace: (space: GradientColorSpace) => void
 }

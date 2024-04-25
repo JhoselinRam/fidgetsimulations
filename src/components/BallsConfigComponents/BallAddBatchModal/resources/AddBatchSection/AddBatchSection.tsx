@@ -11,7 +11,7 @@ const AddBatchSection = createComponentNamespace<
 >(
   "AddBatchSection",
   ({ children }) => {
-    return <section className="flex flex-col my-1">{children}</section>
+    return <section className="flex flex-col my-2">{children}</section>
   },
   { Header, Section }
 )

@@ -11,8 +11,5 @@ export interface AddBatchNumericSectionProps {
   unit?: ReactNode
   step?: number
   decimals?: number
-}
-
-export interface AddBatchNumericRangeProps {
-  test?: boolean
+  minValue?: number
 }

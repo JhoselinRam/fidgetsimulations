@@ -41,11 +41,17 @@ function GradientInput({
 
   return (
     <div
-      className={`w-full max-w-48 h-6 border border-tuatara-500 rounded-r-md flex flex-row ${className}`}
+      className={`w-full max-w-48 h-6 border rounded-r-md flex flex-row ${
+        isDisabled != null && isDisabled
+          ? "border-zinc-600"
+          : "border-tuatara-500"
+      } ${className}`}
     >
       <div
-        className={`w-full h-full flex flex-row relative hover:cursor-copy p-0 m-0 ${
-          isDisabled != null && isDisabled ? "hover:cursor-auto" : ""
+        className={`w-full h-full flex flex-row relative p-0 m-0 ${
+          isDisabled != null && isDisabled
+            ? "hover:cursor-auto"
+            : "hover:cursor-copy"
         } ${controlClassName}`}
         style={{
           backgroundColor:

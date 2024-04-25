@@ -4,13 +4,13 @@ import type {
   UseNumericControl
 } from "./useNumericControl_types"
 
-function useNumericControl(): UseNumericControl {
+function useNumericControl(toDefaultValue: number): UseNumericControl {
   const [mode, setMode] = useState<NumericControlMode>("fixed")
   const [fixed, setFixed] = useState(0)
   const [linearFrom, setLinearFrom] = useState(0)
-  const [linearTo, setLinearTo] = useState(5)
+  const [linearTo, setLinearTo] = useState(toDefaultValue)
   const [randomFrom, setRandomFrom] = useState(0)
-  const [randomTo, setRandomTo] = useState(5)
+  const [randomTo, setRandomTo] = useState(toDefaultValue)
 
   return {
     controlMode: {

@@ -10,11 +10,11 @@ function GradientKnobElement({
 }: GradientKnobElementProps): JSX.Element {
   return (
     <div
-      className={`absolute w-2 flex -translate-x-1/2 hover:cursor-col-resize touch-none ${
+      className={`absolute w-2 flex -translate-x-1/2 touch-none ${
         placement === "bottom"
           ? "top-full flex-col-reverse"
           : "bottom-full flex-col"
-      } ${isDisabled ? "hover:cursor-auto" : ""}`}
+      } ${isDisabled ? "hover:cursor-auto" : "hover:cursor-col-resize"}`}
       style={{ left: `${position * 100}%` }}
       onPointerDown={() => {
         changeKnobSelected(index)

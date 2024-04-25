@@ -6,7 +6,10 @@ import {
   useRef,
   useState
 } from "react"
-import type { GradientInputKnob } from "../useGradientKnob/useGradientKnob_types"
+import type {
+  GradientInputKnob,
+  GradientOnChange
+} from "../useGradientKnob/useGradientKnob_types"
 import type { GradientColorSpace } from "../useGradientStep/useGradientStep_types"
 import { createColorGradient } from "../../../../auxiliary/colorGradient"
 import type { GradientOnMoveKnob } from "../useGradientUpdate/useGradientUpdate_types"
@@ -19,7 +22,8 @@ function useGradientPointer(
   space: GradientColorSpace,
   mainElement: RefObject<HTMLDivElement>,
   onMoveKnob: GradientOnMoveKnob,
-  isDisabled: boolean
+  isDisabled: boolean,
+  onchange?: GradientOnChange
 ): UseGradientPointer {
   const pointerId = useRef(0)
   const knobSelectedRef = useRef(0)
@@ -52,8 +56,10 @@ function useGradientPointer(
 
     const newKnobs = [...knobs]
     newKnobs.push({ position, color })
+    newKnobs.sort((a, b) => a.position - b.position)
 
     setKnobs(newKnobs)
+    if (onchange != null) onchange(newKnobs)
   }
 
   const moveKnob = throttlefy(

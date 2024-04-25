@@ -42,13 +42,15 @@ function useGradientInput(
       space,
       mainElement,
       onMoveKnob,
-      isDisabled ?? false
+      isDisabled ?? false,
+      onChange
     )
 
   const { onDeleteKnob } = useGradientDelete(
     knobs,
     setKnobs,
-    changeKnobSelected
+    changeKnobSelected,
+    onChange
   )
 
   return {
