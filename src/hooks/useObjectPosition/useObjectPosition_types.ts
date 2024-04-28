@@ -9,3 +9,8 @@ export interface ObjectPositionProps {
   height: number
   ratioLock: boolean
 }
+
+export interface ObjectActionSelector {
+  container: "container@height"
+  obstacle: "obstacle@height"
+}

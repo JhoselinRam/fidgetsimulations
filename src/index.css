@@ -19,6 +19,7 @@
   align-items: center;
   justify-content: center;
   z-index: 100;
+  padding: 4rem 0.5rem 0.5rem 0.5rem;
 }
 
 .react-aria-ModalOverlay[data-entering] {

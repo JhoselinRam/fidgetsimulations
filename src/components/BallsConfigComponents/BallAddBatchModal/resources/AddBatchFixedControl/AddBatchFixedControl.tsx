@@ -13,28 +13,31 @@ function AddBatchFixedControl({
   minValue
 }: AddBatchFixedControlProps): JSX.Element {
   return (
-    <div
-      className={`flex flex-col w-40 min-w-40 gap-2 sm:shrink-[1.1] sm:w-auto sm:basis-full rounded-md p-1 border
+    <div className="flex sm:shrink-[1.1] sm:w-auto basis-full">
+      <div
+        className={`flex flex-col gap-2 rounded-md py-1 px-2 border w-full sm:w-40 min-w-40
     ${
       isModeSelected
-        ? "bg-tuatara-700 border-tuatara-600 shadow-xl"
+        ? "border-transparent bg-tuatara-700 sm:border-tuatara-600 shadow-xl"
         : "border-transparent"
     } `}
-    >
-      <RadioInput.Option value="fixed">Fixed</RadioInput.Option>
-      <NumberInput
-        step={step}
-        unit={unit}
-        formatOptions={{ maximumFractionDigits: decimals }}
-        labelClassName="basis-full"
-        groupClassName="basis-full shrink-[0.4]"
-        value={value}
-        onChange={changeValue}
-        isDisabled={!isModeSelected}
-        minValue={minValue}
       >
-        {label}:
-      </NumberInput>
+        <RadioInput.Option value="fixed">Fixed</RadioInput.Option>
+        <NumberInput
+          step={step}
+          unit={unit}
+          formatOptions={{ maximumFractionDigits: decimals }}
+          labelClassName="sm:basis-full"
+          groupClassName="sm:basis-full sm:shrink-[0.4]"
+          className="pl-4 sm:p-0"
+          value={value}
+          onChange={changeValue}
+          isDisabled={!isModeSelected}
+          minValue={minValue}
+        >
+          {label}:
+        </NumberInput>
+      </div>
     </div>
   )
 }

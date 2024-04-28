@@ -1,16 +1,21 @@
 import { useState } from "react"
 import type {
+  NumericControlDefaultValues,
   NumericControlMode,
   UseNumericControl
 } from "./useNumericControl_types"
 
-function useNumericControl(toDefaultValue: number): UseNumericControl {
+function useNumericControl({
+  fix,
+  from,
+  to
+}: NumericControlDefaultValues): UseNumericControl {
   const [mode, setMode] = useState<NumericControlMode>("fixed")
-  const [fixed, setFixed] = useState(0)
-  const [linearFrom, setLinearFrom] = useState(0)
-  const [linearTo, setLinearTo] = useState(toDefaultValue)
-  const [randomFrom, setRandomFrom] = useState(0)
-  const [randomTo, setRandomTo] = useState(toDefaultValue)
+  const [fixed, setFixed] = useState(fix ?? 0)
+  const [linearFrom, setLinearFrom] = useState(from ?? 0)
+  const [linearTo, setLinearTo] = useState(to ?? 0)
+  const [randomFrom, setRandomFrom] = useState(from ?? 0)
+  const [randomTo, setRandomTo] = useState(to ?? 0)
 
   return {
     controlMode: {

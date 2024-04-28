@@ -24,3 +24,9 @@ export interface NumericControlRangeHooks {
   to: number
   changeTo: (value: number) => void
 }
+
+export interface NumericControlDefaultValues {
+  fix?: number
+  from?: number
+  to?: number
+}

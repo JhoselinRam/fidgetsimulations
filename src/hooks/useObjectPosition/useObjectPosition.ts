@@ -9,6 +9,7 @@ import type {
   MainState
 } from "../useMainState/useMainState_types"
 import type {
+  ObjectActionSelector,
   ObjectPositionProps,
   UseObjectPosition
 } from "./useObjectPosition_types"
@@ -28,8 +29,13 @@ function useObjectPosition(item: CollectionOrder): UseObjectPosition {
     )
     if (collection == null) return
 
+    const action: ObjectActionSelector = {
+      container: "container@height",
+      obstacle: "obstacle@height"
+    }
+
     dispatch({
-      type: "container@height",
+      type: action[collection.type as keyof ObjectActionSelector],
       payload: {
         ...item,
         height: collection.width

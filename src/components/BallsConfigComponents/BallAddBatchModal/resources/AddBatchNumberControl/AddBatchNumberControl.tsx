@@ -8,7 +8,7 @@ function AddBatchNumberControl({
 }: AddBatchNumberControlProps): JSX.Element {
   return (
     <AddBatchSection>
-      <AddBatchSection.Header className="!mb-3">
+      <AddBatchSection.Header className="!-mb-1 sm:!mb-3 place-self-start">
         <NumberInput
           labelClassName="text-base"
           inputClassName="text-slate-950 my-0.5"

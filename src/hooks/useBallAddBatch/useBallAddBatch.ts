@@ -7,17 +7,24 @@ import { createBallState } from "../useMainState/resources/Balls/defaultState"
 import type { UseNumericControl } from "./resources/useNumericControl/useNumericControl_types"
 import type { UseColorControl } from "./resources/useColorControl/useColorControl_types"
 import { createColorGradient } from "../../auxiliary/colorGradient"
+import { simulationWindowDefaultState } from "../useMainState/resources/SimulationWindow/defaultState"
 
 function useBallAddBatch(): UseBallAddBatch {
   const { mainState, dispatch } = useContext(mainStateContext)
   const [number, setNumber] = useState(1)
-  const xPositionHooks = useNumericControl(5)
-  const yPositionHooks = useNumericControl(5)
-  const xVelocityHooks = useNumericControl(5)
-  const yVelocityHooks = useNumericControl(5)
-  const massHooks = useNumericControl(1)
-  const chargeHooks = useNumericControl(0.1)
-  const radiusHooks = useNumericControl(0.5)
+  const xPositionHooks = useNumericControl({
+    from: simulationWindowDefaultState.startX,
+    to: simulationWindowDefaultState.endX
+  })
+  const yPositionHooks = useNumericControl({
+    from: simulationWindowDefaultState.startY,
+    to: simulationWindowDefaultState.endY
+  })
+  const xVelocityHooks = useNumericControl({ to: 5 })
+  const yVelocityHooks = useNumericControl({ to: 5 })
+  const massHooks = useNumericControl({ from: 0.01, to: 1, fix: 0.01 })
+  const chargeHooks = useNumericControl({ from: 0.001, to: 0.01, fix: 0.001 })
+  const radiusHooks = useNumericControl({ fix: 0.2, to: 0.6, from: 0.2 })
   const colorHooks = useColorControl()
 
   function createBatch(): void {

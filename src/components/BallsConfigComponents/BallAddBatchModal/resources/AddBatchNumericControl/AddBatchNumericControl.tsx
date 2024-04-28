@@ -13,10 +13,11 @@ function AddBatchNumericControl({
   return (
     <AddBatchSection>
       <AddBatchSection.Header>{title}:</AddBatchSection.Header>
-      <AddBatchSection.Section>
+      <AddBatchSection.Section className="w-full">
         <RadioInput
-          innerClassName="w-full"
-          className="w-full"
+          innerClassName="w-full flex-wrap gap-3 sm:flex-nowrap sm:gap-2"
+          className="w-full rounded-md bg-tuatara-700/50 border border-zinc-600
+          sm:bg-transparent sm:border-transparent overflow-auto sm:overflow-visible"
           optionOrientation="horizontal"
           value={hooks.controlMode.mode}
           onChange={(mode) => {

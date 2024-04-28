@@ -1,14 +1,11 @@
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
-import IconButton from "../../../../IconButton/IconButton"
-import BatchConfigIcon from "../../../../Icons/BatchConfigIcon/BatchConfigIcon"
+import BallConfigBatchModal from "../../../BallConfigBatchModal/BallConfigBatchModal"
 
 function BatchConfigControl(): JSX.Element {
   return (
     <ConfigSection.Header>
       <p className="text-nowrap">Batch configuration:</p>
-      <IconButton coloredBy="fill">
-        <BatchConfigIcon />
-      </IconButton>
+      <BallConfigBatchModal />
     </ConfigSection.Header>
   )
 }

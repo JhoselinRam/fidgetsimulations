@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_ROUNDED_DECIMALS: number
   readonly VITE_ELLIPSE_RESOLUTION: number
   readonly VITE_DEFAULT_MARKER_SIZE: number
+  readonly VITE_SAFE_RADIUS: number
 }
 
 interface ImportMeta {

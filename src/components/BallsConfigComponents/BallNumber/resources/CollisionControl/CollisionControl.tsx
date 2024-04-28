@@ -14,7 +14,7 @@ function CollisionControl({
         <Info placement="left" crossOffset={30}>
           <p>Allow the collision between balls.</p>
           <p className="mt-2">
-            This doesn&apos;t affect the collision of balls width containers or
+            This doesn&apos;t affect the collision of balls width containers and
             obstacles.
           </p>
         </Info>
