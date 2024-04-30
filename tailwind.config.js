@@ -152,7 +152,8 @@ export default {
         "select-bottom-exit": "select-slide-bottom 150ms reverse ease-in"
       },
       gridTemplateColumns: {
-        collection: "repeat(auto-fit,minmax(3.5rem, 1fr))"
+        collection: "repeat(auto-fit,minmax(3.5rem, 1fr))",
+        "batch-config": "1.5rem,repeat(10,minmax(3.5rem,1fr))"
       }
     }
   },
