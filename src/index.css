@@ -39,3 +39,7 @@
     opacity: 1;
   }
 }
+
+.react-aria-Checkbox[data-selected] svg {
+  stroke-dashoffset: 44;
+}

@@ -13,7 +13,7 @@ function ConfigSheetHeader(): JSX.Element {
       <HeaderCell>Charge</HeaderCell>
       <HeaderCell>Radius</HeaderCell>
       <HeaderCell>Color</HeaderCell>
-      <HeaderCell>Deletes</HeaderCell>
+      <HeaderCell>Delete</HeaderCell>
     </>
   )
 }
