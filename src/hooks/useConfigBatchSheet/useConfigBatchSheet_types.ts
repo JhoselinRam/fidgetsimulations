@@ -1,5 +1,6 @@
 export interface UseConfigBatchSheet {
   rows: ConfigBatchRow[]
+  changeSheetState: SheetChangeCallback
 }
 
 export interface ConfigBatchRow {
@@ -15,3 +16,17 @@ export interface ConfigBatchRow {
   delete: boolean
   id: string
 }
+
+export type SheetPropTypeByName<T extends keyof ConfigBatchRow> = T extends
+  | "name"
+  | "color"
+  ? string
+  : T extends "delete"
+    ? boolean
+    : number
+
+export type SheetChangeCallback = <T extends keyof ConfigBatchRow>(
+  prop: T,
+  value: SheetPropTypeByName<T>,
+  index: number
+) => void

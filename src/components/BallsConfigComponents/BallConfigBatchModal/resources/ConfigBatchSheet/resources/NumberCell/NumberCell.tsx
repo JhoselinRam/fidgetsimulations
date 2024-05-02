@@ -4,22 +4,26 @@ import type { NumberCellProps } from "./NumberCell_type"
 
 function NumberCell({
   value,
+  changeValue,
   decimals,
   maxValue,
   minValue,
-  step
+  step,
+  labelBy
 }: NumberCellProps): JSX.Element {
   return (
     <BaseCell>
       <NumberField
-        className="w-full"
+        className="w-full hover:cursor-cell"
         value={value}
+        onChange={changeValue}
         step={step}
         minValue={minValue}
         maxValue={maxValue}
         formatOptions={{ maximumFractionDigits: decimals }}
+        aria-label={labelBy}
       >
-        <Input className="w-full bg-transparent outline-none text-right" />
+        <Input className="w-full bg-transparent outline-none text-right data-[hovered]:cursor-cell" />
       </NumberField>
     </BaseCell>
   )
