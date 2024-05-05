@@ -13,7 +13,7 @@ export interface ConfigBatchRow {
   charge: number
   radius: number
   color: string
-  delete: boolean
+  deleteBall: boolean
   id: string
 }
 
@@ -21,7 +21,7 @@ export type SheetPropTypeByName<T extends keyof ConfigBatchRow> = T extends
   | "name"
   | "color"
   ? string
-  : T extends "delete"
+  : T extends "deleteBall"
     ? boolean
     : number
 

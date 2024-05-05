@@ -1,3 +1,4 @@
+import useSheetRow from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow"
 import CheckCell from "../CheckCell/CheckCell"
 import ColorCell from "../ColorCell/ColorCell"
 import HeaderCell from "../HeaderCell/HeaderCell"
@@ -10,76 +11,32 @@ function ConfigSheetRow({
   index,
   changeSheetState
 }: ConfigSheetRowProps): JSX.Element {
+  const {
+    charge,
+    color,
+    deleteBall,
+    mass,
+    name,
+    positionX,
+    positionY,
+    radius,
+    velocityX,
+    velocityY
+  } = useSheetRow(data, index, changeSheetState)
+
   return (
     <>
       <HeaderCell>{index + 1}</HeaderCell>
-      <TextCell
-        value={data.name}
-        changeValue={(value) => {
-          changeSheetState("name", value, index)
-        }}
-      />
-      <NumberCell
-        value={data.positionX}
-        changeValue={(value) => {
-          changeSheetState("positionX", value, index)
-        }}
-        labelBy="ball position x"
-      />
-      <NumberCell
-        value={data.positionY}
-        changeValue={(value) => {
-          changeSheetState("positionY", value, index)
-        }}
-        labelBy="ball position y"
-      />
-      <NumberCell
-        value={data.velocityX}
-        changeValue={(value) => {
-          changeSheetState("velocityX", value, index)
-        }}
-        labelBy="ball velocity x"
-      />
-      <NumberCell
-        value={data.velocityY}
-        changeValue={(value) => {
-          changeSheetState("velocityY", value, index)
-        }}
-        labelBy="ball velocity y"
-      />
-      <NumberCell
-        value={data.mass}
-        changeValue={(value) => {
-          changeSheetState("mass", value, index)
-        }}
-        labelBy="ball mass"
-      />
-      <NumberCell
-        value={data.charge}
-        changeValue={(value) => {
-          changeSheetState("charge", value, index)
-        }}
-        labelBy="ball charge"
-      />
-      <NumberCell
-        value={data.radius}
-        changeValue={(value) => {
-          changeSheetState("radius", value, index)
-        }}
-        labelBy="ball radius"
-      />
-      <ColorCell
-        value={data.color}
-        changeValue={(value) => {
-          changeSheetState("color", value, index)
-        }}
-      />
-      <CheckCell
-        value={data.delete}
-        changeValue={(value) => {
-          changeSheetState("delete", value, index)
-        }}
-      />
+      <TextCell {...name} />
+      <NumberCell {...positionX} labelBy="ball position x" />
+      <NumberCell {...positionY} labelBy="ball position y" />
+      <NumberCell {...velocityX} labelBy="ball velocity x" />
+      <NumberCell {...velocityY} labelBy="ball velocity y" />
+      <NumberCell {...mass} labelBy="ball mass" />
+      <NumberCell {...charge} labelBy="ball charge" />
+      <NumberCell {...radius} labelBy="ball radius" />
+      <ColorCell {...color} />
+      <CheckCell {...deleteBall} />
     </>
   )
 }

@@ -41,7 +41,7 @@ function getInitialRows(state: MainState): ConfigBatchRow[] {
   return state.balls[0].data.map((ball) => ({
     charge: ball.charge,
     color: ball.color,
-    delete: false,
+    deleteBall: false,
     mass: ball.mass,
     name: ball.name,
     positionX: ball.positionX,
