@@ -23,7 +23,7 @@ function useColorInput(
       (color: string) => {
         if (outerChangeCallback != null) outerChangeCallback(color)
       },
-      import.meta.env.VITE_THROTTLE_TIME
+      import.meta.env.VITE_COLOR_THROTTLE_TIME
     ),
     [outerChangeCallback]
   )
@@ -32,7 +32,7 @@ function useColorInput(
       (color: string) => {
         if (outerInputCallback != null) outerInputCallback(color)
       },
-      import.meta.env.VITE_THROTTLE_TIME
+      import.meta.env.VITE_COLOR_THROTTLE_TIME
     ),
     [outerInputCallback]
   )
