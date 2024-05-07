@@ -21,20 +21,45 @@ function ConfigSheetRow({
     positionY,
     radius,
     velocityX,
-    velocityY
-  } = useSheetRow(data, index, changeSheetState)
+    velocityY,
+    selectOnFocus
+  } = useSheetRow(data)
 
   return (
     <>
       <HeaderCell>{index + 1}</HeaderCell>
-      <TextCell {...name} />
-      <NumberCell {...positionX} labelBy="ball position x" />
-      <NumberCell {...positionY} labelBy="ball position y" />
-      <NumberCell {...velocityX} labelBy="ball velocity x" />
-      <NumberCell {...velocityY} labelBy="ball velocity y" />
-      <NumberCell {...mass} labelBy="ball mass" />
-      <NumberCell {...charge} labelBy="ball charge" />
-      <NumberCell {...radius} labelBy="ball radius" />
+      <TextCell {...name} selectOnFocus={selectOnFocus} />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...positionX}
+        labelBy="ball position x"
+      />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...positionY}
+        labelBy="ball position y"
+      />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...velocityX}
+        labelBy="ball velocity x"
+      />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...velocityY}
+        labelBy="ball velocity y"
+      />
+      <NumberCell selectOnFocus={selectOnFocus} {...mass} labelBy="ball mass" />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...charge}
+        labelBy="ball charge"
+      />
+      <NumberCell
+        selectOnFocus={selectOnFocus}
+        {...radius}
+        labelBy="ball radius"
+      />
       <ColorCell {...color} />
       <CheckCell {...deleteBall} />
     </>

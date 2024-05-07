@@ -1,9 +1,7 @@
-import type {
-  ConfigBatchRow,
-  SheetPropTypeByName
-} from "../../useConfigBatchSheet_types"
+import type { FocusEvent } from "react"
+import type { ConfigBatchRow } from "../../useConfigBatchSheet_types"
 
-export interface UseSheetRow extends RowPropState {}
+export interface UseSheetRow extends RowPropState, CellSelectOnFocus {}
 
 export type RowPropState = {
   [k in keyof Omit<ConfigBatchRow, "id">]: k extends "name" | "color"
@@ -18,6 +16,6 @@ export interface PropStateHook<T> {
   changeValue: (value: T) => void
 }
 
-export type SheetPropHooks = {
-  [k in keyof RowPropState]: (value: SheetPropTypeByName<k>) => void
+export interface CellSelectOnFocus {
+  selectOnFocus: (e: FocusEvent) => void
 }

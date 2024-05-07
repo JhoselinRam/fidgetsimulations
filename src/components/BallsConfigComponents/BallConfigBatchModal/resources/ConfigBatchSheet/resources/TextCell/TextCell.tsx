@@ -2,7 +2,11 @@ import { Input, TextField } from "react-aria-components"
 import BaseCell from "../BaseCell/BaseCell"
 import type { TextCellProps } from "./TextCell_types"
 
-function TextCell({ value, changeValue }: TextCellProps): JSX.Element {
+function TextCell({
+  value,
+  changeValue,
+  selectOnFocus
+}: TextCellProps): JSX.Element {
   return (
     <BaseCell>
       <TextField
@@ -10,6 +14,7 @@ function TextCell({ value, changeValue }: TextCellProps): JSX.Element {
         value={value}
         onChange={changeValue}
         aria-label="ball name"
+        onFocus={selectOnFocus}
       >
         <Input className="w-full bg-transparent outline-none data-[hovered]:cursor-cell" />
       </TextField>

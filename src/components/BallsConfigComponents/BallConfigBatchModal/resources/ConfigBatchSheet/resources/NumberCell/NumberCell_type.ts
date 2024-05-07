@@ -1,4 +1,6 @@
-export interface NumberCellProps {
+import type { CellSelectOnFocus } from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow_types"
+
+export interface NumberCellProps extends CellSelectOnFocus {
   value: number
   changeValue: (value: number) => void
   step?: number

@@ -9,7 +9,8 @@ function NumberCell({
   maxValue,
   minValue,
   step,
-  labelBy
+  labelBy,
+  selectOnFocus
 }: NumberCellProps): JSX.Element {
   return (
     <BaseCell>
@@ -22,6 +23,10 @@ function NumberCell({
         maxValue={maxValue}
         formatOptions={{ maximumFractionDigits: decimals }}
         aria-label={labelBy}
+        onFocus={selectOnFocus}
+        onKeyDown={() => {
+          console.log("down")
+        }}
       >
         <Input className="w-full bg-transparent outline-none text-right data-[hovered]:cursor-cell" />
       </NumberField>
