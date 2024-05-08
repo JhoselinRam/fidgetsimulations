@@ -1,4 +1,4 @@
-import useSheetRow from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow"
+import useSheetRow from "../../../../../../../hooks/useConfigBatchModal/resources/useSheetRow/useSheetRow"
 import CheckCell from "../CheckCell/CheckCell"
 import ColorCell from "../ColorCell/ColorCell"
 import HeaderCell from "../HeaderCell/HeaderCell"
@@ -6,11 +6,7 @@ import NumberCell from "../NumberCell/NumberCell"
 import TextCell from "../TextCell/TextCell"
 import type { ConfigSheetRowProps } from "./ConfigSheetRow_types"
 
-function ConfigSheetRow({
-  data,
-  index,
-  changeSheetState
-}: ConfigSheetRowProps): JSX.Element {
+function ConfigSheetRow({ data, index }: ConfigSheetRowProps): JSX.Element {
   const {
     charge,
     color,

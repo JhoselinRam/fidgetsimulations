@@ -1,5 +1,5 @@
 import type { FocusEvent } from "react"
-import type { ConfigBatchRow } from "../../useConfigBatchSheet_types"
+import type { ConfigBatchRow } from "../../useConfigBatchModal_types"
 
 export interface UseSheetRow extends RowPropState, CellSelectOnFocus {}
 

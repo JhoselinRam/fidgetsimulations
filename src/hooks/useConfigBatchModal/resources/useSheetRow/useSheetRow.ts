@@ -1,5 +1,5 @@
 import { type FocusEvent, useState, useEffect } from "react"
-import type { ConfigBatchRow } from "../../useConfigBatchSheet_types"
+import type { ConfigBatchRow } from "../../useConfigBatchModal_types"
 import type { UseSheetRow } from "./useSheetRow_types"
 
 function useSheetRow(data: ConfigBatchRow): UseSheetRow {
