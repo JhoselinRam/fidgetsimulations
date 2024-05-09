@@ -5,7 +5,7 @@ function ConfigBatchHeader(): JSX.Element {
     <Header
       slot="title"
       className="text-lg relative text-zinc-300
-    after:absolute after:-bottom-1 after:left-0 after:right-0 after:border-2 after:border-tuatara-500"
+    after:absolute after:-bottom-1 after:left-0 after:right-0 after:border after:border-tuatara-500"
     >
       Config Batch:
     </Header>

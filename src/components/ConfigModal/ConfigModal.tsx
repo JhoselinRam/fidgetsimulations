@@ -9,7 +9,8 @@ function ConfigModal({
   onAccept,
   onCancel,
   triggerElement,
-  className
+  className,
+  isKeyboardDismissDisabled
 }: ConfigModalProps): JSX.Element {
   return (
     <DialogTrigger>
@@ -17,6 +18,7 @@ function ConfigModal({
       <Modal
         className="w-full max-w-modal h-full relative bg-tuatara-900 rounded-md pt-2 pb-3 px-5
       sm:max-h-modal"
+        isKeyboardDismissDisabled={isKeyboardDismissDisabled}
       >
         <Dialog
           className={`outline-none w-full h-full flex flex-col ${className}`}

@@ -1,4 +1,4 @@
-import useSheetRow from "../../../../../../../hooks/useConfigBatchModal/resources/useSheetRow/useSheetRow"
+import useSheetRow from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow"
 import CheckCell from "../CheckCell/CheckCell"
 import ColorCell from "../ColorCell/ColorCell"
 import HeaderCell from "../HeaderCell/HeaderCell"

@@ -1,6 +1,6 @@
-import { type FocusEvent, useState, useEffect } from "react"
-import type { ConfigBatchRow } from "../../useConfigBatchModal_types"
+import { type FocusEvent, useState } from "react"
 import type { UseSheetRow } from "./useSheetRow_types"
+import type { ConfigBatchRow } from "../../../useConfigBatchModal/useConfigBatchModal_types"
 
 function useSheetRow(data: ConfigBatchRow): UseSheetRow {
   const [name, setName] = useState(data.name)
@@ -18,10 +18,6 @@ function useSheetRow(data: ConfigBatchRow): UseSheetRow {
     const input = e.target as HTMLInputElement
     input.select()
   }
-
-  useEffect(() => {
-    console.log(positionX)
-  }, [positionX])
 
   return {
     name: {

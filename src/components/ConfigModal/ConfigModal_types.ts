@@ -5,4 +5,5 @@ export interface ConfigModalProps extends PropsWithChildren {
   onAccept?: () => void
   triggerElement: ReactNode
   className?: string
+  isKeyboardDismissDisabled?: boolean
 }

@@ -15,6 +15,7 @@ function BallConfigBatchModal(): JSX.Element {
           <BatchConfigIcon />
         </IconButton>
       }
+      isKeyboardDismissDisabled={true}
     >
       <ConfigBatchHeader />
       <ConfigBatchSheet rows={rows} />
