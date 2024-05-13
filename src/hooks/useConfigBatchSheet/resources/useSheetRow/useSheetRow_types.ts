@@ -1,21 +1,12 @@
-import type { FocusEvent } from "react"
 import type { ConfigBatchRow } from "../../../useConfigBatchModal/useConfigBatchModal_types"
+import type { UseCellData } from "../useCellData/useCellData_types"
 
-export interface UseSheetRow extends RowPropState, CellSelectOnFocus {}
+export interface UseSheetRow extends RowPropState {}
 
 export type RowPropState = {
   [k in keyof Omit<ConfigBatchRow, "id">]: k extends "name" | "color"
-    ? PropStateHook<string>
+    ? UseCellData<string>
     : k extends "deleteBall"
-      ? PropStateHook<boolean>
-      : PropStateHook<number>
-}
-
-export interface PropStateHook<T> {
-  value: T
-  changeValue: (value: T) => void
-}
-
-export interface CellSelectOnFocus {
-  selectOnFocus: (e: FocusEvent) => void
+      ? UseCellData<boolean>
+      : UseCellData<number>
 }

@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_ELLIPSE_RESOLUTION: number
   readonly VITE_DEFAULT_MARKER_SIZE: number
   readonly VITE_SAFE_RADIUS: number
+  readonly VITE_CONFIG_SHEET_INDEX_WIDTH: string
 }
 
 interface ImportMeta {

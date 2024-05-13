@@ -26,12 +26,16 @@ function ColorInput({
 
   return (
     <div className={`flex flex-row gap-2 items-center ${containerClassName}`}>
-      <label
-        htmlFor={id ?? defaultId}
-        className={`${disabled != null && disabled ? "text-tuatara-600" : ""}`}
-      >
-        {children}
-      </label>
+      {children != null && (
+        <label
+          htmlFor={id ?? defaultId}
+          className={`${
+            disabled != null && disabled ? "text-tuatara-600" : ""
+          }`}
+        >
+          {children}
+        </label>
+      )}
       <div
         ref={wrapperElement}
         className={`w-7 h-4 rounded-full border border-zinc-300 relative

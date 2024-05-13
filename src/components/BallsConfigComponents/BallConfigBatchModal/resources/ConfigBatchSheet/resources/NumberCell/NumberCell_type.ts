@@ -1,8 +1,6 @@
-import type { CellSelectOnFocus } from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow_types"
+import type { UseCellData } from "../../../../../../../hooks/useConfigBatchSheet/resources/useCellData/useCellData_types"
 
-export interface NumberCellProps extends CellSelectOnFocus {
-  value: number
-  changeValue: (value: number) => void
+export interface NumberCellProps extends UseCellData<number> {
   step?: number
   minValue?: number
   maxValue?: number

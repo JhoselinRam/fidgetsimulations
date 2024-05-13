@@ -6,7 +6,13 @@ import NumberCell from "../NumberCell/NumberCell"
 import TextCell from "../TextCell/TextCell"
 import type { ConfigSheetRowProps } from "./ConfigSheetRow_types"
 
-function ConfigSheetRow({ data, index }: ConfigSheetRowProps): JSX.Element {
+function ConfigSheetRow({
+  data,
+  index,
+  setSelectedCell,
+  setSelectionMode,
+  blurCell
+}: ConfigSheetRowProps): JSX.Element {
   const {
     charge,
     color,
@@ -17,45 +23,20 @@ function ConfigSheetRow({ data, index }: ConfigSheetRowProps): JSX.Element {
     positionY,
     radius,
     velocityX,
-    velocityY,
-    selectOnFocus
-  } = useSheetRow(data)
+    velocityY
+  } = useSheetRow(data, index, setSelectedCell, setSelectionMode, blurCell)
 
   return (
     <>
       <HeaderCell>{index + 1}</HeaderCell>
-      <TextCell {...name} selectOnFocus={selectOnFocus} />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...positionX}
-        labelBy="ball position x"
-      />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...positionY}
-        labelBy="ball position y"
-      />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...velocityX}
-        labelBy="ball velocity x"
-      />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...velocityY}
-        labelBy="ball velocity y"
-      />
-      <NumberCell selectOnFocus={selectOnFocus} {...mass} labelBy="ball mass" />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...charge}
-        labelBy="ball charge"
-      />
-      <NumberCell
-        selectOnFocus={selectOnFocus}
-        {...radius}
-        labelBy="ball radius"
-      />
+      <TextCell {...name} />
+      <NumberCell {...positionX} labelBy="ball position x" />
+      <NumberCell {...positionY} labelBy="ball position y" />
+      <NumberCell {...velocityX} labelBy="ball velocity x" />
+      <NumberCell {...velocityY} labelBy="ball velocity y" />
+      <NumberCell {...mass} labelBy="ball mass" />
+      <NumberCell {...charge} labelBy="ball charge" />
+      <NumberCell {...radius} labelBy="ball radius" />
       <ColorCell {...color} />
       <CheckCell {...deleteBall} />
     </>

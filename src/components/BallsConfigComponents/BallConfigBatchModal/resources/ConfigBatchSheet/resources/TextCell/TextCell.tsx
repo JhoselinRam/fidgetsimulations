@@ -2,19 +2,13 @@ import { Input, TextField } from "react-aria-components"
 import BaseCell from "../BaseCell/BaseCell"
 import type { TextCellProps } from "./TextCell_types"
 
-function TextCell({
-  value,
-  changeValue,
-  selectOnFocus
-}: TextCellProps): JSX.Element {
+function TextCell({ ...hooks }: TextCellProps): JSX.Element {
   return (
     <BaseCell>
       <TextField
         className="w-full hover:cursor-cell"
-        value={value}
-        onChange={changeValue}
+        {...hooks}
         aria-label="ball name"
-        onFocus={selectOnFocus}
       >
         <Input className="w-full bg-transparent outline-none data-[hovered]:cursor-cell" />
       </TextField>

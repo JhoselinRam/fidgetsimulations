@@ -1,6 +1,3 @@
-import type { CellSelectOnFocus } from "../../../../../../../hooks/useConfigBatchSheet/resources/useSheetRow/useSheetRow_types"
+import type { UseCellData } from "../../../../../../../hooks/useConfigBatchSheet/resources/useCellData/useCellData_types"
 
-export interface TextCellProps extends CellSelectOnFocus {
-  value: string
-  changeValue: (value: string) => void
-}
+export interface TextCellProps extends UseCellData<string> {}

@@ -1,3 +1,4 @@
+import CheckInput from "../../../../../../CheckInput/CheckInput"
 import HeaderCell from "../HeaderCell/HeaderCell"
 
 function ConfigSheetHeader(): JSX.Element {
@@ -13,7 +14,11 @@ function ConfigSheetHeader(): JSX.Element {
       <HeaderCell>Charge</HeaderCell>
       <HeaderCell>Radius</HeaderCell>
       <HeaderCell>Color</HeaderCell>
-      <HeaderCell>Delete</HeaderCell>
+      <HeaderCell>
+        <CheckInput className="!flex-row-reverse gap-1" size="sm" type="danger">
+          Delete
+        </CheckInput>
+      </HeaderCell>
     </>
   )
 }

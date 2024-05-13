@@ -3,27 +3,23 @@ import BaseCell from "../BaseCell/BaseCell"
 import type { NumberCellProps } from "./NumberCell_type"
 
 function NumberCell({
-  value,
-  changeValue,
   decimals,
   maxValue,
   minValue,
   step,
   labelBy,
-  selectOnFocus
+  ...hooks
 }: NumberCellProps): JSX.Element {
   return (
     <BaseCell>
       <NumberField
         className="w-full hover:cursor-cell"
-        value={value}
-        onChange={changeValue}
+        {...hooks}
         step={step}
         minValue={minValue}
         maxValue={maxValue}
         formatOptions={{ maximumFractionDigits: decimals }}
         aria-label={labelBy}
-        onFocus={selectOnFocus}
       >
         <Input className="w-full bg-transparent outline-none text-right data-[hovered]:cursor-cell" />
       </NumberField>
