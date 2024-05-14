@@ -2,16 +2,22 @@ import type { UseSheetRow } from "./useSheetRow_types"
 import type { ConfigBatchRow } from "../../../useConfigBatchModal/useConfigBatchModal_types"
 import type {
   SheetCellSelectionCallback,
+  SheetOnEnterCallback,
   SheetSelectionModeCallback
 } from "../../useConfigBatchSheet_types"
 import useCellData from "../useCellData/useCellData"
+import { useImperativeHandle, type ForwardedRef } from "react"
+import type { ConfigSheetRowRef } from "../../../../components/BallsConfigComponents/BallConfigBatchModal/resources/ConfigBatchSheet/resources/ConfigSheetRow/ConfigSheetRow_types"
 
 function useSheetRow(
   data: ConfigBatchRow,
   index: number,
   setSelectedCell: SheetCellSelectionCallback,
   setSelectionMode: SheetSelectionModeCallback,
-  blurCell: () => void
+  blurCell: () => void,
+  onEnter: SheetOnEnterCallback,
+  ref: ForwardedRef<ConfigSheetRowRef>,
+  setLastSelectedColumn: (column: number) => void
 ): UseSheetRow {
   const name = useCellData(
     data.name,
@@ -19,7 +25,9 @@ function useSheetRow(
     "name",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const positionX = useCellData(
     data.positionX,
@@ -27,7 +35,9 @@ function useSheetRow(
     "positionX",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const positionY = useCellData(
     data.positionY,
@@ -35,7 +45,9 @@ function useSheetRow(
     "positionY",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const velocityX = useCellData(
     data.velocityX,
@@ -43,7 +55,9 @@ function useSheetRow(
     "velocityX",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const velocityY = useCellData(
     data.velocityY,
@@ -51,7 +65,9 @@ function useSheetRow(
     "velocityY",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const mass = useCellData(
     data.mass,
@@ -59,7 +75,9 @@ function useSheetRow(
     "mass",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const charge = useCellData(
     data.charge,
@@ -67,7 +85,9 @@ function useSheetRow(
     "charge",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const radius = useCellData(
     data.radius,
@@ -75,7 +95,9 @@ function useSheetRow(
     "radius",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const color = useCellData(
     data.color,
@@ -83,7 +105,9 @@ function useSheetRow(
     "color",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
   const deleteBall = useCellData(
     data.deleteBall,
@@ -91,8 +115,31 @@ function useSheetRow(
     "deleteBall",
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
   )
+
+  function getRowData(): Omit<ConfigBatchRow, "id"> {
+    return {
+      name: name.value,
+      positionX: positionX.value,
+      positionY: positionY.value,
+      velocityX: velocityX.value,
+      velocityY: velocityY.value,
+      mass: mass.value,
+      charge: charge.value,
+      radius: radius.value,
+      color: color.value,
+      deleteBall: deleteBall.value
+    }
+  }
+
+  useImperativeHandle(ref, () => ({
+    getRowData,
+    id: data.id,
+    setDeleteBall: deleteBall.onChange
+  }))
 
   return {
     name,

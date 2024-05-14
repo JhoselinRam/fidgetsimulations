@@ -15,7 +15,7 @@ function AestheticsControl({
       <ConfigSection.Header className="mt-4">Aesthetics:</ConfigSection.Header>
       <ConfigSection.Section>
         <NumberInput
-          minValue={0.001}
+          minValue={import.meta.env.VITE_BALL_MIN_RADIUS}
           formatOptions={{ maximumFractionDigits: 3 }}
           step={0.01}
           unit="m"

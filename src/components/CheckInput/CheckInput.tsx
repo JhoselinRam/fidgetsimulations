@@ -10,6 +10,7 @@ function CheckInput({
   type = "accent",
   children,
   size,
+  onPointerDown,
   ...props
 }: CheckInputProps): JSX.Element {
   const accentColor: CheckColorByType = {
@@ -35,6 +36,7 @@ function CheckInput({
       group-data-[selected]:group-data-[pressed]:bg-zinc-300 transition-colors group-data-[hovered]:cursor-pointer
       group-data-[focus-visible]:outline group-data-[focus-visible]:outline-2 group-data-[focus-visible]:outline-accent-blue-300/30 
        group-data-[focus-visible]:outline-offset-2 group-data-[disabled]:bg-zinc-400`}
+        onPointerDown={onPointerDown}
       >
         <svg
           viewBox="0 0 18 18"

@@ -8,6 +8,7 @@ function NumberCell({
   minValue,
   step,
   labelBy,
+  onPointerDown,
   ...hooks
 }: NumberCellProps): JSX.Element {
   return (
@@ -21,7 +22,10 @@ function NumberCell({
         formatOptions={{ maximumFractionDigits: decimals }}
         aria-label={labelBy}
       >
-        <Input className="w-full bg-transparent outline-none text-right data-[hovered]:cursor-cell" />
+        <Input
+          className="w-full bg-transparent outline-none text-right data-[hovered]:cursor-cell"
+          onPointerDown={onPointerDown}
+        />
       </NumberField>
     </BaseCell>
   )

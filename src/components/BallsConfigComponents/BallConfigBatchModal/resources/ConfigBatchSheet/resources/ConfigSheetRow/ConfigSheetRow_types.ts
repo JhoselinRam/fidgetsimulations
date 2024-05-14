@@ -5,3 +5,9 @@ export interface ConfigSheetRowProps extends SheetCellSelection {
   data: ConfigBatchRow
   index: number
 }
+
+export interface ConfigSheetRowRef {
+  getRowData: () => Omit<ConfigBatchRow, "id">
+  id: string
+  setDeleteBall: (value: boolean) => void
+}

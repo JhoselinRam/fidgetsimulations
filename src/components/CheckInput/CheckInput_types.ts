@@ -7,6 +7,7 @@ export interface CheckInputProps
   type?: CheckType
   children?: ReactNode
   size?: CheckSize
+  onPointerDown?: () => void
 }
 
 export type CheckType = "accent" | "danger"

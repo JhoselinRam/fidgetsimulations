@@ -3,6 +3,7 @@ import type { UseCellData } from "./useCellData_types"
 import type { ConfigBatchRow } from "../../../useConfigBatchModal/useConfigBatchModal_types"
 import type {
   SheetCellSelectionCallback,
+  SheetOnEnterCallback,
   SheetSelectionModeCallback
 } from "../../useConfigBatchSheet_types"
 
@@ -25,7 +26,9 @@ function useCellData<T>(
   prop: keyof ConfigBatchRow,
   setSelectedCell: SheetCellSelectionCallback,
   setSelectionMode: SheetSelectionModeCallback,
-  blurCell: () => void
+  blurCell: () => void,
+  onEnter: SheetOnEnterCallback,
+  setLastSelectedColumn: (column: number) => void
 ): UseCellData<T> {
   const [value, setValue] = useState(initialValue)
   const lastValue = useRef<T>(value)
@@ -72,6 +75,12 @@ function useCellData<T>(
       ;(e.target as HTMLInputElement).blur()
       blurCell()
       onChange(lastValue.current)
+      return
+    }
+
+    if (e.key === "Enter") {
+      blurCell()
+      onEnter(e.shiftKey)
     }
   }
 
@@ -84,13 +93,21 @@ function useCellData<T>(
   }
 
   // --------------------------------------------------------
+  // --------------------------------------------------------
+
+  function onPointerDown(): void {
+    setLastSelectedColumn(cellProps.indexOf(prop))
+  }
+
+  // --------------------------------------------------------
 
   return {
     value,
     onChange,
     onFocus,
     onBlur,
-    onKeyDown
+    onKeyDown,
+    onPointerDown
   }
 }
 

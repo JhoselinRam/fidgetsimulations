@@ -6,4 +6,5 @@ export interface UseCellData<T> {
   onFocus: (e: FocusEvent) => void
   onBlur: () => void
   onKeyDown: (e: KeyboardEvent) => void
+  onPointerDown: () => void
 }

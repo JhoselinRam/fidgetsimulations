@@ -3,24 +3,36 @@ import {
   type RefObject,
   useRef,
   useEffect,
-  useCallback
+  useCallback,
+  type ForwardedRef,
+  useImperativeHandle,
+  useState
 } from "react"
 import type { ConfigBatchRow } from "../useConfigBatchModal/useConfigBatchModal_types"
 import type {
   SheetSelectionMode,
   UseConfigBatchSheet
 } from "./useConfigBatchSheet_types"
+import type { ConfigSheetRowRef } from "../../components/BallsConfigComponents/BallConfigBatchModal/resources/ConfigBatchSheet/resources/ConfigSheetRow/ConfigSheetRow_types"
+import type {
+  ConfigSheetData,
+  ConfigSheetRef
+} from "../../components/BallsConfigComponents/BallConfigBatchModal/resources/ConfigBatchSheet/ConfigBatchSheet_types"
 
 function useConfigBatchSheet(
   rows: ConfigBatchRow[],
   gridElement: RefObject<HTMLDivElement>,
-  cellElement: RefObject<HTMLDivElement>
+  cellElement: RefObject<HTMLDivElement>,
+  ref: ForwardedRef<ConfigSheetRef>
 ): UseConfigBatchSheet {
   const columnSelected = useRef(0)
   const rowSelected = useRef(0)
   const cellWidth = useRef(0)
   const cellHeight = useRef(0)
   const selectionMode = useRef<SheetSelectionMode>("view")
+  const rowsData = useRef<ConfigSheetRowRef[]>([])
+  const lastColumnSelected = useRef(0)
+  const [deleteAll, setDeleteAll] = useState(false)
 
   // ---------------- Select Cell Size ----------------------
 
@@ -123,6 +135,8 @@ function useConfigBatchSheet(
     columnSelected.current +=
       direction === "right" ? 1 : direction === "left" ? -1 : 0
 
+    lastColumnSelected.current = columnSelected.current
+
     setCellPosition()
   }
 
@@ -191,12 +205,14 @@ function useConfigBatchSheet(
     if (gridElement.current == null) return
 
     const columnsPerRow = 11
+    const deleteColumn = 9
     const cellIndex =
       columnsPerRow * (rowSelected.current + 1) + columnSelected.current + 1
     const selectedCell = gridElement.current.children[cellIndex]
 
     if (selectedCell == null) return
-    const cellInput = selectedCell.getElementsByTagName("input")[0]
+    const cellTag = columnSelected.current === deleteColumn ? "button" : "input"
+    const cellInput = selectedCell.getElementsByTagName(cellTag)[0]
 
     cellInput?.focus()
   }
@@ -211,10 +227,63 @@ function useConfigBatchSheet(
   }
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------------------- Blur Cell --------------------------
 
   function blurCell(): void {
     gridElement.current?.focus()
+  }
+
+  // --------------------------------------------------------
+  // ------------------ On Enter key ------------------------
+
+  function onEnter(shiftKey: boolean): void {
+    const direction = shiftKey ? "up" : "down"
+    shiftSelectionRow(direction)
+    columnSelected.current = lastColumnSelected.current
+
+    focusSelectedCell()
+  }
+
+  // --------------------------------------------------------
+  // --------------------------------------------------------
+
+  function setLastSelectedColumn(column: number): void {
+    const maxColumn = 9
+    const newColumn = column < 0 ? 0 : column > maxColumn ? maxColumn : column
+
+    lastColumnSelected.current = newColumn
+  }
+
+  // --------------------------------------------------------
+  // ---------------- Get row data ref ----------------------
+
+  function getRowDataRef(data: ConfigSheetRowRef): void {
+    if (data == null) return
+    const index = rowsData.current.findIndex((row) => row.id === data.id)
+
+    if (index === -1) rowsData.current.push(data)
+    else rowsData.current[index] = data
+  }
+
+  // --------------------------------------------------------
+  // ---------------- Get sheet data ------------------------
+
+  function getSheetData(): ConfigSheetData {
+    return rowsData.current.map((row) => ({ id: row.id, ...row.getRowData() }))
+  }
+
+  useImperativeHandle(ref, () => ({ getSheetData }))
+
+  // --------------------------------------------------------
+  // --------------------------------------------------------
+
+  function onDeleteAll(value: boolean): void {
+    setDeleteAll(value)
+
+    if (rowsData.current == null) return
+    rowsData.current.forEach((ball) => {
+      ball.setDeleteBall(value)
+    })
   }
 
   // --------------------------------------------------------
@@ -223,7 +292,12 @@ function useConfigBatchSheet(
     arrowNavigation,
     setSelectedCell,
     setSelectionMode,
-    blurCell
+    blurCell,
+    onEnter,
+    getRowDataRef,
+    setLastSelectedColumn,
+    deleteAllValue: deleteAll,
+    onDeleteAll
   }
 }
 

@@ -13,6 +13,8 @@ interface ImportMetaEnv {
   readonly VITE_DEFAULT_MARKER_SIZE: number
   readonly VITE_SAFE_RADIUS: number
   readonly VITE_CONFIG_SHEET_INDEX_WIDTH: string
+  readonly VITE_BALL_MIN_MASS: number
+  readonly VITE_BALL_MIN_RADIUS: number
 }
 
 interface ImportMeta {

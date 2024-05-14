@@ -3,3 +3,9 @@ import type { ConfigBatchRow } from "../../../../../hooks/useConfigBatchModal/us
 export interface ConfigBatchSheetProps {
   rows: ConfigBatchRow[]
 }
+
+export type ConfigSheetData = ConfigBatchRow[]
+
+export interface ConfigSheetRef {
+  getSheetData: () => ConfigSheetData
+}

@@ -1,6 +1,7 @@
 export interface UseConfigBatchModal {
   rows: ConfigBatchRow[]
   updateRows: () => void
+  onAccept: () => void
 }
 
 export interface ConfigBatchRow {

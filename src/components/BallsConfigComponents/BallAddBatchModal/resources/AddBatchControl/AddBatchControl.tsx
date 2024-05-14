@@ -46,8 +46,8 @@ function AddBatchControl({
         hooks={massHooks}
         title="Mass"
         unit={"kg"}
-        minValue={0.001}
-        decimals={3}
+        minValue={import.meta.env.VITE_BALL_MIN_MASS}
+        decimals={4}
         step={0.01}
       />
       <AddBatchNumericControl
@@ -61,7 +61,7 @@ function AddBatchControl({
         hooks={radiusHooks}
         title="Radius"
         unit={"m"}
-        minValue={0.001}
+        minValue={import.meta.env.VITE_BALL_MIN_RADIUS}
         decimals={3}
         step={0.01}
       />
