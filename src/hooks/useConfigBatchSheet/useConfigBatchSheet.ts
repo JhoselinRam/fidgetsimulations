@@ -275,7 +275,7 @@ function useConfigBatchSheet(
   useImperativeHandle(ref, () => ({ getSheetData }))
 
   // --------------------------------------------------------
-  // --------------------------------------------------------
+  // ------- Delete ball general checkbox callback ----------
 
   function onDeleteAll(value: boolean): void {
     setDeleteAll(value)
