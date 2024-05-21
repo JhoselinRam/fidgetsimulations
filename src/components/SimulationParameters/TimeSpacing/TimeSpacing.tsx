@@ -5,7 +5,6 @@ import NumberInput from "../../NumberInput/NumberInput"
 
 function TimeSpacing(): JSX.Element {
   const { delay, delayCallback, dt, dtCallback } = useTimeSpacing()
-
   return (
     <ConfigSection.Section>
       <span className="flex flex-row gap-2 content-center">

@@ -11,6 +11,7 @@ function ColorInput({
   onInput,
   disabled,
   value,
+  throttleDelay,
   ...props
 }: ColorInputProps): JSX.Element {
   const wrapperElement = useRef<HTMLDivElement>(null)
@@ -21,7 +22,8 @@ function ColorInput({
     onChange,
     onInput,
     disabled ?? false,
-    value
+    value,
+    throttleDelay
   )
 
   return (

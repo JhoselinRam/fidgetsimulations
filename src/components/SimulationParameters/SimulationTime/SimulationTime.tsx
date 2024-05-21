@@ -9,7 +9,6 @@ function SimulationTime(): JSX.Element {
   const simTimeRef = useRef<HTMLDivElement>(null)
   const { switchValue, switchCallback, timeValue, timeCallback } =
     useSimulationTime(simTimeRef)
-
   return (
     <>
       <ConfigSection.Header className="text-black -mb-5">

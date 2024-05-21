@@ -10,4 +10,5 @@ export interface ColorInputProps
   onChange?: (color: string) => void
   onInput?: (color: string) => void
   value?: string
+  throttleDelay?: number
 }

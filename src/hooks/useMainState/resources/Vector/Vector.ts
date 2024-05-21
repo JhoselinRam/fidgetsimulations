@@ -34,6 +34,7 @@ export const vectorMinOpacityMagnitude = generateVectorSlice(
 function generateVectorSlice(prop: VectorStateKeys): ReducerSlice {
   return (state, payload) => {
     if (!isValidPayload(payload, prop, vectorDefaultState)) return state
+    if (state[payload.id][prop] === payload[prop]) return state
 
     const newState = { ...state }
     ;(newState[payload.id][prop] as unknown) = payload[prop]

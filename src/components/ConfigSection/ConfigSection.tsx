@@ -12,13 +12,13 @@ const ConfigSection = createComponentNamespace<
   HeaderProps | SectionProps
 >(
   "ConfigSection",
-  ({ title, children, dropDefault }) => {
+  ({ title, children, dropDefault, titleClassName }) => {
     const [isDrop, setIsDrop] = useState(dropDefault ?? true)
 
     return (
       <DropSection className="w-full mt-4 flex flex-col items-center relative after:absolute after:border after:border-tuatara-500 after:bottom-0 after:left-0 after:right-0">
         <DropSection.Title
-          className="text-zinc-300"
+          className={`text-zinc-300 ${titleClassName}`}
           iconClassName="stroke-zinc-300"
           isDrop={isDrop}
           onChange={setIsDrop}

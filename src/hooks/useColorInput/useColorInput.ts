@@ -15,25 +15,21 @@ function useColorInput(
   outerChangeCallback: ((color: string) => void) | undefined,
   outerInputCallback: ((color: string) => void) | undefined,
   disabled: boolean,
-  value: string | undefined
+  value: string | undefined,
+  throttleDelay: number | undefined
 ): UseColorInput {
+  const delay = throttleDelay ?? import.meta.env.VITE_COLOR_THROTTLE_TIME
   const defaultId = useId()
   const usedChangeCallback = useCallback(
-    throttlefy(
-      (color: string) => {
-        if (outerChangeCallback != null) outerChangeCallback(color)
-      },
-      import.meta.env.VITE_COLOR_THROTTLE_TIME
-    ),
+    throttlefy((color: string) => {
+      if (outerChangeCallback != null) outerChangeCallback(color)
+    }, delay),
     [outerChangeCallback]
   )
   const usedInputCallback = useCallback(
-    throttlefy(
-      (color: string) => {
-        if (outerInputCallback != null) outerInputCallback(color)
-      },
-      import.meta.env.VITE_COLOR_THROTTLE_TIME
-    ),
+    throttlefy((color: string) => {
+      if (outerInputCallback != null) outerInputCallback(color)
+    }, delay),
     [outerInputCallback]
   )
 

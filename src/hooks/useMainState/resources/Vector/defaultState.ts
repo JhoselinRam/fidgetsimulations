@@ -16,7 +16,10 @@ export const vectorModeDefaultState: VectorMode = {
 
 export const vectorColorDefaultState: VectorColor = {
   color: "#303030",
-  gradientStops: [],
+  gradientStops: [
+    { position: 0, color: "#0000ff" },
+    { position: 1, color: "#ff0000" }
+  ],
   gradientSpace: "rgb",
   minColorMagnitude: 0,
   maxColorMagnitude: 10

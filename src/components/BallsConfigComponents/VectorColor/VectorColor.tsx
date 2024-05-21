@@ -7,12 +7,15 @@ import DynamicControl from "./resources/DynamicControl/DynamicControl"
 import StaticControl from "./resources/StaticControl/StaticControl"
 
 function VectorColor({ type }: VectorConfigType): JSX.Element {
-  const { colorModeHooks } = useVectorColor(type)
+  const colorModeHooks = useVectorColor(type)
 
   return (
-    <ConfigSection title={`${toCapitalize(type)} Vector Color`}>
-      <RadioInput>
-        <StaticControl />
+    <ConfigSection
+      titleClassName="text-sm"
+      title={`${toCapitalize(type)} Vector Color`}
+    >
+      <RadioInput {...colorModeHooks}>
+        <StaticControl type={type} />
         <DynamicControl type={type} />
       </RadioInput>
     </ConfigSection>
