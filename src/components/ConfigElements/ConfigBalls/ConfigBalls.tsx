@@ -6,6 +6,7 @@ import BallProperties from "../../BallsConfigComponents/BallProperties/BallPrope
 import BallRename from "../../BallsConfigComponents/BallRename/BallRename"
 import BallSelect from "../../BallsConfigComponents/BallSelect/BallSelect"
 import useBallSelect from "../../../hooks/useBallSelect/useBallSelect"
+import VectorColor from "../../BallsConfigComponents/VectorColor/VectorColor"
 
 function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
   const { ballId, changeId, items, isValidSelection } = useBallSelect()
@@ -20,6 +21,8 @@ function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
         isValidSelection={isValidSelection}
       />
       <BallProperties ballId={ballId} isValidSelection={isValidSelection} />
+      <VectorColor type="velocity" />
+      <VectorColor type="acceleration" />
     </ConfigCollection>
   )
 }

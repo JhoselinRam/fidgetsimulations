@@ -1,5 +1,6 @@
 import { ballDefaultState } from "./resources/Balls/defaultState"
 import { simulationWindowDefaultState } from "./resources/SimulationWindow/defaultState"
+import { vectorDefaultState } from "./resources/Vector/defaultState"
 import type { MainState } from "./useMainState_types"
 
 // ------------------ Initial State -----------------------
@@ -23,7 +24,9 @@ const initialState: MainState = {
   localGravity: [],
   drag: [],
   electric: [],
-  gravity: []
+  gravity: [],
+  velocityVector: { ...vectorDefaultState },
+  accelerationVector: { ...vectorDefaultState }
 }
 
 // --------------------------------------------------------

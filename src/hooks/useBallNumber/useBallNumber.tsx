@@ -7,10 +7,22 @@ import useBindState from "../useBindState/useBindState"
 function useBallNumber(): UseBallNumber {
   const { mainState, dispatch } = useContext(mainStateContext)
   const ballCollision = mainState.balls[0].collision
+  const velocityVector = mainState.velocityVector.enable
+  const accelerationVector = mainState.accelerationVector.enable
   const collisionHooks = useBindState(
     { id: "balls", type: "balls" },
     ballCollision,
     "balls@collision"
+  )
+  const velocityVectorHooks = useBindState(
+    { id: "velocityVector", type: "balls" },
+    velocityVector,
+    "vector@enable"
+  )
+  const accelerationVectorHooks = useBindState(
+    { id: "accelerationVector", type: "balls" },
+    accelerationVector,
+    "vector@enable"
   )
 
   function addBall(): void {
@@ -29,6 +41,14 @@ function useBallNumber(): UseBallNumber {
     collisionHooks: {
       enableCollision: collisionHooks.value,
       changeCollision: collisionHooks.changeValue
+    },
+    velocityVectorHooks: {
+      isSelected: velocityVectorHooks.value,
+      onChange: velocityVectorHooks.changeValue
+    },
+    accelerationVectorHooks: {
+      isSelected: accelerationVectorHooks.value,
+      onChange: accelerationVectorHooks.changeValue
     }
   }
 }

@@ -110,6 +110,25 @@ import {
   ballVelocityX,
   ballVelocityY
 } from "./resources/Balls/Balls"
+import {
+  vectorColor,
+  vectorColorMode,
+  vectorEnable,
+  vectorGradientSpace,
+  vectorGradientStops,
+  vectorGradientType,
+  vectorMaxColorMagnitude,
+  vectorMaxOpacity,
+  vectorMaxOpacityMagnitude,
+  vectorMaxSize,
+  vectorMaxSizeMagnitude,
+  vectorMinColorMagnitude,
+  vectorMinOpacity,
+  vectorMinOpacityMagnitude,
+  vectorNormalize,
+  vectorOpacity,
+  vectorOpacityMode
+} from "./resources/Vector/Vector"
 
 // -------------------- Hook body -------------------------
 
@@ -204,7 +223,24 @@ const reducerObject: ReducerObject = {
   "balls@name": ballName,
   "balls@color": ballColor,
   "balls@collision": ballCollision,
-  "balls@delete": ballDelete
+  "balls@delete": ballDelete,
+  "vector@enable": vectorEnable,
+  "vector@colorMode": vectorColorMode,
+  "vector@opacityMode": vectorOpacityMode,
+  "vector@gradientType": vectorGradientType,
+  "vector@normalize": vectorNormalize,
+  "vector@gradientStops": vectorGradientStops,
+  "vector@gradientSpace": vectorGradientSpace,
+  "vector@color": vectorColor,
+  "vector@minColorMagnitude": vectorMinColorMagnitude,
+  "vector@maxColorMagnitude": vectorMaxColorMagnitude,
+  "vector@maxSize": vectorMaxSize,
+  "vector@maxSizeMagnitude": vectorMaxSizeMagnitude,
+  "vector@opacity": vectorOpacity,
+  "vector@maxOpacity": vectorMaxOpacity,
+  "vector@minOpacity": vectorMinOpacity,
+  "vector@maxOpacityMagnitude": vectorMaxOpacityMagnitude,
+  "vector@minOpacityMagnitude": vectorMinOpacityMagnitude
 }
 
 // --------------------------------------------------------

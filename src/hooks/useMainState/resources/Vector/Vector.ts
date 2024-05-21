@@ -4,12 +4,46 @@ import type {
   VectorState,
   VectorStateKeys
 } from "./Vector_types"
+import { vectorDefaultState } from "./defaultState"
 
-function generateVectorSlice<T>(prop: VectorStateKeys): ReducerSlice {
+export const vectorEnable = generateVectorSlice("enable")
+export const vectorColorMode = generateVectorSlice("colorMode")
+export const vectorOpacityMode = generateVectorSlice("opacityMode")
+export const vectorGradientType = generateVectorSlice("gradientType")
+export const vectorNormalize = generateVectorSlice("normalize")
+export const vectorColor = generateVectorSlice("color")
+export const vectorGradientStops = generateVectorSlice("gradientStops")
+export const vectorGradientSpace = generateVectorSlice("gradientSpace")
+export const vectorMinColorMagnitude = generateVectorSlice("minColorMagnitude")
+export const vectorMaxColorMagnitude = generateVectorSlice("maxColorMagnitude")
+export const vectorMaxSize = generateVectorSlice("maxSize")
+export const vectorMaxSizeMagnitude = generateVectorSlice("maxSizeMagnitude")
+export const vectorOpacity = generateVectorSlice("opacity")
+export const vectorMaxOpacity = generateVectorSlice("maxOpacity")
+export const vectorMinOpacity = generateVectorSlice("minOpacity")
+export const vectorMaxOpacityMagnitude = generateVectorSlice(
+  "maxOpacityMagnitude"
+)
+export const vectorMinOpacityMagnitude = generateVectorSlice(
+  "minOpacityMagnitude"
+)
+
+// --------------------------------------------------------
+// ---------------- Generator Function --------------------
+
+function generateVectorSlice(prop: VectorStateKeys): ReducerSlice {
   return (state, payload) => {
-    if (!isValidPayload(payload, prop)) return state
+    if (!isValidPayload(payload, prop, vectorDefaultState)) return state
+
+    const newState = { ...state }
+    ;(newState[payload.id][prop] as unknown) = payload[prop]
+
+    return newState
   }
 }
+
+// --------------------------------------------------------
+// --------------------------------------------------------
 
 function isValidPayload<T extends VectorStateKeys>(
   data: unknown,
@@ -29,3 +63,5 @@ function isValidPayload<T extends VectorStateKeys>(
 
   return true
 }
+
+// --------------------------------------------------------

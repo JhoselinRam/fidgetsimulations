@@ -56,6 +56,9 @@ import type {
   ElectricActionType,
   ElectricState
 } from "./resources/Electric/Electric_types"
+import type { VelocityVectorState } from "./resources/VelocityVector/VelocityVector_types"
+import type { AccelerationVectorState } from "./resources/AccelerationVector/AccelerationVector_types"
+import type { VectorActionType } from "./resources/Vector/Vector_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -78,6 +81,7 @@ export type MainStateActionType =
   | DragActionType
   | ElectricActionType
   | BallActionType
+  | VectorActionType
 
 // Main state type
 export interface MainState
@@ -89,6 +93,8 @@ export interface MainState
     SimpleForceElementState {
   order: CollectionOrder[]
   time: TimeState
+  velocityVector: VelocityVectorState
+  accelerationVector: AccelerationVectorState
 }
 
 // Action type
@@ -135,4 +141,9 @@ export interface CollectionState extends CollectionOrder {
 export interface CollectionOrder {
   id: string
   type: CollectionType
+}
+
+export interface SimpleState<T> {
+  value: T
+  onChange: (value: T) => void
 }
