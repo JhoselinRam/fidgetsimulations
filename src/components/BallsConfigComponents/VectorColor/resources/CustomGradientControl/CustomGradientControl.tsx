@@ -10,13 +10,13 @@ function CustomGradientControl({
     useVectorCustomGradient(type)
 
   return (
-    <>
+    <div className="flex justify-center">
       {gradientType === "custom" ? (
         <GradientInput {...gradientSpace} {...gradientStopsHooks} />
       ) : (
         <SimpleGradientShow gradientType={gradientType} />
       )}
-    </>
+    </div>
   )
 }
 

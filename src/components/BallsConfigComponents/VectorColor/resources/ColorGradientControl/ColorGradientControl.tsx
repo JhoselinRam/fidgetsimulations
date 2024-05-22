@@ -10,7 +10,7 @@ function ColorGradientControl({
   const { selectItems, selectGradientHooks } = useVectorColorGradient(type)
 
   return (
-    <ConfigSection.Section className="!mt-3 pb-2 gap-3">
+    <ConfigSection.Section className="!mt-3 pb-2 gap-4">
       <Select
         aria-label="gradient type"
         matchSize={true}
