@@ -43,13 +43,16 @@ const Select = createComponentNamespace<SelectProps, ItemProps>(
         <RAButton
           className={`rounded-md bg-zinc-500 pl-1 outline-none group-data-[focus-visible]:outline group-data-[focus-visible]:outline-2
         group-data-[focus-visible]:outline-accent-blue-300/30 group-data-[focus-visible]:outline-offset-2 flex flex-row justify-between items-stretch
-         gap-2 w-full ${selectorClassName}`}
+         gap-2 w-full group-data-[disabled]:text-tuatara-800 ${selectorClassName}`}
           ref={buttonElement}
         >
           <SelectValue />
-          <div className="w-5 bg-accent-blue-600 flex justify-center items-center rounded-tr-md rounded-br-md">
+          <div className="w-5 bg-accent-blue-600 flex justify-center items-center rounded-tr-md rounded-br-md group-data-[disabled]:bg-accent-blue-900">
             <div className="w-3">
-              <DropArrowIcon className="stroke-zinc-300" isDrop={isDrop} />
+              <DropArrowIcon
+                className="stroke-zinc-300 group-data-[disabled]:stroke-zinc-400"
+                isDrop={isDrop}
+              />
             </div>
           </div>
         </RAButton>

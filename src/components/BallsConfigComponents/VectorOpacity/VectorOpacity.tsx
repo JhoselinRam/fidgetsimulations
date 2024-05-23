@@ -1,26 +1,27 @@
 import toCapitalize from "../../../auxiliary/toCapitalize"
-import useVectorColor from "../../../hooks/useVectorColor/useVectorColor"
+import useVectorOpacity from "../../../hooks/useVectorOpacity/useVectorOpacity"
 import ConfigSection from "../../ConfigSection/ConfigSection"
 import RadioInput from "../../RadioInput/RadioInput"
 import type { VectorConfigType } from "../BallConfigComponents_types"
 import DynamicControl from "./resources/DynamicControl/DynamicControl"
 import StaticControl from "./resources/StaticControl/StaticControl"
 
-function VectorColor({ type }: VectorConfigType): JSX.Element {
-  const colorModeHooks = useVectorColor(type)
+function VectorOpacity({ type }: VectorConfigType): JSX.Element {
+  const { opacityModeHooks, staticOpacityHooks, dynamicOpacityHooks } =
+    useVectorOpacity(type)
 
   return (
     <ConfigSection
+      title={`${toCapitalize(type)} Vector Opacity`}
       titleClassName="text-sm"
-      title={`${toCapitalize(type)} Vector Color`}
       dropDefault={false}
     >
-      <RadioInput {...colorModeHooks}>
-        <StaticControl type={type} />
-        <DynamicControl type={type} />
+      <RadioInput {...opacityModeHooks}>
+        <StaticControl {...staticOpacityHooks} />
+        <DynamicControl type={type} {...dynamicOpacityHooks} />
       </RadioInput>
     </ConfigSection>
   )
 }
 
-export default VectorColor
+export default VectorOpacity

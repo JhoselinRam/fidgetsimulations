@@ -2,4 +2,5 @@ import type { Color_Map_types } from "scigrapher/lib/es5/tools/Color_Map/Predefi
 
 export interface SimpleGradientShowProps {
   gradientType: Color_Map_types
+  isDisabled?: boolean
 }

@@ -11,6 +11,7 @@ function useVectorColorRange(type: BallVectorType): UseVectorColorRange {
   const item: CollectionOrder = { id, type: "balls" }
   const minMagnitude = mainState[id].minColorMagnitude
   const maxMagnitude = mainState[id].maxColorMagnitude
+  const isDisabled = mainState[id].colorMode === "static"
 
   const minValueHooks = useBindState(
     item,
@@ -31,7 +32,8 @@ function useVectorColorRange(type: BallVectorType): UseVectorColorRange {
     maxMagnitudeHooks: {
       value: maxValueHooks.value,
       onChange: maxValueHooks.changeValue
-    }
+    },
+    isDisabled
   }
 }
 

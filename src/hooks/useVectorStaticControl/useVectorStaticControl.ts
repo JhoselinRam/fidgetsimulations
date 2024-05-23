@@ -10,6 +10,7 @@ function useVectorStaticControl(type: BallVectorType): UseVectorStaticControl {
   const id = type === "velocity" ? "velocityVector" : "accelerationVector"
   const item: CollectionOrder = { id, type: "balls" }
   const vectorColor = mainState[id].color
+  const isDisabled = mainState[id].colorMode === "dynamic"
 
   const colorHooks = useBindState(item, vectorColor, "vector@color")
 
@@ -17,7 +18,8 @@ function useVectorStaticControl(type: BallVectorType): UseVectorStaticControl {
     colorHooks: {
       value: colorHooks.value,
       onChange: colorHooks.changeValue
-    }
+    },
+    isDisabled
   }
 }
 

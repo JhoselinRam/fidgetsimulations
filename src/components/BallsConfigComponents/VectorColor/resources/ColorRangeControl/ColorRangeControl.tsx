@@ -5,12 +5,13 @@ import NumberInput from "../../../../NumberInput/NumberInput"
 import type { ColorRangeControlProps } from "./ColorRangeControl_types"
 
 function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
-  const { maxMagnitudeHooks, minMagnitudeHooks } = useVectorColorRange(type)
+  const { maxMagnitudeHooks, minMagnitudeHooks, isDisabled } =
+    useVectorColorRange(type)
 
   return (
     <ConfigSection.Section className="!mt-3 relative pr-3 w-fit">
       <NumberInput
-        className="!gap-[0.65rem]"
+        className="!gap-[0.66rem]"
         unit={
           type === "velocity" ? (
             "m/s"
@@ -22,6 +23,8 @@ function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
         }
         minValue={0}
         step={0.01}
+        formatOptions={{ maximumFractionDigits: 4 }}
+        isDisabled={isDisabled}
         {...minMagnitudeHooks}
       >
         Min:
@@ -38,6 +41,8 @@ function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
         }
         minValue={0}
         step={0.01}
+        formatOptions={{ maximumFractionDigits: 4 }}
+        isDisabled={isDisabled}
         {...maxMagnitudeHooks}
       >
         Max:
@@ -47,7 +52,7 @@ function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
           <p>Each {type} vector will be colored depending on its magnitude.</p>
           <p className="mt-2">
             Vectors with magnitude equal or less than the Min value will share
-            color, the same will happen to vectors with magnitude equal or
+            color. The same will happen to vectors with magnitude equal or
             grater than the Max value.
           </p>
         </Info>

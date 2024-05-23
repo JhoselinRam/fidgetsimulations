@@ -4,7 +4,7 @@ import BallConfigBatchModal from "../../../BallConfigBatchModal/BallConfigBatchM
 function BatchConfigControl(): JSX.Element {
   return (
     <ConfigSection.Header>
-      <p className="text-nowrap">Batch configuration:</p>
+      <p className="text-nowrap">Batch Configuration:</p>
       <BallConfigBatchModal />
     </ConfigSection.Header>
   )

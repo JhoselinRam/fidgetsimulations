@@ -4,7 +4,8 @@ import SimpleGradientShow from "../SimpleGradientShow/SimpleGradientShow"
 import type { CustomGradientControlProps } from "./CustomGradientControl_types"
 
 function CustomGradientControl({
-  type
+  type,
+  isDisabled
 }: CustomGradientControlProps): JSX.Element {
   const { gradientType, gradientSpace, gradientStopsHooks } =
     useVectorCustomGradient(type)
@@ -12,9 +13,16 @@ function CustomGradientControl({
   return (
     <div className="flex justify-center">
       {gradientType === "custom" ? (
-        <GradientInput {...gradientSpace} {...gradientStopsHooks} />
+        <GradientInput
+          isDisabled={isDisabled}
+          {...gradientSpace}
+          {...gradientStopsHooks}
+        />
       ) : (
-        <SimpleGradientShow gradientType={gradientType} />
+        <SimpleGradientShow
+          gradientType={gradientType}
+          isDisabled={isDisabled}
+        />
       )}
     </div>
   )

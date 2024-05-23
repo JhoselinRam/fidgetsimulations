@@ -7,6 +7,7 @@ export interface UseVectorColorGradient {
     selectedKey: VectorGradientType
     onSelectionChange: (value: Key) => void
   }
+  isDisabled: boolean
 }
 
 export interface VectorGradientItem {

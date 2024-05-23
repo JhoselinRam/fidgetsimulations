@@ -21,6 +21,7 @@ function useVectorColorGradient(type: BallVectorType): UseVectorColorGradient {
   const id = type === "velocity" ? "velocityVector" : "accelerationVector"
   const item: CollectionOrder = { id, type: "balls" }
   const gradientType = mainState[id].gradientType
+  const isDisabled = mainState[id].colorMode === "static"
 
   const gradientTypeHooks = useBindState(
     item,
@@ -37,7 +38,8 @@ function useVectorColorGradient(type: BallVectorType): UseVectorColorGradient {
     selectGradientHooks: {
       selectedKey: gradientTypeHooks.value,
       onSelectionChange: onGradientTypeChange
-    }
+    },
+    isDisabled
   }
 }
 

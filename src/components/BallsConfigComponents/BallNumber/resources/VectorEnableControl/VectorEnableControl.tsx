@@ -6,7 +6,7 @@ function VectorEnableControl({
   velocityVectorHooks
 }: VectorEnableControlProps): JSX.Element {
   return (
-    <div className="flex flex-col  w-full">
+    <div className="flex flex-col w-full">
       <h3 className="text-zinc-300 pl-2">Vectors</h3>
       <div className="flex flex-col gap-2 border border-tuatara-600 rounded-md p-2 w-full">
         <VectorControl type="velocity" {...velocityVectorHooks} />
