@@ -27,7 +27,12 @@ function useBallAddBatch(): UseBallAddBatch {
   const radiusHooks = useNumericControl({ fix: 0.2, to: 0.6, from: 0.2 })
   const colorHooks = useColorControl()
 
+  function changeNumber(value: number): void {
+    setNumber(Math.round(value))
+  }
+
   function createBatch(): void {
+    console.log(number)
     for (let i = 0; i < number; i++) {
       const newBall = createBallState()
 
@@ -51,7 +56,7 @@ function useBallAddBatch(): UseBallAddBatch {
 
   return {
     number,
-    changeNumber: setNumber,
+    changeNumber,
     xPositionHooks,
     yPositionHooks,
     xVelocityHooks,

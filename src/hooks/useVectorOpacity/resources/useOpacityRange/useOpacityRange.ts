@@ -42,19 +42,40 @@ function useOpacityRange(
   const minAction = minActionSelector[rangeOption]
   const maxProp = maxPropSelector[rangeOption]
   const maxAction = maxActionSelector[rangeOption]
+  const magnitudeGap = 0.0001
 
   const minHooks = useBindState(item, vectorProps[minProp], minAction)
   const maxHooks = useBindState(item, vectorProps[maxProp], maxAction)
 
+  function onChangeMinValue(value: number): void {
+    const usedValue =
+      rangeOption === "value"
+        ? value
+        : value < maxHooks.value
+          ? value
+          : maxHooks.value - magnitudeGap
+    minHooks.changeValue(usedValue)
+  }
+
+  function onChangeMaxValue(value: number): void {
+    const usedValue =
+      rangeOption === "value"
+        ? value
+        : value > minHooks.value
+          ? value
+          : minHooks.value + magnitudeGap
+    maxHooks.changeValue(usedValue)
+  }
+
   return {
     minValueHooks: {
       value: minHooks.value,
-      onChange: minHooks.changeValue,
+      onChange: onChangeMinValue,
       isDisabled
     },
     maxValueHooks: {
       value: maxHooks.value,
-      onChange: maxHooks.changeValue,
+      onChange: onChangeMaxValue,
       isDisabled
     }
   }

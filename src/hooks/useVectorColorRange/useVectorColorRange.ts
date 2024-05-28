@@ -12,6 +12,7 @@ function useVectorColorRange(type: BallVectorType): UseVectorColorRange {
   const minMagnitude = mainState[id].minColorMagnitude
   const maxMagnitude = mainState[id].maxColorMagnitude
   const isDisabled = mainState[id].colorMode === "static"
+  const magnitudeGap = 0.0001
 
   const minValueHooks = useBindState(
     item,
@@ -24,14 +25,26 @@ function useVectorColorRange(type: BallVectorType): UseVectorColorRange {
     "vector@maxColorMagnitude"
   )
 
+  function onChangeMinValue(value: number): void {
+    const usedValue =
+      value < maxValueHooks.value ? value : maxValueHooks.value - magnitudeGap
+    minValueHooks.changeValue(usedValue)
+  }
+
+  function onChangeMaxValue(value: number): void {
+    const usedValue =
+      value > minValueHooks.value ? value : minValueHooks.value + magnitudeGap
+    maxValueHooks.changeValue(usedValue)
+  }
+
   return {
     minMagnitudeHooks: {
       value: minValueHooks.value,
-      onChange: minValueHooks.changeValue
+      onChange: onChangeMinValue
     },
     maxMagnitudeHooks: {
       value: maxValueHooks.value,
-      onChange: maxValueHooks.changeValue
+      onChange: onChangeMaxValue
     },
     isDisabled
   }

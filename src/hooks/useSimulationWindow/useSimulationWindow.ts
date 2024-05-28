@@ -1,6 +1,6 @@
 import { useEffect, type RefObject, useContext, type Dispatch } from "react"
 import { isCollection, mainStateContext } from "../useMainState/useMainState"
-import { graph2D, linspace } from "scigrapher"
+import { colorMap, graph2D, linspace, mapping } from "scigrapher"
 import type { Graph2D } from "scigrapher/lib/es5/Graph2D/Graph2D_Types"
 import type { SimulationWindowState } from "../useMainState/resources/SimulationWindow/SimulationWindow_types"
 import type {
@@ -14,6 +14,10 @@ import type { ObstacleState } from "../useMainState/resources/Obstacle/Obstacle_
 import { obstacleDefaultState } from "../useMainState/resources/Obstacle/defaultState"
 import type { BallState } from "../useMainState/resources/Balls/Balls_types"
 import { ballDefaultState } from "../useMainState/resources/Balls/defaultState"
+import type { VectorState } from "../useMainState/resources/Vector/Vector_types"
+import type { Vector_Property_Generator } from "scigrapher/lib/es5/Data/VectorField/Vector_Field_Types"
+import { clamp } from "../../auxiliary/clamp"
+import { createColorGradient } from "../../auxiliary/colorGradient"
 
 function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -22,6 +26,7 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
   const containers = JSON.stringify(mainState.container)
   const obstacles = JSON.stringify(mainState.obstacle)
   const balls = JSON.stringify(mainState.balls[0].data)
+  const velocityVector = JSON.stringify(mainState.velocityVector)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -47,7 +52,8 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     mainState,
     containers,
     obstacles,
-    balls
+    balls,
+    velocityVector
   ])
 }
 
@@ -176,10 +182,11 @@ function setData(graph: Graph2D, state: MainState): void {
     else if (isCollection<ObstacleState>(collection, obstacleDefaultState))
       drawObject(graph, collection)
     else if (isCollection<BallState>(collection, ballDefaultState))
-      drawBalls(graph, collection)
+      drawBalls(graph, state)
   })
 }
 
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 function drawObject(
@@ -208,6 +215,7 @@ function drawObject(
     .opacity(object.fillOpacity)
 }
 
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 function getObjectData(
@@ -242,6 +250,7 @@ function getObjectData(
   }
 }
 
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
@@ -281,20 +290,140 @@ function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-function drawBalls(graph: Graph2D, collection: BallState): void {
+function drawBalls(graph: Graph2D, state: MainState): void {
   const scale = graph.coordinateMaps().primary.x
   const radiusCorrection =
     Math.abs(scale.map(1) - scale.map(0)) /
     import.meta.env.VITE_DEFAULT_MARKER_SIZE
 
+  const collection = state.balls[0]
+  const dataX = collection.data.map((data) => data.positionX)
+  const dataY = collection.data.map((data) => data.positionY)
+
   graph
     .addDataset("linechart")
-    .dataX(collection.data.map((data) => data.positionX))
-    .dataY(collection.data.map((data) => data.positionY))
+    .dataX(dataX)
+    .dataY(dataY)
     .lineEnable(false)
     .markerEnable(true)
     .markerColor(collection.data.map((data) => data.color))
     .markerSize(collection.data.map((data) => data.radius * radiusCorrection))
+
+  drawVectors(graph, state.velocityVector, state, dataX, dataY)
+  drawVectors(graph, state.accelerationVector, state, dataX, dataY)
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function drawVectors(
+  graph: Graph2D,
+  vectorState: VectorState,
+  state: MainState,
+  coordsX: number[],
+  coordsY: number[]
+): void {
+  if (!vectorState.enable) return
+
+  const dataX = state.balls[0].data.map((data) => data.velocityX)
+  const dataY = state.balls[0].data.map((data) => data.velocityY)
+
+  graph
+    .addDataset("vectorfield")
+    .width(2)
+    .meshX([coordsX])
+    .meshY([coordsY])
+    .dataX([dataX])
+    .dataY([dataY])
+    .maxLength(30)
+    .color(getVectorColor(vectorState))
+    .opacity(getVectorOpacity(vectorState))
+    .normalize(vectorState.normalize)
+    .maxLength(getVectorMaxLength(vectorState, dataX, dataY))
+}
+
+// --------------------------------------------------------
+
+function getVectorColor(
+  vectorState: VectorState
+): Vector_Property_Generator<string> {
+  if (vectorState.colorMode === "static") return vectorState.color
+
+  let colors: (value: number) => string
+  if (vectorState.gradientType === "custom") {
+    const map = createColorGradient(
+      vectorState.gradientStops,
+      vectorState.gradientSpace
+    )
+
+    colors = (value: number) => {
+      return map(
+        (value - vectorState.minColorMagnitude) /
+          (vectorState.maxColorMagnitude - vectorState.minColorMagnitude)
+      )
+    }
+  } else {
+    colors = colorMap({
+      from: vectorState.minColorMagnitude,
+      to: vectorState.maxColorMagnitude,
+      type: vectorState.gradientType
+    })
+  }
+
+  return (x, y) => {
+    const magnitude = Math.hypot(x, y)
+    const usedMagnitude = clamp(
+      magnitude,
+      vectorState.minColorMagnitude,
+      vectorState.maxColorMagnitude
+    )
+
+    return colors(usedMagnitude)
+  }
+}
+
+// --------------------------------------------------------
+
+function getVectorOpacity(
+  vectorState: VectorState
+): Vector_Property_Generator<number> {
+  if (vectorState.opacityMode === "static") return vectorState.opacity
+
+  const opacityMap = mapping({
+    from: [vectorState.minOpacityMagnitude, vectorState.maxOpacityMagnitude],
+    to: [vectorState.minOpacity, vectorState.maxOpacity]
+  })
+
+  return (x, y) => {
+    const magnitude = Math.hypot(x, y)
+    const usedMagnitude = clamp(
+      magnitude,
+      vectorState.minOpacityMagnitude,
+      vectorState.maxOpacityMagnitude
+    )
+
+    return opacityMap.map(usedMagnitude)
+  }
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function getVectorMaxLength(
+  vectorState: VectorState,
+  dataX: number[],
+  dataY: number[]
+): number {
+  if (!vectorState.normalize) return 1
+
+  const magnitudes = dataX.map((x, index) => {
+    const y = dataY[index]
+    return Math.hypot(x, y)
+  })
+
+  const maxMagnitude = Math.max(...magnitudes)
+
+  return (vectorState.maxSize * maxMagnitude) / vectorState.maxSizeMagnitude
 }
 
 // --------------------------------------------------------

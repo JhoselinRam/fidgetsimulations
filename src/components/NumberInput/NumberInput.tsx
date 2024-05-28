@@ -17,6 +17,7 @@ function NumberInput({
   maxValue,
   isDisabled,
   isReadOnly,
+  innerStep,
   ...props
 }: NumberInputProps): JSX.Element {
   const labelElement = useRef<HTMLLabelElement>(null)
@@ -37,6 +38,7 @@ function NumberInput({
       onChange={onInnerChange}
       isDisabled={isDisabled}
       isReadOnly={isReadOnly}
+      step={innerStep}
       {...props}
     >
       <Label

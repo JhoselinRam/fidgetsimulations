@@ -44,10 +44,6 @@ function VectorSizeControl({
             have a visual size equal to the <i>Max size</i> pixels. All other
             vectors will be resized accordingly.
           </p>
-          <p className="mt-3">
-            It is recommended that the <i>Maximum size</i> be set higher than
-            any vector present in the simulation.
-          </p>
         </Info>
       </div>
     </ConfigSection.Section>

@@ -15,4 +15,5 @@ export interface NumberInputProps
   value?: number
   onChange?: (value: number) => void
   step?: number
+  innerStep?: number
 }

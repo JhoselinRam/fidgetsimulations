@@ -17,6 +17,7 @@ function AddBatchNumberControl({
           step={0.04}
           value={number}
           onChange={changeNumber}
+          innerStep={1}
         >
           Number:
         </NumberInput>
