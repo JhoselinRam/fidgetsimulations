@@ -8,7 +8,8 @@ import type {
   MainStateAction,
   ReducerObject,
   ReducerSlice,
-  UseMainState
+  UseMainState,
+  ValidStaticPayloadType
 } from "./useMainState_types"
 import {
   graphicAspectRatio,
@@ -107,6 +108,7 @@ import {
   ballPositionY,
   ballRadius,
   ballUpdate,
+  ballUpdateAll,
   ballVelocityX,
   ballVelocityY
 } from "./resources/Balls/Balls"
@@ -129,6 +131,7 @@ import {
   vectorOpacity,
   vectorOpacityMode
 } from "./resources/Vector/Vector"
+import { simulationRun } from "./resources/Simulation/Simulation"
 
 // -------------------- Hook body -------------------------
 
@@ -209,6 +212,7 @@ const reducerObject: ReducerObject = {
   "electric@new": electricNew,
   "balls@new": ballNew,
   "ball@update": ballUpdate,
+  "ball@updateAll": ballUpdateAll,
   "balls@positionX": ballPositionX,
   "balls@positionY": ballPositionY,
   "balls@lastPositionX": ballLastPositionX,
@@ -240,7 +244,8 @@ const reducerObject: ReducerObject = {
   "vector@maxOpacity": vectorMaxOpacity,
   "vector@minOpacity": vectorMinOpacity,
   "vector@maxOpacityMagnitude": vectorMaxOpacityMagnitude,
-  "vector@minOpacityMagnitude": vectorMinOpacityMagnitude
+  "vector@minOpacityMagnitude": vectorMinOpacityMagnitude,
+  "simulation@run": simulationRun
 }
 
 // --------------------------------------------------------
@@ -495,6 +500,112 @@ export function isBallIdentifier(data: unknown, key: BallDataKeys): boolean {
   if (typeof data[validKey] !== typeof ballDataDefaultState[key]) return false
 
   return true
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function generateStaticSlice<
+  ID extends keyof MainState,
+  S extends MainState[ID],
+  T extends keyof S
+>(id: ID, sampleState: S, prop: T): ReducerSlice
+export function generateStaticSlice<
+  ID extends keyof MainState,
+  S extends MainState[ID],
+  T extends keyof S
+>(id: ID[], sampleState: S, prop: T): ReducerSlice
+export function generateStaticSlice<
+  ID extends keyof MainState,
+  S extends MainState[ID],
+  T extends keyof S
+>(id: ID | ID[], sampleState: S, prop: T): ReducerSlice {
+  return (state, payload) => {
+    if (!isValidStaticPayload(payload, sampleState, prop, id)) return state
+    if (typeof payload.id !== "string") return state
+
+    const usedProp = prop as unknown as keyof MainState[ID]
+    if ((state[payload.id][usedProp] as unknown) === payload[prop]) return state
+
+    const newState = { ...state }
+    ;(newState[payload.id][usedProp] as unknown) = payload[prop]
+
+    return newState
+  }
+}
+
+export function isValidStaticPayload<S, T extends keyof S, ID>(
+  data: unknown,
+  sampleState: S,
+  prop: T,
+  validId: ID
+): data is ValidStaticPayloadType<S, T, ID>
+export function isValidStaticPayload<S, T extends keyof S, ID>(
+  data: unknown,
+  sampleState: S,
+  prop: T,
+  validId: ID[]
+): data is ValidStaticPayloadType<S, T, ID>
+export function isValidStaticPayload<S, T extends keyof S, ID>(
+  data: unknown,
+  sampleState: S,
+  prop: T,
+  validId: ID | ID[]
+): data is ValidStaticPayloadType<S, T, ID> {
+  if (data == null) return false
+  if (typeof data !== "object") return false
+  if (!("id" in data)) return false
+  if (typeof data.id !== "string") return false
+
+  let isValidId = false
+  if (typeof validId === "string") {
+    if (data.id !== validId) return false
+    isValidId = true
+  }
+  if (Array.isArray(validId)) {
+    validId.forEach((id) => {
+      if (typeof id !== "string") return
+      if (data.id === id) isValidId = true
+    })
+  }
+  if (!isValidId) return false
+  if (!(prop in data)) return false
+
+  const key = prop as keyof typeof data
+  if (typeof data[key] !== typeof sampleState[prop]) return false
+
+  return true
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function isBallArray(data: unknown): data is { data: BallData[] } {
+  if (data == null) return false
+  if (typeof data !== "object") return false
+  if (!("data" in data)) return false
+  if (!Array.isArray(data.data)) return false
+
+  let isValidArray = true
+  data.data.forEach((item) => {
+    if (!isCollection<BallData>(item, ballDataDefaultState))
+      isValidArray = false
+  })
+
+  return isValidArray
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function containAllBalls(data: BallData[], state: MainState): boolean {
+  const dataIds = data.map((item) => item.id)
+  const dataSet = new Set(dataIds)
+  const stateSet = new Set(state.balls[0].data.map((item) => item.id))
+
+  return (
+    dataSet.size === stateSet.size && dataIds.every((id) => stateSet.has(id))
+  )
 }
 
 // --------------------------------------------------------

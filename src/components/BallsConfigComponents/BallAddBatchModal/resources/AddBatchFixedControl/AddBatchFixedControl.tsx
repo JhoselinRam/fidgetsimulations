@@ -25,7 +25,7 @@ function AddBatchFixedControl({
         <RadioInput.Option value="fixed">Fixed</RadioInput.Option>
         <NumberInput
           step={step}
-          unit={unit}
+          unit={<p className="text-nowrap">{unit}</p>}
           formatOptions={{ maximumFractionDigits: decimals }}
           labelClassName="sm:basis-full"
           groupClassName="sm:basis-full sm:shrink-[0.4]"

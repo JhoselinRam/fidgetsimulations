@@ -1,5 +1,7 @@
 import {
+  containAllBalls,
   createSimpleSlice,
+  isBallArray,
   isBallIdentifier,
   isCollection
 } from "../../useMainState"
@@ -65,6 +67,19 @@ export function ballUpdate(
 
   const newState = { ...state }
   newState.balls[0].data[index] = payload
+
+  return newState
+}
+
+export function ballUpdateAll(
+  state: MainState,
+  payload: Record<string, unknown>
+): MainState {
+  if (!isBallArray(payload)) return state
+  if (!containAllBalls(payload.data, state)) return state
+
+  const newState = { ...state }
+  newState.balls[0].data = payload.data
 
   return newState
 }

@@ -59,6 +59,10 @@ import type {
 import type { VelocityVectorState } from "./resources/VelocityVector/VelocityVector_types"
 import type { AccelerationVectorState } from "./resources/AccelerationVector/AccelerationVector_types"
 import type { VectorActionType } from "./resources/Vector/Vector_types"
+import type {
+  SimulationActionType,
+  SimulationState
+} from "./resources/Simulation/Simulation_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -82,6 +86,7 @@ export type MainStateActionType =
   | ElectricActionType
   | BallActionType
   | VectorActionType
+  | SimulationActionType
 
 // Main state type
 export interface MainState
@@ -95,6 +100,7 @@ export interface MainState
   time: TimeState
   velocityVector: VelocityVectorState
   accelerationVector: AccelerationVectorState
+  simulation: SimulationState
 }
 
 // Action type
@@ -146,4 +152,10 @@ export interface CollectionOrder {
 export interface SimpleState<T> {
   value: T
   onChange: (value: T) => void
+}
+
+export type ValidStaticPayloadType<S, T extends keyof S, ID> = {
+  [k in T]: S[T]
+} & {
+  id: ID
 }

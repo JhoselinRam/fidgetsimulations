@@ -1,68 +1,88 @@
-import type { ReducerSlice } from "../../useMainState_types"
-import type {
-  ValidPayloadType,
-  VectorState,
-  VectorStateKeys
-} from "./Vector_types"
+import { generateStaticSlice } from "../../useMainState"
 import { vectorDefaultState } from "./defaultState"
 
-export const vectorEnable = generateVectorSlice("enable")
-export const vectorColorMode = generateVectorSlice("colorMode")
-export const vectorOpacityMode = generateVectorSlice("opacityMode")
-export const vectorGradientType = generateVectorSlice("gradientType")
-export const vectorNormalize = generateVectorSlice("normalize")
-export const vectorColor = generateVectorSlice("color")
-export const vectorGradientStops = generateVectorSlice("gradientStops")
-export const vectorGradientSpace = generateVectorSlice("gradientSpace")
-export const vectorMinColorMagnitude = generateVectorSlice("minColorMagnitude")
-export const vectorMaxColorMagnitude = generateVectorSlice("maxColorMagnitude")
-export const vectorMaxSize = generateVectorSlice("maxSize")
-export const vectorMaxSizeMagnitude = generateVectorSlice("maxSizeMagnitude")
-export const vectorOpacity = generateVectorSlice("opacity")
-export const vectorMaxOpacity = generateVectorSlice("maxOpacity")
-export const vectorMinOpacity = generateVectorSlice("minOpacity")
-export const vectorMaxOpacityMagnitude = generateVectorSlice(
+export const vectorEnable = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "enable"
+)
+export const vectorColorMode = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "colorMode"
+)
+export const vectorOpacityMode = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "opacityMode"
+)
+export const vectorGradientType = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "gradientType"
+)
+export const vectorNormalize = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "normalize"
+)
+export const vectorColor = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "color"
+)
+export const vectorGradientStops = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "gradientStops"
+)
+export const vectorGradientSpace = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "gradientSpace"
+)
+export const vectorMinColorMagnitude = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "minColorMagnitude"
+)
+export const vectorMaxColorMagnitude = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "maxColorMagnitude"
+)
+export const vectorMaxSize = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "maxSize"
+)
+export const vectorMaxSizeMagnitude = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "maxSizeMagnitude"
+)
+export const vectorOpacity = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "opacity"
+)
+export const vectorMaxOpacity = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "maxOpacity"
+)
+export const vectorMinOpacity = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
+  "minOpacity"
+)
+export const vectorMaxOpacityMagnitude = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
   "maxOpacityMagnitude"
 )
-export const vectorMinOpacityMagnitude = generateVectorSlice(
+export const vectorMinOpacityMagnitude = generateStaticSlice(
+  ["velocityVector", "accelerationVector"],
+  vectorDefaultState,
   "minOpacityMagnitude"
 )
-
-// --------------------------------------------------------
-// ---------------- Generator Function --------------------
-
-function generateVectorSlice(prop: VectorStateKeys): ReducerSlice {
-  return (state, payload) => {
-    if (!isValidPayload(payload, prop, vectorDefaultState)) return state
-    if (state[payload.id][prop] === payload[prop]) return state
-
-    const newState = { ...state }
-    ;(newState[payload.id][prop] as unknown) = payload[prop]
-
-    return newState
-  }
-}
-
-// --------------------------------------------------------
-// --------------------------------------------------------
-
-function isValidPayload<T extends VectorStateKeys>(
-  data: unknown,
-  prop: T,
-  sampleState: VectorState
-): data is ValidPayloadType<T> {
-  if (data == null) return false
-  if (typeof data !== "object") return false
-  if (!("id" in data)) return false
-  if (typeof data.id !== "string") return false
-  if (data.id !== "velocityVector" && data.id !== "accelerationVector")
-    return false
-  if (!(prop in data)) return false
-
-  const key = prop as keyof typeof data
-  if (typeof data[key] !== typeof sampleState[prop]) return false
-
-  return true
-}
-
-// --------------------------------------------------------

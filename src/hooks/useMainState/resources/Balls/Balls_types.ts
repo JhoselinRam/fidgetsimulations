@@ -4,6 +4,7 @@ export type BallActionType =
   | "balls@new"
   | "balls@delete"
   | "ball@update"
+  | "ball@updateAll"
   | BallCollisionActionType
   | BallPositionActionType
   | BallVelocityActionType

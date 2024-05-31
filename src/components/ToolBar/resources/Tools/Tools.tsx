@@ -4,6 +4,7 @@ import { toolBarContext } from "../../context"
 import SimulationParameters from "../../../SimulationParameters/SimulationParameters"
 import CollectionPicker from "../../../CollectionPicker/CollectionPicker"
 import CollectionList from "../../../CollectionList/CollectionList"
+import SimulateButton from "../../../SimulateButton/SimulateButton"
 
 function Tools(): JSX.Element {
   const { isQueryMeet, isCollapsed, addElementInMenu } =
@@ -24,6 +25,7 @@ function Tools(): JSX.Element {
       <SimulationParameters />
       <CollectionPicker />
       <CollectionList />
+      <SimulateButton />
     </aside>
   )
 }
