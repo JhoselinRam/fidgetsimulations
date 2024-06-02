@@ -149,6 +149,11 @@ export interface CollectionOrder {
   type: CollectionType
 }
 
+export interface GraphicCollection {
+  id: string
+  type: GraphicElementType
+}
+
 export interface SimpleState<T> {
   value: T
   onChange: (value: T) => void

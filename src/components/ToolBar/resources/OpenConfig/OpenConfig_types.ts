@@ -3,4 +3,5 @@ import type { CollectionOrder } from "../../../../hooks/useMainState/useMainStat
 export interface OpenConfigProps {
   selectOnAction: () => void
   item: CollectionOrder
+  isDisabled: boolean
 }

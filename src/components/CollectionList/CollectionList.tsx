@@ -5,7 +5,6 @@ import CollectionItem from "./resources/CollectionItem/CollectionItem"
 function CollectionList(): JSX.Element {
   const { items, selection, setSelection, dragAndDropHooks } =
     useCollectionList()
-
   return (
     <section
       className="h-64 bg-tuatara-800 mx-2 my-4 border-2 border-tuatara-500 rounded-md pt-2

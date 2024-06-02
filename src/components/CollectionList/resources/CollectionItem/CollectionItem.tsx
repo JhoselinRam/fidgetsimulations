@@ -10,10 +10,8 @@ function CollectionItem({
   item,
   setSelection
 }: CollectionItemProps): JSX.Element {
-  const { name, icon, onDelete, selectOnAction } = useCollectionItem(
-    item,
-    setSelection
-  )
+  const { name, icon, onDelete, selectOnAction, isDisabled } =
+    useCollectionItem(item, setSelection)
 
   return (
     <GridListItem
@@ -26,7 +24,11 @@ function CollectionItem({
       <DragHandler />
       {icon}
       <CollectionName name={name} />
-      <OpenConfig selectOnAction={selectOnAction} item={item} />
+      <OpenConfig
+        selectOnAction={selectOnAction}
+        item={item}
+        isDisabled={isDisabled}
+      />
       {item.type === "simulationWindow" || item.type === "balls" ? (
         <div className="w-4 flex-shrink-0"></div>
       ) : (

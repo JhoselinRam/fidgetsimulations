@@ -8,10 +8,11 @@ function useConfigButton(
   element: RefObject<HTMLButtonElement>,
   svg: RefObject<SVGSVGElement>,
   selectOnAction: () => void,
-  item: CollectionOrder
+  item: CollectionOrder,
+  isDisabled: boolean
 ): UseConfigButton {
   const { setShowConfig, setTargetCollection } = useContext(toolBarContext)
-  useRotation(element, svg)
+  useRotation(element, svg, isDisabled)
 
   function handleClick(): void {
     setShowConfig(true)

@@ -2,7 +2,8 @@ import { type RefObject, useEffect, useState } from "react"
 
 function useRotation(
   element: RefObject<HTMLButtonElement>,
-  svg: RefObject<SVGSVGElement>
+  svg: RefObject<SVGSVGElement>,
+  isDisabled: boolean
 ): void {
   const [angle, setAngle] = useState(0)
 
@@ -16,12 +17,15 @@ function useRotation(
 
     // Event handlers
     const handlePointerEnter = (): void => {
+      if (isDisabled) return
       setAngle((prev) => prev + step)
     }
     const handlePointerLeave = (): void => {
+      if (isDisabled) return
       setAngle((prev) => prev - step)
     }
     const handleClick = (): void => {
+      if (isDisabled) return
       setAngle((prev) => prev + step)
       buttonElement.removeEventListener("pointerleave", handlePointerLeave)
       buttonElement.addEventListener("pointerleave", cleanupPointerLeave)
@@ -44,7 +48,7 @@ function useRotation(
       buttonElement.removeEventListener("pointerleave", handlePointerLeave)
       buttonElement.removeEventListener("click", handleClick)
     }
-  }, [setAngle, element])
+  }, [setAngle, element, isDisabled])
 
   // Rotate the element
   useEffect(() => {

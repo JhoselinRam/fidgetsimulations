@@ -1,28 +1,32 @@
-import { useContext } from "react"
-import type { UseSimulation } from "./useSimulation_types"
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  type RefObject
+} from "react"
 import { mainStateContext } from "../useMainState/useMainState"
-import { toolBarContext } from "../../components/ToolBar/context"
 
-function useSimulation(): UseSimulation {
-  const { mainState, dispatch } = useContext(mainStateContext)
-  const { setShowConfig } = useContext(toolBarContext)
-  const isRunning = mainState.simulation.run
+function useSimulation(graphElement: RefObject<HTMLDivElement>): void {
+  const { mainState } = useContext(mainStateContext)
+  const runFollower = useRef(false)
+  const innerState = useRef({ ...mainState })
 
-  function toggleRun(): void {
-    const newValue = !isRunning
+  const draw = useCallback((): void => {
+    if (!runFollower.current) return
 
-    dispatch({
-      type: "simulation@run",
-      payload: { id: "simulation", run: newValue }
-    })
+    console.log("Simulating")
+    window.requestAnimationFrame(draw)
+  }, [])
 
-    if (newValue) setShowConfig(false)
-  }
+  useEffect(() => {
+    runFollower.current = mainState.simulation.run
 
-  return {
-    isRunning,
-    toggleRun
-  }
+    if (!mainState.simulation.run) return
+
+    innerState.current = { ...mainState }
+    draw()
+  }, [mainState.simulation.run, mainState, draw])
 }
 
 export default useSimulation

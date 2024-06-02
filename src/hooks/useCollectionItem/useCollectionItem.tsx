@@ -15,6 +15,7 @@ function useCollectionItem(
   const { onDelete } = useDeleteItem(dispatch, item)
   const { name } = useItemName(mainState, item)
   const icon = itemIcon[item.type]
+  const isDisabled = mainState.simulation.run
 
   function selectOnAction(): void {
     setSelection(new Set([item.id]))
@@ -24,7 +25,8 @@ function useCollectionItem(
     name,
     icon,
     onDelete,
-    selectOnAction
+    selectOnAction,
+    isDisabled
   }
 }
 // --------------------------------------------------------

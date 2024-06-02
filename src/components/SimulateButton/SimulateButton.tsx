@@ -1,8 +1,8 @@
-import useSimulation from "../../hooks/useSimulation/useSimulation"
+import useSimulationButton from "../../hooks/useSimulationButton/useSimulationButton"
 import Button from "../Button/Button"
 
 function SimulateButton(): JSX.Element {
-  const { isRunning, toggleRun } = useSimulation()
+  const { isRunning, toggleRun } = useSimulationButton()
 
   return (
     <div className="w-full px-2 my-6">

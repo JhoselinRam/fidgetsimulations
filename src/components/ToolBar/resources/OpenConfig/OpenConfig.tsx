@@ -4,7 +4,11 @@ import GearIcon from "../../../Icons/GearIcon/GearIcon"
 import useConfigButton from "../../../../hooks/useConfigButton/useConfigButton"
 import type { OpenConfigProps } from "./OpenConfig_types"
 
-function OpenConfig({ selectOnAction, item }: OpenConfigProps): JSX.Element {
+function OpenConfig({
+  selectOnAction,
+  item,
+  isDisabled
+}: OpenConfigProps): JSX.Element {
   const buttonElement = useRef<HTMLButtonElement>(null)
   const svgElement = useRef<SVGSVGElement>(null)
 
@@ -12,19 +16,21 @@ function OpenConfig({ selectOnAction, item }: OpenConfigProps): JSX.Element {
     buttonElement,
     svgElement,
     selectOnAction,
-    item
+    item,
+    isDisabled
   )
 
   return (
     <Button
-      className="w-5 !p-0 flex-shrink-0"
+      className="w-5 !p-0 flex-shrink-0 group"
       buttonType="transparent"
       onPress={handleClick}
       aria-label="openConfigTool"
       ref={buttonElement}
+      isDisabled={isDisabled}
     >
       <GearIcon
-        className="fill-tuatara-100 transition-transform ease-overshot"
+        className="fill-tuatara-100 transition-transform ease-overshot group-data-[disabled]:fill-tuatara-300"
         ref={svgElement}
       />
     </Button>

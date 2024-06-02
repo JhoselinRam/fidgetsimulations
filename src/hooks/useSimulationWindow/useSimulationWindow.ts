@@ -19,7 +19,10 @@ import type { Vector_Property_Generator } from "scigrapher/lib/es5/Data/VectorFi
 import { clamp } from "../../auxiliary/clamp"
 import { createColorGradient } from "../../auxiliary/colorGradient"
 
-function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
+function useSimulationWindow(
+  graphElement: RefObject<HTMLDivElement>,
+  getGraphElement: (element: HTMLDivElement) => void
+): void {
   const { mainState, dispatch } = useContext(mainStateContext)
   const simulationCollection = mainState.simulationWindow[0]
   const simulationString = JSON.stringify(simulationCollection)
@@ -55,6 +58,11 @@ function useSimulationWindow(graphElement: RefObject<HTMLDivElement>): void {
     balls,
     velocityVector
   ])
+
+  useEffect(() => {
+    if (graphElement.current == null) return
+    getGraphElement(graphElement.current)
+  }, [graphElement, getGraphElement])
 }
 
 export default useSimulationWindow

@@ -1,19 +1,10 @@
-import { useContext, useRef } from "react"
+import { useRef } from "react"
 import { mainAreaContext } from "./context"
-import { mainStateContext } from "../../hooks/useMainState/useMainState"
-import type { GraphicSelector } from "../../hooks/useMainState/resources/GraphicElement/GraphicElement_types"
-import SimulationWindow from "../SimulationWindow/SimulationWindow"
-import Linechart from "../Linechart/Linechart"
-import DataOutPut from "../DataOutput/DataOutput"
+import useMainArea from "../../hooks/useMainArea/useMainArea"
 
 function MainArea(): JSX.Element {
   const mainAreaElement = useRef<HTMLDivElement>(null)
-  const { mainState } = useContext(mainStateContext)
-  const graphicSelector: GraphicSelector = {
-    simulationWindow: (id) => <SimulationWindow key={id} />,
-    linechart: (id) => <Linechart key={id} id={id} />,
-    dataoutput: (id) => <DataOutPut key={id} id={id} />
-  }
+  const { graphicOrder, graphicSelector } = useMainArea()
 
   return (
     <div
@@ -21,14 +12,9 @@ function MainArea(): JSX.Element {
       ref={mainAreaElement}
     >
       <mainAreaContext.Provider value={mainAreaElement}>
-        {mainState.order
-          .filter(
-            (collection) =>
-              collection.type === "dataoutput" ||
-              collection.type === "linechart" ||
-              collection.type === "simulationWindow"
-          )
-          .map((element) => graphicSelector[element.type](element.id))}
+        {graphicOrder.map((element) =>
+          graphicSelector[element.type](element.id)
+        )}
       </mainAreaContext.Provider>
     </div>
   )
