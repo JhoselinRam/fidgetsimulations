@@ -10,17 +10,10 @@ import { ballPositionDefaultState } from "../../../useMainState/resources/Balls/
 import type { BallPositionProps } from "./useBallPosition_types"
 
 const prop: BallPositionByAxis = { x: "positionX", y: "positionY" }
-const secondaryProp: BallPositionByAxis = {
-  x: "lastPositionX",
-  y: "lastPositionY"
-}
+
 const mainAction: BallPositionActionByAxis = {
   x: "balls@positionX",
   y: "balls@positionY"
-}
-const secondaryAction: BallPositionActionByAxis = {
-  x: "balls@lastPositionX",
-  y: "balls@lastPositionY"
 }
 
 function useBallPosition(
@@ -28,11 +21,7 @@ function useBallPosition(
   axis: "x" | "y"
 ): BallDynamicsPropertyHooks {
   const { dispatch, mainState } = useContext(mainStateContext)
-  const { ballLastPosition, ballPosition } = getBallPosition(
-    ballId,
-    mainState,
-    axis
-  )
+  const { ballPosition } = getBallPosition(ballId, mainState, axis)
   const [position, setPosition] = useState(ballPosition)
 
   const changePosition = useCallback(
@@ -42,12 +31,8 @@ function useBallPosition(
 
       dispatch({ type: mainAction[axis], payload })
       setPosition(value)
-
-      const diff = value - ballPosition
-      payload[secondaryProp[axis]] = ballLastPosition + diff
-      dispatch({ type: secondaryAction[axis], payload })
     },
-    [ballId, axis, dispatch, ballPosition, ballLastPosition]
+    [ballId, axis, dispatch]
   )
 
   useEffect(() => {
@@ -71,13 +56,11 @@ function getBallPosition(
 
   if (ballData == null) {
     return {
-      ballPosition: ballPositionDefaultState.positionX,
-      ballLastPosition: ballPositionDefaultState.lastPositionX
+      ballPosition: ballPositionDefaultState.positionX
     }
   }
 
   return {
-    ballPosition: ballData[prop[axis]],
-    ballLastPosition: ballData[secondaryProp[axis]]
+    ballPosition: ballData[prop[axis]]
   }
 }

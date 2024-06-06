@@ -1,38 +1,22 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import type {
   BallDynamicsPropertyHooks,
-  BallPositionActionByAxis,
-  BallPositionByAxis,
   BallVelocityActionByAxis,
   BallVelocityByAxis
 } from "../../useBallDynamics_types"
 import { mainStateContext } from "../../../useMainState/useMainState"
 import type { MainState } from "../../../useMainState/useMainState_types"
 import type { BallVelocityProps } from "./useBallVelocity_types"
-import {
-  ballPositionDefaultState,
-  ballVelocityDefaultState
-} from "../../../useMainState/resources/Balls/defaultState"
+import { ballVelocityDefaultState } from "../../../useMainState/resources/Balls/defaultState"
 
 const velocityProp: BallVelocityByAxis = {
   x: "velocityX",
   y: "velocityY"
 }
-const positionProp: BallPositionByAxis = {
-  x: "positionX",
-  y: "positionY"
-}
-const lastPositionProp: BallPositionByAxis = {
-  x: "lastPositionX",
-  y: "lastPositionY"
-}
+
 const velocityAction: BallVelocityActionByAxis = {
   x: "balls@velocityX",
   y: "balls@velocityY"
-}
-const lastPositionAction: BallPositionActionByAxis = {
-  x: "balls@lastPositionX",
-  y: "balls@lastPositionY"
 }
 
 function useBallVelocity(
@@ -40,11 +24,7 @@ function useBallVelocity(
   axis: "x" | "y"
 ): BallDynamicsPropertyHooks {
   const { dispatch, mainState } = useContext(mainStateContext)
-  const { ballPosition, ballVelocity, dt } = getBallVelocity(
-    ballId,
-    mainState,
-    axis
-  )
+  const { ballVelocity } = getBallVelocity(ballId, mainState, axis)
   const [velocity, setVelocity] = useState(ballVelocity)
 
   const changeVelocity = useCallback(
@@ -54,13 +34,8 @@ function useBallVelocity(
 
       dispatch({ type: velocityAction[axis], payload })
       setVelocity(value)
-
-      const newLastPosition = ballPosition - value * dt
-      payload[lastPositionProp[axis]] = newLastPosition
-
-      dispatch({ type: lastPositionAction[axis], payload })
     },
-    [ballId, dispatch, axis, ballPosition, dt]
+    [ballId, dispatch, axis]
   )
 
   useEffect(() => {
@@ -84,15 +59,11 @@ function getBallVelocity(
 
   if (ballData == null) {
     return {
-      ballVelocity: ballVelocityDefaultState.velocityX,
-      ballPosition: ballPositionDefaultState.positionX,
-      dt: 0.1
+      ballVelocity: ballVelocityDefaultState.velocityX
     }
   }
 
   return {
-    ballVelocity: ballData[velocityProp[axis]],
-    ballPosition: ballData[positionProp[axis]],
-    dt: state.time.dt
+    ballVelocity: ballData[velocityProp[axis]]
   }
 }

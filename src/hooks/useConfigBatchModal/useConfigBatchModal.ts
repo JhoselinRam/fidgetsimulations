@@ -46,11 +46,6 @@ function useConfigBatchModal(
       ;(updatedBall[prop] as unknown) = ballData[prop]
     })
 
-    updatedBall.lastPositionX =
-      updatedBall.positionX - updatedBall.velocityX * mainState.time.dt
-    updatedBall.lastPositionY =
-      updatedBall.positionY - updatedBall.velocityY * mainState.time.dt
-
     return updatedBall
   }
 

@@ -65,11 +65,6 @@ function useListReorder(
     const subArray3 = [source[moving]]
     const subArray4 = source.slice(moving + 1)
 
-    console.dir(subArray1)
-    console.dir(subArray2)
-    console.dir(subArray3)
-    console.dir(subArray4)
-
     return [...subArray1, ...subArray3, ...subArray2, ...subArray4]
   }
 

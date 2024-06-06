@@ -12,8 +12,8 @@ function TimeSpacing(): JSX.Element {
           step={0.001}
           unit="ms"
           className="gap-7"
-          minValue={0.1}
-          formatOptions={{ maximumFractionDigits: 3 }}
+          minValue={0.0001}
+          formatOptions={{ maximumFractionDigits: 4 }}
           value={dt}
           onChange={dtCallback}
         >

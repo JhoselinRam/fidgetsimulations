@@ -3,28 +3,31 @@ import type { UseBallAddBatch } from "./useBallAddBatch_types"
 import useNumericControl from "./resources/useNumericControl/useNumericControl"
 import useColorControl from "./resources/useColorControl/useColorControl"
 import { mainStateContext } from "../useMainState/useMainState"
-import { createBallState } from "../useMainState/resources/Balls/defaultState"
+import {
+  ballRadiusDefaultState,
+  createBallState
+} from "../useMainState/resources/Balls/defaultState"
 import type { UseNumericControl } from "./resources/useNumericControl/useNumericControl_types"
 import type { UseColorControl } from "./resources/useColorControl/useColorControl_types"
 import { createColorGradient } from "../../auxiliary/colorGradient"
 import { simulationWindowDefaultState } from "../useMainState/resources/SimulationWindow/defaultState"
 
 function useBallAddBatch(): UseBallAddBatch {
-  const { mainState, dispatch } = useContext(mainStateContext)
+  const { dispatch } = useContext(mainStateContext)
   const [number, setNumber] = useState(1)
   const xPositionHooks = useNumericControl({
-    from: simulationWindowDefaultState.startX,
-    to: simulationWindowDefaultState.endX
+    from: simulationWindowDefaultState.startX + ballRadiusDefaultState.radius,
+    to: simulationWindowDefaultState.endX - ballRadiusDefaultState.radius
   })
   const yPositionHooks = useNumericControl({
-    from: simulationWindowDefaultState.startY,
-    to: simulationWindowDefaultState.endY
+    from: simulationWindowDefaultState.startY + ballRadiusDefaultState.radius,
+    to: simulationWindowDefaultState.endY - ballRadiusDefaultState.radius
   })
-  const xVelocityHooks = useNumericControl({ to: 5 })
-  const yVelocityHooks = useNumericControl({ to: 5 })
-  const massHooks = useNumericControl({ from: 0.01, to: 1, fix: 0.01 })
+  const xVelocityHooks = useNumericControl({ to: 10 })
+  const yVelocityHooks = useNumericControl({ to: 10 })
+  const massHooks = useNumericControl({ from: 0.5, to: 1, fix: 1 })
   const chargeHooks = useNumericControl({ from: 0.001, to: 0.01, fix: 0.001 })
-  const radiusHooks = useNumericControl({ fix: 0.2, to: 0.6, from: 0.2 })
+  const radiusHooks = useNumericControl({ fix: 0.3, to: 0.6, from: 0.3 })
   const colorHooks = useColorControl()
 
   function changeNumber(value: number): void {
@@ -41,10 +44,7 @@ function useBallAddBatch(): UseBallAddBatch {
       newBall.positionY = getNumericProperty(yPositionHooks, i, number)
       newBall.velocityX = getNumericProperty(xVelocityHooks, i, number)
       newBall.velocityY = getNumericProperty(yVelocityHooks, i, number)
-      newBall.lastPositionX =
-        newBall.positionX - newBall.velocityX * mainState.time.dt
-      newBall.lastPositionY =
-        newBall.positionY - newBall.velocityY * mainState.time.dt
+
       newBall.mass = getNumericProperty(massHooks, i, number)
       newBall.charge = getNumericProperty(chargeHooks, i, number)
       newBall.radius = getNumericProperty(radiusHooks, i, number)

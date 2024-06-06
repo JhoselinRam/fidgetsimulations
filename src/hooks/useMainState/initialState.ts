@@ -16,7 +16,7 @@ const initialState: MainState = {
   time: {
     continuous: true,
     time: 10,
-    dt: 0.1,
+    dt: 10,
     delay: 0
   },
   container: [],
