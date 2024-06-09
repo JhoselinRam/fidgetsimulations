@@ -1,4 +1,4 @@
-import useSimpleForce from "../../hooks/useSimpleForce/UseSimpleForce"
+import useSimpleForce from "../../hooks/useSimpleForce/useSimpleForce"
 import type { SimpleForceConfigProps } from "./SimpleForceConfig_types"
 import MagnitudeConfig from "./resources/MagnitudeConfig/MagnitudeConfig"
 
@@ -9,20 +9,20 @@ function SimpleForceConfig({
   magnitudeHeader,
   magnitudeDecimals,
   magnitudeStep,
-  magnitudeScientificNotation
+  infoText
 }: SimpleForceConfigProps): JSX.Element {
-  const { magnitudeHooks } = useSimpleForce(item)
+  const magnitudeHooks = useSimpleForce(item)
 
   return (
     <>
       <MagnitudeConfig
-        hooks={magnitudeHooks}
+        {...magnitudeHooks}
         magnitudeName={magnitudeName}
         unit={unit}
         magnitudeHeader={magnitudeHeader}
         magnitudeDecimals={magnitudeDecimals}
         magnitudeStep={magnitudeStep}
-        magnitudeScientificNotation={magnitudeScientificNotation}
+        infoText={infoText}
       />
     </>
   )

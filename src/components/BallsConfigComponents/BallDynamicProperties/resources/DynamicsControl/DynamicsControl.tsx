@@ -18,6 +18,7 @@ function DynamicsControl({
           unit="m"
           step={0.03}
           isDisabled={!isValidSelection}
+          formatOptions={{ maximumFractionDigits: 8 }}
           {...positionHooks}
         />
         <p>Velocity:</p>
@@ -26,6 +27,7 @@ function DynamicsControl({
           unit="m/s"
           step={0.02}
           isDisabled={!isValidSelection}
+          formatOptions={{ maximumFractionDigits: 8 }}
           {...velocityHooks}
         />
       </ConfigSection.Section>

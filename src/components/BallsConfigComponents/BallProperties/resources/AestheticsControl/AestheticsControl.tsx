@@ -16,7 +16,7 @@ function AestheticsControl({
       <ConfigSection.Section>
         <NumberInput
           minValue={import.meta.env.VITE_BALL_MIN_RADIUS}
-          formatOptions={{ maximumFractionDigits: 3 }}
+          formatOptions={{ maximumFractionDigits: 8 }}
           step={0.01}
           unit="m"
           isDisabled={!isValidSelection}

@@ -14,7 +14,6 @@ function ConfigElectric({ item }: ConfigCollectionProps): JSX.Element {
           </p>
         }
         magnitudeHeader="Coulomb's constant"
-        magnitudeScientificNotation={true}
         magnitudeStep={0}
       />
     </ConfigCollection>

@@ -1,12 +1,11 @@
 import type { ReactNode } from "react"
-import type { UseMagnitude } from "../../../../hooks/useSimpleForce/resources/useMagnitude/useMagnitude_types"
+import type { UseSimpleForce } from "../../../../hooks/useSimpleForce/useSimpleForce_types"
 
-export interface MagnitudeConfigProps {
-  hooks: UseMagnitude
-  unit: string | ReactNode
+export interface MagnitudeConfigProps extends UseSimpleForce {
+  unit: ReactNode
   magnitudeName: string
   magnitudeHeader: string
   magnitudeDecimals?: number
   magnitudeStep?: number
-  magnitudeScientificNotation?: boolean
+  infoText?: ReactNode
 }

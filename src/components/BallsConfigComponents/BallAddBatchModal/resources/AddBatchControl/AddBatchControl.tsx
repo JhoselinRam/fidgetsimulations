@@ -23,31 +23,35 @@ function AddBatchControl({
         title="Position x"
         unit={"m"}
         step={0.03}
+        decimals={8}
       />
       <AddBatchNumericControl
         hooks={yPositionHooks}
         title="Position y"
         unit={"m"}
         step={0.03}
+        decimals={8}
       />
       <AddBatchNumericControl
         hooks={xVelocityHooks}
         title="Velocity x"
         unit={"m/s"}
         step={0.02}
+        decimals={8}
       />
       <AddBatchNumericControl
         hooks={yVelocityHooks}
         title="Velocity y"
         unit={"m/s"}
         step={0.02}
+        decimals={8}
       />
       <AddBatchNumericControl
         hooks={massHooks}
         title="Mass"
         unit={"kg"}
         minValue={import.meta.env.VITE_BALL_MIN_MASS}
-        decimals={4}
+        decimals={8}
         step={0.01}
       />
       <AddBatchNumericControl
@@ -55,14 +59,14 @@ function AddBatchControl({
         title="Charge"
         unit={"C"}
         step={0.0001}
-        decimals={4}
+        decimals={8}
       />
       <AddBatchNumericControl
         hooks={radiusHooks}
         title="Radius"
         unit={"m"}
         minValue={import.meta.env.VITE_BALL_MIN_RADIUS}
-        decimals={3}
+        decimals={8}
         step={0.01}
       />
       <AddBatchColorControl hooks={colorHooks} />

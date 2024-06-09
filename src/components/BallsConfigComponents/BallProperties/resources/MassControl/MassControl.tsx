@@ -17,7 +17,7 @@ function MassControl({
           className="gap-5"
           unit="kg"
           minValue={import.meta.env.VITE_BALL_MIN_MASS}
-          formatOptions={{ maximumFractionDigits: 4 }}
+          formatOptions={{ maximumFractionDigits: 8 }}
           step={0.01}
           isDisabled={!isValidSelection}
           value={mass}
@@ -27,7 +27,7 @@ function MassControl({
         </NumberInput>
         <NumberInput
           unit="C"
-          formatOptions={{ maximumFractionDigits: 4 }}
+          formatOptions={{ maximumFractionDigits: 8 }}
           step={0.0001}
           isDisabled={!isValidSelection}
           value={charge}

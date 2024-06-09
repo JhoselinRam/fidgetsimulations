@@ -14,7 +14,6 @@ function ConfigGravity({ item }: ConfigCollectionProps): JSX.Element {
           </p>
         }
         magnitudeHeader="Gravitational constant"
-        magnitudeScientificNotation={true}
         magnitudeDecimals={21}
         magnitudeStep={0}
       />

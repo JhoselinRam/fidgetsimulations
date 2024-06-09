@@ -1,42 +1,53 @@
-import { useState } from "react"
 import ConfigSection from "../../../ConfigSection/ConfigSection"
-import NumberInput from "../../../NumberInput/NumberInput"
+import Info from "../../../Info/Info"
 import Switch from "../../../Switch/Switch"
+import ScientificControl from "../ScientificControl/ScientificControl"
+import SimpleMagnitudeControl from "../SimpleMagnitudeControl/SimpleMagnitudeControl"
 import type { MagnitudeConfigProps } from "./MagnitudeConfig_types"
 
 function MagnitudeConfig({
-  hooks,
   magnitudeName,
   unit,
   magnitudeHeader,
-  magnitudeDecimals = 2,
+  magnitudeDecimals = 10,
   magnitudeStep,
-  magnitudeScientificNotation = false
+  infoText,
+  scientificHooks,
+  scientificMagnitudeHooks,
+  scientificPowerHooks,
+  simpleMagnitudeHooks
 }: MagnitudeConfigProps): JSX.Element {
-  const [isScientific, setIsScientific] = useState(magnitudeScientificNotation)
-
   return (
     <ConfigSection title="Magnitude">
       <ConfigSection.Header className="-mb-4">
-        {magnitudeHeader}:
+        <p>{magnitudeHeader}:</p>
+        {infoText != null && <Info>{infoText}</Info>}
       </ConfigSection.Header>
       <ConfigSection.Section className="pl-2">
-        <Switch isSelected={isScientific} onChange={setIsScientific}>
+        <Switch
+          isSelected={scientificHooks.value}
+          onChange={scientificHooks.onChange}
+        >
           Scientific notation
         </Switch>
       </ConfigSection.Section>
       <ConfigSection.Section>
-        <NumberInput
-          unit={unit}
-          formatOptions={{
-            notation: isScientific ? "engineering" : undefined,
-            maximumFractionDigits: magnitudeDecimals
-          }}
-          step={magnitudeStep}
-          {...hooks}
-        >
-          {magnitudeName}:
-        </NumberInput>
+        {scientificHooks.value ? (
+          <ScientificControl
+            magnitudeName={magnitudeName}
+            scientificMagnitudeHooks={scientificMagnitudeHooks}
+            scientificPowerHooks={scientificPowerHooks}
+            unit={unit}
+          />
+        ) : (
+          <SimpleMagnitudeControl
+            magnitudeName={magnitudeName}
+            simpleMagnitudeHooks={simpleMagnitudeHooks}
+            unit={unit}
+            magnitudeDecimals={magnitudeDecimals}
+            magnitudeStep={magnitudeStep}
+          />
+        )}
       </ConfigSection.Section>
     </ConfigSection>
   )

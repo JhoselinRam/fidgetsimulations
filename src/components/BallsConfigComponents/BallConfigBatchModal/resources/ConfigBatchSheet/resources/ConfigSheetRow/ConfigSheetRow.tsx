@@ -49,22 +49,22 @@ const ConfigSheetRow = forwardRef<ConfigSheetRowRef, ConfigSheetRowProps>(
       <>
         <HeaderCell>{index + 1}</HeaderCell>
         <TextCell {...name} />
-        <NumberCell {...positionX} labelBy="ball position x" />
-        <NumberCell {...positionY} labelBy="ball position y" />
-        <NumberCell {...velocityX} labelBy="ball velocity x" />
-        <NumberCell {...velocityY} labelBy="ball velocity y" />
+        <NumberCell {...positionX} labelBy="ball position x" decimals={8} />
+        <NumberCell {...positionY} labelBy="ball position y" decimals={8} />
+        <NumberCell {...velocityX} labelBy="ball velocity x" decimals={8} />
+        <NumberCell {...velocityY} labelBy="ball velocity y" decimals={8} />
         <NumberCell
           {...mass}
           minValue={import.meta.env.VITE_BALL_MIN_MASS}
           labelBy="ball mass"
-          decimals={4}
+          decimals={8}
         />
-        <NumberCell {...charge} labelBy="ball charge" />
+        <NumberCell {...charge} labelBy="ball charge" decimals={8} />
         <NumberCell
           {...radius}
           minValue={import.meta.env.VITE_BALL_MIN_RADIUS}
           labelBy="ball radius"
-          decimals={3}
+          decimals={8}
         />
         <ColorCell {...color} />
         <CheckCell {...deleteBall} />
