@@ -132,6 +132,7 @@ import {
   vectorOpacityMode
 } from "./resources/Vector/Vector"
 import { simulationRun } from "./resources/Simulation/Simulation"
+import { dampingNew } from "./resources/Damping/Damping"
 
 // -------------------- Hook body -------------------------
 
@@ -210,6 +211,7 @@ const reducerObject: ReducerObject = {
   "gravity@new": gravityNew,
   "drag@new": dragNew,
   "electric@new": electricNew,
+  "damping@new": dampingNew,
   "balls@new": ballNew,
   "ball@update": ballUpdate,
   "ball@updateAll": ballUpdateAll,
@@ -292,7 +294,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "localGravity" ||
     type === "gravity" ||
     type === "drag" ||
-    type === "electric"
+    type === "electric" ||
+    type === "damping"
   )
 }
 

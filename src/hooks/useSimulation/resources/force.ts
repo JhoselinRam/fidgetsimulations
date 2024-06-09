@@ -1,3 +1,4 @@
+import type { DampingState } from "../../useMainState/resources/Damping/Damping_types"
 import type { DragState } from "../../useMainState/resources/Drag/Drag_types"
 import type { ElectricState } from "../../useMainState/resources/Electric/Electric_types"
 import type { GravityState } from "../../useMainState/resources/Gravity/Gravity_types"
@@ -40,7 +41,8 @@ const forceSelector: ForceSelector = {
   localGravity: computeLocalGravity,
   drag: computeDrag,
   electric: computeElectric,
-  gravity: computeGravity
+  gravity: computeGravity,
+  damping: computeDamping
 }
 
 function totalForceType(
@@ -53,7 +55,11 @@ function totalForceType(
       forceSelector[forceType](
         index,
         state,
-        force as LocalGravityState & GravityState & DragState & ElectricState
+        force as LocalGravityState &
+          GravityState &
+          DragState &
+          ElectricState &
+          DampingState
       )
     )
     .reduce(
@@ -84,6 +90,22 @@ function computeDrag(
   index: number,
   state: MainState,
   force: DragState
+): BallProperty {
+  const ball = state.balls[0].data[index]
+
+  return {
+    x: -force.magnitude * ball.velocityX,
+    y: -force.magnitude * ball.velocityY
+  }
+}
+
+// --------------------------------------------------------
+// -------------------- Damping ---------------------------
+
+function computeDamping(
+  index: number,
+  state: MainState,
+  force: DampingState
 ): BallProperty {
   const ball = state.balls[0].data[index]
 

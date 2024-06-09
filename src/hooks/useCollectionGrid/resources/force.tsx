@@ -12,6 +12,8 @@ import { createLocalGravityState } from "../../useMainState/resources/LocalGravi
 import { createGravityState } from "../../useMainState/resources/Gravity/defaultState"
 import { createDragState } from "../../useMainState/resources/Drag/defaultState"
 import { createElectricState } from "../../useMainState/resources/Electric/defaultState"
+import DampingIcon from "../../../components/Icons/DampingIcon/DampingIcon"
+import { createDampingState } from "../../useMainState/resources/Damping/defaultState"
 
 function getForceItems(
   state: MainState,
@@ -77,7 +79,7 @@ function getForceItems(
   }
 
   // --------------------------------------------------------
-  // ------------------- Electric Chart ----------------------
+  // ------------------ Electric Chart ----------------------
 
   const electricItem: ItemType = {
     id: "Electric",
@@ -97,8 +99,28 @@ function getForceItems(
   }
 
   // --------------------------------------------------------
+  // ------------------ Damping Chart -----------------------
 
-  return [localGravityItem, gravityItem, dragItem, electricItem]
+  const dampingItem: ItemType = {
+    id: "Damping",
+    title: "Damping",
+    action: dampingAction,
+    children: <DampingIcon />
+  }
+
+  function dampingAction(): void {
+    const newDamping = createDampingState()
+    newDamping.name = `Damping ${state.damping.length + 1}`
+
+    dispatch({
+      type: "damping@new",
+      payload: newDamping as unknown as Record<string, unknown>
+    })
+  }
+
+  // --------------------------------------------------------
+
+  return [localGravityItem, gravityItem, dragItem, electricItem, dampingItem]
 }
 
 export default getForceItems

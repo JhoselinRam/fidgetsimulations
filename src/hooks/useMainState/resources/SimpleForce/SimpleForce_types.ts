@@ -1,4 +1,5 @@
 import type { CollectionState } from "../../useMainState_types"
+import type { DampingState } from "../Damping/Damping_types"
 import type { DragState } from "../Drag/Drag_types"
 import type { ElectricState } from "../Electric/Electric_types"
 import type { GravityState } from "../Gravity/Gravity_types"
@@ -11,6 +12,7 @@ export interface SimpleForceElementState {
   gravity: GravityState[]
   drag: DragState[]
   electric: ElectricState[]
+  damping: DampingState[]
 }
 
 export interface SimpleForceState

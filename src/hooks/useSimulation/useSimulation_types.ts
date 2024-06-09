@@ -1,3 +1,4 @@
+import type { DampingState } from "../useMainState/resources/Damping/Damping_types"
 import type { DragState } from "../useMainState/resources/Drag/Drag_types"
 import type { ElectricState } from "../useMainState/resources/Electric/Electric_types"
 import type { GravityState } from "../useMainState/resources/Gravity/Gravity_types"
@@ -35,4 +36,6 @@ export type ForceTypeSelector<T extends ForceTypes> = T extends "localGravity"
       ? DragState
       : T extends "electric"
         ? ElectricState
-        : never
+        : T extends "damping"
+          ? DampingState
+          : never

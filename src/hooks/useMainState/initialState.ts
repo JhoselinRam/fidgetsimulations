@@ -26,6 +26,7 @@ const initialState: MainState = {
   drag: [],
   electric: [],
   gravity: [],
+  damping: [],
   velocityVector: { ...vectorDefaultState },
   accelerationVector: { ...vectorDefaultState },
   simulation: { ...simulationDefaultState }

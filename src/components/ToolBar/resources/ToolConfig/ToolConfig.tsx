@@ -12,6 +12,7 @@ import ConfigLocalGravity from "../../../ConfigElements/ConfigLocalGravity/Confi
 import ConfigGravity from "../../../ConfigElements/ConfigGravity/ConfigGravity"
 import ConfigDrag from "../../../ConfigElements/ConfigDrag/ConfigDrag"
 import ConfigElectric from "../../../ConfigElements/ConfigElectric/ConfigElectric"
+import ConfigDamping from "../../../ConfigElements/ConfigDamping/ConfigDamping"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -26,7 +27,8 @@ function ToolConfig(): JSX.Element {
     localGravity: (item) => <ConfigLocalGravity item={item} />,
     gravity: (item) => <ConfigGravity item={item} />,
     drag: (item) => <ConfigDrag item={item} />,
-    electric: (item) => <ConfigElectric item={item} />
+    electric: (item) => <ConfigElectric item={item} />,
+    damping: (item) => <ConfigDamping item={item} />
   }
 
   return (

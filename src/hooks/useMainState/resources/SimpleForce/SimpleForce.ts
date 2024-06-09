@@ -3,5 +3,5 @@ import type { SimpleForceKeys } from "./SimpleForce_types"
 
 export const simpleForceMagnitude = createSimpleSlice<SimpleForceKeys>(
   "magnitude",
-  ["gravity", "drag", "electric"]
+  ["gravity", "drag", "electric", "damping"]
 )

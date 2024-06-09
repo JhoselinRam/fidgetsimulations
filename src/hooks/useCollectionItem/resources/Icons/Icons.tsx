@@ -1,5 +1,6 @@
 import BallCollectionItemIcon from "../../../../components/CollectionItemIcons/BallCollectionItemIcon"
 import ContainerCollectionItemIcon from "../../../../components/CollectionItemIcons/ContainerCollectionItemIcon"
+import DampingCollectionItemIcon from "../../../../components/CollectionItemIcons/DampingCollectionItemIcon"
 import DataOutCollectionItemIcon from "../../../../components/CollectionItemIcons/DataOutCollectionItemIcon"
 import DragCollectionItemIcon from "../../../../components/CollectionItemIcons/DragItemCollectionIcon"
 import ElectricCollectionItemIcon from "../../../../components/CollectionItemIcons/ElectricCollectionItemIcon"
@@ -20,5 +21,6 @@ export const itemIcon: ItemIcon = {
   localGravity: <LocalGravityCollectionItemIcon />,
   gravity: <GravityCollectionItemIcon />,
   drag: <DragCollectionItemIcon />,
-  electric: <ElectricCollectionItemIcon />
+  electric: <ElectricCollectionItemIcon />,
+  damping: <DampingCollectionItemIcon />
 }

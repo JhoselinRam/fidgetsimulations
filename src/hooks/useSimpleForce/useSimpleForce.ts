@@ -17,6 +17,8 @@ import type { ElectricState } from "../useMainState/resources/Electric/Electric_
 import { gravityMagnitudeDefaultState } from "../useMainState/resources/Gravity/defaultState"
 import { dragMagnitudeDefaultState } from "../useMainState/resources/Drag/defaultState"
 import { electricMagnitudeDefaultState } from "../useMainState/resources/Electric/defaultState"
+import type { DampingState } from "../useMainState/resources/Damping/Damping_types"
+import { dampingMagnitudeDefaultState } from "../useMainState/resources/Damping/defaultState"
 
 function useSimpleForce(item: CollectionOrder): UseSimpleForce {
   const { mainState } = useContext(mainStateContext)
@@ -46,18 +48,20 @@ function getMagnitudeProps(
   item: CollectionOrder,
   state: MainState
 ): MagnitudeProps {
-  const collection = getCollection<GravityState | DragState | ElectricState>(
-    item,
-    state,
-    ["gravity", "drag", "electric"]
-  )
+  const collection = getCollection<
+    GravityState | DragState | ElectricState | DampingState
+  >(item, state, ["gravity", "drag", "electric", "damping"])
   const defaultValue: MagnitudeDefaultValue = {
     gravity: gravityMagnitudeDefaultState.magnitude,
     drag: dragMagnitudeDefaultState.magnitude,
-    electric: electricMagnitudeDefaultState.magnitude
+    electric: electricMagnitudeDefaultState.magnitude,
+    damping: dampingMagnitudeDefaultState.magnitude
   }
   const defaultMagnitude =
-    item.type !== "gravity" && item.type !== "drag" && item.type !== "electric"
+    item.type !== "gravity" &&
+    item.type !== "drag" &&
+    item.type !== "electric" &&
+    item.type !== "damping"
       ? 0
       : defaultValue[item.type]
 

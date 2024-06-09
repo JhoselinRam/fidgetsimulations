@@ -63,6 +63,10 @@ import type {
   SimulationActionType,
   SimulationState
 } from "./resources/Simulation/Simulation_types"
+import type {
+  DampingActionType,
+  DampingState
+} from "./resources/Damping/Damping_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -84,6 +88,7 @@ export type MainStateActionType =
   | GravityActionType
   | DragActionType
   | ElectricActionType
+  | DampingActionType
   | BallActionType
   | VectorActionType
   | SimulationActionType
@@ -139,6 +144,7 @@ export type CollectionElementState =
   | GravityState
   | DragState
   | ElectricState
+  | DampingState
 
 export interface CollectionState extends CollectionOrder {
   name: string
