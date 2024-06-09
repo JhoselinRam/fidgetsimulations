@@ -9,22 +9,23 @@ function SimpleForceConfig({
   magnitudeHeader,
   magnitudeDecimals,
   magnitudeStep,
-  infoText
+  infoText,
+  children
 }: SimpleForceConfigProps): JSX.Element {
   const magnitudeHooks = useSimpleForce(item)
 
   return (
-    <>
-      <MagnitudeConfig
-        {...magnitudeHooks}
-        magnitudeName={magnitudeName}
-        unit={unit}
-        magnitudeHeader={magnitudeHeader}
-        magnitudeDecimals={magnitudeDecimals}
-        magnitudeStep={magnitudeStep}
-        infoText={infoText}
-      />
-    </>
+    <MagnitudeConfig
+      {...magnitudeHooks}
+      magnitudeName={magnitudeName}
+      unit={unit}
+      magnitudeHeader={magnitudeHeader}
+      magnitudeDecimals={magnitudeDecimals}
+      magnitudeStep={magnitudeStep}
+      infoText={infoText}
+    >
+      {children}
+    </MagnitudeConfig>
   )
 }
 

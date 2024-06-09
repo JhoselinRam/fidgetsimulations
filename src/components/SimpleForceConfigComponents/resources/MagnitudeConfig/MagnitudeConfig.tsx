@@ -15,7 +15,8 @@ function MagnitudeConfig({
   scientificHooks,
   scientificMagnitudeHooks,
   scientificPowerHooks,
-  simpleMagnitudeHooks
+  simpleMagnitudeHooks,
+  children
 }: MagnitudeConfigProps): JSX.Element {
   return (
     <ConfigSection title="Magnitude">
@@ -49,6 +50,7 @@ function MagnitudeConfig({
           />
         )}
       </ConfigSection.Section>
+      {children}
     </ConfigSection>
   )
 }

@@ -5,5 +5,5 @@ export interface ScientificControlProps {
   scientificMagnitudeHooks: SimpleState<number>
   scientificPowerHooks: SimpleState<number>
   unit: ReactNode
-  magnitudeName: string
+  magnitudeName: ReactNode
 }

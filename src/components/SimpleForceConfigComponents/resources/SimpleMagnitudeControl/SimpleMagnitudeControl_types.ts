@@ -4,7 +4,7 @@ import type { SimpleState } from "../../../../hooks/useMainState/useMainState_ty
 export interface SimpleMagnitudeControlProps {
   simpleMagnitudeHooks: SimpleState<number>
   unit: ReactNode
-  magnitudeName: string
+  magnitudeName: ReactNode
   magnitudeDecimals?: number
   magnitudeStep?: number
 }

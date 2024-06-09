@@ -1,12 +1,17 @@
 import type { SimpleForceMagnitude } from "../SimpleForce/SimpleForce_types"
-import type { DragState } from "./Drag_types"
+import type { DragDensity, DragState } from "./Drag_types"
 
 export const dragMagnitudeDefaultState: SimpleForceMagnitude = {
-  magnitude: 0.1
+  magnitude: 0.47
+}
+
+export const dragDensityDefaultState: DragDensity = {
+  density: 1.293
 }
 
 export const dragDefaultState: DragState = {
   ...dragMagnitudeDefaultState,
+  ...dragDensityDefaultState,
   id: "",
   name: "",
   type: "drag"

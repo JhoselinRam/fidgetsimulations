@@ -88,7 +88,7 @@ import {
 } from "./resources/LocalGravity/LocalGravity"
 import { simpleForceMagnitude } from "./resources/SimpleForce/SimpleForce"
 import { gravityNew } from "./resources/Gravity/Gravity"
-import { dragNew } from "./resources/Drag/Drag"
+import { dragDensity, dragNew } from "./resources/Drag/Drag"
 import { electricNew } from "./resources/Electric/Electric"
 import type { BallData, BallDataKeys } from "./resources/Balls/Balls_types"
 import { ballDataDefaultState } from "./resources/Balls/defaultState"
@@ -210,6 +210,7 @@ const reducerObject: ReducerObject = {
   "simpleForce@magnitude": simpleForceMagnitude,
   "gravity@new": gravityNew,
   "drag@new": dragNew,
+  "drag@density": dragDensity,
   "electric@new": electricNew,
   "damping@new": dampingNew,
   "balls@new": ballNew,

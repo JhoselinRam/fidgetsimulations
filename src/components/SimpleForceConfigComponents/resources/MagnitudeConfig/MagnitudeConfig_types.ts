@@ -3,9 +3,10 @@ import type { UseSimpleForce } from "../../../../hooks/useSimpleForce/useSimpleF
 
 export interface MagnitudeConfigProps extends UseSimpleForce {
   unit: ReactNode
-  magnitudeName: string
+  magnitudeName: ReactNode
   magnitudeHeader: string
   magnitudeDecimals?: number
   magnitudeStep?: number
   infoText?: ReactNode
+  children?: ReactNode
 }
