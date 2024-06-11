@@ -35,7 +35,6 @@ function useBallAddBatch(): UseBallAddBatch {
   }
 
   function createBatch(): void {
-    console.log(number)
     for (let i = 0; i < number; i++) {
       const newBall = createBallState()
 

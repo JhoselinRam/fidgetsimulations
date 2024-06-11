@@ -10,16 +10,17 @@ function DensityControl({ item }: DensityControlProps): JSX.Element {
   return (
     <ConfigSection.Section className="!flex-row">
       <NumberInput
+        className="gap-[1.125rem]"
         minValue={0}
         unit={
           <span>
-            km/m<sup>3</sup>
+            kg/m<sup>3</sup>
           </span>
         }
         step={0.01}
         {...densityHooks}
       >
-        ρ
+        ρ:
       </NumberInput>
       <Info placement="left" crossOffset={10}>
         The mass density of the medium.

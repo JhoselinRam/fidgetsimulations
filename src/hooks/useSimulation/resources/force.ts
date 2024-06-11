@@ -92,10 +92,13 @@ function computeDrag(
   force: DragState
 ): BallProperty {
   const ball = state.balls[0].data[index]
+  const velMagnitude = Math.hypot(ball.velocityX, ball.velocityY)
+  const area = Math.PI * ball.radius ** 2
+  const coefficient = force.magnitude * force.density * velMagnitude * area
 
   return {
-    x: -force.magnitude * ball.velocityX,
-    y: -force.magnitude * ball.velocityY
+    x: -coefficient * ball.velocityX,
+    y: -coefficient * ball.velocityY
   }
 }
 

@@ -21,6 +21,7 @@ import { computeForce } from "./resources/force"
 import { firstStepSolver, verletSolver } from "./resources/verletSolver"
 import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
+import { computeCollision } from "./resources/collision"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -40,6 +41,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
 
     computeForce(innerState.current)
     verletSolver(innerState.current)
+    computeCollision(innerState.current)
 
     updateData(ballGraph.current, innerState.current)
 
@@ -66,7 +68,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
       }
 
       simulationStep()
-      simulationTime.current += innerState.current.time.dt
+      simulationTime.current += innerState.current.time.dt / 1000
       delayTime.current = t
 
       window.requestAnimationFrame(updateSimulation)

@@ -35,7 +35,7 @@ const Info = forwardRef<HTMLDivElement, InfoProps>(
           </div>
         </Button>
         <Popover
-          className={`bg-tuatara-400 border-tuatara-300 text-zinc-950 border-2 rounded-md text-xs max-w-menu group
+          className={`bg-tuatara-400 border-tuatara-300 text-zinc-950 border rounded-md text-xs max-w-menu group
         data-[entering]:data-[placement=top]:animate-info-top-enter data-[exiting]:data-[placement=top]:animate-info-top-exit
         data-[entering]:data-[placement=bottom]:animate-info-bottom-enter data-[exiting]:data-[placement=bottom]:animate-info-bottom-exit
         data-[entering]:data-[placement=left]:animate-info-left-enter data-[exiting]:data-[placement=left]:animate-info-left-exit

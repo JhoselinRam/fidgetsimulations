@@ -18,6 +18,8 @@ import { createColorGradient } from "./colorGradient"
 import { clamp } from "./clamp"
 import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Types"
 import type { BallVectorType } from "../components/BallsConfigComponents/BallConfigComponents_types"
+import { toRadians } from "./angleAux"
+import { rotate } from "./vector"
 
 // ----------------- Container Size -----------------------
 
@@ -181,11 +183,11 @@ function getObjectData(
     coord[1] - centerCoords[1]
   ])
 
-  const angle = (Math.PI / 180) * object.angle
-  const rotatedCoords = centeredCoords.map((coord) => [
-    coord[0] * Math.cos(angle) - coord[1] * Math.sin(angle),
-    coord[0] * Math.sin(angle) + coord[1] * Math.cos(angle)
-  ])
+  const angle = toRadians(object.angle)
+  const rotatedCoords = centeredCoords.map((coord) => {
+    const newCoord = rotate(coord, angle)
+    return [...newCoord]
+  })
 
   const finalCoords = rotatedCoords.map((coord) => [
     coord[0] + centerCoords[0],

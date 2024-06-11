@@ -1,8 +1,9 @@
 import FormulaWrapper from "../FormulaWrapper/FormulaWrapper"
+import type { FormulaProps } from "../FormulaWrapper/FormulaWrapper_types"
 
-function FormulaDrag(): JSX.Element {
+function FormulaDrag({ className }: FormulaProps): JSX.Element {
   return (
-    <FormulaWrapper>
+    <FormulaWrapper className={className}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"

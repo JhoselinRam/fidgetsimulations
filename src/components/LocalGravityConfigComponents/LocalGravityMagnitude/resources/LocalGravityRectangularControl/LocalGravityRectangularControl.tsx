@@ -1,6 +1,7 @@
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import NumberInput from "../../../../NumberInput/NumberInput"
 import type { LocalGravityRectangularControlProps } from "./LocalGravityRectangularControl_types"
+import RectangularHeader from "./resources/RectangularHeader/RectangularHeader"
 
 function LocalGravityRectangularControl({
   changeMagnitudeX,
@@ -10,7 +11,7 @@ function LocalGravityRectangularControl({
 }: LocalGravityRectangularControlProps): JSX.Element {
   return (
     <>
-      <ConfigSection.Header>Rectangular: </ConfigSection.Header>
+      <RectangularHeader />
       <ConfigSection.Section>
         <NumberInput
           unit={

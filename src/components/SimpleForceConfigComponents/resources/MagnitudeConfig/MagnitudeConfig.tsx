@@ -21,7 +21,7 @@ function MagnitudeConfig({
   return (
     <ConfigSection title="Magnitude">
       <ConfigSection.Header className="-mb-4">
-        <p>{magnitudeHeader}:</p>
+        <p className="text-nowrap">{magnitudeHeader}:</p>
         {infoText != null && <Info>{infoText}</Info>}
       </ConfigSection.Header>
       <ConfigSection.Section className="pl-2">
