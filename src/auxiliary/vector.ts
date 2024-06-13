@@ -11,3 +11,9 @@ export function rotate(vector: number[], angle: number): number[] {
     vector[0] * Math.sin(angle) + vector[1] * Math.cos(angle)
   ]
 }
+
+export function translate(vector: number[], translation: number[]): number[] {
+  if (vector.length !== translate.length) return vector
+
+  return vector.map((component, index) => component + translation[index])
+}

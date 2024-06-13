@@ -186,7 +186,7 @@ function getObjectData(
   const angle = toRadians(object.angle)
   const rotatedCoords = centeredCoords.map((coord) => {
     const newCoord = rotate(coord, angle)
-    return [...newCoord]
+    return newCoord
   })
 
   const finalCoords = rotatedCoords.map((coord) => [
@@ -216,25 +216,23 @@ function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
   // else
   const a = object.width / 2
   const b = object.height / 2
-  const positiveX = linspace(-a, a, import.meta.env.VITE_ELLIPSE_RESOLUTION)
-  const negativeX = positiveX.slice().reverse()
-  const y = positiveX.map((x) => b * Math.sqrt(1 - x ** 2 / a ** 2))
+  const parameter = linspace(
+    0,
+    2 * Math.PI,
+    import.meta.env.VITE_ELLIPSE_RESOLUTION
+  )
 
   const centerCoords = [
     object.positionX + object.width / 2,
     object.positionY - object.height / 2
   ]
 
-  const positiveCoords = positiveX.map((x, i) => [
-    x + centerCoords[0],
-    y[i] + centerCoords[1]
-  ])
-  const negativeCoords = negativeX.map((x, i) => [
-    x + centerCoords[0],
-    -y[i] + centerCoords[1]
+  const coords = parameter.map((t) => [
+    a * Math.cos(t) + centerCoords[0],
+    b * Math.sin(t) + centerCoords[1]
   ])
 
-  return [...positiveCoords, ...negativeCoords]
+  return coords
 }
 
 // --------------------------------------------------------

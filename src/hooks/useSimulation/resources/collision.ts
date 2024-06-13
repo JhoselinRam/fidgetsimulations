@@ -1,5 +1,5 @@
-import { toRadians } from "../../../auxiliary/angleAux"
-import { dot, rotate } from "../../../auxiliary/vector"
+import { toDegrees, toRadians } from "../../../auxiliary/angleAux"
+import { dot, rotate, translate } from "../../../auxiliary/vector"
 import type { ContainerState } from "../../useMainState/resources/Container/Container_types"
 import type { MainState } from "../../useMainState/useMainState_types"
 
@@ -102,15 +102,20 @@ function computeBallCollision(state: MainState): void {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// --------------- Container Collision --------------------
 
 function containerCollision(state: MainState): void {
   state.container.forEach((container) => {
-    if (container.shape === "rectangle") {
+    if (container.shape === "rectangle")
       rectangularContainerCollision(container, state)
-    }
+
+    if (container.shape === "ellipse")
+      ellipticalContainerCollision(container, state)
   })
 }
+
+// --------------------------------------------------------
+// -------------- Rectangular Container -------------------
 
 function rectangularContainerCollision(
   container: ContainerState,
@@ -125,74 +130,133 @@ function rectangularContainerCollision(
     let velocity = [ball.velocityX, ball.velocityY]
     const radius = ball.radius
     const angle = toRadians(container.angle)
+    let containerTL = [container.positionX, container.positionY]
+    let containerBR = [
+      container.positionX + container.width,
+      container.positionY - container.height
+    ]
 
-    // Transform the properties into the container space
+    const containerCenter = [
+      container.positionX + container.width / 2,
+      container.positionY - container.height / 2
+    ]
+
+    // Move properties to container reference frame
+    const translation = [-containerCenter[0], -containerCenter[1]]
+    position = translate(position, translation)
+    lastPosition = translate(lastPosition, translation)
+    containerTL = translate(containerTL, translation)
+    containerBR = translate(containerBR, translation)
+
+    // Rotate properties to container reference frame
     position = rotate(position, -angle)
     lastPosition = rotate(lastPosition, -angle)
     velocity = rotate(velocity, -angle)
 
-    const containerRealCenter = [
-      container.positionX + container.width / 2,
-      container.positionY - container.height / 2
-    ]
-    const containerSpaceCenter = rotate(containerRealCenter, angle)
-    const containerCenterDiff = rotate(
-      [
-        containerSpaceCenter[0] - containerRealCenter[0],
-        containerSpaceCenter[1] - containerRealCenter[1]
-      ],
-      -angle
-    )
-
-    const containerX = [
-      container.positionX - containerCenterDiff[0],
-      container.positionX + container.width - containerCenterDiff[0]
-    ]
-    const containerY = [
-      container.positionY - containerCenterDiff[1],
-      container.positionY - container.height - containerCenterDiff[1]
-    ]
-
-    // Check for collisions on the container space
-    if (position[0] - radius < containerX[0]) {
+    // Check for collision
+    if (position[0] - radius < containerTL[0]) {
       const diff = Math.abs(position[0] - lastPosition[0])
-      position[0] = containerX[0] + radius
+      position[0] = containerTL[0] + radius
       lastPosition[0] = position[0] - diff
       velocity[0] = (position[0] - lastPosition[0]) / dt
     }
 
-    if (position[0] + radius > containerX[1]) {
+    if (position[0] + radius > containerBR[0]) {
       const diff = Math.abs(position[0] - lastPosition[0])
-      position[0] = containerX[1] - radius
+      position[0] = containerBR[0] - radius
       lastPosition[0] = position[0] + diff
       velocity[0] = (position[0] - lastPosition[0]) / dt
     }
 
-    if (position[1] + radius > containerY[0]) {
+    if (position[1] + radius > containerTL[1]) {
       const diff = Math.abs(position[1] - lastPosition[1])
-      position[1] = containerY[0] - radius
+      position[1] = containerTL[1] - radius
       lastPosition[1] = position[1] + diff
       velocity[1] = (position[1] - lastPosition[1]) / dt
     }
 
-    if (position[1] - radius < containerY[1]) {
+    if (position[1] - radius < containerBR[1]) {
       const diff = Math.abs(position[1] - lastPosition[1])
-      position[1] = containerY[1] + radius
+      position[1] = containerBR[1] + radius
       lastPosition[1] = position[1] - diff
       velocity[1] = (position[1] - lastPosition[1]) / dt
     }
 
-    // Return the properties to regular space and update the ball
+    // Return properties to the ball reference frame
     position = rotate(position, angle)
     lastPosition = rotate(lastPosition, angle)
     velocity = rotate(velocity, angle)
 
+    position = translate(position, containerCenter)
+    lastPosition = translate(lastPosition, containerCenter)
+
+    // Update ball properties
     ball.positionX = position[0]
     ball.positionY = position[1]
     ball.lastPositionX = lastPosition[0]
     ball.lastPositionY = lastPosition[1]
     ball.velocityX = velocity[0]
     ball.velocityY = velocity[1]
+  })
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function ellipticalContainerCollision(
+  container: ContainerState,
+  state: MainState
+): void {
+  const dt = state.time.dt / 1000
+
+  state.balls[0].data.forEach((ball) => {
+    // Record the relevant properties
+    let position = [ball.positionX, ball.positionY]
+    let lastPosition = [ball.lastPositionX, ball.lastPositionY]
+    let velocity = [ball.velocityX, ball.velocityY]
+    const radius = ball.radius
+    const angle = toRadians(container.angle)
+    const a = container.width / 2
+    const b = container.height / 2
+
+    const containerCenter = [
+      container.positionX + container.width / 2,
+      container.positionY - container.height / 2
+    ]
+
+    // Move properties to container reference frame
+    const translation = [-containerCenter[0], -containerCenter[1]]
+    position = translate(position, translation)
+    lastPosition = translate(lastPosition, translation)
+
+    // Rotate properties to container reference frame
+    position = rotate(position, -angle)
+    lastPosition = rotate(lastPosition, -angle)
+    velocity = rotate(velocity, -angle)
+
+    // Check if ball is outside the container
+    if (a - radius === 0 || b - radius === 0) return
+    const isInside =
+      (position[0] / (a - radius)) ** 2 + (position[1] / (b - radius)) ** 2 < 1
+    if (isInside) return
+
+    let tParameter = 0
+    if (position[0] === 0) {
+      if (position[1] > 0) tParameter = Math.PI / 2
+
+      tParameter = (3 * Math.PI) / 2
+    } else {
+      tParameter = Math.atan2(position[1] * a, position[0] * b)
+    }
+
+    const tangentX = -a * Math.sin(tParameter)
+    const tangentY = b * Math.cos(tParameter)
+    const tangentAngle = Math.atan2(tangentY, tangentX)
+
+    console.log(
+      toDegrees(tangentAngle),
+      toDegrees(Math.atan(tangentY / tangentX))
+    )
   })
 }
 
