@@ -39,3 +39,23 @@ export type ForceTypeSelector<T extends ForceTypes> = T extends "localGravity"
         : T extends "damping"
           ? DampingState
           : never
+
+export interface RectangularContainerTransform {
+  transform: () => RectangularContainerTransformProps
+  undo: (
+    position: VectorProperty,
+    lastPosition: VectorProperty
+  ) => ContainerProps
+}
+
+export type VectorProperty = [number, number]
+
+export interface RectangularContainerTransformProps extends ContainerProps {
+  containerX: VectorProperty
+  containerY: VectorProperty
+}
+
+export interface ContainerProps {
+  position: VectorProperty
+  lastPosition: VectorProperty
+}
