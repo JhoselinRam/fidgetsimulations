@@ -1,4 +1,5 @@
-import { toDegrees, toRadians } from "../../../auxiliary/angleAux"
+import { toRadians } from "../../../auxiliary/angleAux"
+import { isBetween } from "../../../auxiliary/isBetween"
 import { dot, rotate, translate } from "../../../auxiliary/vector"
 import type { ContainerState } from "../../useMainState/resources/Container/Container_types"
 import type { MainState } from "../../useMainState/useMainState_types"
@@ -127,7 +128,6 @@ function rectangularContainerCollision(
     // Record the relevant properties
     let position = [ball.positionX, ball.positionY]
     let lastPosition = [ball.lastPositionX, ball.lastPositionY]
-    let velocity = [ball.velocityX, ball.velocityY]
     const radius = ball.radius
     const angle = toRadians(container.angle)
     let containerTL = [container.positionX, container.positionY]
@@ -151,41 +151,35 @@ function rectangularContainerCollision(
     // Rotate properties to container reference frame
     position = rotate(position, -angle)
     lastPosition = rotate(lastPosition, -angle)
-    velocity = rotate(velocity, -angle)
 
     // Check for collision
     if (position[0] - radius < containerTL[0]) {
       const diff = Math.abs(position[0] - lastPosition[0])
       position[0] = containerTL[0] + radius
       lastPosition[0] = position[0] - diff
-      velocity[0] = (position[0] - lastPosition[0]) / dt
     }
 
     if (position[0] + radius > containerBR[0]) {
       const diff = Math.abs(position[0] - lastPosition[0])
       position[0] = containerBR[0] - radius
       lastPosition[0] = position[0] + diff
-      velocity[0] = (position[0] - lastPosition[0]) / dt
     }
 
     if (position[1] + radius > containerTL[1]) {
       const diff = Math.abs(position[1] - lastPosition[1])
       position[1] = containerTL[1] - radius
       lastPosition[1] = position[1] + diff
-      velocity[1] = (position[1] - lastPosition[1]) / dt
     }
 
     if (position[1] - radius < containerBR[1]) {
       const diff = Math.abs(position[1] - lastPosition[1])
       position[1] = containerBR[1] + radius
       lastPosition[1] = position[1] - diff
-      velocity[1] = (position[1] - lastPosition[1]) / dt
     }
 
     // Return properties to the ball reference frame
     position = rotate(position, angle)
     lastPosition = rotate(lastPosition, angle)
-    velocity = rotate(velocity, angle)
 
     position = translate(position, containerCenter)
     lastPosition = translate(lastPosition, containerCenter)
@@ -195,8 +189,8 @@ function rectangularContainerCollision(
     ball.positionY = position[1]
     ball.lastPositionX = lastPosition[0]
     ball.lastPositionY = lastPosition[1]
-    ball.velocityX = velocity[0]
-    ball.velocityY = velocity[1]
+    ball.velocityX = (position[0] - lastPosition[0]) / dt
+    ball.velocityY = (position[1] - lastPosition[1]) / dt
   })
 }
 
@@ -213,50 +207,106 @@ function ellipticalContainerCollision(
     // Record the relevant properties
     let position = [ball.positionX, ball.positionY]
     let lastPosition = [ball.lastPositionX, ball.lastPositionY]
-    let velocity = [ball.velocityX, ball.velocityY]
     const radius = ball.radius
     const angle = toRadians(container.angle)
-    const a = container.width / 2
-    const b = container.height / 2
+    const a = container.width / 2 - radius
+    const b = container.height / 2 - radius
 
     const containerCenter = [
       container.positionX + container.width / 2,
       container.positionY - container.height / 2
     ]
-
     // Move properties to container reference frame
-    const translation = [-containerCenter[0], -containerCenter[1]]
-    position = translate(position, translation)
-    lastPosition = translate(lastPosition, translation)
+    position = translate(position, [-containerCenter[0], -containerCenter[1]])
+    lastPosition = translate(lastPosition, [
+      -containerCenter[0],
+      -containerCenter[1]
+    ])
 
     // Rotate properties to container reference frame
     position = rotate(position, -angle)
     lastPosition = rotate(lastPosition, -angle)
-    velocity = rotate(velocity, -angle)
 
     // Check if ball is outside the container
-    if (a - radius === 0 || b - radius === 0) return
-    const isInside =
-      (position[0] / (a - radius)) ** 2 + (position[1] / (b - radius)) ** 2 < 1
+    if (a === 0 || b === 0) return
+    const isInside = (position[0] / a) ** 2 + (position[1] / b) ** 2 < 1
     if (isInside) return
 
+    // Compute the intersection point
     let tParameter = 0
     if (position[0] === 0) {
-      if (position[1] > 0) tParameter = Math.PI / 2
-
-      tParameter = (3 * Math.PI) / 2
+      tParameter = position[1] > 0 ? Math.PI / 2 : (3 * Math.PI) / 2
     } else {
       tParameter = Math.atan2(position[1] * a, position[0] * b)
     }
 
     const tangentX = -a * Math.sin(tParameter)
     const tangentY = b * Math.cos(tParameter)
-    const tangentAngle = Math.atan2(tangentY, tangentX)
 
-    console.log(
-      toDegrees(tangentAngle),
-      toDegrees(Math.atan(tangentY / tangentX))
-    )
+    let tangentAngle = Math.PI / 2
+    if (tangentX === 0) {
+      if (tangentY < 0) tangentAngle *= -1
+    } else {
+      tangentAngle = Math.atan(tangentY / tangentX)
+    }
+    const ballAngle = Math.atan2(position[1], position[0])
+    let intersection = [a * Math.cos(tParameter), b * Math.sin(tParameter)]
+
+    // Rotate the properties to be aligned with the intersection point
+    position = rotate(position, -ballAngle)
+    lastPosition = rotate(lastPosition, -ballAngle)
+    intersection = rotate(intersection, -ballAngle)
+    if (isBetween(ballAngle, 0, Math.PI)) tangentAngle -= ballAngle
+    if (isBetween(ballAngle, -Math.PI, 0)) tangentAngle -= ballAngle + Math.PI
+
+    // Move the properties so the ball is in the center of the reference frame
+    let relativePosition = translate(position, [-position[0], -position[1]])
+    let relativeLastPosition = translate(lastPosition, [
+      -position[0],
+      -position[1]
+    ])
+    let relativeIntersection = translate(intersection, [
+      -position[0],
+      -position[1]
+    ])
+    const containerAngle = tangentAngle + Math.PI / 2
+
+    // Rotate the properties so the collision is strictly horizontal
+    relativePosition = rotate(relativePosition, -containerAngle)
+    relativeLastPosition = rotate(relativeLastPosition, -containerAngle)
+    relativeIntersection = rotate(relativeIntersection, -containerAngle)
+
+    // Correct the properties from the right
+    const diff = Math.abs(relativePosition[0] - relativeLastPosition[0])
+    relativePosition[0] = -Math.hypot(...relativeIntersection)
+    relativeLastPosition[0] = relativePosition[0] + diff
+
+    // Return the properties to the ball reference frame
+    relativePosition = rotate(relativePosition, containerAngle)
+    relativeLastPosition = rotate(relativeLastPosition, containerAngle)
+
+    position = translate(relativePosition, position)
+    lastPosition = translate(relativeLastPosition, position)
+
+    position = rotate(position, ballAngle)
+    lastPosition = rotate(lastPosition, ballAngle)
+
+    position = rotate(position, angle)
+    lastPosition = rotate(lastPosition, angle)
+
+    position = translate(position, [containerCenter[0], containerCenter[1]])
+    lastPosition = translate(lastPosition, [
+      containerCenter[0],
+      containerCenter[1]
+    ])
+
+    // Update the ball properties
+    ball.positionX = position[0]
+    ball.positionY = position[1]
+    ball.lastPositionX = lastPosition[0]
+    ball.lastPositionY = lastPosition[1]
+    ball.velocityX = (position[0] - lastPosition[0]) / dt
+    ball.velocityY = (position[1] - lastPosition[1]) / dt
   })
 }
 
