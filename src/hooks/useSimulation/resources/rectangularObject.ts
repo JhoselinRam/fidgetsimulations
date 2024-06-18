@@ -1,11 +1,14 @@
 import { toRadians } from "../../../auxiliary/angleAux"
+import { isBetween } from "../../../auxiliary/isBetween"
 import { rotate, translate } from "../../../auxiliary/vector"
 import type { BallData } from "../../useMainState/resources/Balls/Balls_types"
 import type { ContainerState } from "../../useMainState/resources/Container/Container_types"
+import type { ObstacleState } from "../../useMainState/resources/Obstacle/Obstacle_types"
 import type {
-  ContainerProps,
-  RectangularContainerTransform,
-  RectangularContainerTransformProps,
+  ObjectEdgeSelector,
+  ObjectProps,
+  RectangularObjectTransform,
+  RectangularObjectTransformProps,
   VectorProperty
 } from "../useSimulation_types"
 
@@ -15,32 +18,32 @@ export function rectangularCollision(
   dt: number
 ): void {
   const radius = ball.radius
-  const containerTransform = createContainerTransform(ball, container)
-  const { position, lastPosition, containerX, containerY } =
+  const containerTransform = createObjectTransform(ball, container)
+  const { position, lastPosition, objectX, objectY } =
     containerTransform.transform()
 
   // Check for collision
-  if (position[0] - radius < containerX[0]) {
+  if (position[0] - radius < objectX[0]) {
     const diff = Math.abs(position[0] - lastPosition[0])
-    position[0] = containerX[0] + radius
+    position[0] = objectX[0] + radius
     lastPosition[0] = position[0] - diff
   }
 
-  if (position[0] + radius > containerX[1]) {
+  if (position[0] + radius > objectX[1]) {
     const diff = Math.abs(position[0] - lastPosition[0])
-    position[0] = containerX[1] - radius
+    position[0] = objectX[1] - radius
     lastPosition[0] = position[0] + diff
   }
 
-  if (position[1] + radius > containerY[0]) {
+  if (position[1] + radius > objectY[0]) {
     const diff = Math.abs(position[1] - lastPosition[1])
-    position[1] = containerY[0] - radius
+    position[1] = objectY[0] - radius
     lastPosition[1] = position[1] + diff
   }
 
-  if (position[1] - radius < containerY[1]) {
+  if (position[1] - radius < objectY[1]) {
     const diff = Math.abs(position[1] - lastPosition[1])
-    position[1] = containerY[1] + radius
+    position[1] = objectY[1] + radius
     lastPosition[1] = position[1] - diff
   }
 
@@ -60,54 +63,129 @@ export function rectangularCollision(
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-function createContainerTransform(
+export function rectangularObstacleCollision(
   ball: BallData,
-  container: ContainerState
-): RectangularContainerTransform {
+  container: ContainerState,
+  dt: number
+): void {
+  const radius = ball.radius
+  const containerTransform = createObjectTransform(ball, container)
+  const { position, lastPosition, objectX, objectY } =
+    containerTransform.transform()
+
+  // Check for collision
+  if (
+    isBetween(position[0], objectX[0] - radius, objectX[1] + radius) &&
+    isBetween(position[1], objectY[1] - radius, objectY[0] + radius)
+  ) {
+    const edgeSelector: ObjectEdgeSelector[] = [
+      {
+        edge: "left",
+        distance: Math.abs(lastPosition[0] + radius - objectX[0])
+      },
+      {
+        edge: "right",
+        distance: Math.abs(lastPosition[0] - radius - objectX[1])
+      },
+      {
+        edge: "top",
+        distance: Math.abs(lastPosition[1] + radius - objectY[0])
+      },
+      {
+        edge: "bottom",
+        distance: Math.abs(lastPosition[1] - radius - objectY[1])
+      }
+    ]
+
+    const collisionEdge = edgeSelector.sort(
+      (a, b) => a.distance - b.distance
+    )[0].edge
+
+    const diffX = Math.abs(position[0] - lastPosition[0])
+    const diffY = Math.abs(position[1] - lastPosition[1])
+
+    if (collisionEdge === "left") {
+      position[0] = objectX[0] - radius
+      lastPosition[0] = position[0] + diffX
+    }
+    if (collisionEdge === "right") {
+      position[0] = objectX[1] + radius
+      lastPosition[0] = position[0] - diffX
+    }
+    if (collisionEdge === "bottom") {
+      position[1] = objectY[1] - radius
+      lastPosition[1] = position[1] + diffY
+    }
+    if (collisionEdge === "top") {
+      position[1] = objectY[0] + radius
+      lastPosition[1] = position[1] - diffY
+    }
+  }
+
+  const newProperties = containerTransform.undo(position, lastPosition)
+
+  // Update ball properties
+  ball.positionX = newProperties.position[0]
+  ball.positionY = newProperties.position[1]
+  ball.lastPositionX = newProperties.lastPosition[0]
+  ball.lastPositionY = newProperties.lastPosition[1]
+  ball.velocityX =
+    (newProperties.position[0] - newProperties.lastPosition[0]) / dt
+  ball.velocityY =
+    (newProperties.position[1] - newProperties.lastPosition[1]) / dt
+}
+
+// --------------------------------------------------------
+// ----------------- Transform Object ---------------------
+
+function createObjectTransform(
+  ball: BallData,
+  object: ContainerState | ObstacleState
+): RectangularObjectTransform {
   let position = [ball.positionX, ball.positionY]
   let lastPosition = [ball.lastPositionX, ball.lastPositionY]
-  const angle = toRadians(container.angle)
-  let containerTL = [container.positionX, container.positionY]
-  let containerBR = [
-    container.positionX + container.width,
-    container.positionY - container.height
+  const angle = toRadians(object.angle)
+  let objectTL = [object.positionX, object.positionY]
+  let objectBR = [
+    object.positionX + object.width,
+    object.positionY - object.height
   ]
 
-  const containerCenter = [
-    container.positionX + container.width / 2,
-    container.positionY - container.height / 2
+  const objectCenter = [
+    object.positionX + object.width / 2,
+    object.positionY - object.height / 2
   ]
 
-  function transform(): RectangularContainerTransformProps {
-    // Move properties to container reference frame
-    const translation = [-containerCenter[0], -containerCenter[1]]
+  function transform(): RectangularObjectTransformProps {
+    // Move properties to object reference frame
+    const translation = [-objectCenter[0], -objectCenter[1]]
     position = translate(position, translation)
     lastPosition = translate(lastPosition, translation)
-    containerTL = translate(containerTL, translation)
-    containerBR = translate(containerBR, translation)
+    objectTL = translate(objectTL, translation)
+    objectBR = translate(objectBR, translation)
 
-    // Rotate properties to container reference frame
+    // Rotate properties to object reference frame
     position = rotate(position, -angle)
     lastPosition = rotate(lastPosition, -angle)
 
     return {
       position: [position[0], position[1]],
       lastPosition: [lastPosition[0], lastPosition[1]],
-      containerX: [containerTL[0], containerBR[0]],
-      containerY: [containerTL[1], containerBR[1]]
+      objectX: [objectTL[0], objectBR[0]],
+      objectY: [objectTL[1], objectBR[1]]
     }
   }
 
   function undo(
     transformPosition: VectorProperty,
     transformLastPosition: VectorProperty
-  ): ContainerProps {
+  ): ObjectProps {
     // Return properties to the ball reference frame
     let newPosition = rotate(transformPosition, angle)
     let newLastPosition = rotate(transformLastPosition, angle)
 
-    newPosition = translate(newPosition, containerCenter)
-    newLastPosition = translate(newLastPosition, containerCenter)
+    newPosition = translate(newPosition, objectCenter)
+    newLastPosition = translate(newLastPosition, objectCenter)
 
     return {
       position: [newPosition[0], newPosition[1]],

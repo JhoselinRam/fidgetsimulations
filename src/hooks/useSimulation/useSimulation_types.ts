@@ -40,22 +40,35 @@ export type ForceTypeSelector<T extends ForceTypes> = T extends "localGravity"
           ? DampingState
           : never
 
-export interface RectangularContainerTransform {
-  transform: () => RectangularContainerTransformProps
-  undo: (
-    position: VectorProperty,
-    lastPosition: VectorProperty
-  ) => ContainerProps
+export interface RectangularObjectTransform {
+  transform: () => RectangularObjectTransformProps
+  undo: (position: VectorProperty, lastPosition: VectorProperty) => ObjectProps
 }
 
 export type VectorProperty = [number, number]
 
-export interface RectangularContainerTransformProps extends ContainerProps {
-  containerX: VectorProperty
-  containerY: VectorProperty
+export interface RectangularObjectTransformProps extends ObjectProps {
+  objectX: VectorProperty
+  objectY: VectorProperty
 }
 
-export interface ContainerProps {
+export interface ObjectProps {
   position: VectorProperty
   lastPosition: VectorProperty
+}
+
+export type ObjectCollisionEdge = "top" | "bottom" | "left" | "right"
+export interface ObjectEdgeSelector {
+  distance: number
+  edge: ObjectCollisionEdge
+}
+
+export interface EllipticalObjectTransform {
+  isInside: () => boolean | undefined
+  transform: () => EllipticalObjectTransformProps
+  undo: (position: VectorProperty, lastPosition: VectorProperty) => ObjectProps
+}
+
+export interface EllipticalObjectTransformProps extends ObjectProps {
+  containerDistance: number
 }
