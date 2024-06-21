@@ -72,3 +72,14 @@ export interface EllipticalObjectTransform {
 export interface EllipticalObjectTransformProps extends ObjectProps {
   containerDistance: number
 }
+
+export interface CornerCollision {
+  isCornerCollision: boolean
+  corner: CornerType
+}
+
+export type CornerType =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right"
