@@ -69,13 +69,13 @@ export function rectangularCollision(
 
 export function rectangularObstacleCollision(
   ball: BallData,
-  container: ContainerState,
+  obstacle: ObstacleState,
   dt: number
 ): void {
   const radius = ball.radius
-  const containerTransform = createObjectTransform(ball, container)
+  const obstacleTransform = createObjectTransform(ball, obstacle)
   const { position, lastPosition, objectX, objectY } =
-    containerTransform.transform()
+    obstacleTransform.transform()
 
   // Check for collision
   if (isInsideVirtualObstacle(position, radius, objectX, objectY)) {
@@ -100,7 +100,7 @@ export function rectangularObstacleCollision(
       edgeObstacleCollision(position, lastPosition, radius, objectX, objectY)
   }
 
-  const newProperties = containerTransform.undo(position, lastPosition)
+  const newProperties = obstacleTransform.undo(position, lastPosition)
 
   // Update ball properties
   ball.positionX = newProperties.position[0]
@@ -151,34 +151,54 @@ function collisionType(
   const diffX = lastPosition[0] - position[0]
   const diffY = lastPosition[1] - position[1]
 
-  position[0] += displacement * diffX
-  position[1] += displacement * diffY
-  lastPosition[0] += displacement * diffX
-  lastPosition[1] += displacement * diffY
+  const collisionPoint = [
+    position[0] + displacement * diffX,
+    position[1] + displacement * diffY
+  ]
 
   if (
-    isBetween(position[0], objectX[0] - radius, objectX[0]) &&
-    isBetween(position[1], objectY[0], objectY[0] + radius)
-  )
+    isBetween(collisionPoint[0], objectX[0] - radius, objectX[0]) &&
+    isBetween(collisionPoint[1], objectY[0], objectY[0] + radius)
+  ) {
+    position[0] = collisionPoint[0]
+    position[1] = collisionPoint[1]
+    lastPosition[0] = position[0] + diffX
+    lastPosition[1] = position[1] + diffY
     return { isCornerCollision: true, corner: "top-left" }
+  }
 
   if (
-    isBetween(position[0], objectX[1], objectX[1] + radius) &&
-    isBetween(position[1], objectY[0], objectY[0] + radius)
-  )
+    isBetween(collisionPoint[0], objectX[1], objectX[1] + radius) &&
+    isBetween(collisionPoint[1], objectY[0], objectY[0] + radius)
+  ) {
+    position[0] = collisionPoint[0]
+    position[1] = collisionPoint[1]
+    lastPosition[0] = position[0] + diffX
+    lastPosition[1] = position[1] + diffY
     return { isCornerCollision: true, corner: "top-right" }
+  }
 
   if (
-    isBetween(position[0], objectX[0] - radius, objectX[0]) &&
-    isBetween(position[1], objectY[1] - radius, objectY[1])
-  )
+    isBetween(collisionPoint[0], objectX[0] - radius, objectX[0]) &&
+    isBetween(collisionPoint[1], objectY[1] - radius, objectY[1])
+  ) {
+    position[0] = collisionPoint[0]
+    position[1] = collisionPoint[1]
+    lastPosition[0] = position[0] + diffX
+    lastPosition[1] = position[1] + diffY
     return { isCornerCollision: true, corner: "bottom-left" }
+  }
 
   if (
-    isBetween(position[0], objectX[1], objectX[1] + radius) &&
-    isBetween(position[1], objectY[1] - radius, objectY[1])
-  )
+    isBetween(collisionPoint[0], objectX[1], objectX[1] + radius) &&
+    isBetween(collisionPoint[1], objectY[1] - radius, objectY[1])
+  ) {
+    position[0] = collisionPoint[0]
+    position[1] = collisionPoint[1]
+    lastPosition[0] = position[0] + diffX
+    lastPosition[1] = position[1] + diffY
     return { isCornerCollision: true, corner: "bottom-right" }
+  }
 
   return { isCornerCollision: false, corner: "bottom-left" }
 }
@@ -199,6 +219,7 @@ function getCollisionPoint(
 
   let a = Number.MAX_SAFE_INTEGER
   let displacement = 0
+  const displacementRadius = (Math.cos(Math.PI / 4) * radius * 9) / 10
 
   if (dp[0] !== 0) {
     const left = (objectX[0] - radius - position[0]) / dp[0]
@@ -206,11 +227,11 @@ function getCollisionPoint(
 
     if (left > 0 && left < a) {
       a = left
-      displacement = (objectX[0] - radius / 2 - position[0]) / dp[0]
+      displacement = (objectX[0] - displacementRadius - position[0]) / dp[0]
     }
     if (right > 0 && right < a) {
       a = right
-      displacement = (objectX[1] + radius / 2 - position[0]) / dp[0]
+      displacement = (objectX[1] + displacementRadius - position[0]) / dp[0]
     }
   }
   if (dp[1] !== 0) {
@@ -219,11 +240,11 @@ function getCollisionPoint(
 
     if (top > 0 && top < a) {
       a = top
-      displacement = (objectY[0] + radius / 2 - position[1]) / dp[1]
+      displacement = (objectY[0] + displacementRadius - position[1]) / dp[1]
     }
     if (bottom > 0 && bottom < a) {
       a = bottom
-      displacement = (objectY[1] - radius / 2 - position[1]) / dp[1]
+      displacement = (objectY[1] - displacementRadius - position[1]) / dp[1]
     }
   }
 
