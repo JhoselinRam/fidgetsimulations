@@ -57,12 +57,6 @@ export interface ObjectProps {
   lastPosition: VectorProperty
 }
 
-export type ObjectCollisionEdge = "top" | "bottom" | "left" | "right"
-export interface ObjectEdgeSelector {
-  distance: number
-  edge: ObjectCollisionEdge
-}
-
 export interface EllipticalObjectTransform {
   isInside: () => boolean | undefined
   transform: () => EllipticalObjectTransformProps
@@ -73,13 +67,36 @@ export interface EllipticalObjectTransformProps extends ObjectProps {
   containerDistance: number
 }
 
-export interface CornerCollision {
-  isCornerCollision: boolean
-  corner: CornerType
+export interface RectangularObstacleCollision {
+  type: RectangularObstacleCollisionType
+  cornerCollision: RectangularCornerCollision
+  edgeCollision: RectangularEdgeCollision
+  position: VectorProperty
+  lastPosition: VectorProperty
 }
 
-export type CornerType =
+export type RectangularObstacleCollisionType =
+  | "corner"
+  | "edge"
+  | "falseCollision"
+
+export type RectangularCornerCollision =
   | "top-left"
   | "top-right"
   | "bottom-left"
   | "bottom-right"
+
+export type RectangularEdgeCollision = "top" | "bottom" | "left" | "right"
+
+export interface CollisionInfo {
+  position: VectorProperty
+  lastPosition: VectorProperty
+  objectX: VectorProperty
+  objectY: VectorProperty
+  radius: number
+}
+
+export interface ProjectionParameter {
+  parameter: number
+  edge: RectangularEdgeCollision
+}

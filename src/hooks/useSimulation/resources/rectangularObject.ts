@@ -7,11 +7,13 @@ import type { ContainerState } from "../../useMainState/resources/Container/Cont
 import type { ObstacleState } from "../../useMainState/resources/Obstacle/Obstacle_types"
 import { createObstacleState } from "../../useMainState/resources/Obstacle/defaultState"
 import type {
-  CornerCollision,
-  ObjectEdgeSelector,
+  CollisionInfo,
+  ProjectionParameter,
   ObjectProps,
+  RectangularEdgeCollision,
   RectangularObjectTransform,
   RectangularObjectTransformProps,
+  RectangularObstacleCollision,
   VectorProperty
 } from "../useSimulation_types"
 import { ellipticalObstacleCollision } from "./ellipticalObject"
@@ -78,27 +80,7 @@ export function rectangularObstacleCollision(
     obstacleTransform.transform()
 
   // Check for collision
-  if (isInsideVirtualObstacle(position, radius, objectX, objectY)) {
-    const collision = collisionType(
-      position,
-      lastPosition,
-      radius,
-      objectX,
-      objectY
-    )
-    if (collision.isCornerCollision) {
-      cornerObstacleCollision(
-        position,
-        lastPosition,
-        radius,
-        objectX,
-        objectY,
-        collision,
-        dt
-      )
-    } else
-      edgeObstacleCollision(position, lastPosition, radius, objectX, objectY)
-  }
+  checkObstacleCollision(position, lastPosition, objectX, objectY, radius, dt)
 
   const newProperties = obstacleTransform.undo(position, lastPosition)
 
@@ -116,6 +98,30 @@ export function rectangularObstacleCollision(
 // --------------------------------------------------------
 // --------------------------------------------------------
 
+function checkObstacleCollision(
+  position: VectorProperty,
+  lastPosition: VectorProperty,
+  objectX: VectorProperty,
+  objectY: VectorProperty,
+  radius: number,
+  dt: number
+): void {
+  if (!isInsideVirtualObstacle(position, radius, objectX, objectY)) return
+
+  const collisionData = { position, lastPosition, objectX, objectY, radius }
+  const collisionInfo = getObstacleCollisionInfo(collisionData)
+
+  if (collisionInfo.type === "falseCollision") return
+
+  if (collisionInfo.type === "edge")
+    edgeObstacleCollision(collisionData, collisionInfo)
+  if (collisionInfo.type === "corner")
+    cornerObstacleCollision(collisionData, collisionInfo, dt)
+}
+
+// --------------------------------------------------------
+// ---------------- Virtual Obstacle ----------------------
+
 function isInsideVirtualObstacle(
   position: VectorProperty,
   radius: number,
@@ -131,204 +137,424 @@ function isInsideVirtualObstacle(
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-function collisionType(
-  position: VectorProperty,
-  lastPosition: VectorProperty,
-  radius: number,
-  objectX: VectorProperty,
-  objectY: VectorProperty
-): CornerCollision {
-  const displacement = getCollisionPoint(
-    position,
-    lastPosition,
-    radius,
-    objectX,
-    objectY
-  )
-  if (displacement == null)
-    return { isCornerCollision: false, corner: "bottom-left" }
+function getObstacleCollisionInfo(
+  data: CollisionInfo
+): RectangularObstacleCollision {
+  const naturalCornerCollision = isNaturalCornerCollision(data)
 
-  const diffX = lastPosition[0] - position[0]
-  const diffY = lastPosition[1] - position[1]
+  if (naturalCornerCollision != null) return naturalCornerCollision
 
-  const collisionPoint = [
-    position[0] + displacement * diffX,
-    position[1] + displacement * diffY
-  ]
+  const projectedCollision = getProjectedCollision(data)
 
-  if (
-    isBetween(collisionPoint[0], objectX[0] - radius, objectX[0]) &&
-    isBetween(collisionPoint[1], objectY[0], objectY[0] + radius)
-  ) {
-    position[0] = collisionPoint[0]
-    position[1] = collisionPoint[1]
-    lastPosition[0] = position[0] + diffX
-    lastPosition[1] = position[1] + diffY
-    return { isCornerCollision: true, corner: "top-left" }
-  }
-
-  if (
-    isBetween(collisionPoint[0], objectX[1], objectX[1] + radius) &&
-    isBetween(collisionPoint[1], objectY[0], objectY[0] + radius)
-  ) {
-    position[0] = collisionPoint[0]
-    position[1] = collisionPoint[1]
-    lastPosition[0] = position[0] + diffX
-    lastPosition[1] = position[1] + diffY
-    return { isCornerCollision: true, corner: "top-right" }
-  }
-
-  if (
-    isBetween(collisionPoint[0], objectX[0] - radius, objectX[0]) &&
-    isBetween(collisionPoint[1], objectY[1] - radius, objectY[1])
-  ) {
-    position[0] = collisionPoint[0]
-    position[1] = collisionPoint[1]
-    lastPosition[0] = position[0] + diffX
-    lastPosition[1] = position[1] + diffY
-    return { isCornerCollision: true, corner: "bottom-left" }
-  }
-
-  if (
-    isBetween(collisionPoint[0], objectX[1], objectX[1] + radius) &&
-    isBetween(collisionPoint[1], objectY[1] - radius, objectY[1])
-  ) {
-    position[0] = collisionPoint[0]
-    position[1] = collisionPoint[1]
-    lastPosition[0] = position[0] + diffX
-    lastPosition[1] = position[1] + diffY
-    return { isCornerCollision: true, corner: "bottom-right" }
-  }
-
-  return { isCornerCollision: false, corner: "bottom-left" }
+  return projectedCollision
 }
 
 // --------------------------------------------------------
 // --------------------------------------------------------
+
+function isNaturalCornerCollision({
+  lastPosition,
+  objectX,
+  objectY,
+  position,
+  radius
+}: CollisionInfo): RectangularObstacleCollision | undefined {
+  const collision: RectangularObstacleCollision = {
+    position: [...position],
+    lastPosition: [...lastPosition],
+    cornerCollision: "top-left",
+    edgeCollision: "top",
+    type: "falseCollision"
+  }
+
+  // Top Left
+  if (
+    isBetween(position[0], objectX[0] - radius, objectX[0]) &&
+    isBetween(position[1], objectY[0], objectY[0] + radius)
+  ) {
+    if (Math.hypot(position[0] - objectX[0], position[1] - objectY[0]) > radius)
+      return { ...collision, type: "falseCollision" }
+
+    return { ...collision, type: "corner", cornerCollision: "top-left" }
+  }
+
+  // Top Right
+  if (
+    isBetween(position[0], objectX[1], objectX[1] + radius) &&
+    isBetween(position[1], objectY[0], objectY[0] + radius)
+  ) {
+    if (Math.hypot(position[0] - objectX[1], position[1] - objectY[0]) > radius)
+      return { ...collision, type: "falseCollision" }
+
+    return { ...collision, type: "corner", cornerCollision: "top-right" }
+  }
+
+  // Bottom Left
+  if (
+    isBetween(position[0], objectX[0] - radius, objectX[0]) &&
+    isBetween(position[1], objectY[1] - radius, objectY[1])
+  ) {
+    if (Math.hypot(position[0] - objectX[0], position[1] - objectY[1]) > radius)
+      return { ...collision, type: "falseCollision" }
+
+    return { ...collision, type: "corner", cornerCollision: "bottom-left" }
+  }
+
+  // Bottom Right
+  if (
+    isBetween(position[0], objectX[1], objectX[1] + radius) &&
+    isBetween(position[1], objectY[1] - radius, objectY[1])
+  ) {
+    if (Math.hypot(position[0] - objectX[1], position[1] - objectY[1]) > radius)
+      return { ...collision, type: "falseCollision" }
+
+    return { ...collision, type: "corner", cornerCollision: "bottom-right" }
+  }
+}
+
+// --------------------------------------------------------
 // --------------------------------------------------------
 
-function getCollisionPoint(
-  position: VectorProperty,
-  lastPosition: VectorProperty,
-  radius: number,
-  objectX: VectorProperty,
-  objectY: VectorProperty
-): number | undefined {
+function getProjectedCollision(
+  data: CollisionInfo
+): RectangularObstacleCollision {
+  const projectionParameter = getProjectionParameter(data)
+
+  if (projectionParameter == null)
+    return {
+      type: "edge",
+      edgeCollision: "top",
+      cornerCollision: "top-left",
+      position: [data.position[0], data.objectY[0] + data.radius],
+      lastPosition: [data.position[0], data.objectY[0] + data.radius]
+    }
+
+  const projectedCornerCollision = isProjectedCornerCollision(
+    data,
+    projectionParameter
+  )
+
+  if (projectedCornerCollision != null) return projectedCornerCollision
+
+  const dp = [
+    data.lastPosition[0] - data.position[0],
+    data.lastPosition[1] - data.position[1]
+  ]
+  return {
+    type: "edge",
+    cornerCollision: "top-left",
+    edgeCollision: projectionParameter.edge,
+    position: [
+      data.position[0] + projectionParameter.parameter * dp[0],
+      data.position[1] + projectionParameter.parameter * dp[1]
+    ],
+    lastPosition: [
+      data.lastPosition[0] + projectionParameter.parameter * dp[0],
+      data.lastPosition[1] + projectionParameter.parameter * dp[1]
+    ]
+  }
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function getProjectionParameter({
+  lastPosition,
+  objectX,
+  objectY,
+  position,
+  radius
+}: CollisionInfo): ProjectionParameter | undefined {
   const dp = [lastPosition[0] - position[0], lastPosition[1] - position[1]]
   if (dp[0] === 0 && dp[1] === 0) return
 
-  let a = Number.MAX_SAFE_INTEGER
-  let displacement = 0
-  const displacementRadius = (Math.cos(Math.PI / 4) * radius * 9) / 10
+  let parameter = Number.MAX_SAFE_INTEGER
+  let edge: RectangularEdgeCollision = "left"
 
   if (dp[0] !== 0) {
     const left = (objectX[0] - radius - position[0]) / dp[0]
     const right = (objectX[1] + radius - position[0]) / dp[0]
 
-    if (left > 0 && left < a) {
-      a = left
-      displacement = (objectX[0] - displacementRadius - position[0]) / dp[0]
+    if (left > 0 && left < parameter) {
+      parameter = left
+      edge = "left"
     }
-    if (right > 0 && right < a) {
-      a = right
-      displacement = (objectX[1] + displacementRadius - position[0]) / dp[0]
+    if (right > 0 && right < parameter) {
+      parameter = right
+      edge = "right"
     }
   }
+
   if (dp[1] !== 0) {
     const top = (objectY[0] + radius - position[1]) / dp[1]
     const bottom = (objectY[1] - radius - position[1]) / dp[1]
 
-    if (top > 0 && top < a) {
-      a = top
-      displacement = (objectY[0] + displacementRadius - position[1]) / dp[1]
+    if (top > 0 && top < parameter) {
+      parameter = top
+      edge = "top"
     }
-    if (bottom > 0 && bottom < a) {
-      a = bottom
-      displacement = (objectY[1] - displacementRadius - position[1]) / dp[1]
+    if (bottom > 0 && bottom < parameter) {
+      parameter = bottom
+      edge = "bottom"
     }
   }
 
-  return displacement
+  return { edge, parameter }
 }
 
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function isProjectedCornerCollision(
+  { lastPosition, objectX, objectY, position, radius }: CollisionInfo,
+  { edge, parameter }: ProjectionParameter
+): RectangularObstacleCollision | undefined {
+  const collision: RectangularObstacleCollision = {
+    position: [...position],
+    lastPosition: [...lastPosition],
+    cornerCollision: "top-left",
+    edgeCollision: "top",
+    type: "corner"
+  }
+
+  const dp = [lastPosition[0] - position[0], lastPosition[1] - position[1]]
+  const projectedX = position[0] + parameter * dp[0]
+  const projectedY = position[1] + parameter * dp[1]
+  const projectedRadius = (9 * radius) / 10
+
+  // Top left
+  if (
+    (edge === "left" &&
+      isBetween(projectedY, objectY[0], objectY[0] + radius)) ||
+    (edge === "top" && isBetween(projectedX, objectX[0] - radius, objectX[0]))
+  ) {
+    const A = position[0] - objectX[0]
+    const B = position[1] - objectY[0]
+    const [parameterA, parameterB] = getProjectedCornerParameter(
+      dp,
+      projectedRadius,
+      A,
+      B
+    )
+    let cornerParameter = parameter
+    if (
+      position[0] + parameterA * dp[0] <= objectX[0] &&
+      position[1] + parameterA * dp[1] >= objectY[0]
+    )
+      cornerParameter = parameterA
+    if (
+      position[0] + parameterB * dp[0] <= objectX[0] &&
+      position[1] + parameterB * dp[1] >= objectY[0]
+    )
+      cornerParameter = parameterB
+
+    return {
+      ...collision,
+      cornerCollision: "top-left",
+      position: [
+        position[0] + cornerParameter * dp[0],
+        position[1] + cornerParameter * dp[1]
+      ],
+      lastPosition: [
+        lastPosition[0] + cornerParameter * dp[0],
+        lastPosition[1] + cornerParameter * dp[1]
+      ]
+    }
+  }
+
+  // Top right
+  if (
+    (edge === "right" &&
+      isBetween(projectedY, objectY[0], objectY[0] + radius)) ||
+    (edge === "top" && isBetween(projectedX, objectX[1], objectX[1] + radius))
+  ) {
+    const A = position[0] - objectX[1]
+    const B = position[1] - objectY[0]
+    const [parameterA, parameterB] = getProjectedCornerParameter(
+      dp,
+      projectedRadius,
+      A,
+      B
+    )
+    let cornerParameter = parameter
+    if (
+      position[0] + parameterA * dp[0] >= objectX[1] &&
+      position[1] + parameterA * dp[1] >= objectY[0]
+    )
+      cornerParameter = parameterA
+    if (
+      position[0] + parameterB * dp[0] >= objectX[1] &&
+      position[1] + parameterB * dp[1] >= objectY[0]
+    )
+      cornerParameter = parameterB
+
+    return {
+      ...collision,
+      cornerCollision: "top-right",
+      position: [
+        position[0] + cornerParameter * dp[0],
+        position[1] + cornerParameter * dp[1]
+      ],
+      lastPosition: [
+        lastPosition[0] + cornerParameter * dp[0],
+        lastPosition[1] + cornerParameter * dp[1]
+      ]
+    }
+  }
+
+  // Bottom left
+  if (
+    (edge === "left" &&
+      isBetween(projectedY, objectY[1] - radius, objectY[1])) ||
+    (edge === "bottom" &&
+      isBetween(projectedX, objectX[0] - radius, objectX[0]))
+  ) {
+    const A = position[0] - objectX[0]
+    const B = position[1] - objectY[1]
+    const [parameterA, parameterB] = getProjectedCornerParameter(
+      dp,
+      projectedRadius,
+      A,
+      B
+    )
+    let cornerParameter = parameter
+    if (
+      position[0] + parameterA * dp[0] <= objectX[0] &&
+      position[1] + parameterA * dp[1] <= objectY[1]
+    )
+      cornerParameter = parameterA
+    if (
+      position[0] + parameterB * dp[0] <= objectX[0] &&
+      position[1] + parameterB * dp[1] <= objectY[1]
+    )
+      cornerParameter = parameterB
+
+    return {
+      ...collision,
+      cornerCollision: "bottom-left",
+      position: [
+        position[0] + cornerParameter * dp[0],
+        position[1] + cornerParameter * dp[1]
+      ],
+      lastPosition: [
+        lastPosition[0] + cornerParameter * dp[0],
+        lastPosition[1] + cornerParameter * dp[1]
+      ]
+    }
+  }
+
+  // Bottom right
+  if (
+    (edge === "right" &&
+      isBetween(projectedY, objectY[1] - radius, objectY[1])) ||
+    (edge === "bottom" &&
+      isBetween(projectedX, objectX[1], objectX[1] + radius))
+  ) {
+    const A = position[0] - objectX[1]
+    const B = position[1] - objectY[1]
+    const [parameterA, parameterB] = getProjectedCornerParameter(
+      dp,
+      projectedRadius,
+      A,
+      B
+    )
+    let cornerParameter = parameter
+    if (
+      position[0] + parameterA * dp[0] >= objectX[1] &&
+      position[1] + parameterA * dp[1] <= objectY[1]
+    )
+      cornerParameter = parameterA
+    if (
+      position[0] + parameterB * dp[0] >= objectX[1] &&
+      position[1] + parameterB * dp[1] <= objectY[1]
+    )
+      cornerParameter = parameterB
+
+    return {
+      ...collision,
+      cornerCollision: "bottom-right",
+      position: [
+        position[0] + cornerParameter * dp[0],
+        position[1] + cornerParameter * dp[1]
+      ],
+      lastPosition: [
+        lastPosition[0] + cornerParameter * dp[0],
+        lastPosition[1] + cornerParameter * dp[1]
+      ]
+    }
+  }
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function getProjectedCornerParameter(
+  dp: number[],
+  radius: number,
+  A: number,
+  B: number
+): [number, number] {
+  const alpha = dp[0] ** 2 + dp[1] ** 2
+  const beta = 2 * (dp[0] * A + dp[1] * B)
+  const gamma = A ** 2 + B ** 2 - radius ** 2
+  const discriminant = Math.sqrt(beta ** 2 - 4 * alpha * gamma)
+
+  const t1 = (-beta + discriminant) / (2 * alpha)
+  const t2 = (-beta - discriminant) / (2 * alpha)
+
+  return [t1, t2]
+}
+
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 function edgeObstacleCollision(
-  position: VectorProperty,
-  lastPosition: VectorProperty,
-  radius: number,
-  objectX: VectorProperty,
-  objectY: VectorProperty
+  data: CollisionInfo,
+  collision: RectangularObstacleCollision
 ): void {
-  const edgeSelector: ObjectEdgeSelector[] = [
-    {
-      edge: "left",
-      distance: Math.abs(position[0] + radius - objectX[0])
-    },
-    {
-      edge: "right",
-      distance: Math.abs(position[0] - radius - objectX[1])
-    },
-    {
-      edge: "top",
-      distance: Math.abs(position[1] + radius - objectY[0])
-    },
-    {
-      edge: "bottom",
-      distance: Math.abs(position[1] - radius - objectY[1])
-    }
-  ]
+  const diffX = Math.abs(collision.position[0] - collision.lastPosition[0])
+  const diffY = Math.abs(collision.position[1] - collision.lastPosition[1])
 
-  const collisionEdge = edgeSelector.sort((a, b) => a.distance - b.distance)[0]
-    .edge
+  data.position[0] = collision.position[0]
+  data.position[1] = collision.position[1]
+  data.lastPosition[0] = collision.lastPosition[0]
+  data.lastPosition[1] = collision.lastPosition[1]
 
-  const diffX = Math.abs(position[0] - lastPosition[0])
-  const diffY = Math.abs(position[1] - lastPosition[1])
-
-  if (collisionEdge === "left") {
-    position[0] = objectX[0] - radius
-    lastPosition[0] = position[0] + diffX
+  if (collision.edgeCollision === "left") {
+    data.lastPosition[0] = data.position[0] + diffX
   }
-  if (collisionEdge === "right") {
-    position[0] = objectX[1] + radius
-    lastPosition[0] = position[0] - diffX
+  if (collision.edgeCollision === "right") {
+    data.lastPosition[0] = data.position[0] - diffX
   }
-  if (collisionEdge === "bottom") {
-    position[1] = objectY[1] - radius
-    lastPosition[1] = position[1] + diffY
+  if (collision.edgeCollision === "bottom") {
+    data.lastPosition[1] = data.position[1] + diffY
   }
-  if (collisionEdge === "top") {
-    position[1] = objectY[0] + radius
-    lastPosition[1] = position[1] - diffY
+  if (collision.edgeCollision === "top") {
+    data.lastPosition[1] = data.position[1] - diffY
   }
 }
 
 // --------------------------------------------------------
 // --------------------------------------------------------
-
 function cornerObstacleCollision(
-  position: VectorProperty,
-  lastPosition: VectorProperty,
-  radius: number,
-  objectX: VectorProperty,
-  objectY: VectorProperty,
-  collision: CornerCollision,
+  data: CollisionInfo,
+  collision: RectangularObstacleCollision,
   dt: number
 ): void {
-  let ballPosition = [...position]
-  let ballLastPosition = [...lastPosition]
+  let ballPosition = [...collision.position]
+  let ballLastPosition = [...collision.lastPosition]
   const dummyBall = createBallState()
   const dummyObstacle = createObstacleState()
   let translationVector = [0, 0]
 
-  if (collision.corner === "top-left")
-    translationVector = [-objectX[0], -objectY[0]]
-  if (collision.corner === "top-right")
-    translationVector = [-objectX[1], -objectY[0]]
-  if (collision.corner === "bottom-left")
-    translationVector = [-objectX[0], -objectY[1]]
-  if (collision.corner === "bottom-right")
-    translationVector = [-objectX[1], -objectY[1]]
+  if (collision.cornerCollision === "top-left")
+    translationVector = [-data.objectX[0], -data.objectY[0]]
+  if (collision.cornerCollision === "top-right")
+    translationVector = [-data.objectX[1], -data.objectY[0]]
+  if (collision.cornerCollision === "bottom-left")
+    translationVector = [-data.objectX[0], -data.objectY[1]]
+  if (collision.cornerCollision === "bottom-right")
+    translationVector = [-data.objectX[1], -data.objectY[1]]
 
   ballPosition = translate(ballPosition, translationVector)
   ballLastPosition = translate(ballLastPosition, translationVector)
@@ -339,19 +565,22 @@ function cornerObstacleCollision(
   dummyBall.lastPositionY = ballPosition[1] - ballLastPosition[1]
   dummyBall.radius = 0
 
-  dummyObstacle.positionX = ballPosition[0] - radius
-  dummyObstacle.positionY = ballPosition[1] + radius
-  dummyObstacle.width = 2 * radius
-  dummyObstacle.height = 2 * radius
+  dummyObstacle.positionX = ballPosition[0] - data.radius
+  dummyObstacle.positionY = ballPosition[1] + data.radius
+  dummyObstacle.width = 2 * data.radius
+  dummyObstacle.height = 2 * data.radius
 
   ellipticalObstacleCollision(dummyBall, dummyObstacle, dt)
 
-  position[0] = ballPosition[0] - dummyBall.positionX - translationVector[0]
-  position[1] = ballPosition[1] - dummyBall.positionY - translationVector[1]
-  lastPosition[0] = position[0] + dummyBall.positionX - dummyBall.lastPositionX
-  lastPosition[1] = position[1] + dummyBall.positionY - dummyBall.lastPositionY
+  data.position[0] =
+    ballPosition[0] - dummyBall.positionX - translationVector[0]
+  data.position[1] =
+    ballPosition[1] - dummyBall.positionY - translationVector[1]
+  data.lastPosition[0] =
+    data.position[0] + dummyBall.positionX - dummyBall.lastPositionX
+  data.lastPosition[1] =
+    data.position[1] + dummyBall.positionY - dummyBall.lastPositionY
 }
-
 // --------------------------------------------------------
 // ----------------- Transform Object ---------------------
 
