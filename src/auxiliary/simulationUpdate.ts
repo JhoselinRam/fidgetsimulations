@@ -304,7 +304,7 @@ function drawVectors(
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-function getVectorColor(
+export function getVectorColor(
   vectorState: VectorState
 ): Vector_Property_Generator<string> {
   if (vectorState.colorMode === "static") return vectorState.color
@@ -345,7 +345,7 @@ function getVectorColor(
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-function getVectorOpacity(
+export function getVectorOpacity(
   vectorState: VectorState
 ): Vector_Property_Generator<number> {
   if (vectorState.opacityMode === "static") return vectorState.opacity
@@ -384,7 +384,10 @@ export function getVectorMaxLength(
 
   const maxMagnitude = Math.max(...magnitudes)
 
-  return (vectorState.maxSize * maxMagnitude) / vectorState.maxSizeMagnitude
+  const vectorSize =
+    (vectorState.maxSize * maxMagnitude) / vectorState.maxSizeMagnitude
+
+  return vectorSize >= 1 ? vectorSize : 0
 }
 
 // --------------------------------------------------------

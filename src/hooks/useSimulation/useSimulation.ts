@@ -22,6 +22,7 @@ import { firstStepSolver, verletSolver } from "./resources/verletSolver"
 import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
 import { computeCollision } from "./resources/collision"
+import type { Vector_Field } from "scigrapher/lib/es5/Data/VectorField/Vector_Field_Types"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -30,6 +31,8 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const simulationTime = useRef(0)
   const delayTime = useRef(0)
   const ballGraph = useRef<Line_Chart | null>(null)
+  const velocityGraph = useRef<Vector_Field | null>(null)
+  const accelerationGraph = useRef<Vector_Field | null>(null)
   const graphElement = useRef<Graph2D | null>(null)
 
   // --------------------- Step -----------------------------
@@ -40,10 +43,15 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     if (graphElement.current == null) return
 
     computeForce(innerState.current)
+    updateData(
+      ballGraph.current,
+      velocityGraph.current,
+      accelerationGraph.current,
+      innerState.current
+    )
+
     verletSolver(innerState.current)
     computeCollision(innerState.current)
-
-    updateData(ballGraph.current, innerState.current)
 
     graphElement.current.draw()
   }, [graphElement])
@@ -94,10 +102,17 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     const sets = setData(graph, innerState.current)
 
     ballGraph.current = sets[0]
+    velocityGraph.current = sets[1]
+    accelerationGraph.current = sets[2]
     graphElement.current = graph
     computeForce(innerState.current)
     firstStepSolver(innerState.current)
-    updateData(ballGraph.current, innerState.current)
+    updateData(
+      ballGraph.current,
+      velocityGraph.current,
+      accelerationGraph.current,
+      innerState.current
+    )
 
     graph.draw()
   }, [mainElement])
