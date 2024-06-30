@@ -10,6 +10,10 @@ import type { BallData, BallDataKeys, BallKeys } from "./Balls_types"
 import { ballDataDefaultState } from "./defaultState"
 
 export const ballCollision = createSimpleSlice<BallKeys>("collision", "balls")
+export const ballTrajectoryEnable = createSimpleSlice<BallKeys>(
+  "trajectoryEnable",
+  "balls"
+)
 export const ballPositionX = generateBallSlice("positionX")
 export const ballPositionY = generateBallSlice("positionY")
 export const ballLastPositionX = generateBallSlice("lastPositionX")
@@ -23,6 +27,13 @@ export const ballRadius = generateBallSlice("radius")
 export const ballCharge = generateBallSlice("charge")
 export const ballColor = generateBallSlice("color")
 export const ballName = generateBallSlice("name")
+export const ballTrajectoryMatchColor = generateBallSlice(
+  "trajectoryMatchColor"
+)
+export const ballTrajectoryColor = generateBallSlice("trajectoryColor")
+export const ballTrajectoryFade = generateBallSlice("trajectoryFade")
+export const ballTrajectoryOpacity = generateBallSlice("trajectoryOpacity")
+export const ballTrajectoryLength = generateBallSlice("trajectoryLength")
 
 export function ballNew(
   state: MainState,

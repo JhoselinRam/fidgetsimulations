@@ -6,11 +6,13 @@ import {
   getVectorMaxLength,
   getVectorOpacity
 } from "../../../auxiliary/simulationUpdate"
+import type { TrajectoryGraph } from "../useSimulation_types"
 
 export function updateData(
   ballGraph: Line_Chart,
   velocityGraph: Vector_Field | null,
   accelerationGraph: Vector_Field | null,
+  trajectoryGraph: TrajectoryGraph[],
   state: MainState
 ): void {
   const ballPositionX = state.balls[0].data.map((ball) => ball.positionX)
@@ -54,4 +56,39 @@ export function updateData(
         )
       )
   }
+
+  trajectoryGraph.forEach((element) => {
+    updateTrajectory(element, state)
+  })
+}
+
+function updateTrajectory(trajectory: TrajectoryGraph, state: MainState): void {
+  const ball = state.balls[0].data.find((ball) => ball.id === trajectory.id)
+  if (ball == null) return
+
+  let dataX = trajectory.graph.dataX()
+  let dataY = trajectory.graph.dataY()
+
+  dataX.push(ball.positionX)
+  dataY.push(ball.positionY)
+  if (dataX.length > ball.trajectoryLength) {
+    dataX = dataX.slice(1)
+    dataY = dataY.slice(1)
+  }
+
+  trajectory.graph
+    .dataX(dataX)
+    .dataY(dataY)
+    .lineColor(ball.trajectoryMatchColor ? ball.color : ball.trajectoryColor)
+    .lineOpacity(
+      ball.trajectoryFade
+        ? dataX.map(
+            (_, index) =>
+              (ball.trajectoryOpacity *
+                (ball.trajectoryLength - dataX.length + index)) /
+              (ball.trajectoryLength - 1)
+          )
+        : ball.trajectoryOpacity
+    )
+    .lineWidth(2)
 }

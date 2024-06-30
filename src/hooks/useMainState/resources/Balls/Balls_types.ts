@@ -6,6 +6,7 @@ export type BallActionType =
   | "ball@update"
   | "ball@updateAll"
   | BallCollisionActionType
+  | BallTrajectoryEnableActionType
   | BallPositionActionType
   | BallVelocityActionType
   | BallAccelActionType
@@ -14,6 +15,7 @@ export type BallActionType =
   | BallChargeActionType
   | BallNameActionType
   | BallColorActionType
+  | BallTrajectoryActionType
 
 export interface BallElementState {
   balls: BallState[]
@@ -23,7 +25,10 @@ export type BallElementType = keyof BallElementState
 
 export type BallKeys = keyof BallState
 
-export interface BallState extends CollectionState, BallCollision {
+export interface BallState
+  extends CollectionState,
+    BallCollision,
+    BallTrajectoryEnable {
   data: BallData[]
 }
 
@@ -35,7 +40,8 @@ export interface BallData
     BallRadius,
     BallCharge,
     BallColor,
-    BallName {
+    BallName,
+    BallTrajectory {
   id: string
 }
 
@@ -48,6 +54,15 @@ export type BallCollisionActionType = "balls@collision"
 
 export interface BallCollision {
   collision: boolean
+}
+
+// --------------------------------------------------------
+// ------------------- Trajectory -------------------------
+
+export type BallTrajectoryEnableActionType = "balls@trajectoryEnable"
+
+export interface BallTrajectoryEnable {
+  trajectoryEnable: boolean
 }
 
 // --------------------------------------------------------
@@ -129,6 +144,24 @@ export type BallColorActionType = "balls@color"
 
 export interface BallColor {
   color: string
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export type BallTrajectoryActionType =
+  | "balls@trajectoryMatchColor"
+  | "balls@trajectoryColor"
+  | "balls@trajectoryFade"
+  | "balls@trajectoryOpacity"
+  | "balls@trajectoryLength"
+
+export interface BallTrajectory {
+  trajectoryMatchColor: boolean
+  trajectoryColor: string
+  trajectoryFade: boolean
+  trajectoryOpacity: number
+  trajectoryLength: number
 }
 
 // --------------------------------------------------------

@@ -1,3 +1,4 @@
+import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Types"
 import type { DampingState } from "../useMainState/resources/Damping/Damping_types"
 import type { DragState } from "../useMainState/resources/Drag/Drag_types"
 import type { ElectricState } from "../useMainState/resources/Electric/Electric_types"
@@ -99,4 +100,9 @@ export interface CollisionInfo {
 export interface ProjectionParameter {
   parameter: number
   edge: RectangularEdgeCollision
+}
+
+export interface TrajectoryGraph {
+  id: string
+  graph: Line_Chart
 }

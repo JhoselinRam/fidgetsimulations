@@ -20,6 +20,7 @@ import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Typ
 import type { BallVectorType } from "../components/BallsConfigComponents/BallConfigComponents_types"
 import { toRadians } from "./angleAux"
 import { rotate } from "./vector"
+import type { TrajectoryGraph } from "../hooks/useSimulation/useSimulation_types"
 
 // ----------------- Container Size -----------------------
 
@@ -91,7 +92,8 @@ export function setGrid(graph: Graph2D, config: SimulationWindowState): void {
 export type SetDataGraphs = readonly [
   Line_Chart,
   Vector_Field | null,
-  Vector_Field | null
+  Vector_Field | null,
+  TrajectoryGraph[]
 ]
 
 export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
@@ -105,6 +107,7 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
   let ballsGraph: Line_Chart | null = null
   let velocityGraph: Vector_Field | null = null
   let accelerationGraph: Vector_Field | null = null
+  const trajectoryGraph: TrajectoryGraph[] = []
 
   orderElements.forEach((item) => {
     const collection = state[item.type].find(
@@ -115,6 +118,15 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
     else if (isCollection(collection, obstacleDefaultState))
       drawObject(graph, collection)
     else if (isCollection(collection, ballDefaultState)) {
+      if (collection.trajectoryEnable) {
+        collection.data.forEach((ball) => {
+          if (ball.trajectoryLength > 0)
+            trajectoryGraph.push({
+              id: ball.id,
+              graph: graph.addDataset("linechart")
+            })
+        })
+      }
       ballsGraph = graph.addDataset("linechart")
       if (state.velocityVector.enable)
         velocityGraph = graph.addDataset("vectorfield")
@@ -133,7 +145,7 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
       .lineOpacity(0)
   }
 
-  return [ballsGraph, velocityGraph, accelerationGraph]
+  return [ballsGraph, velocityGraph, accelerationGraph, trajectoryGraph]
 }
 
 // --------------------------------------------------------

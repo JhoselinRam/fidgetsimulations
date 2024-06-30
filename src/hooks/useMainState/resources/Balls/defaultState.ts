@@ -13,11 +13,17 @@ import type {
   BallPosition,
   BallRadius,
   BallState,
+  BallTrajectory,
+  BallTrajectoryEnable,
   BallVelocity
 } from "./Balls_types"
 
 export const ballCollisionDefaultState: BallCollision = {
   collision: true
+}
+
+export const ballTrajectoryEnableDefaultState: BallTrajectoryEnable = {
+  trajectoryEnable: false
 }
 
 export const ballPositionDefaultState: BallPosition = {
@@ -53,6 +59,14 @@ export const ballColorDefaultState: BallColor = {
   color: "#0000ff"
 }
 
+export const ballTrajectoryDefaultState: BallTrajectory = {
+  trajectoryMatchColor: true,
+  trajectoryColor: "#0000ff",
+  trajectoryFade: false,
+  trajectoryOpacity: 1,
+  trajectoryLength: 100
+}
+
 export const ballDataDefaultState: BallData = {
   ...ballPositionDefaultState,
   ...ballVelocityDefaultState,
@@ -61,6 +75,7 @@ export const ballDataDefaultState: BallData = {
   ...ballRadiusDefaultState,
   ...ballChargeDefaultState,
   ...ballColorDefaultState,
+  ...ballTrajectoryDefaultState,
   id: "",
   name: ""
 }
@@ -70,6 +85,7 @@ export const ballDefaultState: BallState = {
   id: "balls",
   name: "Balls",
   ...ballCollisionDefaultState,
+  ...ballTrajectoryEnableDefaultState,
   data: [
     {
       ...ballDataDefaultState,

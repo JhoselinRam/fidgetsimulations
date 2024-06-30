@@ -23,6 +23,7 @@ import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
 import { computeCollision } from "./resources/collision"
 import type { Vector_Field } from "scigrapher/lib/es5/Data/VectorField/Vector_Field_Types"
+import type { TrajectoryGraph } from "./useSimulation_types"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -31,6 +32,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const simulationTime = useRef(0)
   const delayTime = useRef(0)
   const ballGraph = useRef<Line_Chart | null>(null)
+  const trajectoryGraph = useRef<TrajectoryGraph[]>([])
   const velocityGraph = useRef<Vector_Field | null>(null)
   const accelerationGraph = useRef<Vector_Field | null>(null)
   const graphElement = useRef<Graph2D | null>(null)
@@ -47,6 +49,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
       ballGraph.current,
       velocityGraph.current,
       accelerationGraph.current,
+      trajectoryGraph.current,
       innerState.current
     )
 
@@ -104,6 +107,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     ballGraph.current = sets[0]
     velocityGraph.current = sets[1]
     accelerationGraph.current = sets[2]
+    trajectoryGraph.current = sets[3]
     graphElement.current = graph
     computeForce(innerState.current)
     firstStepSolver(innerState.current)
@@ -111,6 +115,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
       ballGraph.current,
       velocityGraph.current,
       accelerationGraph.current,
+      trajectoryGraph.current,
       innerState.current
     )
 
