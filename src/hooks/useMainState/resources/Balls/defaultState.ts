@@ -62,9 +62,9 @@ export const ballColorDefaultState: BallColor = {
 export const ballTrajectoryDefaultState: BallTrajectory = {
   trajectoryMatchColor: true,
   trajectoryColor: "#0000ff",
-  trajectoryFade: false,
+  trajectoryFade: true,
   trajectoryOpacity: 1,
-  trajectoryLength: 100
+  trajectoryLength: 200
 }
 
 export const ballDataDefaultState: BallData = {

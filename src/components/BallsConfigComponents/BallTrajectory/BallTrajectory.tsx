@@ -15,7 +15,7 @@ function BallTrajectory({
   )
 
   return (
-    <ConfigSection title="Trajectory">
+    <ConfigSection title="Path">
       <MatchColorControl {...matchColorHooks} />
       <ColorControl {...aestheticHooks} />
       <LengthControl {...lengthHooks} />

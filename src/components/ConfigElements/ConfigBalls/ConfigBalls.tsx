@@ -6,7 +6,6 @@ import BallProperties from "../../BallsConfigComponents/BallProperties/BallPrope
 import BallRename from "../../BallsConfigComponents/BallRename/BallRename"
 import BallSelect from "../../BallsConfigComponents/BallSelect/BallSelect"
 import useBallSelect from "../../../hooks/useBallSelect/useBallSelect"
-import BallVector from "../../BallsConfigComponents/BallVector/BallVector"
 import BallTrajectory from "../../BallsConfigComponents/BallTrajectory/BallTrajectory"
 
 function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
@@ -23,8 +22,6 @@ function ConfigBalls({ item }: ConfigCollectionProps): JSX.Element {
       />
       <BallProperties ballId={ballId} isValidSelection={isValidSelection} />
       <BallTrajectory ballId={ballId} isValidSelection={isValidSelection} />
-      <BallVector type="velocity" />
-      <BallVector type="acceleration" />
     </ConfigCollection>
   )
 }

@@ -1,7 +1,6 @@
 import { ballDefaultState } from "./resources/Balls/defaultState"
 import { simulationDefaultState } from "./resources/Simulation/defaultState"
 import { simulationWindowDefaultState } from "./resources/SimulationWindow/defaultState"
-import { vectorDefaultState } from "./resources/Vector/defaultState"
 import type { MainState } from "./useMainState_types"
 
 // ------------------ Initial State -----------------------
@@ -27,8 +26,8 @@ const initialState: MainState = {
   electric: [],
   gravity: [],
   damping: [],
-  velocityVector: { ...vectorDefaultState },
-  accelerationVector: { ...vectorDefaultState },
+  velocityVector: [],
+  accelerationVector: [],
   simulation: { ...simulationDefaultState }
 }
 

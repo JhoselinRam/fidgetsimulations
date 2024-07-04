@@ -17,8 +17,8 @@ function LengthControl(lengthHooks: LengthControlProps): JSX.Element {
       <Info placement="left" crossOffset={55}>
         <p>The length of the buffer used to store the ball positions.</p>
         <p className="mt-2">
-          The trajectory length will increase with this value, but more memory
-          will be used.
+          The path length will increase with this value, but more memory will be
+          used.
         </p>
         <p className="mt-2">
           Higher values of the buffer length might impact performance.

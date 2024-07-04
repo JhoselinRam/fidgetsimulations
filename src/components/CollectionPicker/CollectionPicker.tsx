@@ -4,7 +4,7 @@ import type { CollectionOption } from "./resources/CollectionSelect/CollectionSe
 import CollectionGrid from "./resources/CollectionGrid/CollectionGrid"
 
 function CollectionPicker(): JSX.Element {
-  const [selection, setSelection] = useState<CollectionOption>("graphical")
+  const [selection, setSelection] = useState<CollectionOption>("visualization")
 
   return (
     <section className="h-56 bg-tuatara-800 mx-2 mt-4 border-2 border-tuatara-500 rounded-md pt-1 px-3 flex flex-col">

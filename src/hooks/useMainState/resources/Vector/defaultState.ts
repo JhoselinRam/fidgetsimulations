@@ -7,7 +7,7 @@ import type {
 } from "./Vector_types"
 
 export const vectorModeDefaultState: VectorMode = {
-  enable: false,
+  enable: true,
   colorMode: "static",
   opacityMode: "static",
   gradientType: "magnet",
@@ -15,7 +15,7 @@ export const vectorModeDefaultState: VectorMode = {
 }
 
 export const vectorColorDefaultState: VectorColor = {
-  color: "#303030",
+  color: "#ffffff",
   gradientStops: [
     { position: 0, color: "#0000ff" },
     { position: 1, color: "#ff0000" }
@@ -26,8 +26,8 @@ export const vectorColorDefaultState: VectorColor = {
 }
 
 export const vectorSizeDefaultState: VectorSize = {
-  maxSize: 20,
-  maxSizeMagnitude: 10
+  maxSize: 40,
+  maxSizeMagnitude: 5
 }
 
 export const vectorOpacityDefaultState: VectorOpacity = {
@@ -42,5 +42,8 @@ export const vectorDefaultState: VectorState = {
   ...vectorModeDefaultState,
   ...vectorColorDefaultState,
   ...vectorSizeDefaultState,
-  ...vectorOpacityDefaultState
+  ...vectorOpacityDefaultState,
+  name: "",
+  id: "",
+  type: "velocityVector"
 }

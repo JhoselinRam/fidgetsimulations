@@ -1,3 +1,4 @@
+import AccelerationVectorCollectionItemIcon from "../../../../components/CollectionItemIcons/AccelerationVectorCollectionItemIcon"
 import BallCollectionItemIcon from "../../../../components/CollectionItemIcons/BallCollectionItemIcon"
 import ContainerCollectionItemIcon from "../../../../components/CollectionItemIcons/ContainerCollectionItemIcon"
 import DampingCollectionItemIcon from "../../../../components/CollectionItemIcons/DampingCollectionItemIcon"
@@ -9,6 +10,7 @@ import LinechartCollectionItemIcon from "../../../../components/CollectionItemIc
 import LocalGravityCollectionItemIcon from "../../../../components/CollectionItemIcons/LocalGravityCollectionItemIcon"
 import ObstacleCollectionItemIcon from "../../../../components/CollectionItemIcons/ObstacleCollectionItemIcon"
 import SimulationWindowCollectionItemIcon from "../../../../components/CollectionItemIcons/SimulationWindowCollectionItemIcon"
+import VelocityVectorCollectionItemIcon from "../../../../components/CollectionItemIcons/VelocityVectorCollectionItemIcon"
 import type { ItemIcon } from "../../useCollectionItem_types"
 
 export const itemIcon: ItemIcon = {
@@ -22,5 +24,7 @@ export const itemIcon: ItemIcon = {
   gravity: <GravityCollectionItemIcon />,
   drag: <DragCollectionItemIcon />,
   electric: <ElectricCollectionItemIcon />,
-  damping: <DampingCollectionItemIcon />
+  damping: <DampingCollectionItemIcon />,
+  velocityVector: <VelocityVectorCollectionItemIcon />,
+  accelerationVector: <AccelerationVectorCollectionItemIcon />
 }

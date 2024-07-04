@@ -8,8 +8,7 @@ function useBallNumber(): UseBallNumber {
   const { mainState, dispatch } = useContext(mainStateContext)
   const ballCollision = mainState.balls[0].collision
   const ballTrajectoryEnable = mainState.balls[0].trajectoryEnable
-  const velocityVector = mainState.velocityVector.enable
-  const accelerationVector = mainState.accelerationVector.enable
+
   const collisionHooks = useBindState(
     { id: "balls", type: "balls" },
     ballCollision,
@@ -19,16 +18,6 @@ function useBallNumber(): UseBallNumber {
     { id: "balls", type: "balls" },
     ballTrajectoryEnable,
     "balls@trajectoryEnable"
-  )
-  const velocityVectorHooks = useBindState(
-    { id: "velocityVector", type: "balls" },
-    velocityVector,
-    "vector@enable"
-  )
-  const accelerationVectorHooks = useBindState(
-    { id: "accelerationVector", type: "balls" },
-    accelerationVector,
-    "vector@enable"
   )
 
   function addBall(): void {
@@ -51,14 +40,6 @@ function useBallNumber(): UseBallNumber {
     trajectoryHooks: {
       enableTrajectory: trajectoryHooks.value,
       changeTrajectory: trajectoryHooks.changeValue
-    },
-    velocityVectorHooks: {
-      isSelected: velocityVectorHooks.value,
-      onChange: velocityVectorHooks.changeValue
-    },
-    accelerationVectorHooks: {
-      isSelected: accelerationVectorHooks.value,
-      onChange: accelerationVectorHooks.changeValue
     }
   }
 }

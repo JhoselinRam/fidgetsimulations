@@ -1,88 +1,71 @@
-import { generateStaticSlice } from "../../useMainState"
-import { vectorDefaultState } from "./defaultState"
+import { createSimpleSlice } from "../../useMainState"
+import type { VectorStateKeys } from "./Vector_types"
 
-export const vectorEnable = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "enable"
+export const vectorEnable = createSimpleSlice<VectorStateKeys>("enable", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorColorMode = createSimpleSlice<VectorStateKeys>("colorMode", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorOpacityMode = createSimpleSlice<VectorStateKeys>(
+  "opacityMode",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorColorMode = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "colorMode"
+export const vectorGradientType = createSimpleSlice<VectorStateKeys>(
+  "gradientType",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorOpacityMode = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "opacityMode"
+export const vectorNormalize = createSimpleSlice<VectorStateKeys>("normalize", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorColor = createSimpleSlice<VectorStateKeys>("color", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorGradientStops = createSimpleSlice<VectorStateKeys>(
+  "gradientStops",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorGradientType = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "gradientType"
+export const vectorGradientSpace = createSimpleSlice<VectorStateKeys>(
+  "gradientSpace",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorNormalize = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "normalize"
+export const vectorMinColorMagnitude = createSimpleSlice<VectorStateKeys>(
+  "minColorMagnitude",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorColor = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "color"
+export const vectorMaxColorMagnitude = createSimpleSlice<VectorStateKeys>(
+  "maxColorMagnitude",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorGradientStops = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "gradientStops"
+export const vectorMaxSize = createSimpleSlice<VectorStateKeys>("maxSize", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorMaxSizeMagnitude = createSimpleSlice<VectorStateKeys>(
+  "maxSizeMagnitude",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorGradientSpace = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "gradientSpace"
+export const vectorOpacity = createSimpleSlice<VectorStateKeys>("opacity", [
+  "accelerationVector",
+  "velocityVector"
+])
+export const vectorMaxOpacity = createSimpleSlice<VectorStateKeys>(
+  "maxOpacity",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorMinColorMagnitude = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "minColorMagnitude"
+export const vectorMinOpacity = createSimpleSlice<VectorStateKeys>(
+  "minOpacity",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorMaxColorMagnitude = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "maxColorMagnitude"
+export const vectorMaxOpacityMagnitude = createSimpleSlice<VectorStateKeys>(
+  "maxOpacityMagnitude",
+  ["accelerationVector", "velocityVector"]
 )
-export const vectorMaxSize = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "maxSize"
-)
-export const vectorMaxSizeMagnitude = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "maxSizeMagnitude"
-)
-export const vectorOpacity = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "opacity"
-)
-export const vectorMaxOpacity = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "maxOpacity"
-)
-export const vectorMinOpacity = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "minOpacity"
-)
-export const vectorMaxOpacityMagnitude = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "maxOpacityMagnitude"
-)
-export const vectorMinOpacityMagnitude = generateStaticSlice(
-  ["velocityVector", "accelerationVector"],
-  vectorDefaultState,
-  "minOpacityMagnitude"
+export const vectorMinOpacityMagnitude = createSimpleSlice<VectorStateKeys>(
+  "minOpacityMagnitude",
+  ["accelerationVector", "velocityVector"]
 )

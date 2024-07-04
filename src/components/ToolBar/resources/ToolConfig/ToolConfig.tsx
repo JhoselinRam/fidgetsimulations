@@ -13,6 +13,8 @@ import ConfigGravity from "../../../ConfigElements/ConfigGravity/ConfigGravity"
 import ConfigDrag from "../../../ConfigElements/ConfigDrag/ConfigDrag"
 import ConfigElectric from "../../../ConfigElements/ConfigElectric/ConfigElectric"
 import ConfigDamping from "../../../ConfigElements/ConfigDamping/ConfigDamping"
+import ConfigVelocityVector from "../../../ConfigElements/ConfigVelocityVector/ConfigVelocityVector"
+import ConfigAccelerationVector from "../../../ConfigElements/ConfigAccelerationVector/ConfigAccelerationVector"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -28,7 +30,9 @@ function ToolConfig(): JSX.Element {
     gravity: (item) => <ConfigGravity item={item} />,
     drag: (item) => <ConfigDrag item={item} />,
     electric: (item) => <ConfigElectric item={item} />,
-    damping: (item) => <ConfigDamping item={item} />
+    damping: (item) => <ConfigDamping item={item} />,
+    velocityVector: (item) => <ConfigVelocityVector item={item} />,
+    accelerationVector: (item) => <ConfigAccelerationVector item={item} />
   }
 
   return (

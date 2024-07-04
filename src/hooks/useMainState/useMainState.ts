@@ -139,6 +139,8 @@ import {
 } from "./resources/Vector/Vector"
 import { simulationRun } from "./resources/Simulation/Simulation"
 import { dampingNew } from "./resources/Damping/Damping"
+import { accelerationVectorNew } from "./resources/AccelerationVector/AccelerationVector"
+import { VelocityVectorNew } from "./resources/VelocityVector/VelocityVector"
 
 // -------------------- Hook body -------------------------
 
@@ -260,6 +262,8 @@ const reducerObject: ReducerObject = {
   "vector@minOpacity": vectorMinOpacity,
   "vector@maxOpacityMagnitude": vectorMaxOpacityMagnitude,
   "vector@minOpacityMagnitude": vectorMinOpacityMagnitude,
+  "accelerationVector@new": accelerationVectorNew,
+  "velocityVector@new": VelocityVectorNew,
   "simulation@run": simulationRun
 }
 
@@ -308,6 +312,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "gravity" ||
     type === "drag" ||
     type === "electric" ||
+    type === "velocityVector" ||
+    type === "accelerationVector" ||
     type === "damping"
   )
 }
@@ -460,13 +466,6 @@ export function createSimpleSlice<KeyType extends string>(
 
     // Check if the data actually change
     if (typeof payload[validKey] !== typeof collection[validKey]) return state
-
-    // if (typeof payload[validKey] === "number") {
-    //   ;(payload[validKey] as number) = toRounded(
-    //     payload[validKey] as number,
-    //     import.meta.env.VITE_ROUNDED_DECIMALS
-    //   )
-    // }
 
     if (payload[validKey] === collection[validKey]) return state
 

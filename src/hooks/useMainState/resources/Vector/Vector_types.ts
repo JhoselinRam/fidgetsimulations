@@ -1,6 +1,7 @@
 import type { Color_Map_types } from "scigrapher/lib/es5/tools/Color_Map/Predefined/Color_Map_Types"
 import type { GradientInputKnob } from "../../../useGradientInput/resources/useGradientKnob/useGradientKnob_types"
 import type { GradientColorSpace } from "../../../useGradientInput/resources/useGradientStep/useGradientStep_types"
+import type { CollectionState } from "../../useMainState_types"
 
 export type VectorActionType =
   | VectorModeActionType
@@ -9,7 +10,8 @@ export type VectorActionType =
   | VectorOpacityActionType
 
 export interface VectorState
-  extends VectorMode,
+  extends CollectionState,
+    VectorMode,
     VectorColor,
     VectorSize,
     VectorOpacity {}

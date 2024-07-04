@@ -4,7 +4,7 @@ export interface CollectionSelectProps {
 }
 
 export const CollectionArray = [
-  "graphical",
+  "visualization",
   "objects",
   "constrains",
   "force"

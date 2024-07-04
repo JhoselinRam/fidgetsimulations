@@ -8,7 +8,7 @@ function TrajectoryControl({
 }: TrajectoryControlProps): JSX.Element {
   return (
     <Switch isSelected={enableTrajectory} onChange={changeTrajectory}>
-      Trajectories
+      Path
       <Info placement="left" crossOffset={10}>
         Show the trajectories of the balls.
       </Info>

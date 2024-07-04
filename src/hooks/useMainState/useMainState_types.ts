@@ -56,8 +56,18 @@ import type {
   ElectricActionType,
   ElectricState
 } from "./resources/Electric/Electric_types"
-import type { VelocityVectorState } from "./resources/VelocityVector/VelocityVector_types"
-import type { AccelerationVectorState } from "./resources/AccelerationVector/AccelerationVector_types"
+import type {
+  VelocityVectorActionType,
+  VelocityVectorElementState,
+  VelocityVectorElementType,
+  VelocityVectorState
+} from "./resources/VelocityVector/VelocityVector_types"
+import type {
+  AccelerationVectorActionType,
+  AccelerationVectorElementState,
+  AccelerationVectorElementType,
+  AccelerationVectorState
+} from "./resources/AccelerationVector/AccelerationVector_types"
 import type { VectorActionType } from "./resources/Vector/Vector_types"
 import type {
   SimulationActionType,
@@ -91,6 +101,8 @@ export type MainStateActionType =
   | DampingActionType
   | BallActionType
   | VectorActionType
+  | VelocityVectorActionType
+  | AccelerationVectorActionType
   | SimulationActionType
 
 // Main state type
@@ -100,11 +112,11 @@ export interface MainState
     ObstacleElementState,
     BallElementState,
     LocalGravityElementState,
-    SimpleForceElementState {
+    SimpleForceElementState,
+    VelocityVectorElementState,
+    AccelerationVectorElementState {
   order: CollectionOrder[]
   time: TimeState
-  velocityVector: VelocityVectorState
-  accelerationVector: AccelerationVectorState
   simulation: SimulationState
 }
 
@@ -132,6 +144,8 @@ export type CollectionType =
   | BallElementType
   | LocalGravityElementType
   | SimpleForceElementType
+  | VelocityVectorElementType
+  | AccelerationVectorElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -145,6 +159,8 @@ export type CollectionElementState =
   | DragState
   | ElectricState
   | DampingState
+  | VelocityVectorState
+  | AccelerationVectorState
 
 export interface CollectionState extends CollectionOrder {
   name: string

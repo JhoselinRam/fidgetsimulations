@@ -1,33 +1,37 @@
 import { useContext } from "react"
-import type { BallVectorType } from "../../components/BallsConfigComponents/BallConfigComponents_types"
 import type { UseVectorSize, VectorSizeProps } from "./useVectorSize_types"
-import { mainStateContext } from "../useMainState/useMainState"
+import { getCollection, mainStateContext } from "../useMainState/useMainState"
 import type {
   CollectionOrder,
   MainState
 } from "../useMainState/useMainState_types"
 import useBindState from "../useBindState/useBindState"
+import type { VectorState } from "../useMainState/resources/Vector/Vector_types"
+import { vectorDefaultState } from "../useMainState/resources/Vector/defaultState"
 
-function useVectorSize(type: BallVectorType): UseVectorSize {
+function useVectorSize(item: CollectionOrder): UseVectorSize {
   const { mainState } = useContext(mainStateContext)
-  const id = type === "velocity" ? "velocityVector" : "accelerationVector"
-  const item: CollectionOrder = { id, type: "balls" }
-  const vectorProps = getVectorSizeProps(id, mainState)
-
-  const normalizeProps = useBindState(
+  const { enable, maxSize, maxSizeMagnitude, normalize } = getVectorSizeProps(
     item,
-    vectorProps.normalize,
-    "vector@normalize"
+    mainState
   )
-  const maxSizeProps = useBindState(item, vectorProps.maxSize, "vector@maxSize")
-  const magnitudeProps = useBindState(
+
+  const enableProps = useBindState(item, enable, "vector@enable")
+  const normalizeProps = useBindState(item, normalize, "vector@normalize")
+  const maxSizeProps = useBindState(item, maxSize, "vector@maxSize")
+  const maxSizeMagnitudeProps = useBindState(
     item,
-    vectorProps.maxSizeMagnitude,
+    maxSizeMagnitude,
     "vector@maxSizeMagnitude"
   )
+
   const isDisabled = !normalizeProps.value
 
   return {
+    enableHooks: {
+      isSelected: enableProps.value,
+      onChange: enableProps.changeValue
+    },
     normalizeHooks: {
       isSelected: normalizeProps.value,
       onChange: normalizeProps.changeValue
@@ -39,8 +43,8 @@ function useVectorSize(type: BallVectorType): UseVectorSize {
         isDisabled
       },
       magnitudeHooks: {
-        value: magnitudeProps.value,
-        onChange: magnitudeProps.changeValue,
+        value: maxSizeMagnitudeProps.value,
+        onChange: maxSizeMagnitudeProps.changeValue,
         isDisabled
       }
     }
@@ -50,14 +54,26 @@ function useVectorSize(type: BallVectorType): UseVectorSize {
 export default useVectorSize
 
 function getVectorSizeProps(
-  id: "velocityVector" | "accelerationVector",
+  item: CollectionOrder,
   mainState: MainState
 ): VectorSizeProps {
-  const vectorData = mainState[id]
+  const collection = getCollection<VectorState>(item, mainState, [
+    "velocityVector",
+    "accelerationVector"
+  ])
+
+  if (collection == null)
+    return {
+      enable: vectorDefaultState.enable,
+      maxSize: vectorDefaultState.maxSize,
+      maxSizeMagnitude: vectorDefaultState.maxSizeMagnitude,
+      normalize: vectorDefaultState.normalize
+    }
 
   return {
-    normalize: vectorData.normalize,
-    maxSize: vectorData.maxSize,
-    maxSizeMagnitude: vectorData.maxSizeMagnitude
+    enable: collection.enable,
+    maxSize: collection.maxSize,
+    maxSizeMagnitude: collection.maxSizeMagnitude,
+    normalize: collection.normalize
   }
 }

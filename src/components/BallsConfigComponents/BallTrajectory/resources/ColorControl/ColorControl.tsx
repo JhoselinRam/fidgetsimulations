@@ -30,7 +30,7 @@ function ColorControl({
       </NumberInput>
       <div className="flex flex-row gap-2">
         <Switch {...fadeHooks}>Fade</Switch>
-        <Info>The trajectory will fade from the opacity value to cero.</Info>
+        <Info>The path will fade from the opacity value to cero.</Info>
       </div>
     </ConfigSection.Section>
   )

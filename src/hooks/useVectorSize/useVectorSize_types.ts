@@ -5,11 +5,12 @@ import type {
 import type { SimpleState } from "../useMainState/useMainState_types"
 
 export interface UseVectorSize {
-  normalizeHooks: VectorNormalizeHooks
+  normalizeHooks: SwitchHooks
+  enableHooks: SwitchHooks
   sizeHooks: VectorMaxSizeHooks
 }
 
-export interface VectorNormalizeHooks {
+export interface SwitchHooks {
   isSelected: boolean
   onChange: (value: boolean) => void
 }
@@ -25,4 +26,4 @@ export interface VectorMaxSizeHooks {
 
 export interface VectorSizeProps
   extends VectorSize,
-    Pick<VectorMode, "normalize"> {}
+    Pick<VectorMode, "normalize" | "enable"> {}
