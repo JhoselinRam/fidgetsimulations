@@ -15,7 +15,7 @@ export const vectorModeDefaultState: VectorMode = {
 }
 
 export const vectorColorDefaultState: VectorColor = {
-  color: "#ffffff",
+  color: "#000000",
   gradientStops: [
     { position: 0, color: "#0000ff" },
     { position: 1, color: "#ff0000" }

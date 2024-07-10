@@ -24,6 +24,7 @@ function useSimulationWindow(
   const obstacles = JSON.stringify(mainState.obstacle)
   const balls = JSON.stringify(mainState.balls[0].data)
   const velocityVector = JSON.stringify(mainState.velocityVector)
+  const accelerationVector = JSON.stringify(mainState.accelerationVector)
   const isRunning = mainState.simulation.run
 
   useEffect(() => {
@@ -53,6 +54,7 @@ function useSimulationWindow(
     obstacles,
     balls,
     velocityVector,
+    accelerationVector,
     isRunning
   ])
 

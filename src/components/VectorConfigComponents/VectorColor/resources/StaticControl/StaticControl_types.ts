@@ -1,3 +1,3 @@
-import type { VectorConfigType } from "../../../BallConfigComponents_types"
+import type { SimpleVectorState } from "../../../../../hooks/useVectorColor/useVectorColor_types"
 
-export interface StaticControlProps extends VectorConfigType {}
+export interface StaticControlProps extends SimpleVectorState<string> {}

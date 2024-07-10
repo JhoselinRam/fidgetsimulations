@@ -8,6 +8,7 @@ import {
 import { mainStateContext } from "../useMainState/useMainState"
 import type { Graph2D } from "scigrapher/lib/es5/Graph2D/Graph2D_Types"
 import {
+  type VectorGraph,
   setColor,
   setData,
   setDomain,
@@ -22,7 +23,6 @@ import { firstStepSolver, verletSolver } from "./resources/verletSolver"
 import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
 import { computeCollision } from "./resources/collision"
-import type { Vector_Field } from "scigrapher/lib/es5/Data/VectorField/Vector_Field_Types"
 import type { TrajectoryGraph } from "./useSimulation_types"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
@@ -33,8 +33,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const delayTime = useRef(0)
   const ballGraph = useRef<Line_Chart | null>(null)
   const trajectoryGraph = useRef<TrajectoryGraph[]>([])
-  const velocityGraph = useRef<Vector_Field | null>(null)
-  const accelerationGraph = useRef<Vector_Field | null>(null)
+  const vectorGraph = useRef<VectorGraph[]>([])
   const graphElement = useRef<Graph2D | null>(null)
 
   // --------------------- Step -----------------------------
@@ -47,8 +46,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     computeForce(innerState.current)
     updateData(
       ballGraph.current,
-      velocityGraph.current,
-      accelerationGraph.current,
+      vectorGraph.current,
       trajectoryGraph.current,
       innerState.current
     )
@@ -105,16 +103,14 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     const sets = setData(graph, innerState.current)
 
     ballGraph.current = sets[0]
-    velocityGraph.current = sets[1]
-    accelerationGraph.current = sets[2]
-    trajectoryGraph.current = sets[3]
+    vectorGraph.current = sets[1]
+    trajectoryGraph.current = sets[2]
     graphElement.current = graph
     computeForce(innerState.current)
     firstStepSolver(innerState.current)
     updateData(
       ballGraph.current,
-      velocityGraph.current,
-      accelerationGraph.current,
+      vectorGraph.current,
       trajectoryGraph.current,
       innerState.current
     )

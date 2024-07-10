@@ -1,6 +1,9 @@
 import type { Graph2D } from "scigrapher/lib/es5/Graph2D/Graph2D_Types"
 import type { SimulationWindowState } from "../hooks/useMainState/resources/SimulationWindow/SimulationWindow_types"
-import type { MainState } from "../hooks/useMainState/useMainState_types"
+import type {
+  CollectionType,
+  MainState
+} from "../hooks/useMainState/useMainState_types"
 import { isCollection } from "../hooks/useMainState/useMainState"
 import type { ContainerState } from "../hooks/useMainState/resources/Container/Container_types"
 import { containerDefaultState } from "../hooks/useMainState/resources/Container/defaultState"
@@ -17,10 +20,10 @@ import type {
 import { createColorGradient } from "./colorGradient"
 import { clamp } from "./clamp"
 import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Types"
-import type { BallVectorType } from "../components/BallsConfigComponents/BallConfigComponents_types"
 import { toRadians } from "./angleAux"
 import { rotate } from "./vector"
 import type { TrajectoryGraph } from "../hooks/useSimulation/useSimulation_types"
+import { vectorDefaultState } from "../hooks/useMainState/resources/Vector/defaultState"
 
 // ----------------- Container Size -----------------------
 
@@ -91,22 +94,28 @@ export function setGrid(graph: Graph2D, config: SimulationWindowState): void {
 
 export type SetDataGraphs = readonly [
   Line_Chart,
-  Vector_Field | null,
-  Vector_Field | null,
+  VectorGraph[],
   TrajectoryGraph[]
 ]
+
+export interface VectorGraph {
+  type: "velocityVector" | "accelerationVector"
+  id: string
+  field: Vector_Field
+}
 
 export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
   const orderElements = state.order.filter(
     (collection) =>
       collection.type === "container" ||
       collection.type === "obstacle" ||
+      collection.type === "velocityVector" ||
+      collection.type === "accelerationVector" ||
       collection.type === "balls"
   )
 
   let ballsGraph: Line_Chart | null = null
-  let velocityGraph: Vector_Field | null = null
-  let accelerationGraph: Vector_Field | null = null
+  const vectorGraph: VectorGraph[] = []
   const trajectoryGraph: TrajectoryGraph[] = []
 
   orderElements.forEach((item) => {
@@ -128,11 +137,16 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
         })
       }
       ballsGraph = graph.addDataset("linechart")
-      if (state.velocityVector.enable)
-        velocityGraph = graph.addDataset("vectorfield")
-      if (state.accelerationVector.enable)
-        accelerationGraph = graph.addDataset("vectorfield")
-      drawBalls(graph, ballsGraph, velocityGraph, accelerationGraph, state)
+      drawBalls(graph, ballsGraph, state)
+    } else if (isCollection(collection, vectorDefaultState)) {
+      if (!collection.enable) return
+      const field = graph.addDataset("vectorfield")
+      vectorGraph.push({
+        type: collection.type as "velocityVector" | "accelerationVector",
+        id: collection.id,
+        field
+      })
+      drawVectors(collection.type, state, collection, field)
     }
   })
 
@@ -145,7 +159,7 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
       .lineOpacity(0)
   }
 
-  return [ballsGraph, velocityGraph, accelerationGraph, trajectoryGraph]
+  return [ballsGraph, vectorGraph, trajectoryGraph]
 }
 
 // --------------------------------------------------------
@@ -253,8 +267,6 @@ function getInitialCoors(object: ContainerState | ObstacleState): number[][] {
 function drawBalls(
   graph: Graph2D,
   ballsGraph: Line_Chart,
-  velocityGraph: Vector_Field | null,
-  accelerationGraph: Vector_Field | null,
   state: MainState
 ): void {
   const scale = graph.coordinateMaps().primary.x
@@ -273,31 +285,25 @@ function drawBalls(
     .markerEnable(true)
     .markerColor(collection.data.map((data) => data.color))
     .markerSize(collection.data.map((data) => data.radius * radiusCorrection))
-
-  drawVectors("velocity", state, dataX, dataY, velocityGraph)
-  drawVectors("acceleration", state, dataX, dataY, accelerationGraph)
 }
 
 // --------------------------------------------------------
 // --------------------------------------------------------
 
 function drawVectors(
-  vectorType: BallVectorType,
+  vectorType: CollectionType,
   state: MainState,
-  coordsX: number[],
-  coordsY: number[],
-  vectorGraph: Vector_Field | null
+  vectorState: VectorState,
+  vectorGraph: Vector_Field
 ): void {
-  if (vectorGraph == null) return
-
-  const vectorState =
-    vectorType === "velocity" ? state.velocityVector : state.accelerationVector
+  const coordsX = state.balls[0].data.map((data) => data.positionX)
+  const coordsY = state.balls[0].data.map((data) => data.positionY)
   const dataX =
-    vectorType === "velocity"
+    vectorType === "velocityVector"
       ? state.balls[0].data.map((data) => data.velocityX)
       : state.balls[0].data.map((data) => data.accelX)
   const dataY =
-    vectorType === "velocity"
+    vectorType === "velocityVector"
       ? state.balls[0].data.map((data) => data.velocityY)
       : state.balls[0].data.map((data) => data.accelY)
 

@@ -1,7 +1,7 @@
 import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Types"
 import type { MainState } from "../../useMainState/useMainState_types"
-import type { Vector_Field } from "scigrapher/lib/es5/Data/VectorField/Vector_Field_Types"
 import {
+  type VectorGraph,
   getVectorColor,
   getVectorMaxLength,
   getVectorOpacity
@@ -10,8 +10,7 @@ import type { TrajectoryGraph } from "../useSimulation_types"
 
 export function updateData(
   ballGraph: Line_Chart,
-  velocityGraph: Vector_Field | null,
-  accelerationGraph: Vector_Field | null,
+  vectorGraph: VectorGraph[],
   trajectoryGraph: TrajectoryGraph[],
   state: MainState
 ): void {
@@ -20,42 +19,9 @@ export function updateData(
 
   ballGraph.dataX(ballPositionX).dataY(ballPositionY)
 
-  if (velocityGraph != null) {
-    const ballVelocityX = state.balls[0].data.map((ball) => ball.velocityX)
-    const ballVelocityY = state.balls[0].data.map((ball) => ball.velocityY)
-    velocityGraph
-      .meshX([ballPositionX])
-      .meshY([ballPositionY])
-      .dataX([ballVelocityX])
-      .dataY([ballVelocityY])
-      .color(getVectorColor(state.velocityVector))
-      .opacity(getVectorOpacity(state.velocityVector))
-      .normalize(state.velocityVector.normalize)
-      .maxLength(
-        getVectorMaxLength(state.velocityVector, ballVelocityX, ballVelocityY)
-      )
-  }
-
-  if (accelerationGraph != null) {
-    const ballAccelerationX = state.balls[0].data.map((ball) => ball.accelX)
-    const ballAccelerationY = state.balls[0].data.map((ball) => ball.accelY)
-
-    accelerationGraph
-      .meshX([ballPositionX])
-      .meshY([ballPositionY])
-      .dataX([ballAccelerationX])
-      .dataY([ballAccelerationY])
-      .color(getVectorColor(state.accelerationVector))
-      .opacity(getVectorOpacity(state.accelerationVector))
-      .normalize(state.accelerationVector.normalize)
-      .maxLength(
-        getVectorMaxLength(
-          state.accelerationVector,
-          ballAccelerationX,
-          ballAccelerationY
-        )
-      )
-  }
+  vectorGraph.forEach((element) => {
+    updateVector(element, state, ballPositionX, ballPositionY)
+  })
 
   trajectoryGraph.forEach((element) => {
     updateTrajectory(element, state)
@@ -91,4 +57,33 @@ function updateTrajectory(trajectory: TrajectoryGraph, state: MainState): void {
         : ball.trajectoryOpacity
     )
     .lineWidth(2)
+}
+
+function updateVector(
+  vector: VectorGraph,
+  state: MainState,
+  positionX: number[],
+  positionY: number[]
+): void {
+  const vectorState = state[vector.type].find((data) => data.id === vector.id)
+  if (vectorState == null) return
+
+  const dataX =
+    vector.type === "velocityVector"
+      ? state.balls[0].data.map((ball) => ball.velocityX)
+      : state.balls[0].data.map((ball) => ball.accelX)
+  const dataY =
+    vector.type === "velocityVector"
+      ? state.balls[0].data.map((ball) => ball.velocityY)
+      : state.balls[0].data.map((ball) => ball.accelY)
+
+  vector.field
+    .meshX([positionX])
+    .meshY([positionY])
+    .dataX([dataX])
+    .dataY([dataY])
+    .color(getVectorColor(vectorState))
+    .opacity(getVectorOpacity(vectorState))
+    .normalize(vectorState.normalize)
+    .maxLength(getVectorMaxLength(vectorState, dataX, dataY))
 }

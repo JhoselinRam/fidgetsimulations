@@ -1,3 +1,3 @@
-import type { VectorConfigType } from "../../../BallConfigComponents_types"
+import type { UseGradientColor } from "../../../../../hooks/useVectorColor/resources/useGradientColor/useGradientColor_types"
 
-export interface ColorGradientControlProps extends VectorConfigType {}
+export interface ColorGradientControlProps extends UseGradientColor {}

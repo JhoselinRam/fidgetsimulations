@@ -3,7 +3,11 @@ import Info from "../../../../Info/Info"
 import NumberInput from "../../../../NumberInput/NumberInput"
 import type { ColorRangeControlProps } from "./ColorRangeControl_types"
 
-function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
+function ColorRangeControl({
+  type,
+  maxMagnitudeHooks,
+  minMagnitudeHooks
+}: ColorRangeControlProps): JSX.Element {
   return (
     <ConfigSection.Section className="!mt-3 relative pr-3 w-fit">
       <NumberInput
@@ -20,6 +24,7 @@ function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
         minValue={0}
         step={0.01}
         formatOptions={{ maximumFractionDigits: 4 }}
+        {...minMagnitudeHooks}
       >
         Min:
       </NumberInput>
@@ -36,6 +41,7 @@ function ColorRangeControl({ type }: ColorRangeControlProps): JSX.Element {
         minValue={0}
         step={0.01}
         formatOptions={{ maximumFractionDigits: 4 }}
+        {...maxMagnitudeHooks}
       >
         Max:
       </NumberInput>
