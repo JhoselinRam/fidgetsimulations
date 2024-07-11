@@ -1,3 +1,5 @@
 import type { UseCellData } from "../../../../../../../hooks/useConfigBatchSheet/resources/useCellData/useCellData_types"
 
-export interface CheckCellProps extends UseCellData<boolean> {}
+export interface CheckCellProps extends UseCellData<boolean> {
+  danger?: boolean
+}

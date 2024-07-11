@@ -13,7 +13,9 @@ function IconButton({
         ${
           coloredBy === "fill"
             ? "fill-slate-950 data-[pressed]:fill-zinc-100"
-            : "stroke-slate-950 data-[pressed]:stroke-zinc-100"
+            : coloredBy === "stroke"
+              ? "stroke-slate-950 data-[pressed]:stroke-zinc-100"
+              : "fill-slate-950 data-[pressed]:fill-zinc-100 stroke-slate-950 data-[pressed]:stroke-zinc-100"
         }`}
       buttonType="transparent"
       {...props}

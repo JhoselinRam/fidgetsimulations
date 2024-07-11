@@ -3,7 +3,7 @@ import IconWrapper from "./IconWrapper"
 
 function AccelerationVectorCollectionItemIcon(): JSX.Element {
   return (
-    <IconWrapper className="bg-pink-400">
+    <IconWrapper className="bg-red-400">
       <AccelerationVectorIcon />
     </IconWrapper>
   )

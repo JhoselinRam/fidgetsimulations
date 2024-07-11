@@ -1,4 +1,4 @@
-import { type RefObject, useContext, useState } from "react"
+import { type RefObject, useContext, useState, useEffect } from "react"
 import type {
   ConfigBatchRow,
   UseConfigBatchModal
@@ -13,11 +13,35 @@ function useConfigBatchModal(
   sheetData: RefObject<ConfigSheetRef>
 ): UseConfigBatchModal {
   const { mainState, dispatch } = useContext(mainStateContext)
-  const [rows, setRows] = useState(getInitialRows(mainState))
+  const [rows, setRows] = useState<ConfigBatchRow[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  function onClose(): void {
+    setIsLoading(false)
+    setRows([])
+  }
 
   function updateRows(): void {
-    setRows(getInitialRows(mainState))
+    setIsLoading(true)
   }
+
+  useEffect(() => {
+    setIsLoading(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isLoading) {
+      window.document.body.style.cursor = "default"
+      return
+    }
+
+    window.document.body.style.cursor = "wait"
+    setRows(getInitialRows(mainState))
+  }, [isLoading, mainState])
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [rows])
 
   function onAccept(): void {
     if (sheetData.current == null) return
@@ -52,7 +76,9 @@ function useConfigBatchModal(
   return {
     rows,
     updateRows,
-    onAccept
+    onAccept,
+    isLoading,
+    onClose
   }
 }
 
@@ -70,6 +96,11 @@ function getInitialRows(state: MainState): ConfigBatchRow[] {
     radius: ball.radius,
     velocityX: ball.velocityX,
     velocityY: ball.velocityY,
-    id: ball.id
+    id: ball.id,
+    trajectoryColor: ball.trajectoryColor,
+    trajectoryFade: ball.trajectoryFade,
+    trajectoryLength: ball.trajectoryLength,
+    trajectoryMatchColor: ball.trajectoryMatchColor,
+    trajectoryOpacity: ball.trajectoryOpacity
   }))
 }

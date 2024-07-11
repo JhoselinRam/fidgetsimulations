@@ -18,11 +18,16 @@ function ConfigSheetHeader({
       <HeaderCell>Charge</HeaderCell>
       <HeaderCell>Radius</HeaderCell>
       <HeaderCell>Color</HeaderCell>
+      <HeaderCell>Path Length</HeaderCell>
+      <HeaderCell>Path Fade</HeaderCell>
+      <HeaderCell>Path Match</HeaderCell>
+      <HeaderCell>Path Color</HeaderCell>
+      <HeaderCell>Path Opac.</HeaderCell>
       <HeaderCell>
         <CheckInput
           isSelected={deleteAllValue}
           onChange={onDeleteAll}
-          className="!flex-row-reverse gap-1"
+          className="!flex-row-reverse gap-1 mx-auto"
           size="sm"
           type="danger"
         >

@@ -119,6 +119,56 @@ function useSheetRow(
     onEnter,
     setLastSelectedColumn
   )
+  const trajectoryColor = useCellData(
+    data.trajectoryColor,
+    index,
+    "trajectoryColor",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
+  const trajectoryFade = useCellData(
+    data.trajectoryFade,
+    index,
+    "trajectoryFade",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
+  const trajectoryLength = useCellData(
+    data.trajectoryLength,
+    index,
+    "trajectoryLength",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
+  const trajectoryMatchColor = useCellData(
+    data.trajectoryMatchColor,
+    index,
+    "trajectoryMatchColor",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
+  const trajectoryOpacity = useCellData(
+    data.trajectoryOpacity,
+    index,
+    "trajectoryOpacity",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
 
   function getRowData(): Omit<ConfigBatchRow, "id"> {
     return {
@@ -131,7 +181,12 @@ function useSheetRow(
       charge: charge.value,
       radius: radius.value,
       color: color.value,
-      deleteBall: deleteBall.value
+      deleteBall: deleteBall.value,
+      trajectoryColor: trajectoryColor.value,
+      trajectoryFade: trajectoryFade.value,
+      trajectoryLength: trajectoryLength.value,
+      trajectoryMatchColor: trajectoryMatchColor.value,
+      trajectoryOpacity: trajectoryOpacity.value
     }
   }
 
@@ -151,7 +206,12 @@ function useSheetRow(
     charge,
     radius,
     color,
-    deleteBall
+    deleteBall,
+    trajectoryColor,
+    trajectoryFade,
+    trajectoryLength,
+    trajectoryMatchColor,
+    trajectoryOpacity
   }
 }
 

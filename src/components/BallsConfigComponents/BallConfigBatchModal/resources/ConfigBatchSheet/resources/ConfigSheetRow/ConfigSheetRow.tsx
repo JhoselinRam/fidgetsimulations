@@ -33,7 +33,12 @@ const ConfigSheetRow = forwardRef<ConfigSheetRowRef, ConfigSheetRowProps>(
       positionY,
       radius,
       velocityX,
-      velocityY
+      velocityY,
+      trajectoryColor,
+      trajectoryFade,
+      trajectoryLength,
+      trajectoryMatchColor,
+      trajectoryOpacity
     } = useSheetRow(
       data,
       index,
@@ -67,7 +72,23 @@ const ConfigSheetRow = forwardRef<ConfigSheetRowRef, ConfigSheetRowProps>(
           decimals={8}
         />
         <ColorCell {...color} />
-        <CheckCell {...deleteBall} />
+        <NumberCell
+          {...trajectoryLength}
+          labelBy="ball path length"
+          decimals={0}
+          minValue={0}
+        />
+        <CheckCell {...trajectoryFade} />
+        <CheckCell {...trajectoryMatchColor} />
+        <ColorCell {...trajectoryColor} />
+        <NumberCell
+          {...trajectoryOpacity}
+          labelBy="ball path opacity"
+          decimals={0}
+          minValue={0}
+          maxValue={1}
+        />
+        <CheckCell {...deleteBall} danger={true} />
       </>
     )
   }

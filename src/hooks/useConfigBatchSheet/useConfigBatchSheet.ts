@@ -129,7 +129,7 @@ function useConfigBatchSheet(
   // -------------- Shift Selected Column -------------------
 
   function shiftSelectionColumn(direction: "left" | "right"): void {
-    if (columnSelected.current === 9 && direction === "right") return
+    if (columnSelected.current === 14 && direction === "right") return
     if (columnSelected.current === 0 && direction === "left") return
 
     columnSelected.current +=
@@ -160,7 +160,7 @@ function useConfigBatchSheet(
 
   function setSelectedCell(row: number, column: number): void {
     const maxRow = rows.length - 1
-    const maxColumn = 9
+    const maxColumn = 14
     const newRow = row < 0 ? 0 : row > maxRow ? maxRow : row
     const newColumn = column < 0 ? 0 : column > maxColumn ? maxColumn : column
 
@@ -204,8 +204,8 @@ function useConfigBatchSheet(
   function focusSelectedCell(): void {
     if (gridElement.current == null) return
 
-    const columnsPerRow = 11
-    const deleteColumn = 9
+    const columnsPerRow = 16
+    const deleteColumn = 14
     const cellIndex =
       columnsPerRow * (rowSelected.current + 1) + columnSelected.current + 1
     const selectedCell = gridElement.current.children[cellIndex]
@@ -248,7 +248,7 @@ function useConfigBatchSheet(
   // --------------------------------------------------------
 
   function setLastSelectedColumn(column: number): void {
-    const maxColumn = 9
+    const maxColumn = 14
     const newColumn = column < 0 ? 0 : column > maxColumn ? maxColumn : column
 
     lastColumnSelected.current = newColumn

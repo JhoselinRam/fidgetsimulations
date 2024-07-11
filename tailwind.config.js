@@ -135,6 +135,10 @@ export default {
             transform: "translate(0,-4px)",
             opacity: "1"
           }
+        },
+        spinner: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(-360deg)" }
         }
       },
       animation: {
@@ -149,11 +153,12 @@ export default {
         "select-top-enter": "select-slide-top 150ms",
         "select-top-exit": "select-slide-top 150ms reverse ease-in",
         "select-bottom-enter": "select-slide-bottom 150ms",
-        "select-bottom-exit": "select-slide-bottom 150ms reverse ease-in"
+        "select-bottom-exit": "select-slide-bottom 150ms reverse ease-in",
+        spinner: "spinner 1.2s linear infinite"
       },
       gridTemplateColumns: {
         collection: "repeat(auto-fit,minmax(3.5rem, 1fr))",
-        "batch-config": "30px,repeat(10,minmax(4.5rem,1fr))"
+        "batch-config": "30px,repeat(15,minmax(5.5rem,1fr))"
       }
     }
   },

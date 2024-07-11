@@ -3,7 +3,7 @@ import IconWrapper from "./IconWrapper"
 
 function VelocityVectorCollectionItemIcon(): JSX.Element {
   return (
-    <IconWrapper className="bg-neutral-400">
+    <IconWrapper className="bg-neutral-100">
       <VelocityIcon />
     </IconWrapper>
   )

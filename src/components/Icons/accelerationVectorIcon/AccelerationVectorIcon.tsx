@@ -3,7 +3,7 @@ function AccelerationVectorIcon(): JSX.Element {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
-      viewBox="-0.5 -0.5 8 8"
+      viewBox="-0.75 -0.75 8.5 8.5"
     >
       <defs>
         <marker
@@ -34,7 +34,7 @@ function AccelerationVectorIcon(): JSX.Element {
       >
         <path
           fill="none"
-          strokeWidth="0.529"
+          strokeWidth="0.45"
           markerEnd="url(#ArrowWide)"
           d="M65.877 108.586v-4.803"
           opacity="1"
@@ -43,7 +43,7 @@ function AccelerationVectorIcon(): JSX.Element {
           x="67.784"
           y="105.349"
           fill="#1e293b"
-          strokeWidth="0.207"
+          strokeWidth="0.2"
           fontSize="2.486"
           opacity="1"
           xmlSpace="preserve"
@@ -54,7 +54,7 @@ function AccelerationVectorIcon(): JSX.Element {
             fill="#1e293b"
             fillOpacity="1"
             strokeDasharray="none"
-            strokeWidth="0.207"
+            strokeWidth="0.2"
           >
             d
           </tspan>
@@ -63,7 +63,7 @@ function AccelerationVectorIcon(): JSX.Element {
           x="67.345"
           y="108.474"
           fill="#1e293b"
-          strokeWidth="0.207"
+          strokeWidth="0.2"
           fontSize="2.486"
           opacity="1"
           xmlSpace="preserve"
@@ -81,7 +81,7 @@ function AccelerationVectorIcon(): JSX.Element {
         </text>
         <path
           fill="none"
-          strokeWidth="0.414"
+          strokeWidth="0.3"
           d="M67.142 106.03h3.285"
           opacity="1"
         ></path>

@@ -6,23 +6,32 @@ import BatchConfigIcon from "../../Icons/BatchConfigIcon/BatchConfigIcon"
 import ConfigBatchHeader from "./resources/ConfigBatchHeader/ConfigBatchHeader"
 import ConfigBatchSheet from "./resources/ConfigBatchSheet/ConfigBatchSheet"
 import type { ConfigSheetRef } from "./resources/ConfigBatchSheet/ConfigBatchSheet_types"
+import WaitIcon from "../../Icons/WaitIcon/WaitIcon"
+import WaitSheet from "./resources/ConfigBatchSheet/resources/WaitSheet/WaitSheet"
 
 function BallConfigBatchModal(): JSX.Element {
   const sheetData = useRef<ConfigSheetRef>(null)
-  const { rows, updateRows, onAccept } = useConfigBatchModal(sheetData)
+  const { rows, updateRows, onAccept, isLoading, onClose } =
+    useConfigBatchModal(sheetData)
 
   return (
     <ConfigModal
       triggerElement={
-        <IconButton coloredBy="fill" onPress={updateRows}>
-          <BatchConfigIcon />
+        <IconButton coloredBy={isLoading ? "all" : "fill"} onPress={updateRows}>
+          {isLoading ? <WaitIcon /> : <BatchConfigIcon />}
         </IconButton>
       }
       isKeyboardDismissDisabled={true}
       onAccept={onAccept}
+      onClose={onClose}
+      onCancel={onClose}
     >
       <ConfigBatchHeader />
-      <ConfigBatchSheet rows={rows} ref={sheetData} />
+      {isLoading ? (
+        <WaitSheet />
+      ) : (
+        <ConfigBatchSheet rows={rows} ref={sheetData} />
+      )}
     </ConfigModal>
   )
 }

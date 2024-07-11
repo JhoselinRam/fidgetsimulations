@@ -4,9 +4,12 @@ import type { UseCellData } from "../useCellData/useCellData_types"
 export interface UseSheetRow extends RowPropState {}
 
 export type RowPropState = {
-  [k in keyof Omit<ConfigBatchRow, "id">]: k extends "name" | "color"
+  [k in keyof Omit<ConfigBatchRow, "id">]: k extends
+    | "name"
+    | "color"
+    | "trajectoryColor"
     ? UseCellData<string>
-    : k extends "deleteBall"
+    : k extends "deleteBall" | "trajectoryMatchColor" | "trajectoryFade"
       ? UseCellData<boolean>
       : UseCellData<number>
 }

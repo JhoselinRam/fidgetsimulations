@@ -17,6 +17,11 @@ const cellProps: Array<keyof ConfigBatchRow> = [
   "charge",
   "radius",
   "color",
+  "trajectoryLength",
+  "trajectoryFade",
+  "trajectoryMatchColor",
+  "trajectoryColor",
+  "trajectoryOpacity",
   "deleteBall"
 ]
 
@@ -88,8 +93,12 @@ function useCellData<T>(
   // --------------------- Change ---------------------------
 
   function onChange(newValue: T): void {
-    follower.current = newValue
-    setValue(newValue)
+    let usedValue = newValue
+    if (prop === "trajectoryOpacity") {
+      ;(usedValue as number) = Math.round(usedValue as number)
+    }
+    follower.current = usedValue
+    setValue(usedValue)
   }
 
   // --------------------------------------------------------
