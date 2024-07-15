@@ -6,7 +6,8 @@ import {
   useCallback,
   type ForwardedRef,
   useImperativeHandle,
-  useState
+  useState,
+  useTransition
 } from "react"
 import type { ConfigBatchRow } from "../useConfigBatchModal/useConfigBatchModal_types"
 import type {
@@ -33,6 +34,7 @@ function useConfigBatchSheet(
   const rowsData = useRef<ConfigSheetRowRef[]>([])
   const lastColumnSelected = useRef(0)
   const [deleteAll, setDeleteAll] = useState(false)
+  const [isUpdatingCheckbox, startTransition] = useTransition()
 
   // ---------------- Select Cell Size ----------------------
 
@@ -278,13 +280,19 @@ function useConfigBatchSheet(
   // ------- Delete ball general checkbox callback ----------
 
   function onDeleteAll(value: boolean): void {
-    setDeleteAll(value)
+    startTransition(() => {
+      setDeleteAll(value)
 
-    if (rowsData.current == null) return
-    rowsData.current.forEach((ball) => {
-      ball.setDeleteBall(value)
+      if (rowsData.current == null) return
+      rowsData.current.forEach((ball) => {
+        ball.setDeleteBall(value)
+      })
     })
   }
+
+  useEffect(() => {
+    window.document.body.style.cursor = isUpdatingCheckbox ? "wait" : "default"
+  }, [isUpdatingCheckbox])
 
   // --------------------------------------------------------
 
@@ -297,7 +305,8 @@ function useConfigBatchSheet(
     getRowDataRef,
     setLastSelectedColumn,
     deleteAllValue: deleteAll,
-    onDeleteAll
+    onDeleteAll,
+    isUpdatingCheckbox
   }
 }
 

@@ -6,6 +6,7 @@ export interface UseConfigBatchSheet
     SheetCellSelection,
     DeleteAllHooks {
   getRowDataRef: (data: ConfigSheetRowRef) => void
+  isUpdatingCheckbox: boolean
 }
 
 export interface SheetSelection {

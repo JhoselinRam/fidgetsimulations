@@ -1,15 +1,9 @@
-import { useRef } from "react"
-import useWaitIcon from "../../../hooks/useWaitIcon/useWaitIcon"
-
 function WaitIcon(): JSX.Element {
-  const svgElement = useRef<SVGSVGElement>(null)
-  useWaitIcon(svgElement)
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="-1 -1 16 16"
-      ref={svgElement}
+      className="animate-spin"
     >
       <g fillRule="evenodd">
         <circle

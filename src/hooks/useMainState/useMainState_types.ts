@@ -77,6 +77,17 @@ import type {
   DampingActionType,
   DampingState
 } from "./resources/Damping/Damping_types"
+import type { LinkActionType } from "./resources/Link/Link_types"
+import type {
+  SpringActionType,
+  SpringElementState,
+  SpringElementType
+} from "./resources/Spring/Spring_types"
+import type {
+  RodActionType,
+  RodElementState,
+  RodElementType
+} from "./resources/Rod/Rod_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -104,6 +115,9 @@ export type MainStateActionType =
   | VelocityVectorActionType
   | AccelerationVectorActionType
   | SimulationActionType
+  | LinkActionType
+  | SpringActionType
+  | RodActionType
 
 // Main state type
 export interface MainState
@@ -114,7 +128,9 @@ export interface MainState
     LocalGravityElementState,
     SimpleForceElementState,
     VelocityVectorElementState,
-    AccelerationVectorElementState {
+    AccelerationVectorElementState,
+    SpringElementState,
+    RodElementState {
   order: CollectionOrder[]
   time: TimeState
   simulation: SimulationState
@@ -146,6 +162,8 @@ export type CollectionType =
   | SimpleForceElementType
   | VelocityVectorElementType
   | AccelerationVectorElementType
+  | SpringElementType
+  | RodElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -161,6 +179,8 @@ export type CollectionElementState =
   | DampingState
   | VelocityVectorState
   | AccelerationVectorState
+  | SpringElementState
+  | RodElementState
 
 export interface CollectionState extends CollectionOrder {
   name: string

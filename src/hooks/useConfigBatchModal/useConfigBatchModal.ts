@@ -1,10 +1,16 @@
-import { type RefObject, useContext, useState, useEffect } from "react"
+import {
+  type RefObject,
+  useContext,
+  useState,
+  useEffect,
+  useTransition,
+  useCallback
+} from "react"
 import type {
   ConfigBatchRow,
   UseConfigBatchModal
 } from "./useConfigBatchModal_types"
 import { mainStateContext } from "../useMainState/useMainState"
-import type { MainState } from "../useMainState/useMainState_types"
 import type { ConfigSheetRef } from "../../components/BallsConfigComponents/BallConfigBatchModal/resources/ConfigBatchSheet/ConfigBatchSheet_types"
 import type { BallData } from "../useMainState/resources/Balls/Balls_types"
 import { ballDataDefaultState } from "../useMainState/resources/Balls/defaultState"
@@ -14,46 +20,63 @@ function useConfigBatchModal(
 ): UseConfigBatchModal {
   const { mainState, dispatch } = useContext(mainStateContext)
   const [rows, setRows] = useState<ConfigBatchRow[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, startTransition] = useTransition()
+
+  const getInitialRows = useCallback((): ConfigBatchRow[] => {
+    return mainState.balls[0].data.map((ball) => ({
+      charge: ball.charge,
+      color: ball.color,
+      deleteBall: false,
+      mass: ball.mass,
+      name: ball.name,
+      positionX: ball.positionX,
+      positionY: ball.positionY,
+      radius: ball.radius,
+      velocityX: ball.velocityX,
+      velocityY: ball.velocityY,
+      id: ball.id,
+      trajectoryColor: ball.trajectoryColor,
+      trajectoryFade: ball.trajectoryFade,
+      trajectoryLength: ball.trajectoryLength,
+      trajectoryMatchColor: ball.trajectoryMatchColor,
+      trajectoryOpacity: ball.trajectoryOpacity
+    }))
+  }, [mainState.balls])
+
+  const updateRows = useCallback((): void => {
+    startTransition(() => {
+      const rows = getInitialRows()
+      setRows(rows)
+    })
+  }, [getInitialRows])
+
+  useEffect(() => {
+    window.document.body.style.cursor = isLoading ? "wait" : "default"
+  }, [isLoading])
 
   function onClose(): void {
-    setIsLoading(false)
-    setRows([])
+    startTransition(() => {
+      setRows([])
+    })
   }
-
-  function updateRows(): void {
-    setIsLoading(true)
-  }
-
-  useEffect(() => {
-    setIsLoading(true)
-  }, [])
-
-  useEffect(() => {
-    if (!isLoading) {
-      window.document.body.style.cursor = "default"
-      return
-    }
-
-    window.document.body.style.cursor = "wait"
-    setRows(getInitialRows(mainState))
-  }, [isLoading, mainState])
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [rows])
 
   function onAccept(): void {
-    if (sheetData.current == null) return
+    startTransition(() => {
+      if (sheetData.current == null) return
 
-    sheetData.current.getSheetData().forEach((ballData) => {
-      if (ballData.deleteBall) {
-        dispatch({ type: "balls@delete", payload: { id: ballData.id } })
-        return
-      }
+      const data: BallData[] = []
 
-      const updatedBall = getUpdatedBall(ballData)
-      dispatch({ type: "ball@update", payload: { ...updatedBall } })
+      sheetData.current.getSheetData().forEach((ballData) => {
+        if (ballData.deleteBall) {
+          dispatch({ type: "balls@delete", payload: { id: ballData.id } })
+          return
+        }
+
+        data.push(getUpdatedBall(ballData))
+      })
+
+      dispatch({ type: "ball@updateAll", payload: { data } })
+      setRows([])
     })
   }
 
@@ -83,24 +106,3 @@ function useConfigBatchModal(
 }
 
 export default useConfigBatchModal
-
-function getInitialRows(state: MainState): ConfigBatchRow[] {
-  return state.balls[0].data.map((ball) => ({
-    charge: ball.charge,
-    color: ball.color,
-    deleteBall: false,
-    mass: ball.mass,
-    name: ball.name,
-    positionX: ball.positionX,
-    positionY: ball.positionY,
-    radius: ball.radius,
-    velocityX: ball.velocityX,
-    velocityY: ball.velocityY,
-    id: ball.id,
-    trajectoryColor: ball.trajectoryColor,
-    trajectoryFade: ball.trajectoryFade,
-    trajectoryLength: ball.trajectoryLength,
-    trajectoryMatchColor: ball.trajectoryMatchColor,
-    trajectoryOpacity: ball.trajectoryOpacity
-  }))
-}

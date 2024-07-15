@@ -6,6 +6,7 @@ import type {
 } from "./ConfigBatchSheet_types"
 import ConfigSheetHeader from "./resources/ConfigSheetHeader/ConfigSheetHeader"
 import ConfigSheetRow from "./resources/ConfigSheetRow/ConfigSheetRow"
+import WaitIcon from "../../../../Icons/WaitIcon/WaitIcon"
 
 const ConfigBatchSheet = forwardRef<ConfigSheetRef, ConfigBatchSheetProps>(
   ({ rows }, ref): JSX.Element => {
@@ -16,6 +17,7 @@ const ConfigBatchSheet = forwardRef<ConfigSheetRef, ConfigBatchSheetProps>(
       getRowDataRef,
       deleteAllValue,
       onDeleteAll,
+      isUpdatingCheckbox,
       ...cellSelectionHooks
     } = useConfigBatchSheet(rows, gridElement, cellElement, ref)
 
@@ -45,6 +47,13 @@ const ConfigBatchSheet = forwardRef<ConfigSheetRef, ConfigBatchSheetProps>(
             ref={cellElement}
           ></div>
         </div>
+        {isUpdatingCheckbox && (
+          <div className="absolute z-50 top-0 left-0 right-0 bottom-0 bg-black opacity-50 flex justify-center items-center">
+            <div className="w-16 fill-zinc-300 stroke-zinc-300">
+              <WaitIcon />
+            </div>
+          </div>
+        )}
       </div>
     )
   }

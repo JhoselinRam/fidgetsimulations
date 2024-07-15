@@ -23,8 +23,8 @@ function BallConfigBatchModal(): JSX.Element {
       }
       isKeyboardDismissDisabled={true}
       onAccept={onAccept}
-      onClose={onClose}
       onCancel={onClose}
+      onClose={onClose}
     >
       <ConfigBatchHeader />
       {isLoading ? (

@@ -10,7 +10,8 @@ function ConfigModal({
   onCancel,
   triggerElement,
   className,
-  isKeyboardDismissDisabled
+  isKeyboardDismissDisabled,
+  onClose
 }: ConfigModalProps): JSX.Element {
   return (
     <DialogTrigger>
@@ -26,7 +27,7 @@ function ConfigModal({
           {({ close }) => (
             <>
               {children}
-              <ConfigModalClose close={close} />
+              <ConfigModalClose close={close} onClose={onClose} />
               <div className="w-full flex flex-col-reverse gap-2 x2s:flex-row x2s:justify-end x2s:gap-3">
                 <ConfigModalCancel close={close} onCancel={onCancel} />
                 <ConfigModalAccept close={close} onAccept={onAccept} />
