@@ -141,6 +141,14 @@ import { simulationRun } from "./resources/Simulation/Simulation"
 import { dampingNew } from "./resources/Damping/Damping"
 import { accelerationVectorNew } from "./resources/AccelerationVector/AccelerationVector"
 import { VelocityVectorNew } from "./resources/VelocityVector/VelocityVector"
+import {
+  linkBall,
+  linkColor,
+  linkLength,
+  linkOpacity
+} from "./resources/Link/Link"
+import { springNew, springStrength } from "./resources/Spring/Spring"
+import { rodNew } from "./resources/Rod/Rod"
 
 // -------------------- Hook body -------------------------
 
@@ -264,7 +272,14 @@ const reducerObject: ReducerObject = {
   "vector@minOpacityMagnitude": vectorMinOpacityMagnitude,
   "accelerationVector@new": accelerationVectorNew,
   "velocityVector@new": VelocityVectorNew,
-  "simulation@run": simulationRun
+  "simulation@run": simulationRun,
+  "link@length": linkLength,
+  "link@linkBall": linkBall,
+  "link@color": linkColor,
+  "link@opacity": linkOpacity,
+  "spring@new": springNew,
+  "spring@strength": springStrength,
+  "rod@new": rodNew
 }
 
 // --------------------------------------------------------
@@ -314,6 +329,8 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "electric" ||
     type === "velocityVector" ||
     type === "accelerationVector" ||
+    type === "rod" ||
+    type === "spring" ||
     type === "damping"
   )
 }
@@ -375,7 +392,7 @@ export function getGraphicalCollection(
 export function isCollection<T extends CollectionElementState | BallData>(
   data: unknown,
   keyState: T
-): data is T {
+): data is T & { id: string; type: CollectionType } {
   if (data == null) return false
   if (typeof data !== "object") return false
 
@@ -481,7 +498,7 @@ export function createSimpleSlice<KeyType extends string>(
 // - Creates a new collection slice for simple collections -
 
 export function createSimpleNewCollectionSlice<
-  T extends CollectionElementState
+  T extends CollectionElementState | BallData
 >(type: CollectionType, sampleState: T): ReducerSlice {
   return (state, payload) => {
     if (!isCollection(payload, sampleState)) return state

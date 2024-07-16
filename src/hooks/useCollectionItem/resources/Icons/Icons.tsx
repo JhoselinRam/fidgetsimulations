@@ -9,7 +9,9 @@ import GravityCollectionItemIcon from "../../../../components/CollectionItemIcon
 import LinechartCollectionItemIcon from "../../../../components/CollectionItemIcons/LinechartCollectionItemIcon"
 import LocalGravityCollectionItemIcon from "../../../../components/CollectionItemIcons/LocalGravityCollectionItemIcon"
 import ObstacleCollectionItemIcon from "../../../../components/CollectionItemIcons/ObstacleCollectionItemIcon"
+import RodCollectionItemIcon from "../../../../components/CollectionItemIcons/RodCollectionItemIcon"
 import SimulationWindowCollectionItemIcon from "../../../../components/CollectionItemIcons/SimulationWindowCollectionItemIcon"
+import SpringCollectionItemIcon from "../../../../components/CollectionItemIcons/SpringCollectionItemIcon"
 import VelocityVectorCollectionItemIcon from "../../../../components/CollectionItemIcons/VelocityVectorCollectionItemIcon"
 import type { ItemIcon } from "../../useCollectionItem_types"
 
@@ -26,5 +28,7 @@ export const itemIcon: ItemIcon = {
   electric: <ElectricCollectionItemIcon />,
   damping: <DampingCollectionItemIcon />,
   velocityVector: <VelocityVectorCollectionItemIcon />,
-  accelerationVector: <AccelerationVectorCollectionItemIcon />
+  accelerationVector: <AccelerationVectorCollectionItemIcon />,
+  spring: <SpringCollectionItemIcon />,
+  rod: <RodCollectionItemIcon />
 }

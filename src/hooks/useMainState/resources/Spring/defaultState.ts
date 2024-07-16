@@ -7,5 +7,14 @@ export const springStrengthDefaultState: SpringStrength = {
 
 export const springDefaultState: SpringState = {
   ...linkDefaultState,
-  ...springStrengthDefaultState
+  ...springStrengthDefaultState,
+  linkBall: [],
+  type: "spring"
+}
+
+export function createSpringState(): SpringState {
+  const state = { ...springDefaultState }
+  state.id = crypto.randomUUID()
+
+  return state
 }

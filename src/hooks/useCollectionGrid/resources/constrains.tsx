@@ -10,6 +10,8 @@ import ObstacleIcon from "../../../components/Icons/ObstacleIcon/ObstacleIcon"
 import ContainerIcon from "../../../components/Icons/ContainerIcon/ContainerIcon"
 import { createContainerState } from "../../useMainState/resources/Container/defaultState"
 import { createObstacleState } from "../../useMainState/resources/Obstacle/defaultState"
+import { createRodState } from "../../useMainState/resources/Rod/defaultState"
+import { createSpringState } from "../../useMainState/resources/Spring/defaultState"
 
 function getConstrainsItems(
   state: MainState,
@@ -25,7 +27,13 @@ function getConstrainsItems(
   }
 
   function springAction(): void {
-    console.log("Spring Action")
+    const newSpring = createSpringState()
+    newSpring.name = `Spring ${state.spring.length + 1}`
+
+    dispatch({
+      type: "spring@new",
+      payload: newSpring as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------
@@ -39,7 +47,13 @@ function getConstrainsItems(
   }
 
   function rodAction(): void {
-    console.log("Rod Action")
+    const newRod = createRodState()
+    newRod.name = `Rod ${state.rod.length + 1}`
+
+    dispatch({
+      type: "rod@new",
+      payload: newRod as unknown as Record<string, unknown>
+    })
   }
 
   // --------------------------------------------------------

@@ -5,7 +5,7 @@ export type RodActionType = "rod@new"
 export interface RodState extends LinkState {}
 
 export interface RodElementState {
-  rod: RodState
+  rod: RodState[]
 }
 
 export type RodElementType = keyof RodElementState

@@ -15,6 +15,8 @@ import ConfigElectric from "../../../ConfigElements/ConfigElectric/ConfigElectri
 import ConfigDamping from "../../../ConfigElements/ConfigDamping/ConfigDamping"
 import ConfigVelocityVector from "../../../ConfigElements/ConfigVelocityVector/ConfigVelocityVector"
 import ConfigAccelerationVector from "../../../ConfigElements/ConfigAccelerationVector/ConfigAccelerationVector"
+import ConfigSpring from "../../../ConfigElements/ConfigSpring/ConfigSpring"
+import ConfigRod from "../../../ConfigElements/ConfigRod/ConfigRod"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -32,7 +34,9 @@ function ToolConfig(): JSX.Element {
     electric: (item) => <ConfigElectric item={item} />,
     damping: (item) => <ConfigDamping item={item} />,
     velocityVector: (item) => <ConfigVelocityVector item={item} />,
-    accelerationVector: (item) => <ConfigAccelerationVector item={item} />
+    accelerationVector: (item) => <ConfigAccelerationVector item={item} />,
+    spring: (item) => <ConfigSpring item={item} />,
+    rod: (item) => <ConfigRod item={item} />
   }
 
   return (

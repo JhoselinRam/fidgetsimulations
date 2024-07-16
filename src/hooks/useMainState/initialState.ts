@@ -28,7 +28,9 @@ const initialState: MainState = {
   damping: [],
   velocityVector: [],
   accelerationVector: [],
-  simulation: { ...simulationDefaultState }
+  simulation: { ...simulationDefaultState },
+  rod: [],
+  spring: []
 }
 
 // --------------------------------------------------------

@@ -81,12 +81,14 @@ import type { LinkActionType } from "./resources/Link/Link_types"
 import type {
   SpringActionType,
   SpringElementState,
-  SpringElementType
+  SpringElementType,
+  SpringState
 } from "./resources/Spring/Spring_types"
 import type {
   RodActionType,
   RodElementState,
-  RodElementType
+  RodElementType,
+  RodState
 } from "./resources/Rod/Rod_types"
 
 // Type of the useMainState hook
@@ -179,8 +181,8 @@ export type CollectionElementState =
   | DampingState
   | VelocityVectorState
   | AccelerationVectorState
-  | SpringElementState
-  | RodElementState
+  | SpringState
+  | RodState
 
 export interface CollectionState extends CollectionOrder {
   name: string
