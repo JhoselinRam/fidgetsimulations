@@ -3,7 +3,11 @@ import Info from "../../../../Info/Info"
 import NumberInput from "../../../../NumberInput/NumberInput"
 import type { LinkLengthProps } from "./LinkLength_types"
 
-function LinkLength({ lengthInfo, lengthHooks }: LinkLengthProps): JSX.Element {
+function LinkLength({
+  lengthInfo,
+  lengthHooks,
+  lengthClassName
+}: LinkLengthProps): JSX.Element {
   return (
     <ConfigSection.Section className="!flex-row">
       <NumberInput
@@ -11,6 +15,7 @@ function LinkLength({ lengthInfo, lengthHooks }: LinkLengthProps): JSX.Element {
         minValue={0}
         step={0.01}
         formatOptions={{ maximumFractionDigits: 3 }}
+        className={lengthClassName}
         {...lengthHooks}
       >
         Size:

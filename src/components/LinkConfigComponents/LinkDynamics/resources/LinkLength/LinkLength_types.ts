@@ -3,4 +3,5 @@ import type { LinkDynamicsHooks } from "../../../../../hooks/useLinkDynamics/use
 
 export interface LinkLengthProps extends LinkDynamicsHooks {
   lengthInfo: ReactNode
+  lengthClassName?: string
 }

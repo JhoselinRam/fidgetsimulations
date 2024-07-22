@@ -5,4 +5,5 @@ export interface LinkDynamicsProps
   extends ConfigCollectionProps,
     PropsWithChildren {
   lengthInfo: ReactNode
+  lengthClassName?: string
 }
