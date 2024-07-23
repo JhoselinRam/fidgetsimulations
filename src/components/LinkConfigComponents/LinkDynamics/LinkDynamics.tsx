@@ -10,7 +10,7 @@ function LinkDynamics({
   lengthInfo,
   lengthClassName
 }: LinkDynamicsProps): JSX.Element {
-  const { lengthHooks } = useLinkDynamics(item)
+  const { lengthHooks, ballList } = useLinkDynamics(item)
 
   return (
     <ConfigSection title="Dynamics">
@@ -21,7 +21,7 @@ function LinkDynamics({
         lengthHooks={lengthHooks}
         lengthClassName={lengthClassName}
       />
-      <LinkBalls />
+      <LinkBalls ballList={ballList} item={item} />
     </ConfigSection>
   )
 }

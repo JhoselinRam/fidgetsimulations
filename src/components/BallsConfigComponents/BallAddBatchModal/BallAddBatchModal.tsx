@@ -2,8 +2,8 @@ import useBallAddBatch from "../../../hooks/useBallAddBatch/useBallAddBatch"
 import ConfigModal from "../../ConfigModal/ConfigModal"
 import IconButton from "../../IconButton/IconButton"
 import AddBatchIcon from "../../Icons/AddBatchIcon/AddBatchIcon"
+import ModalConfigHeader from "../../ModalConfigHeader/ModalConfigHeader"
 import AddBatchControl from "./resources/AddBatchControl/AddBatchControl"
-import AddModalHeader from "./resources/AddModalHeader/AddModalHeader"
 
 function BallAddBatchModal(): JSX.Element {
   const { createBatch, ...formHooks } = useBallAddBatch()
@@ -17,7 +17,7 @@ function BallAddBatchModal(): JSX.Element {
       }
       onAccept={createBatch}
     >
-      <AddModalHeader />
+      <ModalConfigHeader>Add Batch:</ModalConfigHeader>
       <AddBatchControl {...formHooks} />
     </ConfigModal>
   )

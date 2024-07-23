@@ -8,6 +8,7 @@ import type {
   MainState
 } from "../useMainState/useMainState_types"
 import type {
+  LinkBallListItem,
   LinkDynamicsValues,
   UseLinkDynamics
 } from "./useLinkDynamics_types"
@@ -15,7 +16,7 @@ import useBindState from "../useBindState/useBindState"
 
 function useLinkDynamics(item: CollectionOrder): UseLinkDynamics {
   const { mainState } = useContext(mainStateContext)
-  const { length } = getLinkDynamics(item, mainState)
+  const { length, ballList } = getLinkDynamics(item, mainState)
 
   const lengthProps = useBindState(item, length, "link@length")
 
@@ -23,7 +24,8 @@ function useLinkDynamics(item: CollectionOrder): UseLinkDynamics {
     lengthHooks: {
       value: lengthProps.value,
       onChange: lengthProps.changeValue
-    }
+    },
+    ballList
   }
 }
 
@@ -39,10 +41,43 @@ function getLinkDynamics(
   ])
   if (collection == null)
     return {
-      ...linkLengthDefaultState
+      ...linkLengthDefaultState,
+      ballList: []
     }
 
+  const ballList: LinkBallListItem[] = []
+
+  collection.linkBall.forEach((entry) => {
+    const ballA = state.balls[0].data.find((ball) => ball.id === entry[0])
+    const ballB = state.balls[0].data.find((ball) => ball.id === entry[1])
+
+    if (ballA == null || ballB == null) return
+
+    ballList.push({
+      id: `${ballA.id}${ballB.id}`,
+      nameA: ballA.name,
+      nameB: ballB.name
+    })
+  })
+
   return {
-    length: collection.length
+    length: collection.length,
+    ballList: [
+      { id: "zdcadfadf", nameA: "Ball 1", nameB: "Ball 2" },
+      { id: "derthtyue", nameA: "Ball 2", nameB: "Ball 3" },
+      { id: "assdbrym", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "assdbrym", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "difgld", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "d5h1rft5a5h", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "sdgrfdth8a", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "sdfh4da58f48de", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "sds5as5sw5", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "sddddddd", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "sdfgass78sd", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "<z56sv4+6>", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "55szdv85sd8578vas", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "zxd5vb4s8c89as", nameA: "Ball 3", nameB: "Ball 4" },
+      { id: "zzxc7s", nameA: "Ball 3", nameB: "Ball 4" }
+    ]
   }
 }

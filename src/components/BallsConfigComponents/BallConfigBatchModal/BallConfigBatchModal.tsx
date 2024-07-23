@@ -3,11 +3,11 @@ import useConfigBatchModal from "../../../hooks/useConfigBatchModal/useConfigBat
 import ConfigModal from "../../ConfigModal/ConfigModal"
 import IconButton from "../../IconButton/IconButton"
 import BatchConfigIcon from "../../Icons/BatchConfigIcon/BatchConfigIcon"
-import ConfigBatchHeader from "./resources/ConfigBatchHeader/ConfigBatchHeader"
 import ConfigBatchSheet from "./resources/ConfigBatchSheet/ConfigBatchSheet"
 import type { ConfigSheetRef } from "./resources/ConfigBatchSheet/ConfigBatchSheet_types"
 import WaitIcon from "../../Icons/WaitIcon/WaitIcon"
 import WaitSheet from "./resources/ConfigBatchSheet/resources/WaitSheet/WaitSheet"
+import ModalConfigHeader from "../../ModalConfigHeader/ModalConfigHeader"
 
 function BallConfigBatchModal(): JSX.Element {
   const sheetData = useRef<ConfigSheetRef>(null)
@@ -26,7 +26,7 @@ function BallConfigBatchModal(): JSX.Element {
       onCancel={onClose}
       onClose={onClose}
     >
-      <ConfigBatchHeader />
+      <ModalConfigHeader>Config Batch:</ModalConfigHeader>
       {isLoading ? (
         <WaitSheet />
       ) : (
