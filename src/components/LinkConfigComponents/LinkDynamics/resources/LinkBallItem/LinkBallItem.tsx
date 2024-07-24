@@ -1,19 +1,20 @@
 import { GridListItem } from "react-aria-components"
 import type { LinkBallItemProps } from "./LinkBallItem_types"
-import LinkIcon from "../../../../Icons/LinkIcon/LinkIcon"
+import RodIcon from "../../../../Icons/RodIcon/RodIcon"
+import SpringIcon from "../../../../Icons/SpringIcon/SpringIcon"
 
-function LinkBallItem({ item }: LinkBallItemProps): JSX.Element {
+function LinkBallItem({ item, ballElement }: LinkBallItemProps): JSX.Element {
   return (
-    <GridListItem id={item.id}>
+    <GridListItem id={ballElement.id} textValue={ballElement.id}>
       <div className="flex flex-row items-center text-sm outline-none py-1 my-2 rounded-md px-1 bg-zinc-400/50">
         <p className="w-full text-nowrap text-center overflow-hidden ">
-          {item.nameA}
+          {ballElement.nameA}
         </p>
-        <div className="size-[0.85rem] shrink-0 fill-zinc-300">
-          <LinkIcon />
+        <div className="size-[0.85rem] shrink-0">
+          {item.type === "rod" ? <RodIcon /> : <SpringIcon />}
         </div>
         <p className="w-full text-nowrap text-center overflow-hidden ">
-          {item.nameB}
+          {ballElement.nameB}
         </p>
       </div>
     </GridListItem>

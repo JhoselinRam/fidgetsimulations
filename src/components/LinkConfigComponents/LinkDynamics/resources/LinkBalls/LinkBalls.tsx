@@ -15,7 +15,9 @@ function LinkBalls({ ballList, item }: LinkBallProps): JSX.Element {
             selectionMode="none"
             aria-label="link ball list"
           >
-            {(item) => <LinkBallItem item={item} />}
+            {(ballElement) => (
+              <LinkBallItem ballElement={ballElement} item={item} />
+            )}
           </GridList>
         </section>
       </ConfigSection.Section>
