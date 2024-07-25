@@ -7,7 +7,7 @@ function LinkBallConfig({ item }: LinkBallConfigProps): JSX.Element {
   return (
     <ConfigSection.Header className="mt-5">
       <p className="text-nowrap">Balls affected:</p>
-      <LinkBallModal />
+      <LinkBallModal item={item} />
       <Info placement="left" crossOffset={20}>
         <p>
           A {item.type} constriction with the same properties will be applied to
