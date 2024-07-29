@@ -1,9 +1,10 @@
 import Button from "../../../../Button/Button"
 import MoveArrowIcon from "../../../../Icons/MoveArrowIcon/MoveArrowIcon"
+import type { LinkModalMoveProps } from "./LinkModalMove_types"
 
-function LinkModalMove(): JSX.Element {
+function LinkModalMove({ onMovePairs }: LinkModalMoveProps): JSX.Element {
   return (
-    <Button className="group">
+    <Button className="group z-50" onPress={onMovePairs}>
       <div className="w-10 py-0.5 stroke-tuatara-200 group-data-[pressed]:stroke-tuatara-50">
         <MoveArrowIcon />
       </div>
