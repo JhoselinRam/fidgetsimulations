@@ -1,3 +1,3 @@
 export interface UseDeleteItem {
-  onDelete: () => void
+  onExit: () => void
 }

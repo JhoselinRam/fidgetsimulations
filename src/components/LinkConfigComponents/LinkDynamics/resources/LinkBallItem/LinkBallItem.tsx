@@ -6,7 +6,7 @@ import SpringIcon from "../../../../Icons/SpringIcon/SpringIcon"
 function LinkBallItem({ item, ballElement }: LinkBallItemProps): JSX.Element {
   return (
     <GridListItem id={ballElement.id} textValue={ballElement.id}>
-      <div className="flex flex-row items-center text-sm outline-none py-1 my-2 rounded-md px-1 bg-zinc-400/50">
+      <div className="flex flex-row items-center text-sm outline-none py-1 my-2 rounded-full px-1 bg-zinc-400">
         <p className="w-full text-nowrap text-center overflow-hidden ">
           {ballElement.nameA}
         </p>

@@ -30,6 +30,7 @@ export interface LinkBallMoveHooks {
 export interface LinkBallPairHooks {
   pairElements: LinkBallPairElement[]
   collectionType: CollectionType
+  removePair: (pair: LinkBallPairElement) => void
 }
 
 export interface LinkBallPairElement {

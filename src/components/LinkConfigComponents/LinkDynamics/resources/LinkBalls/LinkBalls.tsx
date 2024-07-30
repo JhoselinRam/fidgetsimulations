@@ -9,7 +9,7 @@ function LinkBalls({ ballList, item }: LinkBallProps): JSX.Element {
     <>
       <LinkBallConfig item={item} />
       <ConfigSection.Section>
-        <section className="border border-tuatara-500 rounded-md w-full h-48 bg-tuatara-700 overflow-y-auto  px-2">
+        <section className="border border-tuatara-500 rounded-md w-full h-48 bg-tuatara-700 overflow-y-auto px-1">
           <GridList
             items={ballList}
             selectionMode="none"

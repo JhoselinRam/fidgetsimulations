@@ -1,7 +1,9 @@
-import type { LinkBallPairElement } from "../../../../../hooks/useLinkBallModal/useLinkBallModal_types"
-import type { CollectionType } from "../../../../../hooks/useMainState/useMainState_types"
+import type {
+  LinkBallPairElement,
+  LinkBallPairHooks
+} from "../../../../../hooks/useLinkBallModal/useLinkBallModal_types"
 
-export interface LinkModalPairElementProps {
-  collectionType: CollectionType
+export interface LinkModalPairElementProps
+  extends Omit<LinkBallPairHooks, "pairElements"> {
   pairElement: LinkBallPairElement
 }

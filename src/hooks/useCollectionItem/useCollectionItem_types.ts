@@ -7,6 +7,8 @@ export interface UseCollectionItem extends UseDeleteItem {
   icon: ReactNode
   selectOnAction: () => void
   isDisabled: boolean
+  onDelete: () => void
+  shouldExit: boolean
 }
 
 export type ItemIcon = {

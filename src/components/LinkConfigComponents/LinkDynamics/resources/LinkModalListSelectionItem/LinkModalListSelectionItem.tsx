@@ -4,7 +4,7 @@ function LinkModalListSelectionItem({
   children
 }: PropsWithChildren): JSX.Element {
   return (
-    <div className="w-full text-center text-nowrap overflow-hidden h-full text-zinc-300 bg-zinc-500 rounded-md">
+    <div className="w-full flex justify-center items-center text-nowrap overflow-hidden h-full text-zinc-900 bg-zinc-300 rounded-full">
       {children}
     </div>
   )

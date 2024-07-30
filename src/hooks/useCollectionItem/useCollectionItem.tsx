@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, useContext } from "react"
+import { type Dispatch, type SetStateAction, useContext, useState } from "react"
 import type { UseCollectionItem } from "./useCollectionItem_types"
 import { mainStateContext } from "../useMainState/useMainState"
 import { itemIcon } from "./resources/Icons/Icons"
@@ -12,10 +12,15 @@ function useCollectionItem(
   setSelection: Dispatch<SetStateAction<Selection>>
 ): UseCollectionItem {
   const { mainState, dispatch } = useContext(mainStateContext)
-  const { onDelete } = useDeleteItem(dispatch, item)
+  const { onExit } = useDeleteItem(dispatch, item)
   const { name } = useItemName(mainState, item)
   const icon = itemIcon[item.type]
   const isDisabled = mainState.simulation.run
+  const [shouldExit, setShouldExit] = useState(false)
+
+  function onDelete(): void {
+    setShouldExit(true)
+  }
 
   function selectOnAction(): void {
     setSelection(new Set([item.id]))
@@ -24,9 +29,11 @@ function useCollectionItem(
   return {
     name,
     icon,
-    onDelete,
+    onExit,
     selectOnAction,
-    isDisabled
+    isDisabled,
+    onDelete,
+    shouldExit
   }
 }
 // --------------------------------------------------------

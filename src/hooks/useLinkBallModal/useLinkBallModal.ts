@@ -26,10 +26,15 @@ function useLinkBallModal(item: CollectionOrder): UseLinkBallModal {
   const [linkPairs, setLinkPairs] = useState<LinkBallArray>([])
   const [pairElements, setPairElements] = useState<LinkBallPairElement[]>([])
 
+  function updatePairs(pairs: LinkBallArray): void {
+    setLinkPairs(pairs)
+    setPairElements(getPairElements(pairs, mainState))
+  }
+
   function refreshModal(): void {
     setBallOptions(getListElements(mainState))
-    setLinkPairs(getLinkPairs(item, mainState))
-    setPairElements(getPairElements(linkPairs, mainState))
+    const pairs = getLinkPairs(item, mainState)
+    updatePairs(pairs)
   }
 
   function changeBallSelection(selection: Selection): void {
@@ -69,8 +74,16 @@ function useLinkBallModal(item: CollectionOrder): UseLinkBallModal {
     const newPairs = [...linkPairs]
     newPairs.push(candidatePair)
 
-    setLinkPairs(newPairs)
-    setPairElements(getPairElements(newPairs, mainState))
+    updatePairs(newPairs)
+  }
+
+  function removePair(pair: LinkBallPairElement): void {
+    const newLinkPairs = linkPairs.filter((element) => {
+      const setPair = new Set(element)
+      return !(setPair.has(pair.idA) && setPair.has(pair.idB))
+    })
+
+    updatePairs(newLinkPairs)
   }
 
   return {
@@ -86,7 +99,8 @@ function useLinkBallModal(item: CollectionOrder): UseLinkBallModal {
     },
     pairHooks: {
       pairElements,
-      collectionType: item.type
+      collectionType: item.type,
+      removePair
     }
   }
 }
