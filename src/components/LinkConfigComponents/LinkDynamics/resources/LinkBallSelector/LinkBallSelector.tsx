@@ -9,7 +9,10 @@ function LinkBallSelector({
   pairHooks
 }: LinkBallSelectorProps): JSX.Element {
   return (
-    <section className="w-full h-full flex flex-col py-3 gap-4 items-center overflow-hidden">
+    <section
+      className="w-full h-full flex flex-col py-3 gap-4 items-center overflow-hidden
+    sm:flex-row sm:gap-0"
+    >
       <LinkModalList {...listHooks} />
       <LinkModalMove {...moveHooks} />
       <LinkModalPairs {...pairHooks} />

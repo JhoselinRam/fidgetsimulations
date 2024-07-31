@@ -4,6 +4,7 @@ import type { CollectionType } from "../useMainState/useMainState_types"
 export interface UseLinkBallModal {
   listHooks: LinkBallListHooks
   refreshModal: () => void
+  onAccept: () => void
   moveHooks: LinkBallMoveHooks
   pairHooks: LinkBallPairHooks
 }

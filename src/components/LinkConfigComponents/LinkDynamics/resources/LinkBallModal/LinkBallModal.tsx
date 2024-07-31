@@ -7,7 +7,7 @@ import ModalConfigHeader from "../../../../ModalConfigHeader/ModalConfigHeader"
 import LinkBallSelector from "../LinkBallSelector/LinkBallSelector"
 
 function LinkBallModal({ item }: ConfigCollectionProps): JSX.Element {
-  const { refreshModal, ...selectorHooks } = useLinkBallModal(item)
+  const { refreshModal, onAccept, ...selectorHooks } = useLinkBallModal(item)
 
   return (
     <ConfigModal
@@ -17,8 +17,9 @@ function LinkBallModal({ item }: ConfigCollectionProps): JSX.Element {
         </IconButton>
       }
       isKeyboardDismissDisabled={true}
+      onAccept={onAccept}
     >
-      <ModalConfigHeader>Ball select:</ModalConfigHeader>
+      <ModalConfigHeader>Ball pair selector:</ModalConfigHeader>
       <LinkBallSelector {...selectorHooks} />
     </ConfigModal>
   )

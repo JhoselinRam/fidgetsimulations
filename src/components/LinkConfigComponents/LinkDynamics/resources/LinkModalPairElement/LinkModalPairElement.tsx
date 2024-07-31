@@ -20,7 +20,7 @@ function LinkModalPairElement({
     <GridListItem
       id={pairElement.id}
       textValue={`${pairElement.nameA} ${pairElement.nameB}`}
-      className=""
+      className="outline-none"
     >
       <AnimatedListElement shouldExit={shouldExit} onExit={onExit}>
         <div className="flex flex-row items-center w-full mb-2 gap-0.5">

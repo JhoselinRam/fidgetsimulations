@@ -10,12 +10,12 @@ function LinkModalList({
   ballNames
 }: LinkModalListProps): JSX.Element {
   return (
-    <div className="w-full h-full max-h-[45%] relative">
+    <div className="w-full h-full max-h-[45%] relative sm:max-h-none sm:flex sm:flex-col sm:items-center">
       <ListBox
         items={ballOptions}
         selectionMode="multiple"
         aria-label="ball list"
-        className="text-sm text-zinc-300 h-full overflow-auto border rounded-md bg-tuatara-800 border-zinc-500 py-1 px-2"
+        className="text-sm text-zinc-300 h-full overflow-auto border rounded-md bg-tuatara-800 border-zinc-500 py-1 px-2 sm:w-full"
         selectedKeys={selectedBalls}
         onSelectionChange={changeBallSelection}
       >

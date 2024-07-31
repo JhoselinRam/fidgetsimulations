@@ -15,7 +15,7 @@ import type { RodState } from "../useMainState/resources/Rod/Rod_types"
 import type { SpringState } from "../useMainState/resources/Spring/Spring_types"
 
 function useLinkBallModal(item: CollectionOrder): UseLinkBallModal {
-  const { mainState } = useContext(mainStateContext)
+  const { mainState, dispatch } = useContext(mainStateContext)
   const [ballOptions, setBallOptions] = useState<LinkBallListElement[]>([])
   const [selectedBalls, setSelectedBalls] = useState<Set<Key>>(new Set([]))
   const firstSelection = useRef<Key>("")
@@ -86,8 +86,19 @@ function useLinkBallModal(item: CollectionOrder): UseLinkBallModal {
     updatePairs(newLinkPairs)
   }
 
+  function onAccept(): void {
+    const payload: Record<string, unknown> = { ...item }
+    payload.linkBall = linkPairs
+
+    dispatch({
+      type: "link@linkBall",
+      payload
+    })
+  }
+
   return {
     refreshModal,
+    onAccept,
     listHooks: {
       ballOptions,
       changeBallSelection,

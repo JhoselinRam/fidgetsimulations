@@ -62,22 +62,6 @@ function getLinkDynamics(
 
   return {
     length: collection.length,
-    ballList: [
-      { id: "aaaaa", nameA: "Ball 1", nameB: "Ball 2" },
-      { id: "bbbbb", nameA: "Ball 2", nameB: "Ball 3" },
-      { id: "ccccc", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "ddddd", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "eeeee", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "fffff", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "ggggg", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "hhhhh", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "iiiii", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "jjjjj", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "kkkkk", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "lllll", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "mmmmm", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "nnnnn", nameA: "Ball 3", nameB: "Ball 4" },
-      { id: "ooooo", nameA: "Ball 3", nameB: "Ball 4" }
-    ]
+    ballList
   }
 }

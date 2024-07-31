@@ -17,7 +17,7 @@ function ConfigModal({
     <DialogTrigger>
       {triggerElement}
       <Modal
-        className="w-full max-w-modal h-full relative bg-tuatara-900 rounded-md pt-2 pb-3 px-5
+        className="w-full max-w-modal h-full relative bg-tuatara-900 rounded-md pt-2 pb-3 px-5 border border-zinc-500
       sm:max-h-modal"
         isKeyboardDismissDisabled={isKeyboardDismissDisabled}
       >
