@@ -158,7 +158,7 @@ export default {
       },
       gridTemplateColumns: {
         collection: "repeat(auto-fit,minmax(3.5rem, 1fr))",
-        "batch-config": "30px,repeat(15,minmax(5.5rem,1fr))"
+        "batch-config": "30px,repeat(16,minmax(5.5rem,1fr))"
       }
     }
   },

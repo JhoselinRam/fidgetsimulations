@@ -39,7 +39,8 @@ function useConfigBatchModal(
       trajectoryFade: ball.trajectoryFade,
       trajectoryLength: ball.trajectoryLength,
       trajectoryMatchColor: ball.trajectoryMatchColor,
-      trajectoryOpacity: ball.trajectoryOpacity
+      trajectoryOpacity: ball.trajectoryOpacity,
+      fixed: ball.fixed
     }))
   }, [mainState.balls])
 

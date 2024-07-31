@@ -9,7 +9,11 @@ export type RowPropState = {
     | "color"
     | "trajectoryColor"
     ? UseCellData<string>
-    : k extends "deleteBall" | "trajectoryMatchColor" | "trajectoryFade"
+    : k extends
+          | "deleteBall"
+          | "trajectoryMatchColor"
+          | "trajectoryFade"
+          | "fixed"
       ? UseCellData<boolean>
       : UseCellData<number>
 }

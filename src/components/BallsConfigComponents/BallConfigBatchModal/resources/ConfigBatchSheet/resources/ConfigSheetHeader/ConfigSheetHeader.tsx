@@ -18,6 +18,7 @@ function ConfigSheetHeader({
       <HeaderCell>Charge</HeaderCell>
       <HeaderCell>Radius</HeaderCell>
       <HeaderCell>Color</HeaderCell>
+      <HeaderCell>Fixed</HeaderCell>
       <HeaderCell>Path Length</HeaderCell>
       <HeaderCell>Path Fade</HeaderCell>
       <HeaderCell>Path Match</HeaderCell>

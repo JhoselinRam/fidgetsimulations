@@ -8,6 +8,12 @@ import type {
 export interface UseBallDynamics {
   positionHooks: BallDynamicsHooks
   velocityHooks: BallDynamicsHooks
+  fixedHooks: BallFixedHooks
+}
+
+export interface BallFixedHooks {
+  isSelected: boolean
+  onChange: (value: boolean) => void
 }
 
 export interface BallDynamicsHooks {

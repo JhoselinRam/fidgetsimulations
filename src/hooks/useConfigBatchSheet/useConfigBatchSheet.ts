@@ -131,7 +131,7 @@ function useConfigBatchSheet(
   // -------------- Shift Selected Column -------------------
 
   function shiftSelectionColumn(direction: "left" | "right"): void {
-    if (columnSelected.current === 14 && direction === "right") return
+    if (columnSelected.current === 15 && direction === "right") return
     if (columnSelected.current === 0 && direction === "left") return
 
     columnSelected.current +=
@@ -162,7 +162,7 @@ function useConfigBatchSheet(
 
   function setSelectedCell(row: number, column: number): void {
     const maxRow = rows.length - 1
-    const maxColumn = 14
+    const maxColumn = 15
     const newRow = row < 0 ? 0 : row > maxRow ? maxRow : row
     const newColumn = column < 0 ? 0 : column > maxColumn ? maxColumn : column
 
@@ -206,14 +206,26 @@ function useConfigBatchSheet(
   function focusSelectedCell(): void {
     if (gridElement.current == null) return
 
-    const columnsPerRow = 16
-    const deleteColumn = 14
+    const columnsPerRow = 17
+    const deleteColumn = 15
+    const fixedColumn = 9
+    const fadeColumn = 11
+    const matchColumn = 12
     const cellIndex =
       columnsPerRow * (rowSelected.current + 1) + columnSelected.current + 1
     const selectedCell = gridElement.current.children[cellIndex]
 
     if (selectedCell == null) return
-    const cellTag = columnSelected.current === deleteColumn ? "button" : "input"
+
+    let cellTag: "input" | "button" = "input"
+    if (
+      columnSelected.current === deleteColumn ||
+      columnSelected.current === fixedColumn ||
+      columnSelected.current === fadeColumn ||
+      columnSelected.current === matchColumn
+    )
+      cellTag = "button"
+
     const cellInput = selectedCell.getElementsByTagName(cellTag)[0]
 
     cellInput?.focus()
@@ -250,7 +262,7 @@ function useConfigBatchSheet(
   // --------------------------------------------------------
 
   function setLastSelectedColumn(column: number): void {
-    const maxColumn = 14
+    const maxColumn = 15
     const newColumn = column < 0 ? 0 : column > maxColumn ? maxColumn : column
 
     lastColumnSelected.current = newColumn

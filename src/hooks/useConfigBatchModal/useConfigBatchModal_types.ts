@@ -23,6 +23,7 @@ export interface ConfigBatchRow {
   trajectoryFade: boolean
   trajectoryOpacity: number
   trajectoryLength: number
+  fixed: boolean
 }
 
 export type SheetPropTypeByName<T extends keyof ConfigBatchRow> = T extends
@@ -30,6 +31,6 @@ export type SheetPropTypeByName<T extends keyof ConfigBatchRow> = T extends
   | "color"
   | "trajectoryColor"
   ? string
-  : T extends "deleteBall" | "trajectoryMatchColor" | "trajectoryFade"
+  : T extends "deleteBall" | "trajectoryMatchColor" | "trajectoryFade" | "fixed"
     ? boolean
     : number

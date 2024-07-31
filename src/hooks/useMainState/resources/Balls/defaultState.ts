@@ -9,6 +9,7 @@ import type {
   BallCollision,
   BallColor,
   BallData,
+  BallFixed,
   BallMass,
   BallPosition,
   BallRadius,
@@ -67,6 +68,10 @@ export const ballTrajectoryDefaultState: BallTrajectory = {
   trajectoryLength: 200
 }
 
+export const ballFixedDefaultState: BallFixed = {
+  fixed: false
+}
+
 export const ballDataDefaultState: BallData = {
   ...ballPositionDefaultState,
   ...ballVelocityDefaultState,
@@ -76,6 +81,7 @@ export const ballDataDefaultState: BallData = {
   ...ballChargeDefaultState,
   ...ballColorDefaultState,
   ...ballTrajectoryDefaultState,
+  ...ballFixedDefaultState,
   id: "",
   name: ""
 }

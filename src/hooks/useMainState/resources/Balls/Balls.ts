@@ -34,6 +34,7 @@ export const ballTrajectoryColor = generateBallSlice("trajectoryColor")
 export const ballTrajectoryFade = generateBallSlice("trajectoryFade")
 export const ballTrajectoryOpacity = generateBallSlice("trajectoryOpacity")
 export const ballTrajectoryLength = generateBallSlice("trajectoryLength")
+export const ballFixed = generateBallSlice("fixed")
 
 export function ballNew(
   state: MainState,

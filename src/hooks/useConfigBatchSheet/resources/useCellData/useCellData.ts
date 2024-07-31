@@ -17,6 +17,7 @@ const cellProps: Array<keyof ConfigBatchRow> = [
   "charge",
   "radius",
   "color",
+  "fixed",
   "trajectoryLength",
   "trajectoryFade",
   "trajectoryMatchColor",
@@ -50,7 +51,12 @@ function useCellData<T>(
 
     lastValue.current = value
 
-    if (prop !== "deleteBall") {
+    if (
+      prop !== "deleteBall" &&
+      prop !== "fixed" &&
+      prop !== "trajectoryFade" &&
+      prop !== "trajectoryMatchColor"
+    ) {
       ;(e.target as HTMLInputElement).select()
     }
   }
@@ -61,7 +67,15 @@ function useCellData<T>(
   function onBlur(): void {
     setSelectionMode("view")
 
-    if (prop === "color" || prop === "deleteBall") return
+    if (
+      prop === "color" ||
+      prop === "deleteBall" ||
+      prop === "fixed" ||
+      prop === "trajectoryMatchColor" ||
+      prop === "trajectoryColor" ||
+      prop === "trajectoryFade"
+    )
+      return
 
     if (prop === "name" && value === "") {
       setValue(lastValue.current)

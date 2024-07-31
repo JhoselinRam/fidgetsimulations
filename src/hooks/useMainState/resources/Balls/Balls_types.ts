@@ -16,6 +16,7 @@ export type BallActionType =
   | BallNameActionType
   | BallColorActionType
   | BallTrajectoryActionType
+  | BallFixedActionType
 
 export interface BallElementState {
   balls: BallState[]
@@ -41,7 +42,8 @@ export interface BallData
     BallCharge,
     BallColor,
     BallName,
-    BallTrajectory {
+    BallTrajectory,
+    BallFixed {
   id: string
 }
 
@@ -147,7 +149,7 @@ export interface BallColor {
 }
 
 // --------------------------------------------------------
-// --------------------------------------------------------
+// ------------------- Trajectory -------------------------
 
 export type BallTrajectoryActionType =
   | "balls@trajectoryMatchColor"
@@ -162,6 +164,15 @@ export interface BallTrajectory {
   trajectoryFade: boolean
   trajectoryOpacity: number
   trajectoryLength: number
+}
+
+// --------------------------------------------------------
+// ---------------------- Fixed ---------------------------
+
+export type BallFixedActionType = "balls@fixed"
+
+export interface BallFixed {
+  fixed: boolean
 }
 
 // --------------------------------------------------------

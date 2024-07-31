@@ -38,7 +38,8 @@ const ConfigSheetRow = forwardRef<ConfigSheetRowRef, ConfigSheetRowProps>(
       trajectoryFade,
       trajectoryLength,
       trajectoryMatchColor,
-      trajectoryOpacity
+      trajectoryOpacity,
+      fixed
     } = useSheetRow(
       data,
       index,
@@ -72,6 +73,7 @@ const ConfigSheetRow = forwardRef<ConfigSheetRowRef, ConfigSheetRowProps>(
           decimals={8}
         />
         <ColorCell {...color} />
+        <CheckCell {...fixed} />
         <NumberCell
           {...trajectoryLength}
           labelBy="ball path length"

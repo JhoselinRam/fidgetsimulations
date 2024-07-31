@@ -2,15 +2,17 @@ import useBallDynamics from "../../../../../hooks/useBallDynamics/useBallDynamic
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import type { BallConfigWidthValidation } from "../../../BallConfigComponents_types"
 import AxisProperty from "../AxisProperty/AxisProperty"
+import FixedControl from "../FixedControl/FixedControl"
 
 function DynamicsControl({
   ballId,
   isValidSelection
 }: BallConfigWidthValidation): JSX.Element {
-  const { positionHooks, velocityHooks } = useBallDynamics(ballId)
+  const { positionHooks, velocityHooks, fixedHooks } = useBallDynamics(ballId)
 
   return (
     <>
+      <FixedControl {...fixedHooks} />
       <ConfigSection.Section>
         <p>Position:</p>
         <AxisProperty

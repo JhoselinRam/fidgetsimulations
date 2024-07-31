@@ -170,6 +170,17 @@ function useSheetRow(
     setLastSelectedColumn
   )
 
+  const fixed = useCellData(
+    data.fixed,
+    index,
+    "fixed",
+    setSelectedCell,
+    setSelectionMode,
+    blurCell,
+    onEnter,
+    setLastSelectedColumn
+  )
+
   function getRowData(): Omit<ConfigBatchRow, "id"> {
     return {
       name: name.value,
@@ -186,7 +197,8 @@ function useSheetRow(
       trajectoryFade: trajectoryFade.value,
       trajectoryLength: trajectoryLength.value,
       trajectoryMatchColor: trajectoryMatchColor.value,
-      trajectoryOpacity: trajectoryOpacity.value
+      trajectoryOpacity: trajectoryOpacity.value,
+      fixed: fixed.value
     }
   }
 
@@ -211,7 +223,8 @@ function useSheetRow(
     trajectoryFade,
     trajectoryLength,
     trajectoryMatchColor,
-    trajectoryOpacity
+    trajectoryOpacity,
+    fixed
   }
 }
 
