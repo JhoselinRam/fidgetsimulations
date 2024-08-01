@@ -59,12 +59,25 @@ function correctPositions(
 ): [VectorProperty, VectorProperty] {
   const positionA: VectorProperty = [ballA.positionX, ballA.positionY]
   const positionB: VectorProperty = [ballB.positionX, ballB.positionY]
+  if (ballA.fixed && ballB.fixed) return [positionA, positionB]
+
   const minDistance = ballA.radius + ballB.radius
   const distanceVector = [
     ballB.positionX - ballA.positionX,
     ballB.positionY - ballA.positionY
   ]
   const distance = Math.hypot(...distanceVector)
+  let fixedCoefficientA = 1
+  let fixedCoefficientB = 1
+
+  if (ballA.fixed) {
+    fixedCoefficientA = 0
+    fixedCoefficientB = 2
+  }
+  if (ballB.fixed) {
+    fixedCoefficientA = 2
+    fixedCoefficientB = 0
+  }
 
   const displacement = (minDistance - distance) / 2
   const displacementVector = [
@@ -72,10 +85,10 @@ function correctPositions(
     (distanceVector[1] / distance) * displacement
   ]
 
-  positionA[0] -= displacementVector[0]
-  positionA[1] -= displacementVector[1]
-  positionB[0] += displacementVector[0]
-  positionB[1] += displacementVector[1]
+  positionA[0] -= displacementVector[0] * fixedCoefficientA
+  positionA[1] -= displacementVector[1] * fixedCoefficientA
+  positionB[0] += displacementVector[0] * fixedCoefficientB
+  positionB[1] += displacementVector[1] * fixedCoefficientB
 
   return [positionA, positionB]
 }
@@ -91,6 +104,7 @@ function correctVelocities(
 ): [VectorProperty, VectorProperty] {
   const velocityA: VectorProperty = [ballA.velocityX, ballA.velocityY]
   const velocityB: VectorProperty = [ballB.velocityX, ballB.velocityY]
+  if (ballA.fixed && ballB.fixed) return [velocityA, velocityB]
 
   // Correct the velocities to reflect the collision
   const velocityDiffA = [

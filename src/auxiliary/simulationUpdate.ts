@@ -300,12 +300,12 @@ function drawVectors(
   const coordsY = state.balls[0].data.map((data) => data.positionY)
   const dataX =
     vectorType === "velocityVector"
-      ? state.balls[0].data.map((data) => data.velocityX)
-      : state.balls[0].data.map((data) => data.accelX)
+      ? state.balls[0].data.map((data) => (data.fixed ? 0 : data.velocityX))
+      : state.balls[0].data.map((data) => (data.fixed ? 0 : data.accelX))
   const dataY =
     vectorType === "velocityVector"
-      ? state.balls[0].data.map((data) => data.velocityY)
-      : state.balls[0].data.map((data) => data.accelY)
+      ? state.balls[0].data.map((data) => (data.fixed ? 0 : data.velocityY))
+      : state.balls[0].data.map((data) => (data.fixed ? 0 : data.accelY))
 
   vectorGraph
     .width(2)

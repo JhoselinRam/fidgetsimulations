@@ -12,6 +12,12 @@ import type {
 
 export function computeForce(state: MainState): void {
   state.balls[0].data.forEach((ball, index) => {
+    if (ball.fixed) {
+      state.balls[0].data[index].accelX = 0
+      state.balls[0].data[index].accelY = 0
+      return
+    }
+
     const localGravityForce = totalForceType("localGravity", state, index)
     const dragForce = totalForceType("drag", state, index)
     const gravitationalForce = totalForceType("gravity", state, index)
