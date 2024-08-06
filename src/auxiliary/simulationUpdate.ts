@@ -24,6 +24,7 @@ import { toRadians } from "./angleAux"
 import { rotate } from "./vector"
 import type { TrajectoryGraph } from "../hooks/useSimulation/useSimulation_types"
 import { vectorDefaultState } from "../hooks/useMainState/resources/Vector/defaultState"
+import { computeForce } from "../hooks/useSimulation/resources/force"
 
 // ----------------- Container Size -----------------------
 
@@ -92,11 +93,11 @@ export function setGrid(graph: Graph2D, config: SimulationWindowState): void {
 // --------------------------------------------------------
 // -------------------- Set data --------------------------
 
-export type SetDataGraphs = readonly [
-  Line_Chart,
-  VectorGraph[],
-  TrajectoryGraph[]
-]
+export interface SetDataGraphs {
+  ballGraphElement: Line_Chart
+  vectorGraphElement: VectorGraph[]
+  trajectoryGraphElement: TrajectoryGraph[]
+}
 
 export interface VectorGraph {
   type: "velocityVector" | "accelerationVector"
@@ -114,9 +115,9 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
       collection.type === "balls"
   )
 
-  let ballsGraph: Line_Chart | null = null
-  const vectorGraph: VectorGraph[] = []
-  const trajectoryGraph: TrajectoryGraph[] = []
+  let ballGraphElement: Line_Chart | null = null
+  const vectorGraphElement: VectorGraph[] = []
+  const trajectoryGraphElement: TrajectoryGraph[] = []
 
   orderElements.forEach((item) => {
     const collection = state[item.type].find(
@@ -129,19 +130,19 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
     else if (isCollection(collection, ballDefaultState)) {
       if (collection.trajectoryEnable) {
         collection.data.forEach((ball) => {
-          if (ball.trajectoryLength > 0)
-            trajectoryGraph.push({
+          if (ball.trajectoryLength > 0 && !ball.fixed)
+            trajectoryGraphElement.push({
               id: ball.id,
               graph: graph.addDataset("linechart")
             })
         })
       }
-      ballsGraph = graph.addDataset("linechart")
-      drawBalls(graph, ballsGraph, state)
+      ballGraphElement = graph.addDataset("linechart")
+      drawBalls(graph, ballGraphElement, state)
     } else if (isCollection(collection, vectorDefaultState)) {
       if (!collection.enable) return
       const field = graph.addDataset("vectorfield")
-      vectorGraph.push({
+      vectorGraphElement.push({
         type: collection.type as "velocityVector" | "accelerationVector",
         id: collection.id,
         field
@@ -151,15 +152,15 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
   })
 
   // Fallback case, should never happen
-  if (ballsGraph == null) {
-    ballsGraph = graph
+  if (ballGraphElement == null) {
+    ballGraphElement = graph
       .addDataset("linechart")
       .dataX([0])
       .dataY([0])
       .lineOpacity(0)
   }
 
-  return [ballsGraph, vectorGraph, trajectoryGraph]
+  return { ballGraphElement, vectorGraphElement, trajectoryGraphElement }
 }
 
 // --------------------------------------------------------
@@ -298,14 +299,35 @@ function drawVectors(
 ): void {
   const coordsX = state.balls[0].data.map((data) => data.positionX)
   const coordsY = state.balls[0].data.map((data) => data.positionY)
-  const dataX =
-    vectorType === "velocityVector"
-      ? state.balls[0].data.map((data) => (data.fixed ? 0 : data.velocityX))
-      : state.balls[0].data.map((data) => (data.fixed ? 0 : data.accelX))
-  const dataY =
-    vectorType === "velocityVector"
-      ? state.balls[0].data.map((data) => (data.fixed ? 0 : data.velocityY))
-      : state.balls[0].data.map((data) => (data.fixed ? 0 : data.accelY))
+  const dataX: number[] = []
+  const dataY: number[] = []
+
+  if (vectorType === "velocityVector") {
+    state.balls[0].data.forEach((ball) => {
+      if (ball.fixed) {
+        dataX.push(0)
+        dataY.push(0)
+        return
+      }
+
+      dataX.push(ball.velocityX)
+      dataY.push(ball.velocityY)
+    })
+  }
+  if (vectorType === "accelerationVector") {
+    state.balls[0].data.forEach((ball) => {
+      if (ball.fixed) {
+        dataX.push(0)
+        dataY.push(0)
+        return
+      }
+
+      const [accelX, accelY] = computeForce(state, ball)
+
+      dataX.push(accelX)
+      dataY.push(accelY)
+    })
+  }
 
   vectorGraph
     .width(2)

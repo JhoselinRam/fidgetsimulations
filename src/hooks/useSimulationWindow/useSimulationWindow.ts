@@ -26,6 +26,11 @@ function useSimulationWindow(
   const velocityVector = JSON.stringify(mainState.velocityVector)
   const accelerationVector = JSON.stringify(mainState.accelerationVector)
   const isRunning = mainState.simulation.run
+  const localGravity = JSON.stringify(mainState.localGravity)
+  const gravity = JSON.stringify(mainState.gravity)
+  const electric = JSON.stringify(mainState.electric)
+  const drag = JSON.stringify(mainState.drag)
+  const damping = JSON.stringify(mainState.damping)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -55,7 +60,12 @@ function useSimulationWindow(
     balls,
     velocityVector,
     accelerationVector,
-    isRunning
+    isRunning,
+    localGravity,
+    gravity,
+    electric,
+    damping,
+    drag
   ])
 
   useEffect(() => {

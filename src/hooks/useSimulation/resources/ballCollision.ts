@@ -1,7 +1,10 @@
 import { dot } from "../../../auxiliary/vector"
 import type { BallData } from "../../useMainState/resources/Balls/Balls_types"
+import { createBallState } from "../../useMainState/resources/Balls/defaultState"
+import { createObstacleState } from "../../useMainState/resources/Obstacle/defaultState"
 import type { MainState } from "../../useMainState/useMainState_types"
 import type { VectorProperty } from "../useSimulation_types"
+import { ellipticalObstacleCollision } from "./ellipticalObject"
 
 export function ballCollision(
   index: number,
@@ -30,7 +33,8 @@ export function ballCollision(
       ballA,
       ballB,
       positionA,
-      positionB
+      positionB,
+      dt
     )
 
     // Update the balls properties in the state
@@ -59,7 +63,7 @@ function correctPositions(
 ): [VectorProperty, VectorProperty] {
   const positionA: VectorProperty = [ballA.positionX, ballA.positionY]
   const positionB: VectorProperty = [ballB.positionX, ballB.positionY]
-  if (ballA.fixed && ballB.fixed) return [positionA, positionB]
+  if (ballA.fixed || ballB.fixed) return [positionA, positionB]
 
   const minDistance = ballA.radius + ballB.radius
   const distanceVector = [
@@ -67,17 +71,6 @@ function correctPositions(
     ballB.positionY - ballA.positionY
   ]
   const distance = Math.hypot(...distanceVector)
-  let fixedCoefficientA = 1
-  let fixedCoefficientB = 1
-
-  if (ballA.fixed) {
-    fixedCoefficientA = 0
-    fixedCoefficientB = 2
-  }
-  if (ballB.fixed) {
-    fixedCoefficientA = 2
-    fixedCoefficientB = 0
-  }
 
   const displacement = (minDistance - distance) / 2
   const displacementVector = [
@@ -85,10 +78,10 @@ function correctPositions(
     (distanceVector[1] / distance) * displacement
   ]
 
-  positionA[0] -= displacementVector[0] * fixedCoefficientA
-  positionA[1] -= displacementVector[1] * fixedCoefficientA
-  positionB[0] += displacementVector[0] * fixedCoefficientB
-  positionB[1] += displacementVector[1] * fixedCoefficientB
+  positionA[0] -= displacementVector[0]
+  positionA[1] -= displacementVector[1]
+  positionB[0] += displacementVector[0]
+  positionB[1] += displacementVector[1]
 
   return [positionA, positionB]
 }
@@ -100,11 +93,35 @@ function correctVelocities(
   ballA: BallData,
   ballB: BallData,
   positionA: VectorProperty,
+  positionB: VectorProperty,
+  dt: number
+): [VectorProperty, VectorProperty] {
+  if (ballA.fixed && ballB.fixed)
+    return [
+      [ballA.velocityX, ballA.velocityY],
+      [ballB.velocityX, ballB.velocityY]
+    ]
+
+  if (ballA.fixed) {
+    const [velocityB, velocityA] = computeFixedCollision(ballB, ballA, dt)
+    return [velocityA, velocityB]
+  }
+  if (ballB.fixed) return computeFixedCollision(ballA, ballB, dt)
+
+  return computeNaturalCollision(ballA, ballB, positionA, positionB)
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function computeNaturalCollision(
+  ballA: BallData,
+  ballB: BallData,
+  positionA: VectorProperty,
   positionB: VectorProperty
 ): [VectorProperty, VectorProperty] {
   const velocityA: VectorProperty = [ballA.velocityX, ballA.velocityY]
   const velocityB: VectorProperty = [ballB.velocityX, ballB.velocityY]
-  if (ballA.fixed && ballB.fixed) return [velocityA, velocityB]
 
   // Correct the velocities to reflect the collision
   const velocityDiffA = [
@@ -139,6 +156,39 @@ function correctVelocities(
   velocityB[1] -= coefficientB * positionDiffB[1]
 
   return [velocityA, velocityB]
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function computeFixedCollision(
+  ball: BallData,
+  fixedBall: BallData,
+  dt: number
+): [VectorProperty, VectorProperty] {
+  const dummyBall = createBallState()
+  const dummyObstacle = createObstacleState()
+
+  dummyObstacle.positionX = fixedBall.positionX - fixedBall.radius
+  dummyObstacle.positionY = fixedBall.positionY + fixedBall.radius
+  dummyObstacle.width = 2 * fixedBall.radius
+  dummyObstacle.height = 2 * fixedBall.radius
+
+  dummyBall.radius = ball.radius
+  dummyBall.positionX = ball.positionX
+  dummyBall.positionY = ball.positionY
+  dummyBall.lastPositionX = ball.lastPositionX
+  dummyBall.lastPositionY = ball.lastPositionY
+
+  ellipticalObstacleCollision(dummyBall, dummyObstacle, dt)
+
+  const velocityX = (dummyBall.positionX - dummyBall.lastPositionX) / dt
+  const velocityY = (dummyBall.positionY - dummyBall.lastPositionY) / dt
+
+  return [
+    [velocityX, velocityY],
+    [fixedBall.velocityX, fixedBall.velocityY]
+  ]
 }
 
 // --------------------------------------------------------

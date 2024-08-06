@@ -9,6 +9,7 @@ import type {
 } from "../useMainState/resources/LocalGravity/LocalGravity_types"
 import type { SimpleForceElementState } from "../useMainState/resources/SimpleForce/SimpleForce_types"
 import type { MainState } from "../useMainState/useMainState_types"
+import type { BallData } from "../useMainState/resources/Balls/Balls_types"
 
 export interface BallProperty {
   x: number
@@ -24,7 +25,7 @@ export type ForceSelector = {
 }
 
 export type ForceComputerCallback<T extends ForceTypes> = (
-  index: number,
+  ball: BallData,
   state: MainState,
   force: ForceTypeSelector<T>
 ) => BallProperty

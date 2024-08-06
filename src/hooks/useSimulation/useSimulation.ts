@@ -43,7 +43,11 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     if (ballGraph.current == null) return
     if (graphElement.current == null) return
 
-    computeForce(innerState.current)
+    innerState.current.balls[0].data.forEach((ball) => {
+      const [accelX, accelY] = computeForce(innerState.current, ball)
+      ball.accelX = accelX
+      ball.accelY = accelY
+    })
     updateData(
       ballGraph.current,
       vectorGraph.current,
@@ -100,13 +104,18 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     setMargin(graph, simulationData)
     setColor(graph, simulationData)
     setGrid(graph, simulationData)
-    const sets = setData(graph, innerState.current)
+    const { ballGraphElement, trajectoryGraphElement, vectorGraphElement } =
+      setData(graph, innerState.current)
 
-    ballGraph.current = sets[0]
-    vectorGraph.current = sets[1]
-    trajectoryGraph.current = sets[2]
+    ballGraph.current = ballGraphElement
+    vectorGraph.current = vectorGraphElement
+    trajectoryGraph.current = trajectoryGraphElement
     graphElement.current = graph
-    computeForce(innerState.current)
+    innerState.current.balls[0].data.forEach((ball) => {
+      const [accelX, accelY] = computeForce(innerState.current, ball)
+      ball.accelX = accelX
+      ball.accelY = accelY
+    })
     firstStepSolver(innerState.current)
     updateData(
       ballGraph.current,
