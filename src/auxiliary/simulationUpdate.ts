@@ -22,9 +22,16 @@ import { clamp } from "./clamp"
 import type { Line_Chart } from "scigrapher/lib/es5/Data/LineChart/LineChart_Types"
 import { toRadians } from "./angleAux"
 import { rotate } from "./vector"
-import type { TrajectoryGraph } from "../hooks/useSimulation/useSimulation_types"
+import type {
+  LinkGraph,
+  TrajectoryGraph
+} from "../hooks/useSimulation/useSimulation_types"
 import { vectorDefaultState } from "../hooks/useMainState/resources/Vector/defaultState"
 import { computeForce } from "../hooks/useSimulation/resources/force"
+import type { BallState } from "../hooks/useMainState/resources/Balls/Balls_types"
+import { linkDefaultState } from "../hooks/useMainState/resources/Link/defaultState"
+import type { SpringState } from "../hooks/useMainState/resources/Spring/Spring_types"
+import type { RodState } from "../hooks/useMainState/resources/Rod/Rod_types"
 
 // ----------------- Container Size -----------------------
 
@@ -97,6 +104,7 @@ export interface SetDataGraphs {
   ballGraphElement: Line_Chart
   vectorGraphElement: VectorGraph[]
   trajectoryGraphElement: TrajectoryGraph[]
+  linkGraphElement: LinkGraph[]
 }
 
 export interface VectorGraph {
@@ -112,31 +120,26 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
       collection.type === "obstacle" ||
       collection.type === "velocityVector" ||
       collection.type === "accelerationVector" ||
+      collection.type === "spring" ||
+      collection.type === "rod" ||
       collection.type === "balls"
   )
 
   let ballGraphElement: Line_Chart | null = null
   const vectorGraphElement: VectorGraph[] = []
   const trajectoryGraphElement: TrajectoryGraph[] = []
+  const linkGraphElement: LinkGraph[] = []
 
   orderElements.forEach((item) => {
     const collection = state[item.type].find(
       (element) => element.id === item.id
     )
-    if (isCollection(collection, containerDefaultState))
+    if (isCollection(collection, containerDefaultState)) {
       drawObject(graph, collection)
-    else if (isCollection(collection, obstacleDefaultState))
+    } else if (isCollection(collection, obstacleDefaultState)) {
       drawObject(graph, collection)
-    else if (isCollection(collection, ballDefaultState)) {
-      if (collection.trajectoryEnable) {
-        collection.data.forEach((ball) => {
-          if (ball.trajectoryLength > 0 && !ball.fixed)
-            trajectoryGraphElement.push({
-              id: ball.id,
-              graph: graph.addDataset("linechart")
-            })
-        })
-      }
+    } else if (isCollection(collection, ballDefaultState)) {
+      setTrajectoryGraph(collection, trajectoryGraphElement, graph)
       ballGraphElement = graph.addDataset("linechart")
       drawBalls(graph, ballGraphElement, state)
     } else if (isCollection(collection, vectorDefaultState)) {
@@ -148,6 +151,15 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
         field
       })
       drawVectors(collection.type, state, collection, field)
+    } else if (isCollection(collection, linkDefaultState)) {
+      if (!collection.enable) return
+      const dataset = graph.addDataset("linechart")
+      linkGraphElement.push({
+        type: collection.type as "rod" | "spring",
+        id: collection.id,
+        graph: dataset
+      })
+      drawLink(collection, state, dataset)
     }
   })
 
@@ -160,7 +172,12 @@ export function setData(graph: Graph2D, state: MainState): SetDataGraphs {
       .lineOpacity(0)
   }
 
-  return { ballGraphElement, vectorGraphElement, trajectoryGraphElement }
+  return {
+    ballGraphElement,
+    vectorGraphElement,
+    trajectoryGraphElement,
+    linkGraphElement
+  }
 }
 
 // --------------------------------------------------------
@@ -428,6 +445,70 @@ export function getVectorMaxLength(
     (vectorState.maxSize * maxMagnitude) / vectorState.maxSizeMagnitude
 
   return vectorSize >= 1 ? vectorSize : 0
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function setTrajectoryGraph(
+  collection: BallState,
+  trajectoryGraphElement: TrajectoryGraph[],
+  graph: Graph2D
+): void {
+  if (collection.trajectoryEnable) {
+    collection.data.forEach((ball) => {
+      if (ball.trajectoryLength > 0 && !ball.fixed)
+        trajectoryGraphElement.push({
+          id: ball.id,
+          graph: graph.addDataset("linechart")
+        })
+    })
+  }
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function drawLink(
+  collection: SpringState | RodState,
+  state: MainState,
+  dataset: Line_Chart
+): void {
+  const [dataX, dataY] = getLinkData(collection, state)
+
+  dataset
+    .dataX(dataX)
+    .dataY(dataY)
+    .lineOpacity((_, __, index) => (index % 2 === 0 ? 0 : 1))
+    .lineColor(collection.color)
+    .lineOpacity(collection.opacity)
+    .lineWidth(2)
+    .lineStyle(collection.type === "spring" ? "long-dash" : "solid")
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function getLinkData(
+  collection: SpringState | RodState,
+  state: MainState
+): [number[], number[]] {
+  const dataX: number[] = []
+  const dataY: number[] = []
+
+  collection.linkBall.forEach((pair) => {
+    const ballA = state.balls[0].data.find((element) => element.id === pair[0])
+    const ballB = state.balls[0].data.find((element) => element.id === pair[1])
+
+    if (ballA == null || ballB == null) return
+
+    dataX.push(ballA.positionX)
+    dataY.push(ballA.positionY)
+    dataX.push(ballB.positionX)
+    dataY.push(ballB.positionY)
+  })
+
+  return [dataX, dataY]
 }
 
 // --------------------------------------------------------

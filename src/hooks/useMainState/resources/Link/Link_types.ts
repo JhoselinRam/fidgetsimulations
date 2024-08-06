@@ -1,17 +1,28 @@
 import type { CollectionState } from "../../useMainState_types"
 
 export type LinkActionType =
+  | LinkEnableActionType
   | LinkLengthActionType
   | LinkBallActionType
   | LinkColorActionType
 
 export interface LinkState
   extends CollectionState,
+    LinkEnable,
     LinkLength,
     LinkBall,
     LinkColor {}
 
 export type LinkStateKeys = keyof LinkState
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export type LinkEnableActionType = "link@enable"
+
+export interface LinkEnable {
+  enable: boolean
+}
 
 // --------------------------------------------------------
 // --------------------- Length ---------------------------

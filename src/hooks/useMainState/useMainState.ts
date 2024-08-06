@@ -145,6 +145,7 @@ import { VelocityVectorNew } from "./resources/VelocityVector/VelocityVector"
 import {
   linkBall,
   linkColor,
+  linkEnable,
   linkLength,
   linkOpacity
 } from "./resources/Link/Link"
@@ -279,6 +280,7 @@ const reducerObject: ReducerObject = {
   "link@linkBall": linkBall,
   "link@color": linkColor,
   "link@opacity": linkOpacity,
+  "link@enable": linkEnable,
   "spring@new": springNew,
   "spring@strength": springStrength,
   "rod@new": rodNew

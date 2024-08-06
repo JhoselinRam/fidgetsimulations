@@ -4,6 +4,7 @@ import type { DragState } from "../../useMainState/resources/Drag/Drag_types"
 import type { ElectricState } from "../../useMainState/resources/Electric/Electric_types"
 import type { GravityState } from "../../useMainState/resources/Gravity/Gravity_types"
 import type { LocalGravityState } from "../../useMainState/resources/LocalGravity/LocalGravity_types"
+import type { SpringState } from "../../useMainState/resources/Spring/Spring_types"
 import type { MainState } from "../../useMainState/useMainState_types"
 import type {
   BallProperty,
@@ -19,18 +20,21 @@ export function computeForce(state: MainState, ball: BallData): VectorProperty {
   const dragForce = totalForceType("drag", state, ball)
   const gravitationalForce = totalForceType("gravity", state, ball)
   const electricForce = totalForceType("electric", state, ball)
+  const springForce = totalForceType("spring", state, ball)
 
   const accelerationX =
     (localGravityForce.x +
       dragForce.x +
       gravitationalForce.x +
-      electricForce.x) /
+      electricForce.x +
+      springForce.x) /
     ball.mass
   const accelerationY =
     (localGravityForce.y +
       dragForce.y +
       gravitationalForce.y +
-      electricForce.y) /
+      electricForce.y +
+      springForce.y) /
     ball.mass
 
   return [accelerationX, accelerationY]
@@ -43,7 +47,8 @@ const forceSelector: ForceSelector = {
   drag: computeDrag,
   electric: computeElectric,
   gravity: computeGravity,
-  damping: computeDamping
+  damping: computeDamping,
+  spring: computeSpring
 }
 
 function totalForceType(
@@ -60,7 +65,8 @@ function totalForceType(
           GravityState &
           DragState &
           ElectricState &
-          DampingState
+          DampingState &
+          SpringState
       )
     )
     .reduce(
@@ -169,6 +175,42 @@ function computeElectric(
   })
 
   return electricForce
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function computeSpring(
+  ball: BallData,
+  state: MainState,
+  spring: SpringState
+): BallProperty {
+  const springForce: BallProperty = { x: 0, y: 0 }
+
+  spring.linkBall.forEach((pair) => {
+    if (ball.id !== pair[0] && ball.id !== pair[1]) return
+
+    const secondaryId = ball.id === pair[0] ? pair[1] : pair[0]
+    const ballB = state.balls[0].data.find(
+      (element) => element.id === secondaryId
+    )
+
+    if (ballB == null) return
+
+    const diffVector = [
+      ballB.positionX - ball.positionX,
+      ballB.positionY - ball.positionY
+    ]
+    const distance = Math.hypot(...diffVector)
+    const displacement = spring.length - distance
+
+    springForce.x +=
+      (-spring.strength * displacement * diffVector[0]) / distance
+    springForce.y +=
+      (-spring.strength * displacement * diffVector[1]) / distance
+  })
+
+  return springForce
 }
 
 // --------------------------------------------------------

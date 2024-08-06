@@ -10,6 +10,10 @@ import type {
 import type { SimpleForceElementState } from "../useMainState/resources/SimpleForce/SimpleForce_types"
 import type { MainState } from "../useMainState/useMainState_types"
 import type { BallData } from "../useMainState/resources/Balls/Balls_types"
+import type {
+  SpringElementState,
+  SpringState
+} from "../useMainState/resources/Spring/Spring_types"
 
 export interface BallProperty {
   x: number
@@ -19,6 +23,7 @@ export interface BallProperty {
 export type ForceTypes =
   | keyof LocalGravityElementState
   | keyof SimpleForceElementState
+  | keyof SpringElementState
 
 export type ForceSelector = {
   [k in ForceTypes]: ForceComputerCallback<k>
@@ -40,7 +45,9 @@ export type ForceTypeSelector<T extends ForceTypes> = T extends "localGravity"
         ? ElectricState
         : T extends "damping"
           ? DampingState
-          : never
+          : T extends "spring"
+            ? SpringState
+            : never
 
 export interface RectangularObjectTransform {
   transform: () => RectangularObjectTransformProps
@@ -104,6 +111,12 @@ export interface ProjectionParameter {
 }
 
 export interface TrajectoryGraph {
+  id: string
+  graph: Line_Chart
+}
+
+export interface LinkGraph {
+  type: "rod" | "spring"
   id: string
   graph: Line_Chart
 }

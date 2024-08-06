@@ -18,6 +18,10 @@ export const linkOpacity = createSimpleSlice<LinkStateKeys>("opacity", [
   "spring",
   "rod"
 ])
+export const linkEnable = createSimpleSlice<LinkStateKeys>("enable", [
+  "spring",
+  "rod"
+])
 
 export function linkBall(
   state: MainState,

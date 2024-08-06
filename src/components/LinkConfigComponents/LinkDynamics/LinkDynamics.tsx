@@ -3,6 +3,7 @@ import LinkBalls from "./resources/LinkBalls/LinkBalls"
 import LinkLength from "./resources/LinkLength/LinkLength"
 import type { LinkDynamicsProps } from "./LinkDynamics_types"
 import useLinkDynamics from "../../../hooks/useLinkDynamics/useLinkDynamics"
+import LinkEnableControl from "./resources/LinkEnableControl/LinkEnableControl"
 
 function LinkDynamics({
   item,
@@ -10,11 +11,11 @@ function LinkDynamics({
   lengthInfo,
   lengthClassName
 }: LinkDynamicsProps): JSX.Element {
-  const { lengthHooks, ballList } = useLinkDynamics(item)
+  const { lengthHooks, ballList, enableHooks } = useLinkDynamics(item)
 
   return (
     <ConfigSection title="Dynamics">
-      <ConfigSection.Header>Properties:</ConfigSection.Header>
+      <LinkEnableControl {...enableHooks} />
       {children}
       <LinkLength
         lengthInfo={lengthInfo}

@@ -1,5 +1,8 @@
 import { useContext } from "react"
-import { linkLengthDefaultState } from "../useMainState/resources/Link/defaultState"
+import {
+  linkEnableDefaultState,
+  linkLengthDefaultState
+} from "../useMainState/resources/Link/defaultState"
 import type { RodState } from "../useMainState/resources/Rod/Rod_types"
 import type { SpringState } from "../useMainState/resources/Spring/Spring_types"
 import { getCollection, mainStateContext } from "../useMainState/useMainState"
@@ -16,14 +19,19 @@ import useBindState from "../useBindState/useBindState"
 
 function useLinkDynamics(item: CollectionOrder): UseLinkDynamics {
   const { mainState } = useContext(mainStateContext)
-  const { length, ballList } = getLinkDynamics(item, mainState)
+  const { length, ballList, enable } = getLinkDynamics(item, mainState)
 
   const lengthProps = useBindState(item, length, "link@length")
+  const enableProps = useBindState(item, enable, "link@enable")
 
   return {
     lengthHooks: {
       value: lengthProps.value,
       onChange: lengthProps.changeValue
+    },
+    enableHooks: {
+      isSelected: enableProps.value,
+      onChange: enableProps.changeValue
     },
     ballList
   }
@@ -42,6 +50,7 @@ function getLinkDynamics(
   if (collection == null)
     return {
       ...linkLengthDefaultState,
+      ...linkEnableDefaultState,
       ballList: []
     }
 
@@ -62,6 +71,7 @@ function getLinkDynamics(
 
   return {
     length: collection.length,
+    enable: collection.enable,
     ballList
   }
 }

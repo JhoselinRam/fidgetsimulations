@@ -31,6 +31,8 @@ function useSimulationWindow(
   const electric = JSON.stringify(mainState.electric)
   const drag = JSON.stringify(mainState.drag)
   const damping = JSON.stringify(mainState.damping)
+  const spring = JSON.stringify(mainState.spring)
+  const rod = JSON.stringify(mainState.rod)
 
   useEffect(() => {
     if (graphElement.current == null) return
@@ -65,7 +67,9 @@ function useSimulationWindow(
     gravity,
     electric,
     damping,
-    drag
+    drag,
+    spring,
+    rod
   ])
 
   useEffect(() => {
