@@ -24,6 +24,7 @@ import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
 import { computeCollision } from "./resources/collision"
 import type { LinkGraph, TrajectoryGraph } from "./useSimulation_types"
+import { computeRodLink } from "./resources/rodCompute"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -37,8 +38,8 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const graphElement = useRef<Graph2D | null>(null)
   const linkGraph = useRef<LinkGraph[]>([])
 
-  // --------------------- Step -----------------------------
   // --------------------------------------------------------
+  // --------------------- Step -----------------------------
 
   const simulationStep = useCallback(() => {
     if (ballGraph.current == null) return
@@ -58,6 +59,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     )
 
     verletSolver(innerState.current)
+    computeRodLink(innerState.current)
     computeCollision(innerState.current)
 
     graphElement.current.draw()
