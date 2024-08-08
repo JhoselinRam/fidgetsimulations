@@ -479,9 +479,8 @@ function drawLink(
   dataset
     .dataX(dataX)
     .dataY(dataY)
-    .lineOpacity((_, __, index) => (index % 2 === 0 ? 0 : 1))
+    .lineOpacity((_, __, index) => (index % 2 === 0 ? 0 : collection.opacity))
     .lineColor(collection.color)
-    .lineOpacity(collection.opacity)
     .lineWidth(2)
     .lineStyle(collection.type === "spring" ? "long-dash" : "solid")
 }

@@ -23,7 +23,7 @@ import { firstStepSolver, verletSolver } from "./resources/verletSolver"
 import { updateData } from "./resources/updateData"
 import type { MainState } from "../useMainState/useMainState_types"
 import { computeCollision } from "./resources/collision"
-import type { TrajectoryGraph } from "./useSimulation_types"
+import type { LinkGraph, TrajectoryGraph } from "./useSimulation_types"
 
 function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const { mainState, dispatch } = useContext(mainStateContext)
@@ -35,6 +35,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
   const trajectoryGraph = useRef<TrajectoryGraph[]>([])
   const vectorGraph = useRef<VectorGraph[]>([])
   const graphElement = useRef<Graph2D | null>(null)
+  const linkGraph = useRef<LinkGraph[]>([])
 
   // --------------------- Step -----------------------------
   // --------------------------------------------------------
@@ -52,6 +53,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
       ballGraph.current,
       vectorGraph.current,
       trajectoryGraph.current,
+      linkGraph.current,
       innerState.current
     )
 
@@ -104,12 +106,17 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
     setMargin(graph, simulationData)
     setColor(graph, simulationData)
     setGrid(graph, simulationData)
-    const { ballGraphElement, trajectoryGraphElement, vectorGraphElement } =
-      setData(graph, innerState.current)
+    const {
+      ballGraphElement,
+      trajectoryGraphElement,
+      vectorGraphElement,
+      linkGraphElement
+    } = setData(graph, innerState.current)
 
     ballGraph.current = ballGraphElement
     vectorGraph.current = vectorGraphElement
     trajectoryGraph.current = trajectoryGraphElement
+    linkGraph.current = linkGraphElement
     graphElement.current = graph
     innerState.current.balls[0].data.forEach((ball) => {
       const [accelX, accelY] = computeForce(innerState.current, ball)
@@ -121,6 +128,7 @@ function useSimulation(mainElement: RefObject<HTMLDivElement>): void {
       ballGraph.current,
       vectorGraph.current,
       trajectoryGraph.current,
+      linkGraph.current,
       innerState.current
     )
 

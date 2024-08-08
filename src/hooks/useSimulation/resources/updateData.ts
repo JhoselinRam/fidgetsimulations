@@ -4,14 +4,18 @@ import {
   type VectorGraph,
   getVectorColor,
   getVectorMaxLength,
-  getVectorOpacity
+  getVectorOpacity,
+  getLinkData
 } from "../../../auxiliary/simulationUpdate"
-import type { TrajectoryGraph } from "../useSimulation_types"
+import type { LinkGraph, TrajectoryGraph } from "../useSimulation_types"
+
+// --------------------------------------------------------
 
 export function updateData(
   ballGraph: Line_Chart,
   vectorGraph: VectorGraph[],
   trajectoryGraph: TrajectoryGraph[],
+  linkGraph: LinkGraph[],
   state: MainState
 ): void {
   const ballPositionX = state.balls[0].data.map((ball) => ball.positionX)
@@ -26,7 +30,14 @@ export function updateData(
   trajectoryGraph.forEach((element) => {
     updateTrajectory(element, state)
   })
+
+  linkGraph.forEach((element) => {
+    updateLink(element, state)
+  })
 }
+
+// --------------------------------------------------------
+// --------------------------------------------------------
 
 function updateTrajectory(trajectory: TrajectoryGraph, state: MainState): void {
   const ball = state.balls[0].data.find((ball) => ball.id === trajectory.id)
@@ -59,6 +70,9 @@ function updateTrajectory(trajectory: TrajectoryGraph, state: MainState): void {
     .lineWidth(2)
 }
 
+// --------------------------------------------------------
+// --------------------------------------------------------
+
 function updateVector(
   vector: VectorGraph,
   state: MainState,
@@ -87,3 +101,20 @@ function updateVector(
     .normalize(vectorState.normalize)
     .maxLength(getVectorMaxLength(vectorState, dataX, dataY))
 }
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+function updateLink(link: LinkGraph, state: MainState): void {
+  const collection = state[link.type].find((element) => element.id === link.id)
+  if (collection == null) return
+
+  const [dataX, dataY] = getLinkData(collection, state)
+
+  link.graph
+    .dataX(dataX)
+    .dataY(dataY)
+    .lineStyle(collection.type === "spring" ? "long-dash" : "solid")
+}
+
+// --------------------------------------------------------
