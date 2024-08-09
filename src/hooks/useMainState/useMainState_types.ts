@@ -90,6 +90,12 @@ import type {
   RodElementType,
   RodState
 } from "./resources/Rod/Rod_types"
+import type {
+  RopeActionType,
+  RopeElementState,
+  RopeElementType,
+  RopeState
+} from "./resources/Rope/Rope_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -120,6 +126,7 @@ export type MainStateActionType =
   | LinkActionType
   | SpringActionType
   | RodActionType
+  | RopeActionType
 
 // Main state type
 export interface MainState
@@ -132,7 +139,8 @@ export interface MainState
     VelocityVectorElementState,
     AccelerationVectorElementState,
     SpringElementState,
-    RodElementState {
+    RodElementState,
+    RopeElementState {
   order: CollectionOrder[]
   time: TimeState
   simulation: SimulationState
@@ -166,6 +174,7 @@ export type CollectionType =
   | AccelerationVectorElementType
   | SpringElementType
   | RodElementType
+  | RopeElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -183,6 +192,7 @@ export type CollectionElementState =
   | AccelerationVectorState
   | SpringState
   | RodState
+  | RopeState
 
 export interface CollectionState extends CollectionOrder {
   name: string

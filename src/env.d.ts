@@ -15,6 +15,7 @@ interface ImportMetaEnv {
   readonly VITE_CONFIG_SHEET_INDEX_WIDTH: string
   readonly VITE_BALL_MIN_MASS: number
   readonly VITE_BALL_MIN_RADIUS: number
+  readonly VITE_ROPE_BALL_RADIUS: number
 }
 
 interface ImportMeta {

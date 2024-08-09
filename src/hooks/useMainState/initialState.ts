@@ -30,7 +30,8 @@ const initialState: MainState = {
   accelerationVector: [],
   simulation: { ...simulationDefaultState },
   rod: [],
-  spring: []
+  spring: [],
+  rope: []
 }
 
 // --------------------------------------------------------

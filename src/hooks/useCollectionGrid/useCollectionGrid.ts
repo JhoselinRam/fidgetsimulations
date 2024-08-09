@@ -11,7 +11,7 @@ function useCollectionGrid(): UseCollectionGrid {
   const { mainState, dispatch } = useContext(mainStateContext)
   const visualization = getVisualizationItems(mainState, dispatch)
   const constrains = getConstrainsItems(mainState, dispatch)
-  const objects = getObjectsItems(dispatch)
+  const objects = getObjectsItems(mainState, dispatch)
   const force = getForceItems(mainState, dispatch)
 
   const collectionItems: ItemsBySelection = {
