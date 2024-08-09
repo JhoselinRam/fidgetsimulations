@@ -27,18 +27,21 @@ function getObjectsItems(
 
   function ropeAction(): void {
     const newRod = createRodState()
-    newRod.name = `Rope ${state.rope.length + 1} link rod`
+    newRod.name = `Link of rope ${state.rope.length + 1}`
 
     const newRope = createRopeState()
     newRope.name = `Rope ${state.rope.length + 1}`
     newRope.rod = newRod.id
 
     const nodeDistance = newRope.length / (newRope.nodes - 1)
+    newRod.length = nodeDistance
 
     const newBalls: BallData[] = []
     for (let i = 0; i < newRope.nodes; i++) {
       const newBall = createBallState()
-      newBall.name = `Rope ${state.rope.length + 1} ball ${newBalls.length + 1}`
+      newBall.name = `Ball ${newBalls.length + 1} of rope ${
+        state.rope.length + 1
+      }`
       newBall.positionX = newRope.positionX + i * nodeDistance
       newBall.positionY = newRope.positionY
       newBall.radius = import.meta.env.VITE_ROPE_BALL_RADIUS
@@ -46,6 +49,23 @@ function getObjectsItems(
       newBalls.push(newBall)
       newRope.balls.push(newBall.id)
     }
+
+    dispatch({
+      type: "rod@new",
+      payload: newRod as unknown as Record<string, unknown>
+    })
+
+    dispatch({
+      type: "rope@new",
+      payload: newRope as unknown as Record<string, unknown>
+    })
+
+    newBalls.forEach((ball) => {
+      dispatch({
+        type: "balls@new",
+        payload: { ...ball }
+      })
+    })
   }
 
   // --------------------------------------------------------
@@ -53,7 +73,7 @@ function getObjectsItems(
 
   const fabricItem: ItemType = {
     id: "fabric",
-    title: "Fabric",
+    title: "Sheet",
     action: fabricAction,
     children: <FabricIcon />
   }

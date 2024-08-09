@@ -10,6 +10,7 @@ import LinechartCollectionItemIcon from "../../../../components/CollectionItemIc
 import LocalGravityCollectionItemIcon from "../../../../components/CollectionItemIcons/LocalGravityCollectionItemIcon"
 import ObstacleCollectionItemIcon from "../../../../components/CollectionItemIcons/ObstacleCollectionItemIcon"
 import RodCollectionItemIcon from "../../../../components/CollectionItemIcons/RodCollectionItemIcon"
+import RopeCollectionItemIcon from "../../../../components/CollectionItemIcons/RopeCollectionItemIcon"
 import SimulationWindowCollectionItemIcon from "../../../../components/CollectionItemIcons/SimulationWindowCollectionItemIcon"
 import SpringCollectionItemIcon from "../../../../components/CollectionItemIcons/SpringCollectionItemIcon"
 import VelocityVectorCollectionItemIcon from "../../../../components/CollectionItemIcons/VelocityVectorCollectionItemIcon"
@@ -30,5 +31,6 @@ export const itemIcon: ItemIcon = {
   velocityVector: <VelocityVectorCollectionItemIcon />,
   accelerationVector: <AccelerationVectorCollectionItemIcon />,
   spring: <SpringCollectionItemIcon />,
-  rod: <RodCollectionItemIcon />
+  rod: <RodCollectionItemIcon />,
+  rope: <RopeCollectionItemIcon />
 }

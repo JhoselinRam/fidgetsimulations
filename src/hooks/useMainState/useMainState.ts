@@ -353,6 +353,7 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "accelerationVector" ||
     type === "rod" ||
     type === "spring" ||
+    type === "rope" ||
     type === "damping"
   )
 }

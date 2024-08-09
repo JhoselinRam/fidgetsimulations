@@ -17,6 +17,7 @@ import ConfigVelocityVector from "../../../ConfigElements/ConfigVelocityVector/C
 import ConfigAccelerationVector from "../../../ConfigElements/ConfigAccelerationVector/ConfigAccelerationVector"
 import ConfigSpring from "../../../ConfigElements/ConfigSpring/ConfigSpring"
 import ConfigRod from "../../../ConfigElements/ConfigRod/ConfigRod"
+import ConfigRope from "../../../ConfigElements/ConfigRope/ConfigRope"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -36,7 +37,8 @@ function ToolConfig(): JSX.Element {
     velocityVector: (item) => <ConfigVelocityVector item={item} />,
     accelerationVector: (item) => <ConfigAccelerationVector item={item} />,
     spring: (item) => <ConfigSpring item={item} />,
-    rod: (item) => <ConfigRod item={item} />
+    rod: (item) => <ConfigRod item={item} />,
+    rope: (item) => <ConfigRope item={item} />
   }
 
   return (
