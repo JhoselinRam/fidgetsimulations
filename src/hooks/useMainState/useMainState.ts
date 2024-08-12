@@ -153,13 +153,17 @@ import { springNew, springStrength } from "./resources/Spring/Spring"
 import { rodNew } from "./resources/Rod/Rod"
 import {
   ropeAngle,
-  ropeBalls,
+  ropeCharge,
+  ropeColor,
   ropeLength,
+  ropeMass,
   ropeNew,
   ropeNodes,
   ropePositionX,
   ropePositionY,
-  ropeRod
+  ropeRadius,
+  ropeVelocityX,
+  ropeVelocityY
 } from "./resources/Rope/Rope"
 
 // -------------------- Hook body -------------------------
@@ -295,13 +299,17 @@ const reducerObject: ReducerObject = {
   "spring@strength": springStrength,
   "rod@new": rodNew,
   "rope@new": ropeNew,
-  "rod@balls": ropeBalls,
   "rope@angle": ropeAngle,
   "rope@length": ropeLength,
   "rope@nodes": ropeNodes,
   "rope@positionX": ropePositionX,
   "rope@positionY": ropePositionY,
-  "rope@rod": ropeRod
+  "rope@velocityX": ropeVelocityX,
+  "rope@velocityY": ropeVelocityY,
+  "rope@mass": ropeMass,
+  "rope@radius": ropeRadius,
+  "rope@color": ropeColor,
+  "rope@charge": ropeCharge
 }
 
 // --------------------------------------------------------

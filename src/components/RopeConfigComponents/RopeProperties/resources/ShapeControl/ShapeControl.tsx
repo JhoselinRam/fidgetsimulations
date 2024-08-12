@@ -1,5 +1,5 @@
-import ConfigSection from "../../ConfigSection/ConfigSection"
-import NumberInput from "../../NumberInput/NumberInput"
+import ConfigSection from "../../../../ConfigSection/ConfigSection"
+import NumberInput from "../../../../NumberInput/NumberInput"
 import AngleControl from "../AngleControl/AngleControl"
 import NodesControl from "../NodesControl/NodesControl"
 import ShapeHeader from "../ShapeHeader/ShapeHeader"

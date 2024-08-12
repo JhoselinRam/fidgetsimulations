@@ -4,13 +4,21 @@ export type RopeActionType =
   | "rope@new"
   | RopePositionActionType
   | RopeShapeActionType
-  | RopePropertiesActionType
+  | RopeVelocityActionType
+  | RopeRadiusActionType
+  | RopeColorActionType
+  | RopeMassActionType
+  | RopeChargeActionType
 
 export interface RopeState
   extends CollectionState,
     RopePosition,
     RopeShape,
-    RopeProperties {}
+    RopeVelocity,
+    RopeMass,
+    RopeRadius,
+    RopeColor,
+    RopeCharge {}
 
 export interface RopeElementState {
   rope: RopeState[]
@@ -31,6 +39,52 @@ export interface RopePosition {
 }
 
 // --------------------------------------------------------
+// -------------------- Velocity --------------------------
+
+export type RopeVelocityActionType = "rope@velocityX" | "rope@velocityY"
+
+export interface RopeVelocity {
+  velocityX: number
+  velocityY: number
+}
+
+// ---------------------- Mass ----------------------------
+// --------------------------------------------------------
+
+export type RopeMassActionType = "rope@mass"
+
+export interface RopeMass {
+  mass: number
+}
+
+// --------------------------------------------------------
+// -------------------- Radius ----------------------------
+
+export type RopeRadiusActionType = "rope@radius"
+
+export interface RopeRadius {
+  radius: number
+}
+
+// -------------------- Charge ----------------------------
+// --------------------------------------------------------
+
+export type RopeChargeActionType = "rope@charge"
+
+export interface RopeCharge {
+  charge: number
+}
+
+// --------------------------------------------------------
+// --------------------- Color ----------------------------
+
+export type RopeColorActionType = "rope@color"
+
+export interface RopeColor {
+  color: string
+}
+
+// --------------------------------------------------------
 // ----------------------- Shape --------------------------
 
 export type RopeShapeActionType = "rope@length" | "rope@angle" | "rope@nodes"
@@ -39,16 +93,6 @@ export interface RopeShape {
   length: number
   angle: number
   nodes: number
-}
-
-// --------------------------------------------------------
-// --------------------- Properties -----------------------
-
-export type RopePropertiesActionType = "rope@rod" | "rod@balls"
-
-export interface RopeProperties {
-  rod: string
-  balls: string[]
 }
 
 // --------------------------------------------------------

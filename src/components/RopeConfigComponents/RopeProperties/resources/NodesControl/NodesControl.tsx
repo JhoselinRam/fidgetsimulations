@@ -1,5 +1,5 @@
-import Info from "../../Info/Info"
-import NumberInput from "../../NumberInput/NumberInput"
+import Info from "../../../../Info/Info"
+import NumberInput from "../../../../NumberInput/NumberInput"
 
 function NodesControl(): JSX.Element {
   return (
