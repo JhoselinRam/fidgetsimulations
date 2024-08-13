@@ -1,12 +1,16 @@
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import Info from "../../../../Info/Info"
 import NumberInput from "../../../../NumberInput/NumberInput"
+import type { PositionControlProps } from "./PositionControl_types"
 
-function PositionControl(): JSX.Element {
+function PositionControl({
+  xHooks,
+  yHooks
+}: PositionControlProps): JSX.Element {
   return (
     <>
       <ConfigSection.Header>
-        <span>Position</span>
+        <span>Position:</span>
         <Info placement="top" crossOffset={-30}>
           This position correspond to the start of the rope.
         </Info>
@@ -16,6 +20,7 @@ function PositionControl(): JSX.Element {
           step={0.03}
           formatOptions={{ maximumFractionDigits: 8 }}
           unit="m"
+          {...xHooks}
         >
           x:
         </NumberInput>
@@ -23,6 +28,7 @@ function PositionControl(): JSX.Element {
           step={0.03}
           formatOptions={{ maximumFractionDigits: 8 }}
           unit="m"
+          {...yHooks}
         >
           y:
         </NumberInput>

@@ -9,6 +9,7 @@ export type RopeActionType =
   | RopeColorActionType
   | RopeMassActionType
   | RopeChargeActionType
+  | RopeRecursionActionType
 
 export interface RopeState
   extends CollectionState,
@@ -18,7 +19,8 @@ export interface RopeState
     RopeMass,
     RopeRadius,
     RopeColor,
-    RopeCharge {}
+    RopeCharge,
+    RopeRecursion {}
 
 export interface RopeElementState {
   rope: RopeState[]
@@ -93,6 +95,15 @@ export interface RopeShape {
   length: number
   angle: number
   nodes: number
+}
+
+// --------------------------------------------------------
+// -------------------- Recursion -------------------------
+
+export type RopeRecursionActionType = "rope@recursion"
+
+export interface RopeRecursion {
+  recursion: number
 }
 
 // --------------------------------------------------------

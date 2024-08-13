@@ -2,12 +2,14 @@ import {
   ballChargeDefaultState,
   ballColorDefaultState
 } from "../Balls/defaultState"
+import { rodRecursionDefaultState } from "../Rod/defaultState"
 import type {
   RopeCharge,
   RopeColor,
   RopeMass,
   RopePosition,
   RopeRadius,
+  RopeRecursion,
   RopeShape,
   RopeState,
   RopeVelocity
@@ -45,6 +47,10 @@ export const ropeColorDefaultState: RopeColor = {
   color: ballColorDefaultState.color
 }
 
+export const ropeRecursionDefaultState: RopeRecursion = {
+  recursion: rodRecursionDefaultState.recursion
+}
+
 export const ropeDefaultState: RopeState = {
   ...ropePositionDefaultState,
   ...ropeShapeDefaultState,
@@ -53,6 +59,7 @@ export const ropeDefaultState: RopeState = {
   ...ropeRadiusDefaultState,
   ...ropeChargeDefaultState,
   ...ropeColorDefaultState,
+  ...ropeRecursionDefaultState,
   type: "rope",
   id: "",
   name: ""

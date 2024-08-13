@@ -150,7 +150,7 @@ import {
   linkOpacity
 } from "./resources/Link/Link"
 import { springNew, springStrength } from "./resources/Spring/Spring"
-import { rodNew } from "./resources/Rod/Rod"
+import { rodNew, rodRecursion } from "./resources/Rod/Rod"
 import {
   ropeAngle,
   ropeCharge,
@@ -162,6 +162,7 @@ import {
   ropePositionX,
   ropePositionY,
   ropeRadius,
+  ropeRecursion,
   ropeVelocityX,
   ropeVelocityY
 } from "./resources/Rope/Rope"
@@ -298,6 +299,7 @@ const reducerObject: ReducerObject = {
   "spring@new": springNew,
   "spring@strength": springStrength,
   "rod@new": rodNew,
+  "rod@recursion": rodRecursion,
   "rope@new": ropeNew,
   "rope@angle": ropeAngle,
   "rope@length": ropeLength,
@@ -309,7 +311,8 @@ const reducerObject: ReducerObject = {
   "rope@mass": ropeMass,
   "rope@radius": ropeRadius,
   "rope@color": ropeColor,
-  "rope@charge": ropeCharge
+  "rope@charge": ropeCharge,
+  "rope@recursion": ropeRecursion
 }
 
 // --------------------------------------------------------

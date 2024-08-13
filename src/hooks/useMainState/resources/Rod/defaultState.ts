@@ -1,8 +1,13 @@
 import { linkDefaultState } from "../Link/defaultState"
-import type { RodState } from "./Rod_types"
+import type { RodState, RodRecursion } from "./Rod_types"
+
+export const rodRecursionDefaultState: RodRecursion = {
+  recursion: 1
+}
 
 export const rodDefaultState: RodState = {
   ...linkDefaultState,
+  ...rodRecursionDefaultState,
   linkBall: [],
   type: "rod"
 }

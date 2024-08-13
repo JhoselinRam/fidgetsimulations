@@ -1,8 +1,12 @@
 import ColorInput from "../../../../ColorInput/ColorInput"
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import NumberInput from "../../../../NumberInput/NumberInput"
+import type { AestheticsControlProps } from "./AestheticsControl_types"
 
-function AestheticsControl(): JSX.Element {
+function AestheticsControl({
+  colorHooks,
+  radiusHooks
+}: AestheticsControlProps): JSX.Element {
   return (
     <>
       <ConfigSection.Header className="mt-4">Aesthetics:</ConfigSection.Header>
@@ -12,10 +16,13 @@ function AestheticsControl(): JSX.Element {
           formatOptions={{ maximumFractionDigits: 8 }}
           step={0.01}
           unit="m"
+          {...radiusHooks}
         >
           Radius:
         </NumberInput>
-        <ColorInput containerClassName="gap-5">Color:</ColorInput>
+        <ColorInput containerClassName="gap-5" {...colorHooks}>
+          Color:
+        </ColorInput>
       </ConfigSection.Section>
     </>
   )

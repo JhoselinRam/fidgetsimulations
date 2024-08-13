@@ -5,7 +5,7 @@ import type { LinkEnableControlProps } from "./LinkEnableControl_types"
 function LinkEnableControl(hooks: LinkEnableControlProps): JSX.Element {
   return (
     <ConfigSection.Header>
-      <Switch {...hooks} className="flex-row-reverse mb-2 !text-base">
+      <Switch {...hooks} className="flex-row-reverse !text-base">
         Enable:
       </Switch>
     </ConfigSection.Header>

@@ -4,7 +4,7 @@ import Info from "../../../../Info/Info"
 function ShapeHeader(): JSX.Element {
   return (
     <ConfigSection.Header>
-      <span>Shape</span>
+      <span>Shape:</span>
       <Info placement="left" crossOffset={70}>
         <p>
           The rope is composed of a series of evenly spaced balls and a rod

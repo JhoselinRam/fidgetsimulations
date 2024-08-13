@@ -1,8 +1,12 @@
 import ConfigSection from "../../../../ConfigSection/ConfigSection"
 import Info from "../../../../Info/Info"
 import NumberInput from "../../../../NumberInput/NumberInput"
+import type { MassControlProps } from "./MassControl_types"
 
-function MassControl(): JSX.Element {
+function MassControl({
+  chargeHooks,
+  massHooks
+}: MassControlProps): JSX.Element {
   return (
     <>
       <ConfigSection.Header>
@@ -22,6 +26,7 @@ function MassControl(): JSX.Element {
           minValue={import.meta.env.VITE_BALL_MIN_MASS}
           formatOptions={{ maximumFractionDigits: 8 }}
           step={0.01}
+          {...massHooks}
         >
           Mass:
         </NumberInput>
@@ -29,6 +34,7 @@ function MassControl(): JSX.Element {
           unit="C"
           formatOptions={{ maximumFractionDigits: 8 }}
           step={0.0001}
+          {...chargeHooks}
         >
           Charge:
         </NumberInput>

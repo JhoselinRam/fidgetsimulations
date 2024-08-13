@@ -7,7 +7,9 @@ import type { MainState } from "../../useMainState/useMainState_types"
 
 export function computeRodLink(state: MainState): void {
   state.rod.forEach((rod) => {
-    updateRod(rod, state)
+    for (let i = 0; i < rod.recursion; i++) {
+      updateRod(rod, state)
+    }
   })
 }
 
