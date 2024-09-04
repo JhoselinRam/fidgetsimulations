@@ -166,6 +166,23 @@ import {
   ropeVelocityX,
   ropeVelocityY
 } from "./resources/Rope/Rope"
+import {
+  sheetAngle,
+  sheetCharge,
+  sheetColor,
+  sheetColumns,
+  sheetHeight,
+  sheetMass,
+  sheetNew,
+  sheetPositionX,
+  sheetPositionY,
+  sheetRadius,
+  sheetRecursion,
+  sheetRows,
+  sheetVelocityX,
+  sheetVelocityY,
+  sheetWidth
+} from "./resources/Sheet/Sheet"
 
 // -------------------- Hook body -------------------------
 
@@ -312,7 +329,22 @@ const reducerObject: ReducerObject = {
   "rope@radius": ropeRadius,
   "rope@color": ropeColor,
   "rope@charge": ropeCharge,
-  "rope@recursion": ropeRecursion
+  "rope@recursion": ropeRecursion,
+  "sheet@angle": sheetAngle,
+  "sheet@charge": sheetCharge,
+  "sheet@color": sheetColor,
+  "sheet@columns": sheetColumns,
+  "sheet@height": sheetHeight,
+  "sheet@mass": sheetMass,
+  "sheet@new": sheetNew,
+  "sheet@positionX": sheetPositionX,
+  "sheet@positionY": sheetPositionY,
+  "sheet@radius": sheetRadius,
+  "sheet@recursion": sheetRecursion,
+  "sheet@rows": sheetRows,
+  "sheet@velocityX": sheetVelocityX,
+  "sheet@velocityY": sheetVelocityY,
+  "sheet@width": sheetWidth
 }
 
 // --------------------------------------------------------
@@ -365,6 +397,7 @@ export function isCollectionType(type: string): type is CollectionType {
     type === "rod" ||
     type === "spring" ||
     type === "rope" ||
+    type === "sheet" ||
     type === "damping"
   )
 }

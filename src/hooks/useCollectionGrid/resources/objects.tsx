@@ -7,6 +7,7 @@ import type { ItemType } from "../../../components/CollectionPicker/resources/Co
 import RopeIcon from "../../../components/Icons/RopeIcon/RopeIcon"
 import FabricIcon from "../../../components/Icons/FabricIcon/FabricIcon"
 import { createRopeState } from "../../useMainState/resources/Rope/defaultState"
+import { createSheetState } from "../../useMainState/resources/Sheet/defaultState"
 
 function getObjectsItems(
   state: MainState,
@@ -28,7 +29,7 @@ function getObjectsItems(
 
     dispatch({
       type: "rope@new",
-      payload: newRope as unknown as Record<string, unknown>
+      payload: { ...newRope }
     })
   }
 
@@ -43,7 +44,13 @@ function getObjectsItems(
   }
 
   function fabricAction(): void {
-    console.log("Fabric Action")
+    const newSheet = createSheetState()
+    newSheet.name = `Sheet ${state.sheet.length + 1}`
+
+    dispatch({
+      type: "sheet@new",
+      payload: { ...newSheet }
+    })
   }
 
   // --------------------------------------------------------

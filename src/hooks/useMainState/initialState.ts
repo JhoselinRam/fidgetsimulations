@@ -31,7 +31,8 @@ const initialState: MainState = {
   simulation: { ...simulationDefaultState },
   rod: [],
   spring: [],
-  rope: []
+  rope: [],
+  sheet: []
 }
 
 // --------------------------------------------------------

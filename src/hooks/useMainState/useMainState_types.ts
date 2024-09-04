@@ -96,6 +96,12 @@ import type {
   RopeElementType,
   RopeState
 } from "./resources/Rope/Rope_types"
+import type {
+  SheetActionType,
+  SheetElementState,
+  SheetElementType,
+  SheetState
+} from "./resources/Sheet/Sheet_types"
 
 // Type of the useMainState hook
 export interface UseMainState {
@@ -127,6 +133,7 @@ export type MainStateActionType =
   | SpringActionType
   | RodActionType
   | RopeActionType
+  | SheetActionType
 
 // Main state type
 export interface MainState
@@ -140,7 +147,8 @@ export interface MainState
     AccelerationVectorElementState,
     SpringElementState,
     RodElementState,
-    RopeElementState {
+    RopeElementState,
+    SheetElementState {
   order: CollectionOrder[]
   time: TimeState
   simulation: SimulationState
@@ -175,6 +183,7 @@ export type CollectionType =
   | SpringElementType
   | RodElementType
   | RopeElementType
+  | SheetElementType
 
 export type CollectionElementState =
   | SimulationWindowState
@@ -193,6 +202,7 @@ export type CollectionElementState =
   | SpringState
   | RodState
   | RopeState
+  | SheetState
 
 export interface CollectionState extends CollectionOrder {
   name: string

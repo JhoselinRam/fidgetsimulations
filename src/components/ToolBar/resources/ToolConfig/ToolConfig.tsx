@@ -18,6 +18,7 @@ import ConfigAccelerationVector from "../../../ConfigElements/ConfigAcceleration
 import ConfigSpring from "../../../ConfigElements/ConfigSpring/ConfigSpring"
 import ConfigRod from "../../../ConfigElements/ConfigRod/ConfigRod"
 import ConfigRope from "../../../ConfigElements/ConfigRope/ConfigRope"
+import ConfigSheet from "../../../ConfigElements/ConfigSheet/ConfigSheet"
 
 function ToolConfig(): JSX.Element {
   const asideElement = useRef<HTMLElement>(null)
@@ -38,7 +39,8 @@ function ToolConfig(): JSX.Element {
     accelerationVector: (item) => <ConfigAccelerationVector item={item} />,
     spring: (item) => <ConfigSpring item={item} />,
     rod: (item) => <ConfigRod item={item} />,
-    rope: (item) => <ConfigRope item={item} />
+    rope: (item) => <ConfigRope item={item} />,
+    sheet: (item) => <ConfigSheet item={item} />
   }
 
   return (

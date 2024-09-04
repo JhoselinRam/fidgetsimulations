@@ -3,9 +3,7 @@ import Info from "../../../../Info/Info"
 import NumberInput from "../../../../NumberInput/NumberInput"
 import type { RecursionControlProps } from "./RecursionControl_types"
 
-function RecursionControl({
-  recursionHooks
-}: RecursionControlProps): JSX.Element {
+function RecursionControl(recursionHooks: RecursionControlProps): JSX.Element {
   return (
     <>
       <ConfigSection.Header className="mt-5">
@@ -16,7 +14,7 @@ function RecursionControl({
             time step.
           </p>
           <p className="mt-2">
-            This parameter controls the stiffness of the rope, at the cost of a
+            This parameter controls the stiffness of the sheet, at the cost of a
             higher computing time.
           </p>
         </Info>

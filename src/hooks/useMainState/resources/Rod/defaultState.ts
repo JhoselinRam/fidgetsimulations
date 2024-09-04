@@ -15,6 +15,7 @@ export const rodDefaultState: RodState = {
 export function createRodState(): RodState {
   const state = { ...rodDefaultState }
   state.id = crypto.randomUUID()
+  state.linkBall = []
 
   return state
 }
