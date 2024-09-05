@@ -9,6 +9,7 @@ import type {
   ReducerObject,
   ReducerSlice,
   UseMainState,
+  ValidInnerStateType,
   ValidStaticPayloadType
 } from "./useMainState_types"
 import {
@@ -90,7 +91,7 @@ import { simpleForceMagnitude } from "./resources/SimpleForce/SimpleForce"
 import { gravityNew } from "./resources/Gravity/Gravity"
 import { dragDensity, dragNew } from "./resources/Drag/Drag"
 import { electricNew } from "./resources/Electric/Electric"
-import type { BallData, BallDataKeys } from "./resources/Balls/Balls_types"
+import type { BallData } from "./resources/Balls/Balls_types"
 import { ballDataDefaultState } from "./resources/Balls/defaultState"
 import {
   ballAccelX,
@@ -588,7 +589,11 @@ export function createSimpleNewCollectionSlice<
 // --------------------------------------------------------
 // --------------------------------------------------------
 
-export function isBallIdentifier(data: unknown, key: BallDataKeys): boolean {
+export function isInnerStateIdentifier<T, U extends keyof T>(
+  data: unknown,
+  key: U,
+  sampleState: T
+): data is ValidInnerStateType<T, U> {
   if (data == null) return false
   if (typeof data !== "object") return false
   if (!("id" in data)) return false
@@ -596,9 +601,34 @@ export function isBallIdentifier(data: unknown, key: BallDataKeys): boolean {
   if (!(key in data)) return false
 
   const validKey = key as keyof typeof data
-  if (typeof data[validKey] !== typeof ballDataDefaultState[key]) return false
+  if (typeof data[validKey] !== typeof sampleState[key]) return false
 
   return true
+}
+
+// --------------------------------------------------------
+// --------------------------------------------------------
+
+export function generateInnerStateSlice<T extends { id: string }>(
+  key: keyof T,
+  sampleState: T,
+  getInnerState: (state: MainState) => T[]
+): ReducerSlice {
+  return (state, payload) => {
+    if (!isInnerStateIdentifier(payload, key, sampleState)) return state
+
+    const index = getInnerState(state).findIndex(
+      (inner) => inner.id === payload.id
+    )
+    if (index === -1) return state
+
+    if (getInnerState(state)[index][key] === payload[key]) return state
+
+    const newState = { ...state }
+    ;(getInnerState(newState)[index][key] as unknown) = payload[key]
+
+    return newState
+  }
 }
 
 // --------------------------------------------------------

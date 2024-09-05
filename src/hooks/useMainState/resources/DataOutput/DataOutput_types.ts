@@ -1,3 +1,4 @@
+import type { CollectionOrder } from "../../useMainState_types"
 import type {
   BallAccel,
   BallPosition,
@@ -22,6 +23,8 @@ export interface DataOutputColumn
     DataOutputColumnData {
   id: string
 }
+
+export type DataOutputColumnKeys = keyof DataOutputColumn
 
 // --------------------------------------------------------
 
@@ -81,3 +84,9 @@ export interface DataOutputColumnData {
 }
 
 // --------------------------------------------------------
+
+export type ValidDataOutputColumnPayload<U extends DataOutputColumnKeys> = {
+  [k in keyof Pick<DataOutputColumn, U>]: DataOutputColumn[k]
+} & CollectionOrder & {
+    columnId: string
+  }

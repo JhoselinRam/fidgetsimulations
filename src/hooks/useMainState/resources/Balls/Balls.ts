@@ -1,12 +1,12 @@
 import {
   containAllBalls,
   createSimpleSlice,
+  generateInnerStateSlice,
   isBallArray,
-  isBallIdentifier,
   isCollection
 } from "../../useMainState"
-import type { MainState, ReducerSlice } from "../../useMainState_types"
-import type { BallData, BallDataKeys, BallKeys } from "./Balls_types"
+import type { MainState } from "../../useMainState_types"
+import type { BallData, BallKeys } from "./Balls_types"
 import { ballDataDefaultState } from "./defaultState"
 
 export const ballCollision = createSimpleSlice<BallKeys>("collision", "balls")
@@ -14,27 +14,101 @@ export const ballTrajectoryEnable = createSimpleSlice<BallKeys>(
   "trajectoryEnable",
   "balls"
 )
-export const ballPositionX = generateBallSlice("positionX")
-export const ballPositionY = generateBallSlice("positionY")
-export const ballLastPositionX = generateBallSlice("lastPositionX")
-export const ballLastPositionY = generateBallSlice("lastPositionY")
-export const ballVelocityX = generateBallSlice("velocityX")
-export const ballVelocityY = generateBallSlice("velocityY")
-export const ballAccelX = generateBallSlice("accelX")
-export const ballAccelY = generateBallSlice("accelY")
-export const ballMass = generateBallSlice("mass")
-export const ballRadius = generateBallSlice("radius")
-export const ballCharge = generateBallSlice("charge")
-export const ballColor = generateBallSlice("color")
-export const ballName = generateBallSlice("name")
-export const ballTrajectoryMatchColor = generateBallSlice(
-  "trajectoryMatchColor"
+export const ballPositionX = generateInnerStateSlice(
+  "positionX",
+  ballDataDefaultState,
+  getBallData
 )
-export const ballTrajectoryColor = generateBallSlice("trajectoryColor")
-export const ballTrajectoryFade = generateBallSlice("trajectoryFade")
-export const ballTrajectoryOpacity = generateBallSlice("trajectoryOpacity")
-export const ballTrajectoryLength = generateBallSlice("trajectoryLength")
-export const ballFixed = generateBallSlice("fixed")
+export const ballPositionY = generateInnerStateSlice(
+  "positionY",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballLastPositionX = generateInnerStateSlice(
+  "lastPositionX",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballLastPositionY = generateInnerStateSlice(
+  "lastPositionY",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballVelocityX = generateInnerStateSlice(
+  "velocityX",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballVelocityY = generateInnerStateSlice(
+  "velocityY",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballAccelX = generateInnerStateSlice(
+  "accelX",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballAccelY = generateInnerStateSlice(
+  "accelY",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballMass = generateInnerStateSlice(
+  "mass",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballRadius = generateInnerStateSlice(
+  "radius",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballCharge = generateInnerStateSlice(
+  "charge",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballColor = generateInnerStateSlice(
+  "color",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballName = generateInnerStateSlice(
+  "name",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballTrajectoryMatchColor = generateInnerStateSlice(
+  "trajectoryMatchColor",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballTrajectoryColor = generateInnerStateSlice(
+  "trajectoryColor",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballTrajectoryFade = generateInnerStateSlice(
+  "trajectoryFade",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballTrajectoryOpacity = generateInnerStateSlice(
+  "trajectoryOpacity",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballTrajectoryLength = generateInnerStateSlice(
+  "trajectoryLength",
+  ballDataDefaultState,
+  getBallData
+)
+export const ballFixed = generateInnerStateSlice(
+  "fixed",
+  ballDataDefaultState,
+  getBallData
+)
 
 export function ballNew(
   state: MainState,
@@ -96,23 +170,6 @@ export function ballUpdateAll(
   return newState
 }
 
-// ---------------- Generator function --------------------
-
-function generateBallSlice(key: BallDataKeys): ReducerSlice {
-  return (state, payload) => {
-    if (!isBallIdentifier(payload, key)) return state
-
-    const index = state.balls[0].data.findIndex(
-      (ball) => ball.id === payload.id
-    )
-    if (index === -1) return state
-    if (state.balls[0].data[index][key] === payload[key]) return state
-
-    const newState = { ...state }
-    ;(newState.balls[0].data[index][key] as unknown) = payload[key]
-
-    return newState
-  }
+function getBallData(state: MainState): BallData[] {
+  return state.balls[0].data
 }
-
-// --------------------------------------------------------

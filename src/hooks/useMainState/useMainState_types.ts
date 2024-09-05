@@ -228,3 +228,7 @@ export type ValidStaticPayloadType<S, T extends keyof S, ID> = {
 } & {
   id: ID
 }
+
+export type ValidInnerStateType<T, U extends keyof T> = {
+  [k in keyof Pick<T, U>]: T[U]
+} & { id: string }
